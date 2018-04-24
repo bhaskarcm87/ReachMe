@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Carrier" representedClassName="Carrier" syncable="YES" codeGenerationType="class">
+        <attribute name="actiAll" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actiCNF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actiUNCF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="additionalActiInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="carrierName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiAll" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiBoth" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiCNF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiUNCF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inAppPromoImageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHLREnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isReachMeSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isVOIPEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="logoHomeURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logoSupportImageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="logoSupportURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logoThemeColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="networkID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="networkName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="reachMeHome" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="reachMeIntl" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="reachMeVoiceMail" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ussdString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vsmsNodeID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="downloadCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="flow" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromIVUserID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fromPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromUserType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="guide" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isBase64" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="linkedMsgID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mediaFormat" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="misscallReason" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="readCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="receivePhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="senderName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceAppType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subtype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MQTT" representedClassName="MQTT" syncable="YES" codeGenerationType="class">
+        <attribute name="chatHostname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatPassword" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatPortSSL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatTopic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatUser" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mqttDeviceID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mqttHostname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mqttPassword" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mqttPortSSL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mqttUser" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryImageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="countryISOCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryPhoneCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="emailID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbConnectURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbPostEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFBConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isTWConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mobileNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobileNumberFormated" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="passwordSetTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="profilePicData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="profilePicURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordingTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordMode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simCarrierName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simISOCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simMCCMNCNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simMCCNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simMNCNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="storageLocation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailPicURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twConnectURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twPostEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="volumeModeRaw" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" syncable="YES"/>
+        <relationship name="mqttSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MQTT" syncable="YES"/>
+        <relationship name="primaryContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserContact" syncable="YES"/>
+        <relationship name="supportContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SupportContact" inverseName="supportContacts" inverseEntity="SupportContact" syncable="YES"/>
+        <relationship name="userContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserContact" inverseName="userContacts" inverseEntity="UserContact" syncable="YES"/>
+    </entity>
+    <entity name="SupportContact" representedClassName="SupportContact" syncable="YES" codeGenerationType="class">
+        <attribute name="isSendEmail" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSendIV" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSendSMS" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isShowIVUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profilePicURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="supportID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="supportType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailPicURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="supportContacts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="supportContacts" inverseEntity="Profile" syncable="YES"/>
+    </entity>
+    <entity name="UserContact" representedClassName="UserContact" syncable="YES" codeGenerationType="class">
+        <attribute name="bloggerID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="contactID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contactType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryImageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="countryName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="formatedNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPrimary" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isReachMeHomeActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isReachMeIntlActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isReachMeVoiceMailActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="titleName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="carriers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Carrier" syncable="YES"/>
+        <relationship name="selectedCarrier" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Carrier" syncable="YES"/>
+        <relationship name="userContacts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="userContacts" inverseEntity="Profile" syncable="YES"/>
+        <relationship name="voiceMailInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="VoiceMail" syncable="YES"/>
+    </entity>
+    <entity name="VoiceMail" representedClassName="VoiceMail" syncable="YES" codeGenerationType="class">
+        <attribute name="actiAll" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actiCNF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actiUNCF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="additionalActiInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="availableVocieMailCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carrierCountryCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryVoicemailSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="deactiBoth" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiCNF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deactiUNCF" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHLREnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isVoiceMailEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isVOIPEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="kvSMSKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastMissedCallTimeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastVoiceMailCountTimeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latestMessageCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="missedCallCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="networkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oldMessageCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="realMissedCallCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="realVocieMailCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rmHome" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rmIntl" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rmVM" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="vSMSNodeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
+        <element name="Message" positionX="-333" positionY="-7" width="128" height="345"/>
+        <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
+        <element name="Profile" positionX="-54" positionY="243" width="128" height="613"/>
+        <element name="SupportContact" positionX="-396" positionY="441" width="128" height="208"/>
+        <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>
+        <element name="VoiceMail" positionX="241" positionY="263" width="128" height="450"/>
+    </elements>
+</model>

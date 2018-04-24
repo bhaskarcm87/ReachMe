@@ -1,0 +1,678 @@
+/* 
+  File.strings
+  ReachMe
+
+  Created by Sachin Kumar Patra on 2/22/18.
+  Copyright © 2018 sachin. All rights reserved.
+*/
+
+"APP_NAME"                  = "ReachMe";
+
+//"SPINNER_PROMPT"            = "Choose Login Type";
+//"MOBILE"                    = "Mobile";
+//"EMAIL"                     = "Email";
+
+/*  <!-- Base Activity -->*/
+
+"SERVER_NOT_FOUND"          = "Server unavailable. Please try later";
+//"SERVICE_NAME"              = "ContactsSyncService";
+//"MEMORY_ALERT_DAILOG"       = "Memory Full. Unable to store Messages";
+"NET_TIME_OUT"              = "Unable to connect to Server. Check your Internet connection";
+
+/*<!-- Sign Up screen -->*/
+"USE_PHONE_NUMBER"              = "Use Phone Number";
+"USE_EMAIL"                     = "Use Email Address";
+"PHONE_NUMBER"                  = "Phone Number";
+"EMAIL_ADDRESS"                 = "Email Address";
+"PASSWORD"                      = "Enter Password";
+//"CONF_PASSWORD"                 = "Confirm Password";
+//"HOME_DISPLAY_NAME"             = "Enter Display Name";
+//"SIGN_IN"                       = "Log In";
+//"SIGN_UP"                       = "Sign Up";
+"VALIDATE"                      = "Validate";
+//"SUBMIT"                        = "Submit";
+//"SIGNUP_CHOOSE_PASSWORD"        = "Choose Password";
+"ENTER_PIN"                     = "Enter Validation Code";
+//"PLZ_ENTER_VALID_EMAIL"         = "Please enter valid Email Address";
+//NOT USED "PHN_NUM_NUMERIC"               = "Please enter valid Phone Number";
+//"FORGOT_PASSWORD"               = "Forgot password?";
+//"TERM_CONDITIONS"               = "By clicking Sign Up, you acknowledge that you have read and agree to our Terms of Use";
+//"ALERT_MESSAGE_PHONE"           = "Please enter a Phone Number and Password to Log In";
+//"ALERT_MESSAGE_EMAIL"           = "Please enter an Email Address and Password to Log In";
+//"ALERT_MSG_PHONE_SIGN_IN"       = "Please enter a Phone Number to continue Sign In";
+//"ALERT_MSG_NEEDED_FIELD"        = "Please enter required fields to continue";
+//"ALERT_MSG_EMAIL_SIGN_UP"       = "Please enter an Email Address and Password to continue Sign Up";
+//"ALERT_MSG_PHONE_SIGN_UP"       = "Please enter a Phone Number and Password to Sign Up";
+//"ALERT_SIGN_UP_PHONE"           = "Please enter a Phone Number to continue Sign Up";
+//"ALERT_SIGN_UP_EMAIL"           = "Please enter an Email Address to continue Sign Up";
+"ALERT_PWD"                     = "Password must be at least 6 characters";
+//"ALERT_SIGN_IN_EMAIL"           = "Please enter an Email Address to continue Log In";
+//"ALERT_SIGN_IN_PHONE"           = "Please enter Phone Number to continue Log In";
+"ALERT_COUTRY_CODE"             = "Please select a Country";
+"PASSWORD_EMPTY"                = "Please enter Password";
+//"COUNTRY_LIST_NOT_AVAILABLE"    = "Country list not available";
+"PWD_MIN_LIMIT"                 = "Password must be at least 6 characters";
+"PWD_LEADING_SPACES"            = "Leading spaces are not allowed in Password";
+"PWD_MAX_LIMIT"                 = "Password cannot exceed 25 characters";
+"HINT_PWD_ALERT"                = "Password must be at least 6 characters*";
+//"HINT_DISPLAY_NAME"             = "Display name is required*";
+//"DISPLAY_NAME_MSG"              = "Enter Display Name";
+"INVALID_PHONE_NUMBER"          = "Invalid Phone Number";
+"BLANK_PWD_HINT"                = "Password is required*";
+"BLANK_PHONE_HINT"              = "Phone Number is required*";
+"BLANK_EMAIL_HINT"              = "Email Address is required*";
+"ENTER_ISD_CODE"                = "Please enter Country code";
+"ENTER_CORRECT_NUMBER"          = "Please enter valid Phone Number";
+"SIGN_UP_PLUS_SYMBOL"           = "+";
+"REQUEST_NEW_CODE_DONE"         = "Validation Code sent via SMS";
+"PASSWORD_CAN_NOT_BE_BLANK"     = "Please enter password";
+"VALIDATION_CODE_ALREADY_SENT"  = "Validation Code sent via SMS, Please check your SMS Inbox";
+"INVALID_PIN"                   = "Invalid Validation PIN. Try Again";
+"PRIMARY_PHONE_MASK"            = "primary_phone_mask";
+"NOT_PRIMARY_NUMBER"            = "Please login with your instavoice primary number ending with ";
+"VALIDATION_CALL"               = "You will now get a call announcing the Validation Code";
+"AIRTEL_NIGERIA"                ="62120";
+"GLO_NIGERIA"                   ="62150";
+"TNMMalawi"                     ="65001";
+"VODAFONE_GHANA"                ="62002";
+"NUMBER_ALREADY_ADDED"          ="This number is already added pending for verification";
+
+/* <!-- Enter Code Screen -->*/
+//"ENTER_CODE_TITLE"             = "Enter code";
+"REQ_NEW_PIN"                  = "Request here";
+//"ENTER_HERE"                   = "Enter here";
+
+
+/* < !-- New Password Screen -->*/
+//"NEW_PASS_TITLE"               = "New password";
+
+
+/*  <!-- Menu screen -->*/
+
+"MENU_CONVERSATION"             = "Chats";
+"VOBOLOS"                       = "Blogs";
+"NOTES"                         = "Notes";
+//"FRIENDS"                       = "Friends";
+"SETTINGS"                      = "Settings";
+"SIGNOUT"                       = "Logout";
+//"SIGN_OUT_CONFIRMATION"         = "Disconnect InstaVoice";
+"FACEBOOK_CONFIRMATION"         = "Connect to Facebook";
+//DC MAY17 2016
+"FACEBOOK_CONFIRMATION_DES"     = "Connect InstaVoice with Facebook and share messages on your Facebook Wall.";
+//"Connect InstaVoice to Facebook to see your Facebook friends and post to your Wall.";
+"TWITTER_CONFIRMATION"          = "Connect to Twitter";
+"TWITTER_CONFIRMATION_DES"      = "Connect Instavoice to Twitter to share messages with your Twitter friends";
+"SIGN_OUT_ALERT"                = "Are you sure you want to Logout?";
+//"MENU_CONVERSATION_SUB"         = "Speak, Connect Share with your friends";
+//"MENU_FRIENDS_SUB"              = "Find your friends on InstaVoice";
+
+//"MENU_VOBOLO_SUB"               = "Share messages using Blogs";
+//"MENU_NOTE_SUB"                 = "Create a Voice Note";
+//"MENU_SETTING_SUB"              = "Customize your InstaVoice experience";
+
+//"MENU_FEEDBACK"                 = "Suggestions";
+//"MENU_NEED_HELP"                = "Help";
+//"MENU_FAQ"                      = "FAQs";
+//"MENU_VIEW_MORE"                = "View more";
+//"MENU_TERMS_AND_CONDITIONS"     = "Terms & Conditions";
+//"CHAT_DESCRIPTION"              = "Speak, Connect & Share with your friends";
+//"FRIEND_DESCRIPTION"                = "Find your friends on InstaVoice";
+//"MENU_CONVERSATION_SUB_COUNT"       = "chats with new messages";
+//"MENU_CONVERSATION_SUB_ONE_COUNT"   = "chat with new message";
+//"MENU_FRIENDS_SUB_COUNT"            = "InstaVoice friends";
+
+/*   <!-- Conversation Screen -->*/
+
+//"CONVERSATION_TITLE"                = "Chats";
+"NO_MESSAGES"                       = "No messages";
+//"NEW_CHATS_COMBO_TEXT"              = "Start typing your friend's name or Phone Number";
+//"DOWNLOAD_FAILED"                   = "Message download failed. Please try later";
+//"CONVERSATION"                      = "Conversation";
+//"EDIT"                              = "Edit";
+//"BACK"                              = "Back";
+//"RELEASE_TO_SEND"                   = "RELEASE TO SEND";
+//"SWIPE_TO_CANCEL"                   = "SLIDE TO CANCEL";
+
+//"SENDING"                           = "Sending...";
+//"SAVING"                            = "Saving...";
+
+//"FAILED_TO_SAVE"                    = "Saving failed";
+//"FAILED_TO_SEND"                    = "Sending failed";
+//"FAILED_TO_SAVE_CON_ERROR"          = "Saving failed. Data connection error";
+//"FAILED_TO_SEND_CON_ERROR"          = "Sending failed. Data connection error";
+//"SUCCESSFUL"                        = "Successful";
+"FB_NOT_CONNECTED"                  = "You have not connected InstaVoice with Facebook. Please connect with Facebook in Settings > Social Sharing";
+"TW_NOT_CONNECTED"                  = "You have not connected InstaVoice with Twitter. Please connect with Twitter in Settings > Social Sharing";
+//"NO_IV_CONTACT"                     = "No InstaVoice friends available";
+//"INVITE_FRNDS_TO_IV"                = "Invite friends to InstaVoice";
+//"ADD_NEW_PHNBK_CONTACT"             = "Add new Phonebook contact";
+//"MY_NOTES"                          = "My Notes";
+//"MISSED_CALL"                       = "Voicemail/Missed call";
+//"MY_VOBOLOS"                        = "My Blogs";
+//"KIRUSA_CARE"                       = "Kirusa Care";
+//"MISSED_CALL_RECEIVER_TEXT_MESSAGE" = "Hey, I tried calling you.";
+//"MISSED_CALL_SENDER_TEXT_MESSAGE"   = "Outgoing missed call.";
+//"MISSED_CALL_TEXT"                  = "Missed call";
+//NOV 7 "SMS_QUOTA_EXCEEDED"                = "You have already sent messages to your friend. To send another message, wait for your friend to reply back or join you on InstaVoice.";
+
+"REC_INTERUPT_TITLE"                = "Recording interrupted";
+"SEND_CONFIRMATION_TEXT"            = "Do you want to send the Voice message?";
+"SEND_CONFIRMATION_TEXT_NOTES"      = "Do you want to save the Voice message?";
+//"CONFIRMATION_ALERT"                = "Confirmation Alert";
+
+//"UI_PICKER_CONTROLLER"              = "UIImagePickerControllerOriginalImage";
+
+
+/* <!-- Settings Screen -->*/
+
+//"SETTINGS_TITLE"                = "Settings";
+//"INSTAVOICE_SETTINGS"           = "InstaVoice settings";
+//"UPLOAD_CNT"                    = "Upload contacts to find friends";
+//"CHANGE_PWD"                   =  "Change Password";
+//"UPLOAD_TEXT"                   = "Upload";
+
+//"SEC30"                         = "30 Sec";
+//"ONE_MIN"                       = "1 min";
+//"TWO_MIN"                       = "2 min";
+
+//"ENABLE_VOBOLO_TEXT"            = "Enable Blogs";
+//"RECORDING_TIME"                = "Maximum Record Time";
+
+//"SOCIAL_SHARE_SETTING"          = "Social sharing settings";
+//"CONNECT_FB_ACC"                = "Connect to Facebook Account";
+//"CONNECT_TW_ACC"                = "Connect to Twitter Account";
+//"CONNECT"                       = "Connect";
+//"ENBL_VB"                       = "Enable Blogs";
+//"AUTO_POST_TO_FB"               = "Auto post blogs to Facebook";
+//"AUTO_POST_TO_TW"               = "Auto post blogs to Twitter";
+
+
+//"LOC_SETTING"                   = "Location settings";
+//"DIS_LOC_WITH_SENT_MSG"         = "Display location with your sent messages";
+
+//"ABOUT_IV_SETTING"              = "About InstaVoice";
+//"IV_VER"                        = "InstaVoice Version ";
+"TERMS_AND_CONDITIONS"          = "Terms & Conditions";
+"PRIVACY_POLICY"                = "Privacy Policy";
+//"DISCONNECT"                    = "Disconnect";
+//"DISCONNECT_IV_TEXT"            = "Logout"; //As per Latest requirement - "Disconnect" is replaced by "Logout"
+
+"LOCATION_SERVICE_OFF"          = "Turn On Location Services to Allow InstaVoice to Determine your location";
+
+"LOCATION_PERMISSION_DENIED"    = "App Permission Denied";
+
+"LOCATION_PERMISSION_MSG"              = "To re-enable, please go to Settings and turn on Location Service for this app.";
+
+"LOCATION_NOT_ACCESSIBLE"       = "Application can not access location. Please try again";
+//"ADDITIONAL NUMBER"             = "Additional Number";
+//"ADDITIONAL NUMBERS"            = "Additional Numbers";
+
+// need to check
+//"MOBILE_OP_SETTINGS"            = "Voice SMS Settings";
+//"ENBL_VOICEMAIL_INSTAVOICE"     = "Enable InstaVoice for voicemail/missed calls";
+//"RCRD_VOICEMAIL_NAME"           = "Record your Name for Voicemail";
+//"RCRD_VOICEMAIL_WELCOME"        = "Record a Welcome Message";
+//"SMS_DELIVERY_MODE"             = "Voice SMS Delivery Mode";
+//"INSATVOICE_ONLY"               = "InstaVoice only";
+//"SETTING_ACTIVATED"             = "Activated";
+//"SETTING_DEACTIVATED"           = "Deactivated";
+//"SETTING_UNKNOWN"               = "Unknown";
+//"ON"                            = "ON";
+//"OFF"                           = "OFF";
+//"BLUETOOTH"                     = "Bluetooth";
+//"SPEAKER_ON"                    = "Speaker On";
+//"SPEAKER_OFF"                   = "Speaker Off";
+//"INSTAVOICE_ACCOUNT"            = "InstaVoice Account";
+
+//"NOTIFICATION_SMS"              = "Notifications through SMS";
+//"VOICE_RECORDING"               = "Voice Recording";
+//"VOICE_MODE"                    = "Default voice mode";
+//"RECORDING_MODE"                = "Default recording mode";
+"RELEASE_TO_SEND"               = "Release to send";
+//"STORAGE_SETTING"               = "Storage and Device cache";
+//"STORAGE_LOCATION"              = "Default storage location";
+//"DEVICE_CACHE"                  = "Device cache";
+
+//"RECORD_TIME_SELECT"            = "Select";
+//"VOBOLO_SETTING"                = "Facebook Settings";
+//"VOBOLO_SETTING_HEAD"           = "Social Sharing Settings";
+//"TITLE_APP_VERSION"             = "InstaVoice version:";
+//"TITLE_SHARE_LOCATION"          = "Location Settings";
+//"FB_ACCOUNT"                    = "Facebook Account";
+//"POST_VOBOLO_FACEBOOK"          = "Automatically post Blogs to Facebook";
+//"SHARE_LOCATION_SETTINGS_TEXT"  = "Share location with sent messages";
+
+
+//"SETTINGS_UPLOAD_CONTACT_TEXT"  = "Connect your Phonebook to find your friends";
+
+
+//"POST_VOBOLO_TIWTTER"           = "Automatically post Blogs to Twitter";
+//"FACEBOOK_SETTING"              = "Twitter Settings";
+//"FACEBOOK_FRIEND"               = "Show Facebook Friends";
+//"PREFFERD_LANG"                 = "Preferred language";
+//"TWITTER_FRIEND"                = "Twitter Account";
+
+//"SETTING_CHANGED"                = "Settings Changed";
+//"POSTON_FACEBOOK"               ="Facebook post Successfully.";
+//"POSTON_VOBOLO"                 ="Blogs post Successfully.";
+//"POSTON_TWITTER"                ="Twitter post Successfully.";
+
+//"ASK_PERMISSION"                = "Do you want to save changes?";
+"CANCEL"                        = "Cancel";
+//"SAVE"                          = "SAVE";
+//"CLEAR"                         = "CLEAR";
+//"DEVICE_NOT_CONNECT"            = "Bluetooth Headset is not Connected";
+//"SETTINGS_SAVED"                = "Settings saved";
+
+
+//"SETTINGS_SIGNOUT_DESC"         = "You will no longer receive calls from your friends. Are you sure you want to Logout?";
+//"SETTINGS_HELP"                 = "Help";
+//"SETTINGS_FEEDBACK"             = "Suggestions";
+
+
+/* <!-- About Screen -->*/
+
+//"ABOUT_KIRUSA_TITLE"            ="About Kirusa";
+"FAQ_TITLE"                     = "FAQs";
+"FACEBOOK_TITLE"                = "Connect to Facebook";
+"TWITTER_TITLE"                 = "Connect to Twitter";
+//"HELP_TITLE"                    = "Need Help?";
+
+//"TERMS_OF_USE_TITLE"            = "Terms of Use";
+"MISSED_CALL_HELP"              = "Voicemail/Missed call help";
+
+/*  <!-- view prifile -->*/
+
+//"VIEW_PROFILE_TITLE"            = "View profile";
+//"SEND_INSTAVOICE"               = "SEND INSTAVOICE";
+//"INVITE_ON_IV"                  = "INVITE TO INSTAVOICE";
+//"MOBILE"                        = "Mobile";
+//"WORK"                          = "Work";
+//"BLOCKED_FRIEND"                = "Block Friend";
+//"UNBLOCKED_FRIEND"              = "Unblock Friend";
+//"REMOVE_FRIEND"                 = "Remove from Friends";
+//"VIEW_CONVERSATION"             = "View Chats";
+//"CANT_BE_BLOCKED"               = "User can not be Blocked";
+"NET_NOT_AVAILABLE"             = "Sorry, InstaVoice is unable to connect to the Internet. Please check your Internet connection and try again.";
+//"USER_CNT_BLOCK"                = "User can not be Blocked";
+//"USER_IS_BLOCKED"               = "Please Unblock to send InstaVoice";
+
+/*   <!-- forgot_password -->  */
+
+//"FORGOT_PASS_TITLE"                     = "Forgot password";
+//<string name="default_country_code">-</string>
+//"SEND_AND_CONTINUE"                     = "Send";
+//"FORGOT_PASS_DISCRIPTION_EMAIL"         = "Please enter your Email Address and we will send you a Validation Code via Email to change your Password";
+//"FORGOT_PASS_DISCRIPTION_PHONE"         = "Please enter your Phone Number and we will send you a Validation Code via SMS to change your Password";
+//"VERIFICATION_DISCRIPTION_EMAIL"        = "Please enter the Validation Code received via SMS";
+//"VERIFICATION_DISCRIPTION_NEW_PASSWORD" = "Choose a new Password and press Submit";
+//"PLEASE_ENTER_USERID"                   = "Please Enter Username";
+//"FIELD_CAN_NOT_BE_BLANK"                = "Enter Validation Code";
+//"FIELDS_ARE_NOT_MATCHED"                = "Password don't match. Please enter again";
+//"RESEND_CODE"                           = "Didn't receive Validation Code? Request new Validation Code";
+//"ALREADY_HAVE_CODE"                     =  "Already received Validation Code? Enter here";
+//"DONT_WANT_TO_CHANGE_PASSWORD"          = "Don't want to change Pasword? Cancel";
+//"PLZ_ENTER_PHONE"                       = "Please enter Phone Number";
+//"PLZ_ENTER_EMAIL"                       = "Please enter Email Address";
+"SIM_NOT_AVAILABLE"                     = "No SIM card installed on your device";
+//"LOGIN_SELECT_COUNTRY"                  = "Please select Country";
+//"LOGIN_SELECT_COUNTRY_TV"               = "Select Country";
+//"LOGIN_SELECT_COUNTRY_TOAST"            = "Please select a Country to proceed";
+
+/*   <!-- change password screen -->*/
+//"CHANGE_PASSS_TITLE"        = "Change Password";
+"OLD_PASS"                  = "Enter Old Password";
+"NEW_PASS"                  = "Enter New Password";
+"NEW_PASS_AGAIN"            = "Confirm New Password";
+"CHANGE_PASS_BTN"           = "Change Password";
+"SAVE_PASS_BTN"             = "Save Password";
+"FIELD_IS_EMPTY"            = "Fields are empty";
+"PWD_NOT_MATCH"             = "New Password did not match. Please try again";
+"PWD_CHANGED"               = "Password changed successfully";
+"OLD_PWD_NOT_MATCHED"       = "Old Password did not match. Please try again";
+//"PWD_CANNOT_BE_ALL_SPACES"  = "New Password should not contain only spaces";
+
+
+/*    <!-- friends screen -->*/
+
+//"FRIENDS_TITLE"             = "Friends";
+//"FB_DISCRIPTION"            = "Send Voice Messages to your Facebook friends";
+//"FB_BTN_MSG"                = "CONNECT TO FACEBOOK";
+//"TW_BTN_MSG"                = "CONNECT TO TWITTER";
+//"TW_DISCRIPTION"            = "Send Voice Messages to your Twitter followers";
+//"FOLLOW"                    = "Follow";
+//"UNFOLLOW"                  = "Unfollow";
+//"SERACH_TEXT"               = "Search";
+
+//"IV_STR"                    ="InstaVoice";
+//"FB_STR"                    ="Facebook";
+//"PB_STR"                    ="Phonebook";
+"INDEX"                     ="index";
+//"FB_TYPE"                   ="fb";
+
+"INVITE_STR"                ="Invite ";
+
+"NO_RESULT"                 ="No Results";
+//"WAITING_TO_JOIN"           ="Waiting to join";
+
+"SELECT_IV_ID"              = "Select InstaVoice ID to send voice message to";
+
+"SMS_NOT_SUPPORTED"         = "Your device doesn't support SMS!" ;
+"OK"                        = "OK";
+"HELLO"                     = "Hello";
+"ERROR"                     = "SMS_Error";
+/*  <!-- Contact Screen -->*/
+"NO_CONTACTS"               = "No Contacts";
+//"CONTACT_NOT_FETCHED"       = "Fetching your facebook friend list from server. Please check after some time.";
+"SERVER_NOT_RECHABLE"       = "Sorry, InstaVoice is unable to connect to the Internet. Please check your Internet connection and try again.";
+//"DIALOG_TITLE"              = "Phonebook Upload";
+//"DIALOG_MESSAGE"            = "Connect InstaVoice to your Phonebook to discover friends who are using InstaVoice. We do not share this info with anyone else. Refer to our Privacy Policy to know more about how we use it and how it benefits you.";
+
+"DIALOG_POSITIVE_BUTTON"    = "YES";
+"DIALOG_POSITIVE_BUTTON_NEWUSER"    = "OK";
+"DIALOG_NEGATIVE_BUTTON"    = "NO";
+//"LOG_IN_FACEBOOK"           = "CONNECT TO FACEBOOK";
+//"LOG_IN_TWITTER"            = "CONNECT TO TWITTER";
+//"LOGGED_IN_FACEBOOK"        = "DISCONNECT FROM FACEBOOK";
+//"LOGGED_IN_TWITTER"         = "DISCONNECT FROM TWITTER";
+//"LOADING"                   = "Loading...";
+//"NO_NETWORK_AVAILABLE"      = "Network unavailable";
+"JUST_JOINED"               = "Recently joined";
+//"CONTACT_NOT_SYNCED"        = "Contacts could not be synced, please try later";
+
+"SIM_NOT_AVAILABLE"         = "SIM not available";
+"SELECT_CONTACT"            = "Please select Contact";
+
+
+/*    <!-- Contact screen dialog box -->*/
+
+"CHARGES_APPLY_SMS"                     = "Carrier charges may apply";
+"CHARGES_APPLY"                         = "Carrier charges may apply. Use email for free";
+//"MULTIPLE_ID_CHILD"                     = "Multiple Contact IDs available for the user";
+//"MULTIPLE_ID"                           = "Multiple ID";
+//"NOT_VALID_NUMBER"                      = "Not a valid number";
+/*  <!--*/
+"INVITE_PERSON_NAME_SMS"                = "via SMS";
+"INVITE_PERSON_NAME_EMAIL"              = "via Email";
+"INVITE_PERSON_NAME_SMS_EMAIL"          = "via Email and SMS";
+"PERMISSION_DENIED"                     = "Permission Denied";
+"CONTACT_ACCESS_PERMISSION"             = "To find your friends on InstaVoice, we need access to your Phonebook. Please enable it from Privacy Settings on your phone. We do not share this info with anyone else. Refer to our Privacy Policy to know more about how we use it and how it benefits you.";
+
+"CONTACT_ACCESS_WARNING"                       = "Your phone Privacy Settings for Contacts is preventing InstaVoice App from finding your friends using InstaVoice. Please enable InstaVoice App to access Contacts from your phone Privacy Settings";
+
+/*   -->*/
+/*   <!-- New Chat Screen -->*/
+//"NEW_CHAT_TITLE"                        = "New Voice Chat";
+//"NEW_CHAT_BOX"                          = "Start typing Name or Phone Number";
+//"IVTOUR_TOP"                            = "Send and receive free text and voice messages";
+//"IVTOUR_MID"                            = "Get Voice SMS, visual voicemail and missed call alerts";
+//"IVTOUR_BOTTOM"                         = "Connect with your Facebook and Twitter friends";
+
+"ENTER_PHONE_NUMBER"                    = "Please enter a Phone Number";
+
+/*   <!-- Inside conversation --> */
+
+"INSIDE_CON_PRESS_AND_HOLD"             = "Press and continue to hold to record";
+//"HEAD_SET"                              = "Headset";
+//"SPEAKER"                               = "Speaker";
+//"CANCEL_CROSS"                          = "Cancel";
+"NO_CALLS"                              = "No Calls";
+//"NO_CONVERSATION"                       = "No Chats";
+//"NO_MISSEDCALLS"                        = "No Missed Calls";
+"NO_VOICEMAILS"                         = "No Voicemails";
+//"REL_BTN_TO_SEND"                       = "Release button to send";
+//"SWIPE_RECORD_BTN"                      = "Release to send. Slide up for hands-free mode.";
+//"GCM_SERVICE_CLASS"                     = "com.kirusa.instavoice.service.GcmIntentService";
+"SEND"                                  = "Send";
+//"DECISION_TEXT"                         = "Send now?";
+"TIME_LIMIT"                            = "Voice recording time limit reached";
+"EMPTY_STRING"                          = "Please enter a message before sending.";
+"TEXT_MSG_LIMIT"                        = "The text entered has reached the maximum length.";
+//"TEXT_MSG"                              = "Text Message";
+//"MSG_DELETED"                           = "Message deleted";
+//"MSG_NOT_DELETED"                       = "Message deletion error. Please try again later";
+//"LIKE"                                  =  "Like";
+//"UNLIKE"                                = "Unlike";
+"HANDFREE_RECRDMODE"                    = "Hands free recording";
+//"LEAVE_SCREEN"                          = "Hands free mode active";
+//"REC_SLIDE_LEFT"                        = "Slide left to cancel";
+"REC_SLIDE_HANDSFREE"                   = "Tap the red circle to send";
+//"FB_POST_NOT_ENABLED"                   = "Enable posting to Facebook in Settings";
+//"TW_POST_NOT_ENABLED"                   = "Enable posting to Twitter in Settings";
+"DATE_FORMATE_CHATGRID"                 = "MMM, dd yyyy";
+"DATE_FORMATE_CONVERSATION"             = "MMM d, h:mm a";//KM
+"ONE_HOUR_STRING"                       = "1 hour ago";
+"MIN_AGO_STRING"                        = " min ago";
+"DAY_AGO_STRING"                        = " day ago";
+"DAYS_AGO_STRING"                       = " days ago";
+"DATE_FORMATE_IN_HOUR"                  = "h:mm a";
+"N_HOURS_STRING"                        = "%d hours ago";
+"VSMS_LIMIT"                            = "You have already sent messages to your friend. To send another message, wait for your friend to reply back or join you on InstaVoice.";
+
+/* <!-- invite Frnd -->*/
+//"INVITEFRND_TITLE"                      = "Invite Friend";
+//"INVITE_CONFIRM_MSG"                    = "Invite all friends confirmation";
+//"INVITE_PERMITION"                      = "Are you sure you want to invite all friends?";
+//"INVITE"                                = "INVITE";
+//"YES"                                   = "YES";
+"INVITATION_SENT"                       = "Invitation has been sent";
+"INVITATION_FAIL"                       = "Sorry, the invitation could not be sent. Please try again";
+
+"PLZ_SELECT_FRND_TO_SHARE_SELECTED_MSG" = "Please select a contact before sharing the message";
+"MSG_SHARE_SUCCESSFULLY"                = "Message shared with your Friends";
+
+"MSG_NOT_SENT_SUCCESSFULLY"             = "Message could not be shared with your Friend. Please try later";
+//"APP_INITIALIZATION_FAIL"               = "Error: Application cannot be started";
+//"INVITATION_ALERT"                      = "Sending InstaVoice invitation to selected friends...";
+//"SENDING_EMAIL"                         = "Sending email to the InstaVoice Support Team";
+//"SENT_EMAIL"                            = "Email sent";
+//"SENT_EMAIL_CONTENT"                    = "Please enter your query";
+//"SENT_EMAIL_ADDRESS"                    = "Please enter valid email";
+//"NOTES_NOTIFICATION"                    = "New notes notification";
+"SMS_MESSAGE_PHONE"                     = "Hi, I’m using ReachMe to get free incoming calls over data while travelling abroad. It manages voicemail & missed calls too! Try it now? \nhttp://goo.gl/EhHeDR";
+
+//"MISSED_CALL"                           = "Missed call";
+//"MISSED_CALLS"                          = "Missed calls (%@)";
+
+/*  <!--  Notification meassages -->*/
+
+
+//"NEW_MSG_NOTIFICATION"                  = "New InstaVoice from %@";
+//"NEW_JOINED_NOTIFICATION"               = "%s has joined InstaVoice";
+//"NEW_NOTES_NOTIFICATION"                = "New notes notification";
+//"NEW_VOBOLO_NOTIFICATION"               = "New Blogs from %@";
+//"NEW_MISSED_CALL_NOTIFICATION"          = "Missed call from %@";
+//"NEW_RING_MC_NOTIFICATION"              = "Ring Missed Call from %@";
+//"NEW_VOICE_MESSAGE_NOTIFICATION"        = "Voice Message from %@";
+
+/*   <!-- My profile screen -->*/
+//"MY_PROFILE_TITLE"                      = "My Profile";
+//"EDIT_PROFILE_TITLE"                    = "Edit Profile";
+"HOME"                                  = "Home";
+"ADDRESS"                               = "Address";
+"GENDER"                                = "Gender";
+"BIRTH"                                 = "Date of Birth";
+//"SCREEN_ID"                             = "Username";
+//"SCREEN_NAME"                           = "Screen Name";
+//"PHONE"                                 = "Phone";
+//"CITY"                                  = "City";
+//"STATE"                                 = "State";
+//"COUNTRY"                               = "Country";
+//"MALE_TYPE"                             = "m";
+//"FEMALE_TYPE"                           = "f";
+//"OTHERS_TYPE"                           = "o";
+"MALE"                                  = "Male";
+"FEMALE"                                = "Female";
+"OTHERS"                                = "Others";
+//"DOB"                                   = "Enter your Birthday";
+//"SCREEN_ID"                             = "Enter Username";
+//"SCREENID_NOT_SPACES"                   = "Username should not contain spaces";
+//"SCREENID_NOT_NUMBERS"                  = "Username should not be a number or empty";
+"SCREENID_LETTERS"                      = "City name should only contain alphabets";
+//"DOB_FUTURE_DATE"                       = "Please enter a valid Date of Birth";
+"DOB_NOT_VALID"                         = "You must be at least 13 years old to use InstaVoice";
+//"DOB_FOURTEEN_YEARSCHECK"               = "You must be at least 14 years old to use InstaVoice";
+//"SELECT_PICTURE_FROM_GALLERY"           = "Select a picture from Gallery";
+//"USE_FB_PROFILE_PICTURE"                = "Use Facebook profile picture";
+//"USE_TWITTER_PROFILE_PICTURE"           = "Use Twitter profile picture";
+//"SAVED"                                 = "Profile updated";
+//"NOT_SAVED"                             = "Unable to update Profile. Please try later";
+//"BACKBTN"                               = "back";
+//"UNEDITABLE"                            = "uneditable";
+//"EDITTEXT"                              = "edittext";
+//"EDITABLE"                              = "editable";
+//"CROSS"                                 = "cross";
+//"FB_CONNECTED"                          = "You are connected to Facebook";
+//"TW_CONNECTED"                          = "You are connected to Twitter";
+"LIST_NOT_FOUND"                        = "No State List Found";
+"SELECT_COUNTRY"                        = "Select Country";
+//"SELECT_STATE"                          = "Select State";
+
+
+/*   <!-- FeedBack Screen -->*/
+//"FEEDBACK_TITLE"                        = "Suggestions";
+//"SEND_IV_MSG"                           = "Send us an InstaVoice Message";
+//"FEEDBACK_DES"                          = "Thank you for using InstaVoice to speak, connect, and share. We're working to make InstaVoice a robust, easy-to-use app; but we want to keep improving, and to do that, we need your suggetions. Do you have a great idea? Send us a voice message through InstaVoice.";
+
+//"FEEDBACK_EMAIL_SUB_HINT"               = "Enter your Email Address";
+//"FEEDBACK_EMAIL_CONTENT_HINT"           ="Write to us";
+//"FEEDBACK_EMAIL_HEAD_TOP"               = "Send us an Email";
+//"SUPPORT_TEAM"                          = "SHelp";
+//"SUPPORT_TEAM_IV_TEXT"                  = "Send us an InstaVoice Message";
+//"INSTACARE"                             = "InstantCare";
+//"WRITE_US"                              = "Write to us";
+//"COMMENTS"                              = "Your Feedback";
+//"IV_USER_LIST_NOT_EXIST"                = "Unable to send message now. Please try later";
+//"PLZ_TYPE_YOUR_COMMENT"                 = "Please type your Feedback";
+//"COMMENT_SENT_SUCCESSFULLY"             = "Feedback sent";
+//"COMMENT_NOT_SENT_SUCCESSFULLY"         = "Unable to send Feedback now. Please try later";
+//"REG_UI_SWITCH_REG"                     = "Existing User?";
+//"REG_UI_SWITCH_LOGIN_LINK_REG"          = "Log In";
+//"REG_UI_SWITCH_LOGIN"                   = "New to InstaVoice?";
+//"REG_UI_SWITCH_LOGIN_LINK_LOGIN"        = "Sign Up";
+
+/*<!-- Need help screen -->*/
+//"NEEDHELP_SEND_IV"                      = "InstaVoice InstantHelp";
+//"NEEDHELP_SEND_TWEET"                   = "Send us a Tweet";
+//"NEEDHELP_SEND_FB"                      = "Leave us a Facebook message";
+//"NEEDHELP_SEND_EM"                      = "Send us an Email";
+//"NEEDHELP_EMAIL_CONTENT_HINT"           = "Type your query";
+//"NEEDHELP_DES"                          = "Send us a Message if you need any help with using InstaVoice.";
+
+
+/** support  screen ***/
+
+"NO_SUPPORT_LIST"                      = "Sorry, support list is not available at this moment. Please try later.";
+
+
+
+/*  <!--  -->*/
+//"SHARE_VOICE_USER_PERMISSION"           = "No Contact to share Message";
+
+/* <!-- ERROR CODES AND ERROR MESSAGE -->*/
+
+"ERROR_CODE_1A"         = "System internal error.";
+"ERROR_CODE_1B"            = "Unsupported command parameter";
+"ERROR_CODE_2"            = "Invalid application secure key.";
+"ERROR_CODE_3"          = "Invalid registration secure key.";
+"ERROR_CODE_4"          = "Invalid user secure key.";
+"ERROR_CODE_5"          = "The required parameter is missing";
+"ERROR_CODE_6"          = "Audio message cannot be empty.";
+"ERROR_CODE_7"          = "Validation PIN Expired. Request another PIN?    ";
+"ERROR_CODE_8"          = "Wrong registration secure key is used.";
+"ERROR_CODE_9"          = "Invalid Validation PIN. Try Again";
+"ERROR_CODE_10"         = "Invalid JSON data";
+"ERROR_CODE_11"         = "Unsupported Network MCC-MNC";
+"ERROR_CODE_12"         = "Unsupported Country ISO";
+"ERROR_CODE_13"         = "Unsupported cmd";
+"ERROR_CODE_14"         = "PCM to a-law conversion error";
+"ERROR_CODE_15"         ="Connection Error. Sending again";
+"ERROR_CODE_16"         = "The IV id does not exist or not allowed.";
+"ERROR_CODE_17"         = "Contact has not registered any device.";
+"ERROR_CODE_18"         = "All recipient ids are invalid.";
+"ERROR_CODE_19"         = "No Country found.";
+"ERROR_CODE_20"         = "No Carrier data found.";
+"ERROR_CODE_21"         = "Invalid Country Code";
+"ERROR_CODE_22"         = "Invalid contact operation specifier";
+"ERROR_CODE_23"         = "Error in contact deletion:";
+"ERROR_CODE_24"         = "Error in contact updation:";
+"ERROR_CODE_25"         = "Error in contact creation:";
+"ERROR_CODE_26"         = "Both phone_num and email_id cannot be NULL";
+"ERROR_CODE_27"         = "One of phone_num and email_id must be NULL";
+"ERROR_CODE_28"         = "No user found with the given credentials";
+"ERROR_CODE_29"         = "Message and User mismatch:";
+"ERROR_CODE_30"         = "user_secure_key or device_id is must for Log In";
+"ERROR_CODE_31"         = "This device is already assigned to another InstaVoice User";
+"ERROR_CODE_32"         = "User device not found";
+"ERROR_CODE_33"         = "Mobile number already in use";
+"ERROR_CODE_34"         = "Validation Code expired. Request another Validation Code?";
+"ERROR_CODE_35"         = "Error in generating user secure key.";
+"ERROR_CODE_36"         = "Unable to disconnect from Facebook. Please try later";
+"ERROR_CODE_37"         = "Unable to post on Facebook. Please try later";
+"ERROR_CODE_38"         = "You are not connected to Facebook. Please connect from Settings";
+"ERROR_CODE_39"         = "No contact found with contact Id:";
+"ERROR_CODE_40"         ="Invalid date format";
+"ERROR_CODE_41"         = "Invalid Password";
+"ERROR_CODE_42"         ="Error in App Type specification.";
+"ERROR_CODE_43"         = "Unable to disconnect from Twitter. Please try later";
+"ERROR_CODE_44"         = "You are not connected to Twitter. Please connect from Settings";
+"ERROR_CODE_45"         = "You are not connected to";
+"ERROR_CODE_46"         = "No celebrity found for country";
+"ERROR_CODE_47"         = "No message exists with message id";
+"ERROR_CODE_48"         ="Profile picture content is empty";
+"ERROR_CODE_49"         = "Unable to update Profile picture. Please try later";
+"ERROR_CODE_50"         = "Posting to your Facebook wall is disabled. Check your Settings";
+"ERROR_CODE_51"         = "Posting to your Twitter feed is disabled. Check your Settings";
+"ERROR_CODE_52"         = "Non-Existing follower user Id";
+"ERROR_CODE_53"         = "Non-Existing following user Id";
+"ERROR_CODE_54"         = "Non-Existing follower/following Pair";
+"ERROR_CODE_55"         = "Non-Existing Subscriber Id";
+"ERROR_CODE_56"         = "Subscription allowed for phone users only";
+"ERROR_CODE_57"         = "Invalid subscription parameter: Pass √¢‚Ç¨ÀúS√¢‚Ç¨‚Ñ¢ to subscribe √¢‚Ç¨ÀúU√¢‚Ç¨‚Ñ¢ to Unsubscribe";
+"ERROR_CODE_58"         = "Invalid Subscription service Id";
+"ERROR_CODE_59"         = "No user exists for user_id";
+"ERROR_CODE_60"         = "Invalid external app specification.";
+"ERROR_CODE_61"         = "Unsupported Country Code";
+"ERROR_CODE_62"         = "Unsupported msg_type . Allowed types are iv or vb.";
+"ERROR_CODE_63"         = "Error in reading audio file of Msg Id";
+"ERROR_CODE_64"         = "Posting on wall is disabled.";
+"ERROR_CODE_65"         = "Authentication to is require";
+"ERROR_CODE_66"         = "User is not connected to Facebook";
+"ERROR_CODE_67"         = "Unsupported operation . Allowed types are b or u.";
+"ERROR_CODE_68"         = "Invalid or expired Validation Code";
+"ERROR_CODE_69"         = "Data is not be saved on the server.";
+"ERROR_CODE_70"         = "You have already sent the maximum allowed VSMS to this user, please wait for a VSMS reply.";
+"ERROR_CODE_71"         = "You have already sent the maximum allowed VSMS to different users, please wait for a VSMS reply.";
+"ERROR_CODE_72"         = "Requested resource is not available on the server.";
+"ERROR_CODE_73"         = "You have signed in from maximum allowed devices. Please disconnect from an unused device.";
+"ERROR_CODE_74"         = "Authentication Error: You have changed your Facebook password. Please re-connect to Facebook.";
+"ERROR_CODE_75"         = "Error in Twitter post.";
+"ERROR_CODE_76"         = "Phone number is not registered with InstaVoice.";
+
+"ERROR_CODE_84"         = "Unable to send message. You have left or admin has deleted you from the group.";
+"ERROR_CODE_85"         = "This group has been deleted.";
+"ERROR_CODE_88"         = "The number cannot be deleted";
+"ERROR_CODE_94"         = "Attempt limit reached, maximum 5 attempts are allowed";
+
+
+"ERROR_CODE_1001"       = "The request timed out, Please try again.";
+"ERROR_CODE_1004"       = "Could not connect to the server. Please try again.";
+"ERROR_CODE_1005"       = "The network connection was lost.";
+"ERROR_CODE_1009"       = "The Internet connection appears to be offline.";
+
+
+
+//Sharing settings
+"SETTING_SHARING_MENU_ORDER" = "50201@50202@50203@50204@50205";
+"SETTING_SHARING_MENU_LOOK" = "TbR@TbR@T@T@T";
+
+"50201" = "50201@##@Facebook Account@##@Connect@##@fb_connect.png@##@Disconnect@##@reg_btn3_bg.png";
+"50202" = "50202@##@Twitter Account@##@Connect@##@twitter_connect.png@##@Disconnect@##@reg_btn3_bg.png";
+"50203" = "50203@##@Automatically post Blogs to Facebook";
+"50204" = "50204@##@Automatically post Blogs to Twitter";
+"50205" = "50205@##@Automatically post Blogs to Twitter";
+///////////////////////////////
+
+
+"PLS_CONN_FB" = "You are not connected to Facebook";
+"PLS_CONN_TW" = "You are not connected to Twitter";

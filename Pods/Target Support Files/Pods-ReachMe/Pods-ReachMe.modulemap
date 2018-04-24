@@ -1,0 +1,6 @@
+framework module Pods_ReachMe {
+  umbrella header "Pods-ReachMe-umbrella.h"
+
+  export *
+  module * { export * }
+}
