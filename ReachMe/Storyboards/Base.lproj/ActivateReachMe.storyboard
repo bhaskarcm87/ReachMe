@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nhd-aN-ANj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nhd-aN-ANj">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Helvetica.ttc">
-            <string>Helvetica</string>
-        </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Activate ReachMe-->
         <scene sceneID="xEt-6r-XVT">
@@ -62,7 +54,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+91 9788776771" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epR-zQ-iiX">
-                                            <rect key="frame" x="103.5" y="34" width="168" height="26.5"/>
+                                            <rect key="frame" x="104" y="34" width="167.5" height="26.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -401,7 +393,7 @@
                                                             <color key="textColor" red="0.72549019609999998" green="0.1960784314" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get calls in the app when phone is switched off or out of coverage when in home country." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSz-WK-eWE">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Get calls in the app when phone is switched off or out of coverage when in home country." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSz-WK-eWE">
                                                             <rect key="frame" x="0.0" y="34" width="275" height="31"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -719,13 +711,13 @@
                                                     <rect key="frame" x="40" y="10" width="275" height="89"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="InstaVoice Reachme is not available" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBz-ah-Qvd">
-                                                            <rect key="frame" x="0.0" y="0.0" width="275" height="19.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="275" height="47"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="We are working hard to make it available for every carrier in the world" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muS-OO-rrN">
-                                                            <rect key="frame" x="0.0" y="26.5" width="275" height="62.5"/>
+                                                            <rect key="frame" x="0.0" y="54" width="275" height="35"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -800,7 +792,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG1-QF-gYt">
-                                            <rect key="frame" x="66" y="32.5" width="275" height="76.5"/>
+                                            <rect key="frame" x="66" y="32.5" width="275" height="75.5"/>
                                             <gestureRecognizers/>
                                             <attributedString key="attributedText">
                                                 <fragment>
@@ -848,7 +840,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNc-1w-WPr">
-                                            <rect key="frame" x="68" y="10" width="239" height="50"/>
+                                            <rect key="frame" x="68" y="10.5" width="239" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iLq-PY-Fb5" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="239" height="50"/>
@@ -888,7 +880,9 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="xNc-1w-WPr" secondAttribute="bottom" constant="2" id="41a-Zs-N9w"/>
                                         <constraint firstAttribute="bottom" secondItem="xNc-1w-WPr" secondAttribute="bottom" constant="10" id="E4X-gs-mxw"/>
+                                        <constraint firstItem="xNc-1w-WPr" firstAttribute="top" secondItem="kqI-sc-Dzl" secondAttribute="topMargin" constant="2" id="LGO-0L-CCO"/>
                                         <constraint firstItem="xNc-1w-WPr" firstAttribute="leading" secondItem="kqI-sc-Dzl" secondAttribute="leading" constant="68" id="qB0-XH-qPX"/>
                                         <constraint firstItem="xNc-1w-WPr" firstAttribute="top" secondItem="kqI-sc-Dzl" secondAttribute="top" constant="10" id="ref-dc-wmB"/>
                                         <constraint firstAttribute="trailing" secondItem="xNc-1w-WPr" secondAttribute="trailing" constant="68" id="wJ0-zC-kKz"/>
@@ -906,7 +900,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5qw-0k-do1">
-                                            <rect key="frame" x="68" y="10" width="239" height="50"/>
+                                            <rect key="frame" x="68" y="10.5" width="239" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RZf-hT-MWr" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="239" height="50"/>
@@ -947,6 +941,8 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="5qw-0k-do1" secondAttribute="trailing" constant="68" id="6er-pA-1KN"/>
+                                        <constraint firstItem="5qw-0k-do1" firstAttribute="top" secondItem="DIG-TK-LTf" secondAttribute="topMargin" constant="2" id="Mmm-IP-oSI"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="5qw-0k-do1" secondAttribute="bottom" constant="2" id="WKB-Mk-E4p"/>
                                         <constraint firstAttribute="bottom" secondItem="5qw-0k-do1" secondAttribute="bottom" constant="10" id="cXn-9w-RHC"/>
                                         <constraint firstItem="5qw-0k-do1" firstAttribute="top" secondItem="DIG-TK-LTf" secondAttribute="top" constant="10" id="eav-8Z-SAB"/>
                                         <constraint firstItem="5qw-0k-do1" firstAttribute="leading" secondItem="DIG-TK-LTf" secondAttribute="leading" constant="68" id="wgS-f2-RuO"/>
@@ -1075,7 +1071,7 @@
                             <outlet property="delegate" destination="4tE-yk-z0F" id="ELc-Xm-Jl7"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Activate ReachMe" id="2JB-Xh-Rjs">
+                    <navigationItem key="navigationItem" title="Activate ReachMe" largeTitleDisplayMode="never" id="2JB-Xh-Rjs">
                         <barButtonItem key="rightBarButtonItem" title="Help" id="p4R-rM-Bru">
                             <connections>
                                 <action selector="onHelpClicked:" destination="4tE-yk-z0F" id="pAw-SY-pXD"/>
@@ -1146,7 +1142,7 @@
                                                 <constraint firstItem="OkI-xK-8II" firstAttribute="leading" secondItem="64k-qi-xLj" secondAttribute="leading" constant="33" id="KHX-qx-zjy"/>
                                                 <constraint firstItem="OkI-xK-8II" firstAttribute="top" secondItem="64k-qi-xLj" secondAttribute="top" constant="16" id="kc8-wS-C63"/>
                                                 <constraint firstItem="PaX-xC-hGf" firstAttribute="top" secondItem="64k-qi-xLj" secondAttribute="top" constant="16" id="ygu-49-GyD"/>
-                                                <constraint firstItem="PaX-xC-hGf" firstAttribute="leading" secondItem="OkI-xK-8II" secondAttribute="trailing" constant="33" id="zBQ-Ec-fmb"/>
+                                                <constraint firstItem="PaX-xC-hGf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OkI-xK-8II" secondAttribute="trailing" symbolic="YES" id="zBQ-Ec-fmb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1173,7 +1169,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="QN0-No-9il" secondAttribute="bottom" constant="19" id="2WI-Ut-f7e"/>
-                                                <constraint firstItem="QN0-No-9il" firstAttribute="leading" secondItem="5dl-UI-RmY" secondAttribute="trailing" constant="33" id="72n-5W-hcJ"/>
+                                                <constraint firstItem="QN0-No-9il" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5dl-UI-RmY" secondAttribute="trailing" symbolic="YES" id="72n-5W-hcJ"/>
                                                 <constraint firstItem="5dl-UI-RmY" firstAttribute="top" secondItem="hli-yx-F5V" secondAttribute="top" constant="16" id="N08-Tv-W2A"/>
                                                 <constraint firstAttribute="trailing" secondItem="QN0-No-9il" secondAttribute="trailing" constant="40" id="T3V-NY-blB"/>
                                                 <constraint firstItem="5dl-UI-RmY" firstAttribute="leading" secondItem="hli-yx-F5V" secondAttribute="leading" constant="33" id="eFD-K6-Q2L"/>
@@ -1208,7 +1204,7 @@
                                                 <constraint firstItem="wg9-ap-z8w" firstAttribute="top" secondItem="sH6-hp-a6k" secondAttribute="top" constant="16" id="aBo-57-blA"/>
                                                 <constraint firstItem="i7t-H8-0Yr" firstAttribute="top" secondItem="sH6-hp-a6k" secondAttribute="top" constant="16" id="kQh-nY-Tk7"/>
                                                 <constraint firstAttribute="trailing" secondItem="wg9-ap-z8w" secondAttribute="trailing" constant="40" id="tZ2-db-vg3"/>
-                                                <constraint firstItem="wg9-ap-z8w" firstAttribute="leading" secondItem="i7t-H8-0Yr" secondAttribute="trailing" constant="33" id="vBk-b5-vm4"/>
+                                                <constraint firstItem="wg9-ap-z8w" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i7t-H8-0Yr" secondAttribute="trailing" symbolic="YES" id="vBk-b5-vm4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1238,7 +1234,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="M25-Tx-uTe" secondAttribute="bottom" constant="22.5" id="NGx-cI-e9X"/>
                                                 <constraint firstItem="M25-Tx-uTe" firstAttribute="top" secondItem="BbB-gZ-XRH" secondAttribute="top" constant="16" id="SSN-vM-7i4"/>
                                                 <constraint firstItem="T1l-p5-RNh" firstAttribute="leading" secondItem="BbB-gZ-XRH" secondAttribute="leading" constant="33" id="WWQ-kQ-7a9"/>
-                                                <constraint firstItem="M25-Tx-uTe" firstAttribute="leading" secondItem="T1l-p5-RNh" secondAttribute="trailing" constant="33" id="oNN-r2-wFh"/>
+                                                <constraint firstItem="M25-Tx-uTe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="T1l-p5-RNh" secondAttribute="trailing" symbolic="YES" id="oNN-r2-wFh"/>
                                                 <constraint firstAttribute="trailing" secondItem="M25-Tx-uTe" secondAttribute="trailing" constant="40" id="qRo-6R-2P1"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1733,7 +1729,7 @@
                                 <rect key="frame" x="0.0" y="764" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WUH-oG-W30" id="ZLs-Ns-eI6">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fl2-kg-R0x" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
@@ -2434,6 +2430,9 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUG-0S-Ac0" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
                                             <rect key="frame" x="67" y="86" width="240.5" height="44"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="9R6-qB-qo8"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                             <state key="normal" title="ACTIVATE AGAIN">
                                                 <color key="titleColor" red="0.85490196080000003" green="0.26274509800000001" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -2499,12 +2498,12 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAb-nU-ta3" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
-                                            <rect key="frame" x="84.5" y="86" width="205" height="44"/>
+                                            <rect key="frame" x="76.5" y="86" width="221" height="44"/>
                                             <color key="backgroundColor" red="0.85490196080000003" green="0.26274509800000001" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="0hu-7l-NPH"/>
                                             </constraints>
-                                            <state key="normal" title="SWITCH TO REACHME HOME">
+                                            <state key="normal" title="  SWITCH TO REACHME HOME  ">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <userDefinedRuntimeAttributes>
@@ -2534,6 +2533,7 @@
                                         <constraint firstItem="1vN-KX-c4R" firstAttribute="centerX" secondItem="NTq-Tw-gA0" secondAttribute="centerX" id="ZF1-yM-POu"/>
                                         <constraint firstItem="Tbf-2U-BAa" firstAttribute="top" secondItem="1vN-KX-c4R" secondAttribute="bottom" constant="11" id="fLw-Jl-dNC"/>
                                         <constraint firstItem="CAb-nU-ta3" firstAttribute="top" secondItem="Tbf-2U-BAa" secondAttribute="bottom" constant="14" id="rjA-6H-XPa"/>
+                                        <constraint firstAttribute="bottom" secondItem="CAb-nU-ta3" secondAttribute="bottom" constant="10" id="w7N-JB-18N"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

@@ -61,7 +61,7 @@ class ActivatedReachMeViewController: UITableViewController {
             let  switchToCell = tableView.dequeueReusableCell(withIdentifier: ActivatedReachMeSwitchToCell.identifier) as! ActivatedReachMeSwitchToCell
             switch reachMeType {
             case .home:
-                switchToCell.switchToButton.setTitle("SWITCH TO REACHME INTERNATIONAL", for: .normal)
+                switchToCell.switchToButton.setTitle("  SWITCH TO REACHME INTERNATIONAL  ", for: .normal)
                 switchToCell.countryFlag.image = #imageLiteral(resourceName: "rm_international")
                 switchToCell.backToCountryLabel.text = "Planning to Travel outside of \(userContact.countryName!)?"
             case .international:
