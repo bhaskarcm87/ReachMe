@@ -21,7 +21,7 @@ class RedeemViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onApplyButtonClicked(_ sender: UIButton) {
     }
 }

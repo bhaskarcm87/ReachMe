@@ -40,7 +40,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
+final private class FilterSink<O: ObserverType>: Sink<O>, ObserverType {
     typealias Predicate = (Element) throws -> Bool
     typealias Element = O.E
     
@@ -59,8 +59,7 @@ final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
                     if satisfies {
                         forwardOn(.next(value))
                     }
-                }
-                catch let e {
+                } catch let e {
                     forwardOn(.error(e))
                     dispose()
                 }
@@ -71,7 +70,7 @@ final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
     }
 }
 
-final fileprivate class Filter<Element> : Producer<Element> {
+final private class Filter<Element> : Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
     
     private let _source: Observable<Element>

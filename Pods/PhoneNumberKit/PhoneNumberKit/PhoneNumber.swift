@@ -27,7 +27,7 @@ public struct PhoneNumber {
     public let type: PhoneNumberType
 }
 
-extension PhoneNumber : Equatable {
+extension PhoneNumber: Equatable {
 
     public static func ==(lhs: PhoneNumber, rhs: PhoneNumber) -> Bool {
         return (lhs.countryCode == rhs.countryCode)
@@ -38,7 +38,7 @@ extension PhoneNumber : Equatable {
 
 }
 
-extension PhoneNumber : Hashable {
+extension PhoneNumber: Hashable {
 
     public var hashValue: Int {
         return countryCode.hashValue ^ nationalNumber.hashValue ^ leadingZero.hashValue ^ (numberExtension?.hashValue ?? 0)
@@ -46,13 +46,13 @@ extension PhoneNumber : Hashable {
 
 }
 
-extension PhoneNumber{
+extension PhoneNumber {
     
-    public static func notPhoneNumber() -> PhoneNumber{
+    public static func notPhoneNumber() -> PhoneNumber {
         return PhoneNumber(numberString: "", countryCode: 0, leadingZero: false, nationalNumber: 0, numberExtension: nil, type: .notParsed)
     }
     
-    public func notParsed() -> Bool{
+    public func notParsed() -> Bool {
         return type == .notParsed
     }
 }
@@ -82,5 +82,3 @@ public extension PhoneNumber {
     }
 
 }
-
-

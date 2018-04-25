@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-class Sink<O : ObserverType> : Disposable {
+class Sink<O: ObserverType> : Disposable {
     fileprivate let _observer: O
     fileprivate let _cancel: Cancelable
     fileprivate var _disposed: Bool
@@ -17,7 +17,7 @@ class Sink<O : ObserverType> : Disposable {
 
     init(observer: O, cancel: Cancelable) {
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
         _observer = observer
         _cancel = cancel
@@ -50,7 +50,7 @@ class Sink<O : ObserverType> : Disposable {
 
     deinit {
 #if TRACE_RESOURCES
-       let _ =  Resources.decrementTotal()
+       _ =  Resources.decrementTotal()
 #endif
     }
 }

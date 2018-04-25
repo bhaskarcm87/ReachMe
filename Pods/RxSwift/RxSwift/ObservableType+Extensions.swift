@@ -25,7 +25,6 @@ extension ObservableType {
             return self.asObservable().subscribe(observer)
     }
     
-    
     /**
      Subscribes an element handler, an error handler, a completion handler and disposed handler to an observable sequence.
      
@@ -43,8 +42,7 @@ extension ObservableType {
                 
                 if let disposed = onDisposed {
                     disposable = Disposables.create(with: disposed)
-                }
-                else {
+                } else {
                     disposable = Disposables.create()
                 }
                 
@@ -63,8 +61,7 @@ extension ObservableType {
                     case .error(let error):
                         if let onError = onError {
                             onError(error)
-                        }
-                        else {
+                        } else {
                             Hooks.defaultErrorHandler(callStack, error)
                         }
                         disposable.dispose()
@@ -82,8 +79,7 @@ extension ObservableType {
                 
                 if let disposed = onDisposed {
                     disposable = Disposables.create(with: disposed)
-                }
-                else {
+                } else {
                     disposable = Disposables.create()
                 }
                 
@@ -94,8 +90,7 @@ extension ObservableType {
                     case .error(let error):
                         if let onError = onError {
                             onError(error)
-                        }
-                        else {
+                        } else {
                             Hooks.defaultErrorHandler([], error)
                         }
                         disposable.dispose()
@@ -116,7 +111,7 @@ extension ObservableType {
 import class Foundation.NSRecursiveLock
 
 extension Hooks {
-    public typealias DefaultErrorHandler = (_ subscriptionCallStack: [String], _ error: Error) -> ()
+    public typealias DefaultErrorHandler = (_ subscriptionCallStack: [String], _ error: Error) -> Void
 
     fileprivate static let _lock = RecursiveLock()
     fileprivate static var _defaultErrorHandler: DefaultErrorHandler = { subscriptionCallStack, error in
@@ -138,4 +133,3 @@ extension Hooks {
         }
     }
 }
-

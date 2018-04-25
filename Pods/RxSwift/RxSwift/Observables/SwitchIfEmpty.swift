@@ -20,7 +20,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class SwitchIfEmpty<Element>: Producer<Element> {
+final private class SwitchIfEmpty<Element>: Producer<Element> {
     
     private let _source: Observable<E>
     private let _ifEmpty: Observable<E>
@@ -30,7 +30,7 @@ final fileprivate class SwitchIfEmpty<Element>: Producer<Element> {
         _ifEmpty = ifEmpty
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = SwitchIfEmptySink(ifEmpty: _ifEmpty,
                                      observer: observer,
                                      cancel: cancel)
@@ -40,8 +40,7 @@ final fileprivate class SwitchIfEmpty<Element>: Producer<Element> {
     }
 }
 
-final fileprivate class SwitchIfEmptySink<O: ObserverType>: Sink<O>
-    , ObserverType {
+final private class SwitchIfEmptySink<O: ObserverType>: Sink<O>, ObserverType {
     typealias E = O.E
     
     private let _ifEmpty: Observable<E>
@@ -78,7 +77,7 @@ final fileprivate class SwitchIfEmptySink<O: ObserverType>: Sink<O>
     }
 }
 
-final fileprivate class SwitchIfEmptySinkIter<O: ObserverType>
+final private class SwitchIfEmptySinkIter<O: ObserverType>
     : ObserverType {
     typealias E = O.E
     typealias Parent = SwitchIfEmptySink<O>

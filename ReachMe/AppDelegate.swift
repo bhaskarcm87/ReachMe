@@ -19,13 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
 
        // UISearchBar.appearance().tintColor = UIColor.ReachMeColor()
         window?.tintColor = UIColor.ReachMeColor()
 
         //UINavigationBar.appearance().tintColor = UIColor.ReachMeColor()
-        
         
 //        let reachMeNavVC = UIStoryboard(name: "NavController", bundle: nil).instantiateViewController(withIdentifier: "ReachMeNavControllerID") as! UINavigationController
 //        let activateReachMeVC = UIStoryboard(name: "ActivateReachMe", bundle: nil).instantiateViewController(withIdentifier: Constants.STORYBOARD_ID_ACTIVATE_REACHME) as! ActivateReachMeViewController
@@ -39,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // let aps = notification["aps"] as! [String: AnyObject]
             
         //If Carrier not selected, display carrier list
-        }else if Defaults[.IsCarrierSelection] {
+        } else if Defaults[.IsCarrierSelection] {
             let selectCarrierVC = UIViewController.selectCarrierViewController()
             reachMeNavVC.viewControllers = [selectCarrierVC]
             window?.rootViewController = reachMeNavVC
@@ -61,8 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             RMUtility.registerForPushNotifications()
             RMUtility.showdDashboard()
         }
-       
-
 
         return true
     }
@@ -107,10 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Failed to register Remotenotification: \(error)")
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
        // let aps = userInfo["aps"] as! [String: AnyObject]
-        
         
         switch application.applicationState {
         case .active:
@@ -144,9 +139,9 @@ extension AppDelegate {
    
 }
 
-//MARK: - Push Notification Delegate
+// MARK: - Push Notification Delegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options: UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound, .badge])
     }
 

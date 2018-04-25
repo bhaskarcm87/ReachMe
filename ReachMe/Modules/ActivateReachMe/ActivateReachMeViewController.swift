@@ -54,7 +54,6 @@ class ActivateReachMeViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    
     func constructtableCells() {
         
         //Title
@@ -81,15 +80,13 @@ class ActivateReachMeViewController: UITableViewController {
             if let titleName = userContact.titleName {
                 titleCell.numberLabel.text = titleName
                 titleCell.countryNameLabel.text = userContact.formatedNumber
-            }else{
+            } else {
                 titleCell.numberLabel.text = userContact.formatedNumber
                 titleCell.countryNameLabel.text = userProfile?.countryName
             }
             titleCell.networkNameLabel.text = "\((userContact.selectedCarrier?.networkName)!)   "
             tableCellArray.append(titleCell)
         }
-        
-        
         
         if let isReachMeSupport = userContact.selectedCarrier?.isReachMeSupport, isReachMeSupport == true {
             
@@ -118,7 +115,7 @@ class ActivateReachMeViewController: UITableViewController {
             }
             
             //ReachMe Home
-            if ((userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)!){
+            if ((userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)!) {
                 
                 let reachMeHomeCell = tableView.dequeueReusableCell(withIdentifier: ActivateReachMeHomeCell.identifier) as! ActivateReachMeHomeCell
                 
@@ -187,7 +184,7 @@ class ActivateReachMeViewController: UITableViewController {
             ANLoader.hide()
             guard success else { return }
             
-            if let summary = responseDisc?["summary"] as? [[String:Any]], summary.count > 0 {
+            if let summary = responseDisc?["summary"] as? [[String: Any]], summary.count > 0 {
                 var selectedSummary: [String: Any]!
                 if summary.first!["msg_flow"] as! String == "r" {
                     selectedSummary = summary.first!
@@ -205,7 +202,7 @@ class ActivateReachMeViewController: UITableViewController {
         }
     }
     
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onHelpClicked(_ sender: UIButton) {
         RMUtility.handleHelpSupportAction(withHelpText: nil)
     }
@@ -226,7 +223,7 @@ class ActivateReachMeViewController: UITableViewController {
         RMUtility.handleHelpSupportAction(withHelpText: nil)
     }
     
-    //MARK: - Segue Actions
+    // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let reachMeType = sender as? RMUtility.ReachMeType {
@@ -249,12 +246,12 @@ class ActivateReachMeViewController: UITableViewController {
         
     }
     
-    //MARK:- Unwind Action
-    @IBAction func unwindToActivateReachMeControllre(segue:UIStoryboardSegue) {}
+    // MARK: - Unwind Action
+    @IBAction func unwindToActivateReachMeControllre(segue: UIStoryboardSegue) {}
     
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension ActivateReachMeViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -316,4 +313,3 @@ extension ActivateReachMeViewController {
     }
     
 }
-

@@ -38,7 +38,6 @@ public class OperationQueueScheduler: ImmediateSchedulerType {
                 return
             }
 
-
             cancel.setDisposable(action(state))
         }
 

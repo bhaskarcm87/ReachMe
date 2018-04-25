@@ -15,11 +15,11 @@ import RxSwift
 #endif
 
 #if !DISABLE_SWIZZLING && !os(Linux)
-fileprivate var deallocatingSubjectTriggerContext: UInt8 = 0
-fileprivate var deallocatingSubjectContext: UInt8 = 0
+private var deallocatingSubjectTriggerContext: UInt8 = 0
+private var deallocatingSubjectContext: UInt8 = 0
 #endif
-fileprivate var deallocatedSubjectTriggerContext: UInt8 = 0
-fileprivate var deallocatedSubjectContext: UInt8 = 0
+private var deallocatedSubjectTriggerContext: UInt8 = 0
+private var deallocatedSubjectContext: UInt8 = 0
 
 #if !os(Linux)
 
@@ -44,7 +44,6 @@ Second approach is chosen. It can fail in case there are multiple libraries dyna
 to replace dealloc method. In case that isn't the case, it should be ok.
 */
 extension Reactive where Base: NSObject {
-
 
     /**
      Observes values on `keyPath` starting from `self` with `options` and retains `self` if `retainSelf` is set.
@@ -143,8 +142,7 @@ extension Reactive where Base: AnyObject {
             do {
                 let proxy: MessageSentProxy = try registerMessageInterceptor(selector)
                 return proxy.messageSent.asObservable()
-            }
-            catch let e {
+            } catch let e {
                 return Observable.error(e)
             }
         }
@@ -169,12 +167,10 @@ extension Reactive where Base: AnyObject {
                 return deallocated.map { _ in [] }
             }
 
-
             do {
                 let proxy: MessageSentProxy = try registerMessageInterceptor(selector)
                 return proxy.methodInvoked.asObservable()
-            }
-            catch let e {
+            } catch let e {
                 return Observable.error(e)
             }
         }
@@ -195,8 +191,7 @@ extension Reactive where Base: AnyObject {
             do {
                 let proxy: DeallocatingProxy = try registerMessageInterceptor(deallocSelector)
                 return proxy.messageSent.asObservable()
-            }
-            catch let e {
+            } catch let e {
                 return Observable.error(e)
             }
         }
@@ -209,8 +204,7 @@ extension Reactive where Base: AnyObject {
         let subject: T
         if let existingSubject = objc_getAssociatedObject(base, selectorReference) as? T {
             subject = existingSubject
-        }
-        else {
+        } else {
             subject = T()
             objc_setAssociatedObject(
                 base,
@@ -241,7 +235,7 @@ extension Reactive where Base: AnyObject {
 
 #if !DISABLE_SWIZZLING && !os(Linux)
 
-    fileprivate protocol MessageInterceptorSubject: class {
+    private protocol MessageInterceptorSubject: class {
         init()
 
         var isActive: Bool {
@@ -251,9 +245,7 @@ extension Reactive where Base: AnyObject {
         var targetImplementation: IMP { get set }
     }
 
-    fileprivate final class DeallocatingProxy
-        : MessageInterceptorSubject
-        , RXDeallocatingObserver {
+    fileprivate final class DeallocatingProxy: MessageInterceptorSubject, RXDeallocatingObserver {
         typealias E = ()
 
         let messageSent = ReplaySubject<()>.create(bufferSize: 1)
@@ -267,7 +259,7 @@ extension Reactive where Base: AnyObject {
         init() {
         }
 
-        @objc func deallocating() -> Void {
+        @objc func deallocating() {
             messageSent.on(.next(()))
         }
 
@@ -276,9 +268,7 @@ extension Reactive where Base: AnyObject {
         }
     }
 
-    fileprivate final class MessageSentProxy
-        : MessageInterceptorSubject
-        , RXMessageSentObserver {
+    fileprivate final class MessageSentProxy: MessageInterceptorSubject, RXMessageSentObserver {
         typealias E = [AnyObject]
 
         let messageSent = PublishSubject<[Any]>()
@@ -293,11 +283,11 @@ extension Reactive where Base: AnyObject {
         init() {
         }
 
-        @objc func messageSent(withArguments arguments: [Any]) -> Void {
+        @objc func messageSent(withArguments arguments: [Any]) {
             messageSent.on(.next(arguments))
         }
 
-        @objc func methodInvoked(withArguments arguments: [Any]) -> Void {
+        @objc func methodInvoked(withArguments arguments: [Any]) {
             methodInvoked.on(.next(arguments))
         }
 
@@ -308,7 +298,6 @@ extension Reactive where Base: AnyObject {
     }
 
 #endif
-
 
 fileprivate final class DeallocObservable {
     let _subject = ReplaySubject<Void>.create(bufferSize:1)
@@ -326,19 +315,17 @@ fileprivate final class DeallocObservable {
 
 #if !os(Linux)
 
-fileprivate protocol KVOObservableProtocol {
+private protocol KVOObservableProtocol {
     var target: AnyObject { get }
     var keyPath: String { get }
     var retainTarget: Bool { get }
     var options: KeyValueObservingOptions { get }
 }
 
-fileprivate final class KVOObserver
-    : _RXKVOObserver
-    , Disposable {
+fileprivate final class KVOObserver: _RXKVOObserver, Disposable {
     typealias Callback = (Any?) -> Void
 
-    var retainSelf: KVOObserver? = nil
+    var retainSelf: KVOObserver?
 
     init(parent: KVOObservableProtocol, callback: @escaping Callback) {
         #if TRACE_RESOURCES
@@ -362,8 +349,7 @@ fileprivate final class KVOObserver
 }
 
 fileprivate final class KVOObservable<Element>
-    : ObservableType
-    , KVOObservableProtocol {
+    : ObservableType, KVOObservableProtocol {
     typealias E = Element?
 
     unowned var target: AnyObject
@@ -383,7 +369,7 @@ fileprivate final class KVOObservable<Element>
         }
     }
 
-    func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element? {
+    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element? {
         let observer = KVOObserver(parent: self) { (value) in
             if value as? NSNull != nil {
                 observer.on(.next(nil))
@@ -401,7 +387,7 @@ fileprivate final class KVOObservable<Element>
 
 #if !DISABLE_SWIZZLING && !os(Linux)
 
-    fileprivate func observeWeaklyKeyPathFor(_ target: NSObject, keyPath: String, options: KeyValueObservingOptions) -> Observable<AnyObject?> {
+    private func observeWeaklyKeyPathFor(_ target: NSObject, keyPath: String, options: KeyValueObservingOptions) -> Observable<AnyObject?> {
         let components = keyPath.components(separatedBy: ".").filter { $0 != "self" }
 
         let observable = observeWeaklyKeyPathFor(target, keyPathSections: components, options: options)
@@ -409,8 +395,7 @@ fileprivate final class KVOObservable<Element>
 
         if !options.intersection(.initial).isEmpty {
             return observable
-        }
-        else {
+        } else {
             return observable
                 .skip(1)
         }
@@ -420,7 +405,7 @@ fileprivate final class KVOObservable<Element>
     // Identifiers can't contain `,`, so the only place where `,` can appear
     // is as a delimiter.
     // This means there is `W` as element in an array of property attributes.
-    fileprivate func isWeakProperty(_ properyRuntimeInfo: String) -> Bool {
+    private func isWeakProperty(_ properyRuntimeInfo: String) -> Bool {
         return properyRuntimeInfo.range(of: ",W,") != nil
     }
 
@@ -452,7 +437,7 @@ fileprivate final class KVOObservable<Element>
         }
     }
     
-    fileprivate func observeWeaklyKeyPathFor(
+    private func observeWeaklyKeyPathFor(
         _ target: NSObject,
         keyPathSections: [String],
         options: KeyValueObservingOptions
@@ -500,8 +485,7 @@ fileprivate final class KVOObservable<Element>
                 if isWeak {
                     return nextElementsObservable
                         .finishWithNilWhenDealloc(nextObject!)
-                }
-                else {
+                } else {
                     return nextElementsObservable
                 }
         }
@@ -510,7 +494,7 @@ fileprivate final class KVOObservable<Element>
 
 // MARK Constants
 
-fileprivate let deallocSelector = NSSelectorFromString("dealloc")
+private let deallocSelector = NSSelectorFromString("dealloc")
 
 // MARK: AnyObject + Reactive
 

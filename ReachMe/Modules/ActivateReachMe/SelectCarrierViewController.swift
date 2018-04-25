@@ -36,7 +36,6 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
     var userContact: UserContact!
     //var observer: CoreDataContextObserver?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         if Defaults[.IsCarrierSelection] {
@@ -145,8 +144,7 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         selectionMenu.show(style: .Popover(sourceView: cell, size: CGSize(width: 300, height: 400)), from: self)
     }
     
-    
-    //MARK: - Actions
+    // MARK: - Actions
     @IBAction func onCarrierNotListedClicked(_ sender: UIButton) {
         
         userContact.selectedCarrier?.countryCode = "-1"
@@ -161,7 +159,7 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         updateServerforChangedSettings()
     }
     
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     func updateServerforChangedSettings() {
         
         ANLoader.showLoading("", disableUI: true)
@@ -185,7 +183,6 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         })
     }
 }
-
 
 extension SelectCarrierViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     func presentSearchController(_ searchController: UISearchController) {
@@ -213,7 +210,7 @@ extension SelectCarrierViewController: UISearchResultsUpdating, UISearchControll
     }
 }
 
-//MARK: - Table Cell
+// MARK: - Table Cell
 final class SelectCarrierTableCell: UITableViewCell {
     
     static let identifier = String(describing: SelectCarrierTableCell.self)
@@ -240,4 +237,3 @@ final class SelectCarrierTableCell: UITableViewCell {
         accessoryType = selected ? .checkmark : .none
     }
 }
-

@@ -16,12 +16,12 @@ extension ObservableType {
      - returns: A sequence of observable groups, each of which corresponds to a unique key value, containing all elements that share that same key value.
      */
     public func groupBy<K: Hashable>(keySelector: @escaping (E) throws -> K)
-        -> Observable<GroupedObservable<K,E>> {
+        -> Observable<GroupedObservable<K, E>> {
         return GroupBy(source: self.asObservable(), selector: keySelector)
     }
 }
 
-final fileprivate class GroupedObservableImpl<Key, Element> : Observable<Element> {
+final private class GroupedObservableImpl<Key, Element> : Observable<Element> {
     private var _subject: PublishSubject<Element>
     private var _refCount: RefCountDisposable
     
@@ -37,10 +37,8 @@ final fileprivate class GroupedObservableImpl<Key, Element> : Observable<Element
     }
 }
 
-
-final fileprivate class GroupBySink<Key: Hashable, Element, O: ObserverType>
-    : Sink<O>
-    , ObserverType where O.E == GroupedObservable<Key, Element> {
+final private class GroupBySink<Key: Hashable, Element, O: ObserverType>
+    : Sink<O>, ObserverType where O.E == GroupedObservable<Key, Element> {
     typealias E = Element
     typealias ResultType = O.E
     typealias Parent = GroupBy<Key, Element>
@@ -87,8 +85,7 @@ final fileprivate class GroupBySink<Key: Hashable, Element, O: ObserverType>
             do {
                 let groupKey = try _parent._selector(value)
                 onGroupEvent(key: groupKey, value: value)
-            }
-            catch let e {
+            } catch let e {
                 error(e)
                 return
             }
@@ -116,7 +113,7 @@ final fileprivate class GroupBySink<Key: Hashable, Element, O: ObserverType>
     }
 }
 
-final fileprivate class GroupBy<Key: Hashable, Element>: Producer<GroupedObservable<Key,Element>> {
+final private class GroupBy<Key: Hashable, Element>: Producer<GroupedObservable<Key, Element>> {
     typealias KeySelector = (Element) throws -> Key
 
     fileprivate let _source: Observable<Element>
@@ -127,7 +124,7 @@ final fileprivate class GroupBy<Key: Hashable, Element>: Producer<GroupedObserva
         _selector = selector
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == GroupedObservable<Key,Element> {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == GroupedObservable<Key, Element> {
         let sink = GroupBySink(parent: self, observer: observer, cancel: cancel)
         return (sink: sink, subscription: sink.run())
     }

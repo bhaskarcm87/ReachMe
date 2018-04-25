@@ -73,6 +73,3 @@ extension SharedSequenceConvertibleType where SharingStrategy == SignalSharingSt
         return self.asObservable().subscribe(onNext: onNext, onCompleted: onCompleted, onDisposed: onDisposed)
     }
 }
-
-
-

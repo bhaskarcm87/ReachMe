@@ -39,7 +39,6 @@ final class MetadataManager {
         territoriesByCountry.removeAll()
     }
     
-    
     /// Populates the metadata from the included json file resource.
     ///
     /// - returns: array of MetadataTerritory objects
@@ -47,7 +46,7 @@ final class MetadataManager {
         var territoryArray = [MetadataTerritory]()
         let frameworkBundle = Bundle(for: PhoneNumberKit.self)
         do {
-            if let jsonPath = frameworkBundle.path(forResource: "PhoneNumberMetadata", ofType: "json"), let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonPath)), let jsonObjects = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary, let metadataDict = jsonObjects["phoneNumberMetadata"] as? NSDictionary, let metadataTerritories = metadataDict["territories"] as? NSDictionary , let metadataTerritoryArray = metadataTerritories["territory"] as? NSArray {
+            if let jsonPath = frameworkBundle.path(forResource: "PhoneNumberMetadata", ofType: "json"), let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonPath)), let jsonObjects = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary, let metadataDict = jsonObjects["phoneNumberMetadata"] as? NSDictionary, let metadataTerritories = metadataDict["territories"] as? NSDictionary, let metadataTerritoryArray = metadataTerritories["territory"] as? NSArray {
                     metadataTerritoryArray.forEach({
                         if let territoryDict = $0 as? NSDictionary {
                             let parsedTerritory = MetadataTerritory(jsondDict: territoryDict)
@@ -55,8 +54,7 @@ final class MetadataManager {
                         }
                     })
             }
-        }
-        catch {}
+        } catch {}
         return territoryArray
     }
     
@@ -88,6 +86,5 @@ final class MetadataManager {
     internal func mainTerritory(forCode code: UInt64) -> MetadataTerritory? {
         return mainTerritoryByCode[code]
     }
-    
     
 }

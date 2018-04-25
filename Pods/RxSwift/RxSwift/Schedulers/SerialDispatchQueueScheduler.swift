@@ -27,12 +27,12 @@ In case some customization need to be made on it before usage,
 internal serial queue can be customized using `serialQueueConfiguration`
 callback.
 */
-public class SerialDispatchQueueScheduler : SchedulerType {
+public class SerialDispatchQueueScheduler: SchedulerType {
     public typealias TimeInterval = Foundation.TimeInterval
     public typealias Time = Date
     
     /// - returns: Current time.
-    public var now : Date {
+    public var now: Date {
         return Date()
     }
 

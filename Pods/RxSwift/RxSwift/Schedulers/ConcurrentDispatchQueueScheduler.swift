@@ -17,7 +17,7 @@ public class ConcurrentDispatchQueueScheduler: SchedulerType {
     public typealias TimeInterval = Foundation.TimeInterval
     public typealias Time = Date
     
-    public var now : Date {
+    public var now: Date {
         return Date()
     }
 

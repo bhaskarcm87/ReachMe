@@ -26,13 +26,13 @@ extension ObservableType {
     }
 }
 
-fileprivate let dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+private let dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
 
-fileprivate func logEvent(_ identifier: String, dateFormat: DateFormatter, content: String) {
+private func logEvent(_ identifier: String, dateFormat: DateFormatter, content: String) {
     print("\(dateFormat.string(from: Date())): \(identifier) -> \(content)")
 }
 
-final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sink<O>, ObserverType where O.E == Source.E {
+final private class DebugSink<Source: ObservableType, O: ObserverType> : Sink<O>, ObserverType where O.E == Source.E {
     typealias Element = O.E
     typealias Parent = Debug<Source>
     
@@ -72,7 +72,7 @@ final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sin
     }
 }
 
-final fileprivate class Debug<Source: ObservableType> : Producer<Source.E> {
+final private class Debug<Source: ObservableType> : Producer<Source.E> {
     fileprivate let _identifier: String
     fileprivate let _trimOutput: Bool
     fileprivate let _source: Source
@@ -81,13 +81,11 @@ final fileprivate class Debug<Source: ObservableType> : Producer<Source.E> {
         _trimOutput = trimOutput
         if let identifier = identifier {
             _identifier = identifier
-        }
-        else {
+        } else {
             let trimmedFile: String
             if let lastIndex = file.lastIndexOf("/") {
                 trimmedFile = String(file[file.index(after: lastIndex) ..< file.endIndex])
-            }
-            else {
+            } else {
                 trimmedFile = file
             }
             _identifier = "\(trimmedFile):\(line) (\(function))"

@@ -60,7 +60,7 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
     }
 }
 
-final fileprivate class ConcatCompletable<Element> : Producer<Element> {
+final private class ConcatCompletable<Element> : Producer<Element> {
     fileprivate let _completable: Observable<Never>
     fileprivate let _second: Observable<Element>
 
@@ -69,16 +69,15 @@ final fileprivate class ConcatCompletable<Element> : Producer<Element> {
         self._second = second
     }
 
-    override func run<O>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O : ObserverType, O.E == Element {
+    override func run<O>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O: ObserverType, O.E == Element {
         let sink = ConcatCompletableSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
     }
 }
 
-final fileprivate class ConcatCompletableSink<O: ObserverType>
-    : Sink<O>
-    , ObserverType {
+final private class ConcatCompletableSink<O: ObserverType>
+    : Sink<O>, ObserverType {
     typealias E = Never
     typealias Parent = ConcatCompletable<O.E>
 
@@ -111,7 +110,7 @@ final fileprivate class ConcatCompletableSink<O: ObserverType>
     }
 }
 
-final fileprivate class ConcatCompletableSinkOther<O: ObserverType>
+final private class ConcatCompletableSinkOther<O: ObserverType>
     : ObserverType {
     typealias E = O.E
 

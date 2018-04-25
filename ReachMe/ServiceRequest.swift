@@ -77,7 +77,6 @@ open class ServiceRequest: NSObject {
         ServiceRequest.shared().userProfile.isTWConnected = responseDics["tw_connected"] as! Bool
     }
     
-    
     func handleserviceError(response: DataResponse<Any>) -> [String: Any]? {
         guard response.result.isSuccess else {
             ANLoader.hide()
@@ -102,9 +101,10 @@ open class ServiceRequest: NSObject {
             
             //If message exists with same ID, skip it
             let predicate = NSPredicate(format: "messageID == %ld", fetchedMessage["msg_id"] as! Int64)
-            if let _ = ServiceRequest.shared().userProfile.messages?.filtered(using: predicate).first as? Message {
+            if ServiceRequest.shared().userProfile.messages?.filtered(using: predicate).first as? Message != nil {
                 continue
             }
+            
             //New Message
             let message = CoreDataModel.sharedInstance().getNewObject(entityName: .MessageEntity) as! Message
             message.content = fetchedMessage["msg_content"] as? String
@@ -141,18 +141,17 @@ open class ServiceRequest: NSObject {
     }
 }
 
-
-//MARK: - JOIN_USER API
+// MARK: - JOIN_USER API
 extension ServiceRequest {
     
-    func startRequestForJoinUser(completionHandler:@escaping (AutheticationType) -> ()) {
+    func startRequestForJoinUser(completionHandler:@escaping (AutheticationType) -> Void) {
         
         var params: [String: Any] = ["phone_num": ServiceRequest.shared().userProfile.userID!,
                                      "phone_num_edited": true,
                                      "opr_info_edited": true,
                                      "device_id": Constants.DEVICE_UUID,
                                      "sim_country_iso": ServiceRequest.shared().userProfile.countryISOCode!,
-                                     "sim_opr_mcc_mnc": ServiceRequest.shared().userProfile.simMCCMNCNumber ?? "na",//If not available pass "na" as per API Doc
+                                     "sim_opr_mcc_mnc": ServiceRequest.shared().userProfile.simMCCMNCNumber ?? "na", //If not available pass "na" as per API Doc
                                      "cmd": Constants.ApiCommands.JOIN_USER,
                                      "sim_serial_num": ""]
         params = RMUtility.serverRequestAddCommonData(params: &params)
@@ -160,8 +159,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 guard response.result.isSuccess else {
                     RMUtility.deleteUserProfile()
@@ -197,7 +195,7 @@ extension ServiceRequest {
                                                 Please set password on your first device
                                                 Go to Settings -> Account -> Set Password
                                                 """)
-                        .action(.default("OK")) { (action, count, nil) in
+                        .action(.default("OK")) { (_, _, _) in
                             //TODO: Handle Multiple Login
                             completionHandler(.authTypeMultiuser)
                         }.show()
@@ -209,10 +207,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - VERIFY_USER API
+// MARK: - VERIFY_USER API
 extension ServiceRequest {
     
-    func startRequestForVerifyUser(otpString: String, completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForVerifyUser(otpString: String, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = [DefaultsKey<Any>.APIRegSecureKey._key: Defaults[.APIRegSecureKey]!,
                                     "pin": otpString,
@@ -223,8 +221,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -246,10 +243,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - SIGNIN API
+// MARK: - SIGNIN API
 extension ServiceRequest {
     
-    func startRequestForSignIn(passWord: String, completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForSignIn(passWord: String, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["login_id": userProfile.userID!,
                                     "pwd": passWord,
@@ -262,8 +259,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -286,16 +282,15 @@ extension ServiceRequest {
                         completionHandler(true)
                     })
                 })
-                
 
         }
     }
 }
 
-//MARK: - GET_PROFILE_INFO API
+// MARK: - GET_PROFILE_INFO API
 extension ServiceRequest {
     
-    func startRequestForGetProfileInfo(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForGetProfileInfo(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.GET_PROFILE_INFO]
         params = RMUtility.serverRequestAddCommonData(params: &params)
@@ -303,8 +298,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -319,7 +313,6 @@ extension ServiceRequest {
                 ServiceRequest.shared().userProfile.state = responseDics["state"] as? String
                 ServiceRequest.shared().userProfile.twPostEnabled = responseDics["tw_post_enabled"] as! Bool
                 ServiceRequest.shared().userProfile.fbPostEnabled = responseDics["fb_post_enabled"] as! Bool
-                
                 
                 //Custom Settings
                 var phoneDetailsDic: [String: Any]?
@@ -339,7 +332,6 @@ extension ServiceRequest {
                     }
                     
                 }
-
                 
                 //Update UserContacts
                 for userContact in (responseDics["user_contacts"] as! [[String: Any]]) {
@@ -381,7 +373,6 @@ extension ServiceRequest {
                             updatedUserContact.countryName = country.first?.name
                         }
                     } catch { print("Generic parser error") }
-
                     
                     //If this is primary number request for carrier list
                     if updatedUserContact.isPrimary {
@@ -399,10 +390,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - LIST_CARRIERS API
+// MARK: - LIST_CARRIERS API
 extension ServiceRequest {
     
-    func startRequestForListOfCarriers(forUserContact contact: UserContact, completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForListOfCarriers(forUserContact contact: UserContact, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.LIST_CARRIERS,
                                      "country_code": contact.countryCode!,
@@ -412,8 +403,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -461,7 +451,6 @@ extension ServiceRequest {
                             carrier.networkName = "Not supported"
                         }
                     }
-                    
 
                     if let carrierInfoList = remoteCarrier["carrier_info"] {
                         for (key, value) in carrierInfoList as! [String: Any] {
@@ -475,7 +464,7 @@ extension ServiceRequest {
                             case "logo":
                                 carrier.logoURL = value as? String
                             case "in_app_promo":
-                                if let inAppPromo = value as? [[String: Any]]{
+                                if let inAppPromo = value as? [[String: Any]] {
                                     inAppPromo.forEach({ (inAppPromoDisc) in
                                        // inAppPromoDisc["show_image"] as! Bool
                                         carrier.inAppPromoImageURL = inAppPromoDisc["image_url"] as? String
@@ -496,10 +485,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - FETCH_SETTINGS API
+// MARK: - FETCH_SETTINGS API
 extension ServiceRequest {
     
-    func startRequestForFetchSettings(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForFetchSettings(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_SETTINGS,
                                      "fetch_voicemails_info": true]
@@ -508,8 +497,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -545,7 +533,6 @@ extension ServiceRequest {
                     ServiceRequest.shared().userProfile.addToSupportContacts(supportContact)
                 }
                 
-                
                 let customSettingsJsonString = responseDics["custom_settings"] as! String
                 let customSettings = RMUtility.parseJSONToArrayOfDictionary(inputString: customSettingsJsonString)
                 for (_, customSetting) in (customSettings?.enumerated())! {
@@ -570,9 +557,9 @@ extension ServiceRequest {
                                 //Search carrier from carrier list with math of carrier info
                                 if let carrierFound = (ServiceRequest.shared().userProfile.primaryContact?.carriers?.allObjects as? [Carrier])?.filter({
                                     if let vsmsID = carrierInfo["vsms_id"] as? Int16 {
-                                        if ($0.networkID == carrierInfo["network_id"] as? String &&
+                                        if $0.networkID == carrierInfo["network_id"] as? String &&
                                             $0.countryCode == carrierInfo["country_cd"] as? String &&
-                                            $0.vsmsNodeID == vsmsID) {
+                                            $0.vsmsNodeID == vsmsID {
                                             return true
                                         }
                                     }
@@ -668,17 +655,16 @@ extension ServiceRequest {
                 ServiceRequest.shared().userProfile.mqttSettings?.mqttUser = responseDics["mqtt_user"] as? String
                 ServiceRequest.shared().userProfile.mqttSettings?.mqttPortSSL = responseDics["mqtt_port_ssl"] as? String
                 ServiceRequest.shared().userProfile.mqttSettings?.mqttDeviceID = responseDics["iv_user_device_id"] as! Int32
-
                 
                 completionHandler(true)
         }
     }
 }
 
-//MARK: - GENERATE_VERIFICATION_CODE API
+// MARK: - GENERATE_VERIFICATION_CODE API
 extension ServiceRequest {
     
-    func startRequestForGenerateVerificationCode(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForGenerateVerificationCode(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.GENERATE_VERIFICATION_CODE,
                                      "sim_opr_mcc_mnc": userProfile.simMCCMNCNumber!,
@@ -689,11 +675,11 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                return
+                            }
                 
                 //Handle response Data
                 completionHandler(true)
@@ -702,10 +688,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - UPDATE_SETTINGS API
+// MARK: - UPDATE_SETTINGS API
 extension ServiceRequest {
     
-    func startRequestForUpdateSettings(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForUpdateSettings(completionHandler:@escaping (Bool) -> Void) {
         
         var carrierDetailsDict = [String: Any]()
         var phoneDetailsDict = [String: Any]()
@@ -743,14 +729,12 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else {
-                    completionHandler(false)
-                    return
-                }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler(false)
+                                return
+                            }
                 
                 //No Response Data coming for local update
                 completionHandler(true)
@@ -759,10 +743,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - GENERATE_PASSWORD API
+// MARK: - GENERATE_PASSWORD API
 extension ServiceRequest {
     
-    func startRequestForGeneratePassword(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForGeneratePassword(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.GENERATE_PASSWORD,
                                      "login_id": userProfile.userID!]
@@ -771,14 +755,12 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else {
-                    completionHandler(false)
-                    return
-                }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler(false)
+                                return
+                            }
                 
                 //No Response Data coming for local update
                 completionHandler(true)
@@ -786,10 +768,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - VERIFY_PASSWORD API
+// MARK: - VERIFY_PASSWORD API
 extension ServiceRequest {
     
-    func startRequestForVerifyPassword(otpString: String, completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForVerifyPassword(otpString: String, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.VERIFY_PASSWORD,
                                      "pwd": otpString,
@@ -800,8 +782,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
@@ -817,24 +798,22 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - UPDATE_PROFILE_INFO API
+// MARK: - UPDATE_PROFILE_INFO API
 extension ServiceRequest {
     
-    func startRequestForUpdateProfileInfo(withProfileInfo profileInfo: inout [String: Any], completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForUpdateProfileInfo(withProfileInfo profileInfo: inout [String: Any], completionHandler:@escaping (Bool) -> Void) {
         
         let params = RMUtility.serverRequestAddCommonData(params: &profileInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else {
-                    completionHandler(false)
-                    return
-                }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler(false)
+                                return
+                            }
                 
                 //No Response Data coming for local update
                 completionHandler(true)
@@ -842,18 +821,17 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - MANAGE_USER_CONTACT API
+// MARK: - MANAGE_USER_CONTACT API
 extension ServiceRequest {
     
-    func startRequestForManageUserContact(withManagedInfo managedInfo: inout [String: Any], completionHandler:@escaping ([String:Any]?, Bool) -> ()) {
+    func startRequestForManageUserContact(withManagedInfo managedInfo: inout [String: Any], completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
         
         let params = RMUtility.serverRequestAddCommonData(params: &managedInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
@@ -864,31 +842,30 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - VOICEMAIL_SETTING API
+// MARK: - VOICEMAIL_SETTING API
 extension ServiceRequest {
     
-    func startRequestForVoicemailSetting(withVoicemailInfo voicemailInfo: inout [String: Any], completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForVoicemailSetting(withVoicemailInfo voicemailInfo: inout [String: Any], completionHandler:@escaping (Bool) -> Void) {
         
         let params = RMUtility.serverRequestAddCommonData(params: &voicemailInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 response.result.isSuccess ? completionHandler(true) : completionHandler(false)
         }
     }
 }
 
-//MARK: - Download Profile Pic
+// MARK: - Download Profile Pic
 extension ServiceRequest {
     
-    func startRequestForDownloadProfilePic(completionHandler:@escaping (Data) -> ()) {
+    func startRequestForDownloadProfilePic(completionHandler:@escaping (Data) -> Void) {
         
-        let _ =  Alamofire.request((ServiceRequest.shared().userProfile.profilePicURL)!)
-            .validate { request, response, imageData in
+        _ =  Alamofire.request((ServiceRequest.shared().userProfile.profilePicURL)!)
+            .validate { _, _, imageData in
                 ServiceRequest.shared().userProfile.profilePicData = imageData
                 CoreDataModel.sharedInstance().saveContext()
                 completionHandler(imageData!)
@@ -897,24 +874,23 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - Download ImaGE
+// MARK: - Download ImaGE
 extension ServiceRequest {
     
-    func startRequestForDownloadImage(forURL downloadURL:String, completionHandler:@escaping (Data) -> ()) {
+    func startRequestForDownloadImage(forURL downloadURL: String, completionHandler:@escaping (Data) -> Void) {
         
-        let _ =  Alamofire.request(downloadURL)
-            .validate { request, response, imageData in
+        _ =  Alamofire.request(downloadURL)
+            .validate { _, _, imageData in
                 completionHandler(imageData!)
                 return .success
         }
     }
 }
 
-
-//MARK: - USAGE_SUMMARY API
+// MARK: - USAGE_SUMMARY API
 extension ServiceRequest {
     
-    func startRequestForUsageSummary(forPhoneNumber number: String, completionHandler:@escaping ([String:Any]?, Bool) -> ()) {
+    func startRequestForUsageSummary(forPhoneNumber number: String, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.USAGE_SUMMARY,
                                      "phone": number]
@@ -923,8 +899,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 //Handle Error
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
@@ -938,10 +913,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - SIGNOUT API
+// MARK: - SIGNOUT API
 extension ServiceRequest {
     
-    func startRequestForSignOut(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForSignOut(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.SIGN_OUT]
         params = RMUtility.serverRequestAddCommonData(params: &params)
@@ -949,11 +924,12 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler(false)
+                                return
+                            }
                 
                 //Handle response Data
                 completionHandler(true)
@@ -961,10 +937,10 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - SET_DEVICEINFO API
+// MARK: - SET_DEVICEINFO API
 extension ServiceRequest {
     
-    func startRequestForSetDeviceInfo(forDeviceToken token:String, completionHandler: (() -> Swift.Void)? = nil) {
+    func startRequestForSetDeviceInfo(forDeviceToken token: String, completionHandler: (() -> Swift.Void)? = nil) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.SET_DEVICEINFO,
                                      "cloud_secure_key": token]
@@ -974,11 +950,11 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                return
+                            }
                 
                 Defaults[.APICloudeSecureKey] = token
                 completionHandler!()
@@ -986,7 +962,7 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - FETCH_MESSAGES API
+// MARK: - FETCH_MESSAGES API
 extension ServiceRequest {
     func startRequestForFetchMessages(completionHandler: ((Bool) -> Swift.Void)?) {
         
@@ -1000,8 +976,7 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
                     completionHandler?(false)
@@ -1015,7 +990,7 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - DELETE_MESSAGE API
+// MARK: - DELETE_MESSAGE API
 extension ServiceRequest {
     func startRequestForDeleteMessage(message: Message, completionHandler: ((Bool) -> Swift.Void)?) {
         
@@ -1027,38 +1002,36 @@ extension ServiceRequest {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else {
-                    completionHandler?(false)
-                    return
-                }
-                
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler?(false)
+                                return
+                            }
+                            
                 completionHandler?(true)
         }
     }
 }
 
-//MARK: - READ_MESSAGE API
+// MARK: - READ_MESSAGE API
 extension ServiceRequest {
     func startRequestForReadMessages(messages: [Message], completionHandler: ((Bool) -> Swift.Void)?) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.READ_MESSAGES,
-                                     "msg_ids": messages.map{$0.messageID},
+                                     "msg_ids": messages.map {$0.messageID},
                                      "msg_ids_type": (messages.first?.fromUserType)!]
         params = RMUtility.serverRequestAddCommonData(params: &params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else {
-                    completionHandler?(false)
-                    return
-                }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                completionHandler?(false)
+                                return
+                            }
                 
                 completionHandler?(true)
         }
@@ -1090,10 +1063,10 @@ extension ServiceRequest {
     return try! (Alamofire.URLEncoding.default.encode(mutableURLRequest, with: nil), uploadData)
 }*/
 
-//MARK: - UPLOAD_PIC API
+// MARK: - UPLOAD_PIC API
 extension ServiceRequest {
     
-    func startRequestForUploadProfilePic(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForUploadProfilePic(completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.UPLOAD_PIC,
                                      "file_name": userProfile.userID!,
@@ -1110,7 +1083,7 @@ extension ServiceRequest {
     }
 }
 
-//MARK: - FETCH_USER_CONTACTS API
+// MARK: - FETCH_USER_CONTACTS API
 extension ServiceRequest { //NOTE: As i observs, all the response parameters of this API are present in "Get Proafile Info" API, since we are saving profile info response so this is no need
     
     func startRequestForFetchUserContacts() {
@@ -1124,11 +1097,11 @@ extension ServiceRequest { //NOTE: As i observs, all the response parameters of 
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
-                //Handle Error
-                guard let _ = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                return
+                            }
                 
                 //Handle response Data
 
@@ -1139,7 +1112,7 @@ extension ServiceRequest { //NOTE: As i observs, all the response parameters of 
 open class ServiceRequestBackground: NSObject {
     override init() { }
     
-    func startRequestForFetchMessages(completionHandler:@escaping (Bool) -> ()) {
+    func startRequestForFetchMessages(completionHandler:@escaping (Bool) -> Void) {
         
         let afterMsgID = (Defaults[.APIFetchAfterMsgID] == nil) ? 0 : Defaults[.APIFetchAfterMsgID] as! Int64
         var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_MESSAGES,
@@ -1151,8 +1124,7 @@ open class ServiceRequestBackground: NSObject {
         
         Alamofire.request(Constants.URL_SERVER,
                           method: .post,
-                          encoding: payload).validate().responseJSON
-            { (response) in
+                          encoding: payload).validate().responseJSON { (response) in
                 
                 guard response.result.isSuccess else {completionHandler(false); return }
                 
@@ -1171,14 +1143,14 @@ extension ServiceRequest: MQTTSessionDelegate {
         ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
         
         //Parse Data to show Local Notification
-        var result: [String:Any]!
+        var result: [String: Any]!
         do {
             result = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
         } catch { print("Error in JSON Parsing of MQTT Received Data") }
         
         var subtitle: String!
         if let apnsInfo = result["aps"] as? [String: Any] {
-            subtitle = (apnsInfo["alert"] as! [String:Any])["body"] as! String
+            subtitle = (apnsInfo["alert"] as! [String: Any])["body"] as! String
             
         } else if let message = (result["msgs"] as? [[String: Any]])?.first, (message["msg_flow"] as! String) == "r" {
             
@@ -1209,7 +1181,7 @@ extension ServiceRequest: MQTTSessionDelegate {
             content.body = subtitle
             content.sound = UNNotificationSound(named: "InstavoiceNotificationTone")
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.01, repeats: false)
-            let request = UNNotificationRequest(identifier:"MQTTLocalNotificationIdentifier", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: "MQTTLocalNotificationIdentifier", content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request)
         }
         

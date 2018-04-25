@@ -80,11 +80,10 @@ class SettingsViewController: UITableViewController {
         let combination = NSMutableAttributedString()
         combination.append(numberCount)
         let extraString = NSMutableAttributedString(string:"------------------------")//To create space temporary adding few charachters
-        extraString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:0,length:24))
+        extraString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:0, length:24))
         combination.append(extraString)
         linkedNumbersCell?.detailTextLabel?.attributedText = combination
         tableCellArray.append([linkedNumbersCell as Any])
-        
         
         //Last Section
         var lastSectionArray = [Any]()
@@ -107,7 +106,6 @@ class SettingsViewController: UITableViewController {
             lastSectionArray.append(carrierSupportCell)
         }
         
-        
         //Version
         let versionCell = tableView.dequeueReusableCell(withIdentifier: "SettingsVersionCell")
         versionCell?.textLabel?.text = "ReachMe \(Bundle.main.infoDictionary!["CFBundleShortVersionString"]!) (\(Bundle.main.infoDictionary!["CFBundleVersion"]!))"
@@ -118,7 +116,7 @@ class SettingsViewController: UITableViewController {
             let data = try Data.init(contentsOf: ituneURL)
             let result = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
             if (result["resultCount"] as! Int) == 1 {
-                let appstoreVersion = ((result["results"] as! [Any]).first as! [String:Any])["version"] as! String
+                let appstoreVersion = ((result["results"] as! [Any]).first as! [String: Any])["version"] as! String
                 let currentVersion = "\(Bundle.main.infoDictionary!["CFBundleShortVersionString"]!).\(Bundle.main.infoDictionary!["CFBundleVersion"]!)"
                 if appstoreVersion == currentVersion {
                     versionCell?.accessoryView = nil
@@ -130,7 +128,6 @@ class SettingsViewController: UITableViewController {
         tableCellArray.append(lastSectionArray)
 
     }
-    
     
     //Button Actions
     @IBAction func onUpdateButtonClicked(_ sender: UIButton) {
@@ -147,7 +144,7 @@ class SettingsViewController: UITableViewController {
             }}})
     }
     
-    //MARK: - Segue Actions
+    // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let userContact = sender as? UserContact, segue.identifier == Constants.Segues.ACTIVATE_REACHME {
             let destVC = segue.destination as! ActivateReachMeViewController
@@ -155,10 +152,9 @@ class SettingsViewController: UITableViewController {
         }
     }
     
-    
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension SettingsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -194,7 +190,6 @@ extension SettingsViewController {
             let changePrimaryCell = tableView.dequeueReusableCell(withIdentifier: "SettingsChangePrimaryCell")
             tableCellArray.insert([changePrimaryCell as Any], at: 2)
             tableView.insertSections(IndexSet(integer: 2), with: .fade)
-            
             
             var numberRowCount = 1
             (userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
@@ -236,7 +231,6 @@ extension SettingsViewController {
             //Remove Change Primary
             tableCellArray.remove(at: 2)
             tableView.deleteSections(IndexSet(integer: 2), with: .fade)
-
             
         } else if tableCell?.tag == 3 {//Change Primary Number
             
@@ -264,7 +258,6 @@ extension SettingsViewController {
                             ServiceRequest.shared().startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
                                 ANLoader.hide()
                                 guard success else { return }
-                                
                                 
                                 //Change existing primary contact to false
                                 for contact in (self.userProfile?.userContacts?.allObjects as? [UserContact])! {
@@ -307,7 +300,6 @@ extension SettingsViewController {
                 _ = alertFit.action(.cancel("Cancel"))
                 alertFit.show()
             }
-
             
         } else if tableCell?.tag == 4 {//Link New
             guard let contactCounts = userProfile?.userContacts?.count, contactCounts <= 11 else {
@@ -320,7 +312,6 @@ extension SettingsViewController {
                 return
             }
             
-            
         } else if tableCell?.tag == 5 { //Secondary Number
             let predicate = NSPredicate(format: "formatedNumber == %@", (tableCell?.textLabel?.text)!)
             let userContact = userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
@@ -329,7 +320,6 @@ extension SettingsViewController {
                 return
             }
             performSegue(withIdentifier: Constants.Segues.ACTIVATE_REACHME, sender: userContact)
-
             
         } else if tableCell?.tag == 6 { //Primary Number
             performSegue(withIdentifier: Constants.Segues.ACTIVATE_REACHME, sender: nil)

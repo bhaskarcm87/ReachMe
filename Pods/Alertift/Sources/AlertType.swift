@@ -82,9 +82,6 @@ extension AlertType {
         return self
     }
     
-    
-
-    
     /// Change background color
     ///
     /// - Parameter color: UIColor
@@ -138,7 +135,6 @@ extension AlertType {
         _inner._alertController.messageTextAlignment = alignment
         return self
     }
-
     
     /// Show alert (or action sheet).
     ///

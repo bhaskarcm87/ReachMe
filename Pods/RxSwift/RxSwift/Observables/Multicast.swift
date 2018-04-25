@@ -10,8 +10,7 @@
  Represents an observable wrapper that can be connected and disconnected from its underlying observable sequence.
  */
 public class ConnectableObservable<Element>
-    : Observable<Element>
-    , ConnectableObservableType {
+    : Observable<Element>, ConnectableObservableType {
 
     /**
      Connects the observable wrapper to its source. All subscribed observers will receive values from the underlying observable sequence as long as the connection is established.
@@ -147,13 +146,13 @@ extension ObservableType {
     }
 }
 
-final fileprivate class Connection<S: SubjectType> : ObserverType, Disposable {
+final private class Connection<S: SubjectType> : ObserverType, Disposable {
     typealias E = S.SubjectObserverType.E
 
     private var _lock: RecursiveLock
     // state
     private var _parent: ConnectableObservableAdapter<S>?
-    private var _subscription : Disposable?
+    private var _subscription: Disposable?
     private var _subjectObserver: S.SubjectObserverType
 
     private var _disposed: Bool = false
@@ -194,7 +193,7 @@ final fileprivate class Connection<S: SubjectType> : ObserverType, Disposable {
     }
 }
 
-final fileprivate class ConnectableObservableAdapter<S: SubjectType>
+final private class ConnectableObservableAdapter<S: SubjectType>
     : ConnectableObservable<S.E> {
     typealias ConnectionType = Connection<S>
 
@@ -239,14 +238,13 @@ final fileprivate class ConnectableObservableAdapter<S: SubjectType>
         return subject
     }
 
-    override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == S.E {
+    override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == S.E {
         return self.lazySubject.subscribe(observer)
     }
 }
 
-final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverType>
-    : Sink<O>
-    , ObserverType where CO.E == O.E {
+final private class RefCountSink<CO: ConnectableObservableType, O: ObserverType>
+    : Sink<O>, ObserverType where CO.E == O.E {
     typealias Element = O.E
     typealias Parent = RefCount<CO>
 
@@ -272,8 +270,7 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
         if _parent._count == 0 {
             _parent._count = 1
             _parent._connectableSubscription = _parent._source.connect()
-        }
-        else {
+        } else {
             _parent._count = _parent._count + 1
         }
         // }
@@ -292,11 +289,9 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
 
                 connectableSubscription.dispose()
                 self._parent._connectableSubscription = nil
-            }
-            else if self._parent._count > 1 {
+            } else if self._parent._count > 1 {
                 self._parent._count = self._parent._count - 1
-            }
-            else {
+            } else {
                 rxFatalError("Something went wrong with RefCount disposing mechanism")
             }
             // }
@@ -324,7 +319,7 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
     }
 }
 
-final fileprivate class RefCount<CO: ConnectableObservableType>: Producer<CO.E> {
+final private class RefCount<CO: ConnectableObservableType>: Producer<CO.E> {
     fileprivate let _lock = RecursiveLock()
 
     // state
@@ -345,7 +340,7 @@ final fileprivate class RefCount<CO: ConnectableObservableType>: Producer<CO.E> 
     }
 }
 
-final fileprivate class MulticastSink<S: SubjectType, O: ObserverType>: Sink<O>, ObserverType {
+final private class MulticastSink<S: SubjectType, O: ObserverType>: Sink<O>, ObserverType {
     typealias Element = O.E
     typealias ResultType = Element
     typealias MutlicastType = Multicast<S, O.E>
@@ -368,8 +363,7 @@ final fileprivate class MulticastSink<S: SubjectType, O: ObserverType>: Sink<O>,
             let connection = connectable.connect()
                 
             return Disposables.create(subscription, connection)
-        }
-        catch let e {
+        } catch let e {
             forwardOn(.error(e))
             dispose()
             return Disposables.create()
@@ -386,7 +380,7 @@ final fileprivate class MulticastSink<S: SubjectType, O: ObserverType>: Sink<O>,
     }
 }
 
-final fileprivate class Multicast<S: SubjectType, R>: Producer<R> {
+final private class Multicast<S: SubjectType, R>: Producer<R> {
     typealias SubjectSelectorType = () throws -> S
     typealias SelectorType = (Observable<S.E>) throws -> Observable<R>
     

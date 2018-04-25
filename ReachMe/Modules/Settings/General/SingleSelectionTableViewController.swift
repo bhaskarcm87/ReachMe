@@ -14,7 +14,6 @@ import SwiftyUserDefaults
     @objc optional func onSelection(_ selectionType: SelectionType)
 }
 
-
 @objc public enum SelectionType: Int {
     case ringTone
     case notificationTone
@@ -104,8 +103,8 @@ final class SingleSelectionTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Custom Methods
-    func populateList(with path: String){
+    // MARK: - Custom Methods
+    func populateList(with path: String) {
         let directoryURL: URL = URL(fileURLWithPath: path, isDirectory: true)
         
         do {
@@ -133,7 +132,6 @@ final class SingleSelectionTableViewController: UITableViewController {
         
         sortAllKeys()
         
-        
     }
     
     //Sort all keys
@@ -147,7 +145,7 @@ final class SingleSelectionTableViewController: UITableViewController {
     
 }
 
-//MARK: - TableView Datasource
+// MARK: - TableView Datasource
 extension SingleSelectionTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -166,7 +164,7 @@ extension SingleSelectionTableViewController {
     }
 }
 
-//MARK: - TableView Delegate
+// MARK: - TableView Delegate
 extension SingleSelectionTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -180,11 +178,10 @@ extension SingleSelectionTableViewController {
             if indexPath.row != 0 {
                 filePath = "/System/Library/Audio/UISounds"
                 filePath = (filePath as NSString?)?.appendingPathComponent((selectionList[sortedKeys[indexPath.row]])!)
-            } else{
+            } else {
                 filePath = selectionList[sortedKeys[indexPath.row]]!
             }
         }
-        
         
         if indexPath.row == 0 {
             if let audio = audioController.audioPlayer, audio.isPlaying {
@@ -192,7 +189,7 @@ extension SingleSelectionTableViewController {
                 return
             }
             let fileURL: URL = URL(fileURLWithPath: filePath!)
-            do{
+            do {
                 audioController.audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
                 audioController.audioPlayer?.play()
             } catch {
@@ -204,13 +201,12 @@ extension SingleSelectionTableViewController {
             }
         }
         
-        
         //Save
         switch listSelectionType {
         case .ringTone:
             if indexPath.row == 0 {
                 Defaults[.isRingtoneSet] = false
-            } else if indexPath.row == 1{
+            } else if indexPath.row == 1 {
                 Defaults[.isRingtoneSet] = true
             }
             //Constants.appDelegate.setRingTone()
@@ -226,7 +222,7 @@ extension SingleSelectionTableViewController {
     
 }
 
-//MARK: - Table Cell
+// MARK: - Table Cell
 final class SingleSelctionTableCell: UITableViewCell {
     
     static let identifier = String(describing: SingleSelctionTableCell.self)
@@ -254,8 +250,7 @@ final class SingleSelctionTableCell: UITableViewCell {
     }
 }
 
-
-//MARK: - AudioController Class
+// MARK: - AudioController Class
 final class AudioController: NSObject {
     var audioPlayer: AVAudioPlayer?
     class func sharedInstance() -> AudioController {
@@ -264,4 +259,3 @@ final class AudioController: NSObject {
 }
 ///Model singleton so that we can refer to this from throughout the app.
 let appControllerSingletonGlobal = AudioController()
-

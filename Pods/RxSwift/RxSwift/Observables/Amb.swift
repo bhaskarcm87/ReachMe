@@ -39,13 +39,13 @@ extension ObservableType {
     }
 }
 
-fileprivate enum AmbState {
+private enum AmbState {
     case neither
     case left
     case right
 }
 
-final fileprivate class AmbObserver<O: ObserverType> : ObserverType {
+final private class AmbObserver<O: ObserverType> : ObserverType {
     typealias Element = O.E
     typealias Parent = AmbSink<O>
     typealias This = AmbObserver<O>
@@ -57,7 +57,7 @@ final fileprivate class AmbObserver<O: ObserverType> : ObserverType {
     
     init(parent: Parent, cancel: Disposable, sink: @escaping Sink) {
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
         
         _parent = parent
@@ -74,12 +74,12 @@ final fileprivate class AmbObserver<O: ObserverType> : ObserverType {
     
     deinit {
 #if TRACE_RESOURCES
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
 #endif
     }
 }
 
-final fileprivate class AmbSink<O: ObserverType> : Sink<O> {
+final private class AmbSink<O: ObserverType> : Sink<O> {
     typealias ElementType = O.E
     typealias Parent = Amb<ElementType>
     typealias AmbObserverType = AmbObserver<O>
@@ -140,7 +140,7 @@ final fileprivate class AmbSink<O: ObserverType> : Sink<O> {
     }
 }
 
-final fileprivate class Amb<Element>: Producer<Element> {
+final private class Amb<Element>: Producer<Element> {
     fileprivate let _left: Observable<Element>
     fileprivate let _right: Observable<Element>
     
@@ -149,7 +149,7 @@ final fileprivate class Amb<Element>: Producer<Element> {
         _right = right
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = AmbSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

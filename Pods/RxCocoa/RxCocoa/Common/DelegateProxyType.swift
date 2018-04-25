@@ -188,8 +188,7 @@ extension DelegateProxyType {
         let proxy: AnyObject
         if let existingProxy = maybeProxy {
             proxy = existingProxy
-        }
-        else {
+        } else {
             proxy = castOrFatalError(self.createProxy(for: object))
             self.assignProxy(proxy, toObject: object)
             assert(self.assignedProxy(for: object) === proxy)
@@ -238,7 +237,6 @@ extension DelegateProxyType {
         }
     }
 }
-
 
 // fileprivate extensions
 extension DelegateProxyType {
@@ -300,8 +298,7 @@ extension DelegateProxyType where ParentObject: HasDataSource, Self.Delegate == 
         extension ObservableType {
             func subscribeProxyDataSource<DelegateProxy: DelegateProxyType>(ofObject object: DelegateProxy.ParentObject, dataSource: DelegateProxy.Delegate, retainDataSource: Bool, binding: @escaping (DelegateProxy, Event<E>) -> Void)
                 -> Disposable
-                where DelegateProxy.ParentObject: UIView
-                , DelegateProxy.Delegate: AnyObject {
+                where DelegateProxy.ParentObject: UIView, DelegateProxy.Delegate: AnyObject {
                 let proxy = DelegateProxy.proxy(for: object)
                 let unregisterDelegate = DelegateProxy.installForwardDelegate(dataSource, retainDelegate: retainDataSource, onProxyForObject: object)
                 // this is needed to flush any delayed old state (https://github.com/RxSwiftCommunity/RxDataSources/pull/75)

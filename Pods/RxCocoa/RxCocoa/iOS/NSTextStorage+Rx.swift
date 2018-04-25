@@ -20,7 +20,7 @@
         }
 
         /// Reactive wrapper for `delegate` message.
-        public var didProcessEditingRangeChangeInLength: Observable<(editedMask:NSTextStorageEditActions, editedRange:NSRange, delta:Int)> {
+        public var didProcessEditingRangeChangeInLength: Observable<(editedMask: NSTextStorageEditActions, editedRange: NSRange, delta: Int)> {
             return delegate
                 .methodInvoked(#selector(NSTextStorageDelegate.textStorage(_:didProcessEditing:range:changeInLength:)))
                 .map { a in

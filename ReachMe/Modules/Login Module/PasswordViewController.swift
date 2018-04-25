@@ -21,7 +21,6 @@ class PasswordViewController: UIViewController {
     @IBOutlet weak var continueButton: UIButton!
     private let disposeBag = DisposeBag()
     var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +34,7 @@ class PasswordViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     private func setupTextChangeHandling() {
         passwordTextField.setValue(UIColor.white, forKeyPath: "_placeholderLabel.textColor")
         passwordTextField.rx.controlEvent(.editingDidBegin)
@@ -58,14 +57,14 @@ class PasswordViewController: UIViewController {
         let trimmedString = text.trimmingCharacters(in: .whitespacesAndNewlines)
         passwordTextField.text = trimmedString
         if (trimmedString.count >= Constants.PASSWORD_MIN_LENGTH),
-            (trimmedString.count <= Constants.PASSWORD_MAX_LENGTH){
+            (trimmedString.count <= Constants.PASSWORD_MAX_LENGTH) {
             return true
         }
         
         return false
     }
 
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func didPressOnView(_ sender: UITapGestureRecognizer) {
         UIView.animate(withDuration: 0.2) {
                 self.logoTopConstraint.constant = 20
@@ -106,7 +105,7 @@ class PasswordViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
  
-    //MARK:- Unwind Action
-    @IBAction func unwindToPasswordViewControllre(segue:UIStoryboardSegue) {}
+    // MARK: - Unwind Action
+    @IBAction func unwindToPasswordViewControllre(segue: UIStoryboardSegue) {}
 
 }

@@ -121,7 +121,7 @@ class VPMOTPView: UIView {
         super.awakeFromNib()
     }
     
-    //MARK: Public functions
+    // MARK: Public functions
     /// Call this method to create the OTP field view. This method should be called at the last after necessary customization needed. If any property is modified at a later stage is simply ignored.
     func initalizeUI() {
         self.layer.masksToBounds = true
@@ -133,7 +133,7 @@ class VPMOTPView: UIView {
         (viewWithTag(1) as? VPMOTPTextField)?.becomeFirstResponder()
     }
     
-    //MARK: Private functions
+    // MARK: Private functions
     // Set up the fields
     fileprivate func initalizeOTPFields() {
         secureEntryData.removeAll()
@@ -160,8 +160,7 @@ class VPMOTPView: UIView {
         if hasOddNumberOfFields {
             // Calculate from middle each fields x and y values so as to align the entire view in center
             fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(otpFieldsCount / 2 - index) * (otpFieldSize + otpFieldSeparatorSpace) + otpFieldSize / 2)
-        }
-        else {
+        } else {
             // Calculate from middle each fields x and y values so as to align the entire view in center
             fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(otpFieldsCount / 2 - index) * otpFieldSize + CGFloat(otpFieldsCount / 2 - index - 1) * otpFieldSeparatorSpace + otpFieldSeparatorSpace / 2)
         }
@@ -189,8 +188,7 @@ class VPMOTPView: UIView {
         
         if shouldRequireCursor {
             otpField.tintColor = cursorColor
-        }
-        else {
+        } else {
             otpField.tintColor = UIColor.clear
         }
         
@@ -234,8 +232,7 @@ class VPMOTPView: UIView {
     fileprivate func calculateEnteredOTPSTring(isDeleted: Bool) {
         if isDeleted {
             delegate?.hasEnteredAllOTP(hasEntered: false)
-        }
-        else {
+        } else {
             var enteredOTPString = ""
             
             // Check for entered OTP
@@ -279,12 +276,10 @@ extension VPMOTPView: UITextFieldDelegate {
             
             if otpFilledEntryDisplay {
                 textField.text = " "
-            }
-            else {
+            } else {
                 if otpFieldEntrySecureType {
                     textField.text = "*"
-                }
-                else {
+                } else {
                     textField.text = string
                 }
             }
@@ -292,8 +287,7 @@ extension VPMOTPView: UITextFieldDelegate {
             if otpFieldDisplayType == .diamond || otpFieldDisplayType == .underlinedBottom {
                 (textField as! VPMOTPTextField).shapeLayer.fillColor = otpFieldEnteredBackgroundColor.cgColor
                 (textField as! VPMOTPTextField).shapeLayer.strokeColor = otpFieldEnteredBorderColor.cgColor
-            }
-            else {
+            } else {
                 textField.backgroundColor = otpFieldEnteredBackgroundColor
                 textField.layer.borderColor = otpFieldEnteredBorderColor.cgColor
             }
@@ -302,15 +296,13 @@ extension VPMOTPView: UITextFieldDelegate {
             
             if let nextOTPField = nextOTPField {
                 nextOTPField.becomeFirstResponder()
-            }
-            else {
+            } else {
                 textField.resignFirstResponder()
             }
             
             // Get the entered string
             calculateEnteredOTPSTring(isDeleted: false)
-        }
-        else {
+        } else {
             // If deleting the text, then move to previous text field if present
             secureEntryData[textField.tag - 1] = ""
             textField.text = ""
@@ -318,8 +310,7 @@ extension VPMOTPView: UITextFieldDelegate {
             if otpFieldDisplayType == .diamond || otpFieldDisplayType == .underlinedBottom {
                 (textField as! VPMOTPTextField).shapeLayer.fillColor = otpFieldDefaultBackgroundColor.cgColor
                 (textField as! VPMOTPTextField).shapeLayer.strokeColor = otpFieldDefaultBorderColor.cgColor
-            }
-            else {
+            } else {
                 textField.backgroundColor = otpFieldDefaultBackgroundColor
                 textField.layer.borderColor = otpFieldDefaultBorderColor.cgColor
             }

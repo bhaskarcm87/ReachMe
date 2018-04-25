@@ -24,7 +24,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class GenerateSink<S, O: ObserverType> : Sink<O> {
+final private class GenerateSink<S, O: ObserverType> : Sink<O> {
     typealias Parent = Generate<S, O.E>
     
     private let _parent: Parent
@@ -49,13 +49,11 @@ final fileprivate class GenerateSink<S, O: ObserverType> : Sink<O> {
                     self.forwardOn(.next(result))
                     
                     recurse(false)
-                }
-                else {
+                } else {
                     self.forwardOn(.completed)
                     self.dispose()
                 }
-            }
-            catch let error {
+            } catch let error {
                 self.forwardOn(.error(error))
                 self.dispose()
             }
@@ -63,7 +61,7 @@ final fileprivate class GenerateSink<S, O: ObserverType> : Sink<O> {
     }
 }
 
-final fileprivate class Generate<S, E> : Producer<E> {
+final private class Generate<S, E> : Producer<E> {
     fileprivate let _initialState: S
     fileprivate let _condition: (S) throws -> Bool
     fileprivate let _iterate: (S) throws -> S
@@ -79,7 +77,7 @@ final fileprivate class Generate<S, E> : Producer<E> {
         super.init()
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = GenerateSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

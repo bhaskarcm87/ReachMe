@@ -230,7 +230,7 @@ extension PrimitiveSequence {
      - returns: An observable sequence with a `RxError.timeout` in case of a timeout.
      */
     public func timeout(_ dueTime: RxTimeInterval, scheduler: SchedulerType)
-        -> PrimitiveSequence<Trait, Element>  {
+        -> PrimitiveSequence<Trait, Element> {
             return PrimitiveSequence<Trait, Element>(raw: primitiveSequence.source.timeout(dueTime, scheduler: scheduler))
     }
     
@@ -251,8 +251,7 @@ extension PrimitiveSequence {
     }
 }
 
-extension PrimitiveSequenceType where ElementType: RxAbstractInteger
-{
+extension PrimitiveSequenceType where ElementType: RxAbstractInteger {
     /**
      Returns an observable sequence that periodically produces a value after the specified initial relative due time has elapsed, using the specified scheduler to run timers.
 
@@ -263,7 +262,7 @@ extension PrimitiveSequenceType where ElementType: RxAbstractInteger
      - returns: An observable sequence that produces a value after due time has elapsed and then each period.
      */
     public static func timer(_ dueTime: RxTimeInterval, scheduler: SchedulerType)
-        -> PrimitiveSequence<TraitType, ElementType>  {
+        -> PrimitiveSequence<TraitType, ElementType> {
         return PrimitiveSequence(raw: Observable<ElementType>.timer(dueTime, scheduler: scheduler))
     }
 }

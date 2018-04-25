@@ -34,11 +34,8 @@ extension ObservableType {
     }
 }
 
-final fileprivate class WithLatestFromSink<FirstType, SecondType, O: ObserverType>
-    : Sink<O>
-    , ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class WithLatestFromSink<FirstType, SecondType, O: ObserverType>
+    : Sink<O>, ObserverType, LockOwnerType, SynchronizedOnType {
     typealias ResultType = O.E
     typealias Parent = WithLatestFrom<FirstType, SecondType, ResultType>
     typealias E = FirstType
@@ -90,10 +87,8 @@ final fileprivate class WithLatestFromSink<FirstType, SecondType, O: ObserverTyp
     }
 }
 
-final fileprivate class WithLatestFromSecond<FirstType, SecondType, O: ObserverType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class WithLatestFromSecond<FirstType, SecondType, O: ObserverType>
+    : ObserverType, LockOwnerType, SynchronizedOnType {
     
     typealias ResultType = O.E
     typealias Parent = WithLatestFromSink<FirstType, SecondType, O>
@@ -128,7 +123,7 @@ final fileprivate class WithLatestFromSecond<FirstType, SecondType, O: ObserverT
     }
 }
 
-final fileprivate class WithLatestFrom<FirstType, SecondType, ResultType>: Producer<ResultType> {
+final private class WithLatestFrom<FirstType, SecondType, ResultType>: Producer<ResultType> {
     typealias ResultSelector = (FirstType, SecondType) throws -> ResultType
     
     fileprivate let _first: Observable<FirstType>
@@ -141,7 +136,7 @@ final fileprivate class WithLatestFrom<FirstType, SecondType, ResultType>: Produ
         _resultSelector = resultSelector
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == ResultType {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == ResultType {
         let sink = WithLatestFromSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

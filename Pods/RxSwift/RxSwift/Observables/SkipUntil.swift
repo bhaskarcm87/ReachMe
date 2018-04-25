@@ -22,10 +22,8 @@ extension ObservableType {
     }
 }
 
-final fileprivate class SkipUntilSinkOther<Other, O: ObserverType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class SkipUntilSinkOther<Other, O: ObserverType>
+    : ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Parent = SkipUntilSink<Other, O>
     typealias E = Other
     
@@ -40,7 +38,7 @@ final fileprivate class SkipUntilSinkOther<Other, O: ObserverType>
     init(parent: Parent) {
         _parent = parent
         #if TRACE_RESOURCES
-            let _ = Resources.incrementTotal()
+            _ = Resources.incrementTotal()
         #endif
     }
 
@@ -63,18 +61,14 @@ final fileprivate class SkipUntilSinkOther<Other, O: ObserverType>
     
     #if TRACE_RESOURCES
     deinit {
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
     }
     #endif
 
 }
 
-
-final fileprivate class SkipUntilSink<Other, O: ObserverType>
-    : Sink<O>
-    , ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class SkipUntilSink<Other, O: ObserverType>
+    : Sink<O>, ObserverType, LockOwnerType, SynchronizedOnType {
     typealias E = O.E
     typealias Parent = SkipUntil<E, Other>
     
@@ -121,7 +115,7 @@ final fileprivate class SkipUntilSink<Other, O: ObserverType>
     }
 }
 
-final fileprivate class SkipUntil<Element, Other>: Producer<Element> {
+final private class SkipUntil<Element, Other>: Producer<Element> {
     
     fileprivate let _source: Observable<Element>
     fileprivate let _other: Observable<Other>
@@ -131,7 +125,7 @@ final fileprivate class SkipUntil<Element, Other>: Producer<Element> {
         _other = other
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = SkipUntilSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

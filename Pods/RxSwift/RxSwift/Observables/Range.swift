@@ -22,7 +22,7 @@ extension ObservableType where E : RxAbstractInteger {
     }
 }
 
-final fileprivate class RangeProducer<E: RxAbstractInteger> : Producer<E> {
+final private class RangeProducer<E: RxAbstractInteger> : Producer<E> {
     fileprivate let _start: E
     fileprivate let _count: E
     fileprivate let _scheduler: ImmediateSchedulerType
@@ -41,14 +41,14 @@ final fileprivate class RangeProducer<E: RxAbstractInteger> : Producer<E> {
         _scheduler = scheduler
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = RangeSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
     }
 }
 
-final fileprivate class RangeSink<O: ObserverType> : Sink<O> where O.E: RxAbstractInteger {
+final private class RangeSink<O: ObserverType> : Sink<O> where O.E: RxAbstractInteger {
     typealias Parent = RangeProducer<O.E>
     
     private let _parent: Parent
@@ -63,8 +63,7 @@ final fileprivate class RangeSink<O: ObserverType> : Sink<O> where O.E: RxAbstra
             if i < self._parent._count {
                 self.forwardOn(.next(self._parent._start + i))
                 recurse(i + 1)
-            }
-            else {
+            } else {
                 self.forwardOn(.completed)
                 self.dispose()
             }

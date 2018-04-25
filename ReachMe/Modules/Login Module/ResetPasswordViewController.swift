@@ -60,7 +60,7 @@ class ResetPasswordViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     private func setupTextChangeHandling() {
         //New field
         passwordTextField.setValue(UIColor.white, forKeyPath: "_placeholderLabel.textColor")
@@ -76,7 +76,6 @@ class ResetPasswordViewController: UIViewController {
             .map {
                 self.validateNewPassField(text: $0!)
         }
-        
 
         //Confirm Field
         confirmPasswordTextField.setValue(UIColor.white, forKeyPath: "_placeholderLabel.textColor")
@@ -95,8 +94,7 @@ class ResetPasswordViewController: UIViewController {
         
         //Continue Button enable handle
         var continueEnabled: Observable<Bool>
-        continueEnabled = Observable.combineLatest(newPassText, confirmPassText)
-        { newpass, confrimpass in
+        continueEnabled = Observable.combineLatest(newPassText, confirmPassText) { newpass, confrimpass in
                 newpass.isValid &&
                 confrimpass.isValid &&
                 self.passwordTextField.text! == self.confirmPasswordTextField.text!
@@ -111,22 +109,22 @@ class ResetPasswordViewController: UIViewController {
             return .passLenthMismathc
         } else if let confirmtext = passwordTextField.text, !confirmtext.isEmpty, confirmtext != text {
             return .confirmNotMatch
-        }else {
+        } else {
             return .ok
         }
     }
     
     func validateConfirmPassField(text: String) -> ValidationResult {
-        if text.count < Constants.PASSWORD_MIN_LENGTH || text.count > Constants.PASSWORD_MAX_LENGTH{
+        if text.count < Constants.PASSWORD_MIN_LENGTH || text.count > Constants.PASSWORD_MAX_LENGTH {
             return .passLenthMismathc
         } else if text != confirmPasswordTextField.text {
             return .confirmNotMatch
-        }else {
+        } else {
             return .ok
         }
     }
     
-    //MARK: - Actions
+    // MARK: - Actions
     @IBAction func onContinueClicked(_ sender: UIButton) {
         
         ANLoader.showLoading("", disableUI: true)
@@ -152,4 +150,3 @@ class ResetPasswordViewController: UIViewController {
         }
     }
 }
-

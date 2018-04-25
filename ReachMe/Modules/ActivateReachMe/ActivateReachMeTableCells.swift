@@ -223,4 +223,3 @@ class ActivateReachMeFinishCell: UITableViewCell {
         
     }
 }
-

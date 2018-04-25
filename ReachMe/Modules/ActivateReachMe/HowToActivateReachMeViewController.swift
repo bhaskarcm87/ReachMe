@@ -9,13 +9,11 @@
 import UIKit
 import CountdownLabel
 
-
 class HowToActivateReachMeViewController: UITableViewController {
 
     var reachMeType: RMUtility.ReachMeType = .voicemail
     var userContact: UserContact!
     var timer = CountdownLabel()
-
 
     @IBOutlet weak var headerTitle: UILabel!
     @IBOutlet weak var imageView1: UIImageView!
@@ -77,7 +75,7 @@ class HowToActivateReachMeViewController: UITableViewController {
         timer.start()
     }
 
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onActivateButtonClicked(_ sender: UIButton) {
         
         if (userContact.selectedCarrier?.isHLREnabled)! {
@@ -116,7 +114,7 @@ class HowToActivateReachMeViewController: UITableViewController {
         RMUtility.handleHelpSupportAction(withHelpText: nil)
     }
     
-    //MARK: - Segue Actions
+    // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segues.ACTIVATION_REACHME {
             let destVC = segue.destination as! ActivationReachMeViewController
@@ -128,7 +126,7 @@ class HowToActivateReachMeViewController: UITableViewController {
     }
 }
 
-//MARK: - TableView Delegate
+// MARK: - TableView Delegate
 extension HowToActivateReachMeViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == 5 else { return }
@@ -146,4 +144,3 @@ extension HowToActivateReachMeViewController {
         return UITableViewAutomaticDimension
     }
 }
-

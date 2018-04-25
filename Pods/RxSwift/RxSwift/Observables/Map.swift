@@ -23,7 +23,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, ObserverType {
+final private class MapSink<SourceType, O: ObserverType> : Sink<O>, ObserverType {
     typealias Transform = (SourceType) throws -> ResultType
 
     typealias ResultType = O.E
@@ -42,8 +42,7 @@ final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, Observe
             do {
                 let mappedElement = try _transform(element)
                 forwardOn(.next(mappedElement))
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
@@ -58,7 +57,7 @@ final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, Observe
 }
 
 #if TRACE_RESOURCES
-    fileprivate var _numberOfMapOperators: AtomicInt = 0
+    private var _numberOfMapOperators: AtomicInt = 0
     extension Resources {
         public static var numberOfMapOperators: Int32 {
             return _numberOfMapOperators.valueSnapshot()
@@ -70,7 +69,7 @@ internal func _map<Element, R>(source: Observable<Element>, transform: @escaping
     return Map(source: source, transform: transform)
 }
 
-final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
+final private class Map<SourceType, ResultType>: Producer<ResultType> {
     typealias Transform = (SourceType) throws -> ResultType
 
     private let _source: Observable<SourceType>
@@ -82,7 +81,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
         _transform = transform
 
 #if TRACE_RESOURCES
-        let _ = AtomicIncrement(&_numberOfMapOperators)
+        _ = AtomicIncrement(&_numberOfMapOperators)
 #endif
     }
 
@@ -102,7 +101,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
 
     #if TRACE_RESOURCES
     deinit {
-        let _ = AtomicDecrement(&_numberOfMapOperators)
+        _ = AtomicDecrement(&_numberOfMapOperators)
     }
     #endif
 }

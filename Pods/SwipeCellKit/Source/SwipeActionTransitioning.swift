@@ -14,7 +14,7 @@ public protocol SwipeActionTransitioning {
     /**
      Tells the delegate that transition change has occured.
      */
-    func didTransition(with context: SwipeActionTransitioningContext) -> Void
+    func didTransition(with context: SwipeActionTransitioningContext)
 }
 
 /**
@@ -88,7 +88,7 @@ public struct ScaleTransition: SwipeActionTransitioning {
     }
     
     /// :nodoc:
-    public func didTransition(with context: SwipeActionTransitioningContext) -> Void {
+    public func didTransition(with context: SwipeActionTransitioningContext) {
         if context.oldPercentVisible == 0 {
             context.button.transform = .init(scaleX: initialScale, y: initialScale)
         }

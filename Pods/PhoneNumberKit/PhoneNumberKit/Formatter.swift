@@ -19,7 +19,6 @@ final class Formatter {
     init(regexManager: RegexManager) {
         self.regexManager = regexManager
     }
-
     
     // MARK: Formatting functions
     
@@ -51,8 +50,7 @@ final class Formatter {
         if let extns = numberExtension {
             if let preferredExtnPrefix = regionMetadata.preferredExtnPrefix {
                 return "\(preferredExtnPrefix)\(extns)"
-            }
-            else {
+            } else {
                 return "\(PhoneNumberConstants.defaultExtnPrefix)\(extns)"
             }
         }
@@ -75,14 +73,13 @@ final class Formatter {
                 if (regexManager.stringPositionByRegex(leadingDigitPattern, string: String(nationalNumber)) == 0) {
                     if (regexManager.matchesEntirely(format.pattern, string: String(nationalNumber))) {
                         selectedFormat = format
-                        break;
+                        break
                     }
                 }
-            }
-            else {
+            } else {
                 if (regexManager.matchesEntirely(format.pattern, string: String(nationalNumber))) {
                     selectedFormat = format
-                    break;
+                    break
                 }
             }
         }
@@ -96,16 +93,14 @@ final class Formatter {
                 prefixFormattingRule = regexManager.replaceStringByRegex(PhoneNumberPatterns.npPattern, string: nationalPrefixFormattingRule, template: nationalPrefix)
                 prefixFormattingRule = regexManager.replaceStringByRegex(PhoneNumberPatterns.fgPattern, string: prefixFormattingRule, template:"\\$1")
             }
-            if formatType == PhoneNumberFormat.national && regexManager.hasValue(prefixFormattingRule){
+            if formatType == PhoneNumberFormat.national && regexManager.hasValue(prefixFormattingRule) {
                 let replacePattern = regexManager.replaceFirstStringByRegex(PhoneNumberPatterns.firstGroupPattern, string: numberFormatRule, templateString: prefixFormattingRule)
                 formattedNationalNumber = regexManager.replaceStringByRegex(pattern, string: nationalNumber, template: replacePattern)
-            }
-            else {
+            } else {
                 formattedNationalNumber = regexManager.replaceStringByRegex(pattern, string: nationalNumber, template: numberFormatRule)
             }
             return formattedNationalNumber
-        }
-        else {
+        } else {
             return nationalNumber
         }
     }
@@ -121,8 +116,7 @@ public extension PhoneNumber {
     public func adjustedNationalNumber() -> String {
         if self.leadingZero == true {
             return "0" + String(nationalNumber)
-        }
-        else {
+        } else {
             return String(nationalNumber)
         }
     }

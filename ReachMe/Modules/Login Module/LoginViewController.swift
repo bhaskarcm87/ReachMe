@@ -35,7 +35,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var numberTextField: PhoneNumberTextField!
     var userProfile: Profile!
     let coreData = CoreDataModel.sharedInstance()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +55,7 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Actions
+    // MARK: - Actions
     @IBAction func onLinkGestureClicked(_ sender: UITapGestureRecognizer) {
         
         let text = (termsOfUseLabel.text)!
@@ -81,7 +80,6 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onSignInClicked(_ sender: UIButton) {
-    
             
          Alertift.alert(title: "Confirm mobile number",
                        message: """
@@ -145,7 +143,7 @@ class LoginViewController: UIViewController {
         didPressOnView(UITapGestureRecognizer())
     }
     
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     private func setupCountry() {
         
         countryPicker.delegate = self
@@ -180,7 +178,7 @@ class LoginViewController: UIViewController {
         return numberTextField.isValidNumber
     }
     
-    //MARK: - Segue Action
+    // MARK: - Segue Action
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segues.TERMS_CONDITIONS {
             let destVC = segue.destination as! WebViewController
@@ -189,12 +187,12 @@ class LoginViewController: UIViewController {
         }
     }
     
-    //MARK:- Unwind Action
-    @IBAction func unwindToLoginViewControllre(segue:UIStoryboardSegue) {}
+    // MARK: - Unwind Action
+    @IBAction func unwindToLoginViewControllre(segue: UIStoryboardSegue) {}
 
 }
 
-//MARK: - CountryPicker Delegate & Datasource
+// MARK: - CountryPicker Delegate & Datasource
 extension LoginViewController: CountryPickerViewDelegate {
     
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
@@ -243,5 +241,3 @@ extension LoginViewController: CountryPickerViewDataSource {
     }
 
 }
-
-

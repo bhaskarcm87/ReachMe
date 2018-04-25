@@ -35,18 +35,17 @@ class CountryPickerViewController: UITableViewController {
    
 }
 
-
 // UI Setup
 extension CountryPickerViewController {
     
-    func prepareTableItems()  {
+    func prepareTableItems() {
         
         if !showOnlyPreferredSection {
             
             let countriesArray = countryPickerView.countries
             
             var header = Set<String>()
-            countriesArray.forEach{
+            countriesArray.forEach {
                 let name = $0.name
                 header.insert(String(name[name.startIndex]))
             }
@@ -63,7 +62,7 @@ extension CountryPickerViewController {
             })
             
             // Sort the sections
-            data.forEach{ key, value in
+            data.forEach { key, value in
                 data[key] = value.sorted(by: { (lhs, rhs) -> Bool in
                     return lhs.name < rhs.name
                 })
@@ -97,7 +96,7 @@ extension CountryPickerViewController {
     
     func prepareSearchBar() {
         let searchBarPosition = countryPickerView.searchBarPosition
-        if searchBarPosition == .hidden  {
+        if searchBarPosition == .hidden {
             return
         }
         searchController = UISearchController(searchResultsController:  nil)
@@ -118,8 +117,7 @@ extension CountryPickerViewController {
     }
 }
 
-
-//MARK:- UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension CountryPickerViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -164,8 +162,7 @@ extension CountryPickerViewController {
     }
 }
 
-
-//MARK:- UITableViewDelegate
+// MARK: - UITableViewDelegate
 extension CountryPickerViewController {
 
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -193,8 +190,7 @@ extension CountryPickerViewController {
     }
 }
 
-
-// MARK:- UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
 extension CountryPickerViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         isSearchMode = false
@@ -217,8 +213,7 @@ extension CountryPickerViewController: UISearchResultsUpdating {
     }
 }
 
-
-// MARK:- UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 extension CountryPickerViewController: UISearchBarDelegate {
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         // Hide the back/left navigationItem button
@@ -233,5 +228,3 @@ extension CountryPickerViewController: UISearchBarDelegate {
     }
     
 }
-
-

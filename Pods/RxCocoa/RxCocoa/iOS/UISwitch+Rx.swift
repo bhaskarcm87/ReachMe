@@ -38,4 +38,3 @@ extension Reactive where Base: UISwitch {
 }
 
 #endif
-

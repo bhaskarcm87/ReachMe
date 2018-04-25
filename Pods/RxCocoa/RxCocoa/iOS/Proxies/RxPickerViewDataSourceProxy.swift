@@ -15,9 +15,9 @@ extension UIPickerView: HasDataSource {
     public typealias DataSource = UIPickerViewDataSource
 }
 
-fileprivate let pickerViewDataSourceNotSet = PickerViewDataSourceNotSet()
+private let pickerViewDataSourceNotSet = PickerViewDataSourceNotSet()
 
-final fileprivate class PickerViewDataSourceNotSet: NSObject, UIPickerViewDataSource {
+final private class PickerViewDataSourceNotSet: NSObject, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 0
     }
@@ -28,10 +28,7 @@ final fileprivate class PickerViewDataSourceNotSet: NSObject, UIPickerViewDataSo
 }
 
 /// For more information take a look at `DelegateProxyType`.
-public class RxPickerViewDataSourceProxy
-    : DelegateProxy<UIPickerView, UIPickerViewDataSource>
-    , DelegateProxyType
-    , UIPickerViewDataSource {
+public class RxPickerViewDataSourceProxy: DelegateProxy<UIPickerView, UIPickerViewDataSource>, DelegateProxyType, UIPickerViewDataSource {
 
     /// Typed parent object.
     public weak private(set) var pickerView: UIPickerView?

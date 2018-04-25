@@ -63,11 +63,11 @@ extension ObservableType {
     }
 }
 
-final fileprivate class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>, ObserverType {
+final private class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>, ObserverType {
     typealias E = O.E
     
     private let _parent: DistinctUntilChanged<E, Key>
-    private var _currentKey: Key? = nil
+    private var _currentKey: Key?
     
     init(parent: DistinctUntilChanged<E, Key>, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -91,8 +91,7 @@ final fileprivate class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>,
                 _currentKey = key
                 
                 forwardOn(event)
-            }
-            catch let error {
+            } catch let error {
                 forwardOn(.error(error))
                 dispose()
             }
@@ -103,7 +102,7 @@ final fileprivate class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>,
     }
 }
 
-final fileprivate class DistinctUntilChanged<Element, Key>: Producer<Element> {
+final private class DistinctUntilChanged<Element, Key>: Producer<Element> {
     typealias KeySelector = (Element) throws -> Key
     typealias EqualityComparer = (Key, Key) throws -> Bool
     

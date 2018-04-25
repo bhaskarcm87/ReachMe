@@ -7,7 +7,7 @@
 //
 
 /// Represents a disposable resource whose underlying disposable resource can be replaced by another disposable resource, causing automatic disposal of the previous underlying disposable resource.
-public final class SerialDisposable : DisposeBase, Cancelable {
+public final class SerialDisposable: DisposeBase, Cancelable {
     private var _lock = SpinLock()
     
     // state
@@ -41,8 +41,7 @@ public final class SerialDisposable : DisposeBase, Cancelable {
             let disposable: Disposable? = _lock.calculateLocked {
                 if _isDisposed {
                     return newDisposable
-                }
-                else {
+                } else {
                     let toDispose = _current
                     _current = newDisposable
                     return toDispose
@@ -64,8 +63,7 @@ public final class SerialDisposable : DisposeBase, Cancelable {
         _lock.lock(); defer { _lock.unlock() }
         if _isDisposed {
             return nil
-        }
-        else {
+        } else {
             _isDisposed = true
             let current = _current
             _current = nil

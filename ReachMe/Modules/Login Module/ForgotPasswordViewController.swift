@@ -28,7 +28,7 @@ class ForgotPasswordViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Actions
+    // MARK: - Actions
     @IBAction func onReceivedCodeClicked(_ sender: UIButton) {
         performSegue(withIdentifier: Constants.Segues.OTP, sender: self)
     }

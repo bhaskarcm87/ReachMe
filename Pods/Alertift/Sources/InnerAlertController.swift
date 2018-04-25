@@ -33,7 +33,7 @@ class InnerAlertController: UIAlertController {
     private(set) var originalMessage: String?
     private var spaceAdjustedMessage: String = ""
 
-    private var imageView: UIImageView? = nil
+    private var imageView: UIImageView?
     private var previousImgViewSize: CGSize = .zero
     private var imageTopMargin: Alertift.ImageTopMargin = .none
     override var title: String? {
@@ -68,7 +68,7 @@ class InnerAlertController: UIAlertController {
         imageView.frame.size = image?.size ?? .zero
     }
 
-    // MARK: -  Layout code
+    // MARK: - Layout code
 
     override func viewDidLayoutSubviews() {
         guard let imageView = imageView, let _ = imageView.image else {
@@ -150,7 +150,6 @@ class InnerAlertController: UIAlertController {
     var messageTextColor: UIColor? = .black
     var titleTextAlignment: NSTextAlignment = .center
     var messageTextAlignment: NSTextAlignment = .center
-    
     
     /// Register UITextFieldTextDidChange notification
     ///

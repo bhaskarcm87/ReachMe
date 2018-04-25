@@ -20,8 +20,8 @@ public struct CoreDataContextObserverState: OptionSet {
     public static let All: CoreDataContextObserverState  = [Inserted, Updated, Deleted, Refreshed]
 }
 
-public typealias CoreDataContextObserverCompletionBlock = (NSManagedObject,CoreDataContextObserverState) -> ()
-public typealias CoreDataContextObserverContextChangeBlock = (_ notification: NSNotification, _ changedObjects: [CoreDataObserverObjectChange]) -> ()
+public typealias CoreDataContextObserverCompletionBlock = (NSManagedObject, CoreDataContextObserverState) -> Void
+public typealias CoreDataContextObserverContextChangeBlock = (_ notification: NSNotification, _ changedObjects: [CoreDataObserverObjectChange]) -> Void
 
 public enum CoreDataObserverObjectChange {
     case Updated(NSManagedObject)
@@ -50,7 +50,7 @@ public class CoreDataContextObserver {
     
     private var notificationObserver: NSObjectProtocol?
     private(set) var context: NSManagedObjectContext
-    private(set) var actionsForManagedObjectID: Dictionary<NSManagedObjectID,[CoreDataObserverAction]> = [:]
+    private(set) var actionsForManagedObjectID: Dictionary<NSManagedObjectID, [CoreDataObserverAction]> = [:]
     private(set) weak var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     
     deinit {
@@ -86,7 +86,7 @@ public class CoreDataContextObserver {
         combinedObjectChanges += deletedObjectsSet.map({ CoreDataObserverObjectChange.Deleted($0) })
         combinedObjectChanges += refreshedObjectsSet.map({ CoreDataObserverObjectChange.Refreshed($0) })
         
-        contextChangeBlock?(notification,combinedObjectChanges)
+        contextChangeBlock?(notification, combinedObjectChanges)
         
         let combinedSet = insertedObjectsSet.union(updatedObjectsSet).union(deletedObjectsSet)
         let allObjectIDs = Array(actionsForManagedObjectID.keys)
@@ -97,13 +97,13 @@ public class CoreDataContextObserver {
             
             for action in actionsForObject {
                 if action.state.contains(.Inserted) && insertedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Inserted)
+                    action.completionBlock(object, .Inserted)
                 } else if action.state.contains(.Updated) && updatedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Updated)
+                    action.completionBlock(object, .Updated)
                 } else if action.state.contains(.Deleted) && deletedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Deleted)
+                    action.completionBlock(object, .Deleted)
                 } else if action.state.contains(.Refreshed) && refreshedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Refreshed)
+                    action.completionBlock(object, .Refreshed)
                 }
             }
         }
@@ -132,4 +132,3 @@ public class CoreDataContextObserver {
         actionsForManagedObjectID.removeAll()
     }
 }
-

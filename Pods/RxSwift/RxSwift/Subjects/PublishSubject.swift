@@ -10,11 +10,7 @@
 ///
 /// Each notification is broadcasted to all subscribed observers.
 public final class PublishSubject<Element>
-    : Observable<Element>
-    , SubjectType
-    , Cancelable
-    , ObserverType
-    , SynchronizedUnsubscribeType {
+    : Observable<Element>, SubjectType, Cancelable, ObserverType, SynchronizedUnsubscribeType {
     public typealias SubjectObserverType = PublishSubject<Element>
 
     typealias Observers = AnyObserver<Element>.s
@@ -92,14 +88,14 @@ public final class PublishSubject<Element>
     - parameter observer: Observer to subscribe to the subject.
     - returns: Disposable object that can be used to unsubscribe the observer from the subject.
     */
-    public override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    public override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         _lock.lock()
         let subscription = _synchronized_subscribe(observer)
         _lock.unlock()
         return subscription
     }
 
-    func _synchronized_subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
+    func _synchronized_subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         if let stoppedEvent = _stoppedEvent {
             observer.on(stoppedEvent)
             return Disposables.create()

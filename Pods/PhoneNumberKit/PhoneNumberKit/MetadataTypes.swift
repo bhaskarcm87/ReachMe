@@ -86,8 +86,7 @@ extension MetadataTerritory {
         self.nationalPrefix = possibleNationalPrefix
         if (possibleNationalPrefixForParsing == nil && possibleNationalPrefix != nil) {
             self.nationalPrefixForParsing = self.nationalPrefix
-        }
-        else {
+        } else {
             self.nationalPrefixForParsing = possibleNationalPrefixForParsing
         }
         self.preferredExtnPrefix = jsondDict.value(forKey: "preferredExtnPrefix") as? String
@@ -118,7 +117,6 @@ extension MetadataTerritory {
         self.leadingDigits = jsondDict.value(forKey: "leadingDigits") as? String
     }
 }
-
 
 /**
 MetadataPhoneNumberDesc object

@@ -16,5 +16,6 @@ target 'ReachMe' do
 	pod 'SwiftyUserDefaults'
 	pod 'RSSelectionMenu'
 	pod 'SwipeCellKit'
-	#pod 'KDEAudioPlayer'
+	pod 'Former'
+	pod 'SwiftLint'
 end

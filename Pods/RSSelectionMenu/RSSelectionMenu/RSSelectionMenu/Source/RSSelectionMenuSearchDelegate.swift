@@ -31,7 +31,7 @@ open class RSSelectionMenuSearchDelegate: NSObject {
     public var searchBar: UISearchBar?
     
     /// to execute on search event
-    public var didSearch: ((String) -> ())?
+    public var didSearch: ((String) -> Void)?
     
     /// cancel button
     public var cancelButtonAttributes: SearchBarCancelButtonAttributes?
@@ -70,8 +70,8 @@ open class RSSelectionMenuSearchDelegate: NSObject {
     }
 }
 
-// MARK:- UISearchBarDelegate
-extension RSSelectionMenuSearchDelegate : UISearchBarDelegate {
+// MARK: - UISearchBarDelegate
+extension RSSelectionMenuSearchDelegate: UISearchBarDelegate {
     
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true

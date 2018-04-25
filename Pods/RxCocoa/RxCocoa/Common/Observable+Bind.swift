@@ -6,7 +6,6 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-
 import RxSwift
 
 extension ObservableType {
@@ -132,7 +131,6 @@ extension ObservableType {
     public func bind<R1, R2>(to binder: (Self) -> (R1) -> R2, curriedArgument: R1) -> R2 {
          return binder(self)(curriedArgument)
     }
-    
     
     /**
     Subscribes an element handler to an observable sequence. 

@@ -24,8 +24,8 @@ extension TimeInterval {
 
 public class CountdownLabel: LTMorphingLabel {
     
-    public typealias CountdownCompletion = () -> ()?
-    public typealias CountdownExecution = () -> ()
+    public typealias CountdownCompletion = () -> Void?
+    public typealias CountdownExecution = () -> Void
     internal let defaultFireInterval = 1.0
     internal let date1970 = NSDate(timeIntervalSince1970: 0)
     
@@ -191,7 +191,7 @@ public class CountdownLabel: LTMorphingLabel {
 
 // MARK: - Public
 extension CountdownLabel {
-    public func start(completion: ( () -> () )? = nil) {
+    public func start(completion: ( () -> Void )? = nil) {
         if !isPaused {
             // current date should be setted at the time of the counter's starting, or the time will be wrong (just a few seconds) after the first time of pausing.
             currentDate = NSDate()
@@ -213,7 +213,7 @@ extension CountdownLabel {
         countdownDelegate?.countdownStarted?()
     }
     
-    public func pause(completion: (() -> ())? = nil) {
+    public func pause(completion: (() -> Void)? = nil) {
         if paused {
             return
         }
@@ -235,7 +235,7 @@ extension CountdownLabel {
         countdownDelegate?.countdownPaused?()
     }
     
-    public func cancel(completion: (() -> ())? = nil) {
+    public func cancel(completion: (() -> Void)? = nil) {
         text = dateFormatter.string(from: date1970.addingTimeInterval(0) as Date)
         dispose()
         
@@ -253,7 +253,7 @@ extension CountdownLabel {
         updateLabel()
     }
     
-    public func then(targetTime: TimeInterval, completion: @escaping () -> ()) -> Self {
+    public func then(targetTime: TimeInterval, completion: @escaping () -> Void) -> Self {
         let t = targetTime - (targetTime - targetTime)
         guard t > 0 else {
             return self

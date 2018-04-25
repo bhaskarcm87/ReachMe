@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
     static let MESSAGE_STATUS = "status"
     static let MESSAGE_TEXT = "text"
@@ -20,7 +19,7 @@ class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
 
     var dbmessages: [Message]!
     var insertCounter: Int!
-    var rcmessages: [String:RCMessage]!
+    var rcmessages: [String: RCMessage]!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +34,6 @@ class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
         
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -48,7 +46,7 @@ class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
         
     }
     
-    //MARK: - - DBMessage methods
+    // MARK: - - DBMessage methods
     func index(indexPath: IndexPath) -> Int {
         let count = min(insertCounter, dbmessages.count)
         let offset = dbmessages.count - count
@@ -67,12 +65,11 @@ class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
         return dbmessage(indexPath: indexAbove)
     }
     
-    //MARK: - Message methods
+    // MARK: - Message methods
     override func rcmessage(_ indexPath: IndexPath!) -> RCMessage! {
         //let dbmessage = self.dbmessage(indexPath: indexPath)
         
        let rcMessage = RCMessage.init(text: "Sachin Hello", incoming: true)
-
         
 //        guard let rcMessage = rcmessages[dbmessage.guide!] else {
 //
@@ -101,7 +98,7 @@ class ChatUserViewController: RCMessagesView/*, UIGestureRecognizerDelegate*/ {
         return rcMessage
     }
     
-    //MARK: - - Table view data source
+    // MARK: - - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
 //        return min(insertCounter, dbmessages.count)

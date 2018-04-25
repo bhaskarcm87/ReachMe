@@ -72,7 +72,7 @@ class PersonalisationViewController: UITableViewController {
         navigationController?.pushViewController(ringToneVC, animated: true)
     }
 
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func cameraButtonClicked(_ sender: UIButton) {
         present(imagePicker, animated: true, completion: nil)
     }
@@ -117,10 +117,10 @@ class PersonalisationViewController: UITableViewController {
     }
 }
 
-//MARK: - ImagePicker delegate
+// MARK: - ImagePicker delegate
 extension PersonalisationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         
         let assetPath = info[UIImagePickerControllerReferenceURL] as! NSURL
         let pathExtension = assetPath.pathExtension! as CFString
@@ -142,7 +142,7 @@ extension PersonalisationViewController: UIImagePickerControllerDelegate, UINavi
     }
 }
 
-//MARK: - TextField delegate
+// MARK: - TextField delegate
 extension PersonalisationViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -154,7 +154,7 @@ extension PersonalisationViewController: UITextFieldDelegate {
     }
 }
 
-//MARK: - SingleSelectionDelegate
+// MARK: - SingleSelectionDelegate
 extension PersonalisationViewController: SingleSelectionDelegate {
     func onSelection(_ selectionType: SelectionType) {
         switch selectionType {
@@ -166,4 +166,3 @@ extension PersonalisationViewController: SingleSelectionDelegate {
         }
     }
 }
-

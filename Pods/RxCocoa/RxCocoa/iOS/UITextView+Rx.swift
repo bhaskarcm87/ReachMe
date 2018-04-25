@@ -52,7 +52,6 @@ extension Reactive where Base: UITextView {
         return ControlProperty(values: source, valueSink: bindingObserver)
     }
     
-    
     /// Reactive wrapper for `attributedText` property.
     public var attributedText: ControlProperty<NSAttributedString?> {
         let source: Observable<NSAttributedString?> = Observable.deferred { [weak textView = self.base] in

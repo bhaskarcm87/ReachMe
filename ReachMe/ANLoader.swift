@@ -31,12 +31,10 @@ public struct ANLoader {
     public static var viewBackgroundDark: Bool = false
     public static var loadOverApplicationWindow: Bool = true
     
-    
-    //MARK: - Loading View
+    // MARK: - Loading View
     fileprivate static var instance: LoadingResource?
     fileprivate static var backgroundView: UIView!
     fileprivate static var hidingInProgress = false
-    
     
     public static func showLoading(_ text: String, disableUI: Bool) {
         ANLoader().startLoadingActivity(text, with: disableUI)
@@ -46,13 +44,13 @@ public struct ANLoader {
         ANLoader().startLoadingActivity("", with: false)
     }
     
-    public static func hide(){
+    public static func hide() {
         DispatchQueue.main.async {
             instance?.hideActivity()
         }
     }
     
-    //MARK: - Main Loading View creating here
+    // MARK: - Main Loading View creating here
     fileprivate class LoadingResource: UIView {
         fileprivate var textLabel: UILabel!
         fileprivate var activityView: UIActivityIndicatorView!
@@ -82,7 +80,7 @@ public struct ANLoader {
             disableUIIntraction = true
         }
         
-        private func checkActivityBackgroundColor(){
+        private func checkActivityBackgroundColor() {
             guard activityBackgroundColor != .clear else {
                 return
             }
@@ -91,8 +89,8 @@ public struct ANLoader {
             addPulseAnimation()
         }
         
-        //MARK: - Pulse Animation adding here
-        fileprivate func addPulseAnimation(){
+        // MARK: - Pulse Animation adding here
+        fileprivate func addPulseAnimation() {
             guard pulseAnimation else {
                 return
             }
@@ -108,14 +106,14 @@ public struct ANLoader {
             }
         }
         
-        fileprivate func addActivityView(_ yPosition: CGFloat){
+        fileprivate func addActivityView(_ yPosition: CGFloat) {
             activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
             activityView.frame = CGRect(x: (frame.width/2) - 20, y: yPosition, width: 40, height: 40)
             activityView.color = activityColor
             activityView.startAnimating()
         }
         
-        fileprivate func addTextLabel(_ yPosition: CGFloat, text: String){
+        fileprivate func addTextLabel(_ yPosition: CGFloat, text: String) {
             textLabel = UILabel(frame: CGRect(x: 5, y: yPosition - 10, width: activityWidth - 10, height: 40))
             textLabel.textColor = activityTextColor
             textLabel.font = activityTextFontName
@@ -138,7 +136,7 @@ public struct ANLoader {
         
         fileprivate var fadeOutValue: CGFloat = 10.0
         
-        fileprivate func hideActivity(){
+        fileprivate func hideActivity() {
             checkBackgoundWasClear()
             guard showFadeOutAnimation else {
                 clearView()
@@ -147,7 +145,7 @@ public struct ANLoader {
             fadeOutAnimation()
         }
         
-        fileprivate func fadeOutAnimation(){
+        fileprivate func fadeOutAnimation() {
             DispatchQueue.main.async {
                 UIView.transition(with: self, duration: 0.3, options: .curveEaseOut, animations: {
                     self.transform = CGAffineTransform(scaleX: self.fadeOutValue, y: self.fadeOutValue)
@@ -158,7 +156,7 @@ public struct ANLoader {
             }
         }
         
-        fileprivate func checkBackgoundWasClear(){
+        fileprivate func checkBackgoundWasClear() {
             guard activityBackgroundColor != .clear else {
                 fadeOutValue = 2
                 return
@@ -167,7 +165,7 @@ public struct ANLoader {
             activityView.alpha = 0
         }
         
-        fileprivate func clearView(){
+        fileprivate func clearView() {
             activityView.stopAnimating()
             self.removeFromSuperview()
             instance = nil
@@ -202,15 +200,15 @@ fileprivate extension UIView {
         self.layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
     
-    func addBorder(){
+    func addBorder() {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).cgColor
     }
 }
 
-fileprivate extension ANLoader{
+fileprivate extension ANLoader {
     
-    fileprivate func startLoadingActivity(_ text: String,with disableUI: Bool){
+    fileprivate func startLoadingActivity(_ text: String, with disableUI: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             
             guard ANLoader.instance == nil else {
@@ -267,11 +265,10 @@ fileprivate extension UIScreen {
     }
 }
 
-fileprivate var topMostViewController: UIViewController? {
+private var topMostViewController: UIViewController? {
     var presentedVC = UIApplication.shared.keyWindow?.rootViewController
     while let controller = presentedVC?.presentedViewController {
         presentedVC = controller
     }
     return presentedVC
 }
-

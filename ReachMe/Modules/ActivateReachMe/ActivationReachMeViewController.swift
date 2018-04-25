@@ -35,7 +35,7 @@ class ActivationReachMeViewController: UITableViewController {
                 dialCode = userContact.voiceMailInfo!.actiUNCF
             } else if (userContact.isReachMeIntlActive) {
                 dialCode = userContact.voiceMailInfo!.deactiUNCF
-            } else  {
+            } else {
                 dialCode = userContact.voiceMailInfo!.actiCNF
             }
             
@@ -112,10 +112,10 @@ class ActivationReachMeViewController: UITableViewController {
                             
                             var alertMessage: String!
                             if self.reachMeType == RMUtility.ReachMeType.international {
-                                alertMessage = "\nReachMe International is activated for your number. you can test the service by dialing this number from any other phone and you will get a ReachMe call on the app.\n";
+                                alertMessage = "\nReachMe International is activated for your number. you can test the service by dialing this number from any other phone and you will get a ReachMe call on the app.\n"
                                 
                             } else {
-                                alertMessage = "\nReachMe Home is activated for your number.You can test the service by putting your phone on flight mode and dialing it from any other phone. You will get a ReachMe Call on the app\n";
+                                alertMessage = "\nReachMe Home is activated for your number.You can test the service by putting your phone on flight mode and dialing it from any other phone. You will get a ReachMe Call on the app\n"
                             }
                             
                             let alert = UIAlertController(style: .alert, title: "Congratulations")
@@ -138,7 +138,6 @@ class ActivationReachMeViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     func constructtableCells() {
         //TitleCell
@@ -209,14 +208,14 @@ class ActivationReachMeViewController: UITableViewController {
         }
     }
     
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onHelpClicked(_ sender: UIBarButtonItem) {
         RMUtility.handleHelpSupportAction(withHelpText: helpText)
     }
     
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension ActivationReachMeViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -236,4 +235,3 @@ extension ActivationReachMeViewController {
         return UITableViewAutomaticDimension
     }
 }
-

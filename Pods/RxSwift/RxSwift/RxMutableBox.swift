@@ -9,7 +9,7 @@
 /// Creates mutable reference wrapper for any type.
 final class RxMutableBox<T> : CustomDebugStringConvertible {
     /// Wrapped value
-    var value : T
+    var value: T
     
     /// Creates reference wrapper for `value`.
     ///

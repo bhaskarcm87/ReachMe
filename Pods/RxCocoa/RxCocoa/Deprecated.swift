@@ -109,7 +109,6 @@ extension ObservableType {
         return binder(self)(curriedArgument)
     }
 
-
     /**
      Subscribes an element handler to an observable sequence.
 
@@ -245,7 +244,7 @@ extension ObservableType {
  **This shouldn't be used in normal release builds.**
  */
 @available(*, deprecated, renamed: "SharingScheduler.mock(scheduler:action:)")
-public func driveOnScheduler(_ scheduler: SchedulerType, action: () -> ()) {
+public func driveOnScheduler(_ scheduler: SchedulerType, action: () -> Void) {
     SharingScheduler.mock(scheduler: scheduler, action: action)
 }
 
@@ -331,7 +330,6 @@ public final class UIBindingObserver<UIElementType, Value> : ObserverType where 
     }
 }
 
-
 #if os(iOS)
     extension Reactive where Base: UIRefreshControl {
 
@@ -359,8 +357,7 @@ extension Reactive where Base: UIImageView {
                     transition.type = transitionType
                     imageView.layer.add(transition, forKey: kCATransition)
                 }
-            }
-            else {
+            } else {
                 imageView.layer.removeAllAnimations()
             }
             imageView.image = image
@@ -387,8 +384,7 @@ extension Reactive where Base: UIImageView {
                         transition.type = transitionType
                         control.layer?.add(transition, forKey: kCATransition)
                     }
-                }
-                else {
+                } else {
                     control.layer?.removeAllAnimations()
                 }
                 control.image = value
@@ -409,7 +405,6 @@ extension Variable {
         return Driver(source)
     }
 }
-
 
 private let errorMessage = "`drive*` family of methods can be only called from `MainThread`.\n" +
 "This is required to ensure that the last replayed `Driver` element is delivered on `MainThread`.\n"
@@ -485,5 +480,3 @@ extension ObservableType {
         return self.map { $0 as E? }.bind(to: variable)
     }
 }
-
-

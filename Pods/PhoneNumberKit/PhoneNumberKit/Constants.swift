@@ -60,7 +60,6 @@ public enum PhoneNumberFormat {
     case national // 06 89 12 34 56
 }
 
-
 /**
  Phone number type enumeration
  - fixedLine: Fixed line numbers

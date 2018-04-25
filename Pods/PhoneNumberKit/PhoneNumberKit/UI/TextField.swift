@@ -20,8 +20,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
             if newValue != nil {
                 let formattedNumber = partialFormatter.formatPartial(newValue! as String)
                 super.text = formattedNumber
-            }
-            else {
+            } else {
                 super.text = newValue
             }
         }
@@ -31,7 +30,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     }
     
     /// allows text to be set without formatting
-    open func setTextUnformatted(newValue:String?) {
+    open func setTextUnformatted(newValue: String?) {
         super.text = newValue
     }
     
@@ -47,8 +46,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
             partialFormatter.withPrefix = withPrefix
             if withPrefix == false {
                 self.keyboardType = UIKeyboardType.numberPad
-            }
-            else {
+            } else {
                 self.keyboardType = UIKeyboardType.phonePad
             }
         }
@@ -80,7 +78,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         }
     }
     
-    //MARK: Status
+    // MARK: Status
     
     public var currentRegion: String {
         get {
@@ -99,7 +97,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         get {
             let rawNumber = self.text ?? String()
             do {
-                let _ = try phoneNumberKit.parse(rawNumber, withRegion: currentRegion)
+                _ = try phoneNumberKit.parse(rawNumber, withRegion: currentRegion)
                 return true
             } catch {
                 return false
@@ -107,7 +105,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         }
     }
     
-    //MARK: Lifecycle
+    // MARK: Lifecycle
     
     /**
      Init with frame
@@ -116,8 +114,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
      
      - returns: UITextfield
      */
-    override public init(frame:CGRect)
-    {
+    override public init(frame: CGRect) {
         self.partialFormatter = PartialFormatter(phoneNumberKit: phoneNumberKit, defaultRegion: defaultRegion, withPrefix: withPrefix)
         super.init(frame:frame)
         self.setup()
@@ -136,12 +133,11 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         self.setup()
     }
     
-    func setup(){
+    func setup() {
         self.autocorrectionType = .no
         self.keyboardType = UIKeyboardType.phonePad
         super.delegate = self
     }
-    
     
     // MARK: Phone number formatting
     
@@ -163,11 +159,11 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         let textAsNSString = text as NSString
         let cursorEnd = offset(from: beginningOfDocument, to: selectedTextRange.end)
         // Look for the next valid number after the cursor, when found return a CursorPosition struct
-        for i in cursorEnd ..< textAsNSString.length  {
+        for i in cursorEnd ..< textAsNSString.length {
             let cursorRange = NSMakeRange(i, 1)
             let candidateNumberAfterCursor: NSString = textAsNSString.substring(with: cursorRange) as NSString
             if (candidateNumberAfterCursor.rangeOfCharacter(from: nonNumericSet as CharacterSet).location == NSNotFound) {
-                for j in cursorRange.location ..< textAsNSString.length  {
+                for j in cursorRange.location ..< textAsNSString.length {
                     let candidateCharacter = textAsNSString.substring(with: NSMakeRange(j, 1))
                     if candidateCharacter == candidateNumberAfterCursor as String {
                         repetitionCountFromEnd += 1
@@ -227,12 +223,10 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         var selectedTextRange: NSRange?
         
         let nonNumericRange = (changedRange.rangeOfCharacter(from: nonNumericSet as CharacterSet).location != NSNotFound)
-        if (range.length == 1 && string.isEmpty && nonNumericRange)
-        {
+        if (range.length == 1 && string.isEmpty && nonNumericRange) {
             selectedTextRange = selectionRangeForNumberReplacement(textField: textField, formattedText: modifiedTextField)
             textField.text = modifiedTextField
-        }
-        else {
+        } else {
             selectedTextRange = selectionRangeForNumberReplacement(textField: textField, formattedText: formattedNationalNumber)
             textField.text = formattedNationalNumber
         }
@@ -245,7 +239,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         return false
     }
     
-    //MARK: UITextfield Delegate
+    // MARK: UITextfield Delegate
     
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return _delegate?.textFieldShouldBeginEditing?(textField) ?? true

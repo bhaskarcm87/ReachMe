@@ -53,8 +53,7 @@ final class ParseManager {
         var countryCode: UInt64 = 0
         do {
             countryCode = try parser.extractCountryCode(nationalNumber, nationalNumber: &nationalNumber, metadata: regionMetadata)
-        }
-        catch {
+        } catch {
             let plusRemovedNumberString = regexManager.replaceStringByRegex(PhoneNumberPatterns.leadingPlusCharsPattern, string: nationalNumber as String)
             countryCode = try parser.extractCountryCode(plusRemovedNumberString, nationalNumber: &nationalNumber, metadata: regionMetadata)
         }
@@ -78,7 +77,7 @@ final class ParseManager {
         }
         // Finalize remaining parameters and create phone number object (9)
         let leadingZero = nationalNumber.hasPrefix("0")
-        guard let finalNationalNumber = UInt64(nationalNumber) else{
+        guard let finalNationalNumber = UInt64(nationalNumber) else {
             throw PhoneNumberError.notANumber
         }
 
@@ -107,7 +106,7 @@ final class ParseManager {
     - parameter ignoreType:   Avoids number type checking for faster performance.
     - Returns: An array of valid PhoneNumber objects.
     */
-    func parseMultiple(_ numberStrings: [String], withRegion region: String, ignoreType: Bool, shouldReturnFailedEmptyNumbers: Bool = false, testCallback: (()->())? = nil) -> [PhoneNumber] {
+    func parseMultiple(_ numberStrings: [String], withRegion region: String, ignoreType: Bool, shouldReturnFailedEmptyNumbers: Bool = false, testCallback: (()->Void)? = nil) -> [PhoneNumber] {
         var multiParseArray = [PhoneNumber]()
         let group = DispatchGroup()
         let queue = DispatchQueue(label: "com.phonenumberkit.multipleparse", qos: .default)
@@ -118,11 +117,11 @@ final class ParseManager {
                 do {
                     if let phoneNumebr = try self?.parse(numberString, withRegion: region, ignoreType: ignoreType) {
                         multiParseArray.append(phoneNumebr)
-                    }else if shouldReturnFailedEmptyNumbers{
+                    } else if shouldReturnFailedEmptyNumbers {
                         multiParseArray.append(PhoneNumber.notPhoneNumber())
                     }
                 } catch {
-                    if shouldReturnFailedEmptyNumbers{
+                    if shouldReturnFailedEmptyNumbers {
                         multiParseArray.append(PhoneNumber.notPhoneNumber())
                     }
                 }
@@ -135,7 +134,6 @@ final class ParseManager {
         group.wait()
         return multiParseArray
     }
-
 
     /// Get correct ISO 639 compliant region code for a number.
     ///
