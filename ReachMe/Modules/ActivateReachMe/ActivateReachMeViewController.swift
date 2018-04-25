@@ -30,12 +30,6 @@ class ActivateReachMeViewController: UITableViewController {
             navigationItem.setHidesBackButton(true, animated: false)
         }
         
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
-        } else {
-            // Fallback on earlier versions
-        }
-        
         //let predicate = NSPredicate(format: "isPrimary == %@", NSNumber(value: true))
         // userContact = userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
         if userContact == nil {
