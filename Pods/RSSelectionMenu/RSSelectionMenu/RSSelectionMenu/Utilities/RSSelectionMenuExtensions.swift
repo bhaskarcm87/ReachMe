@@ -65,7 +65,7 @@ public enum CellType {
 
 /************************************/
 
-//MARK: - UITableViewCell
+// MARK: - UITableViewCell
 extension UITableViewCell {
     
     func showSelected(_ value: Bool) {
@@ -81,7 +81,7 @@ public struct NavigationBarTheme {
     var color: UIColor?
 }
 
-//MARK: - RSSelectionMenu
+// MARK: - RSSelectionMenu
 public protocol UniqueProperty {
     func uniquePropertyName() -> String
 }
@@ -147,13 +147,13 @@ extension RSSelectionMenu {
     }
 }
 
-//MARK: - UIViewController
+// MARK: - UIViewController
 extension UIViewController {
     
     open func isPresented() -> Bool {
         if self.presentingViewController != nil {
             return true
-        } else if self.navigationController?.presentingViewController?.presentedViewController == self.navigationController  {
+        } else if self.navigationController?.presentingViewController?.presentedViewController == self.navigationController {
             return true
         } else if self.tabBarController?.presentingViewController is UITabBarController {
             return true

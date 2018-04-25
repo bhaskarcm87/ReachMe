@@ -57,8 +57,7 @@ fileprivate final class SingleAsyncSink<O: ObserverType> : Sink<O>, ObserverType
                 if !forward {
                     return
                 }
-            }
-            catch let error {
+            } catch let error {
                 forwardOn(.error(error as Swift.Error))
                 dispose()
                 return
@@ -97,7 +96,7 @@ final class SingleAsync<Element>: Producer<Element> {
         _predicate = predicate
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = SingleAsyncSink(parent: self, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         return (sink: sink, subscription: subscription)

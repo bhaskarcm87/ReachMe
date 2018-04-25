@@ -22,10 +22,8 @@ extension ObservableType {
     }
 }
 
-final fileprivate class TakeUntilSinkOther<Other, O: ObserverType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class TakeUntilSinkOther<Other, O: ObserverType>
+    : ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Parent = TakeUntilSink<Other, O>
     typealias E = Other
     
@@ -40,7 +38,7 @@ final fileprivate class TakeUntilSinkOther<Other, O: ObserverType>
     init(parent: Parent) {
         _parent = parent
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
     }
     
@@ -63,23 +61,19 @@ final fileprivate class TakeUntilSinkOther<Other, O: ObserverType>
     
 #if TRACE_RESOURCES
     deinit {
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
     }
 #endif
 }
 
-final fileprivate class TakeUntilSink<Other, O: ObserverType>
-    : Sink<O>
-    , LockOwnerType
-    , ObserverType
-    , SynchronizedOnType {
+final private class TakeUntilSink<Other, O: ObserverType>
+    : Sink<O>, LockOwnerType, ObserverType, SynchronizedOnType {
     typealias E = O.E
     typealias Parent = TakeUntil<E, Other>
     
     fileprivate let _parent: Parent
  
     let _lock = RecursiveLock()
-    
     
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
@@ -113,7 +107,7 @@ final fileprivate class TakeUntilSink<Other, O: ObserverType>
     }
 }
 
-final fileprivate class TakeUntil<Element, Other>: Producer<Element> {
+final private class TakeUntil<Element, Other>: Producer<Element> {
     
     fileprivate let _source: Observable<Element>
     fileprivate let _other: Observable<Other>
@@ -123,7 +117,7 @@ final fileprivate class TakeUntil<Element, Other>: Producer<Element> {
         _other = other
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = TakeUntilSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

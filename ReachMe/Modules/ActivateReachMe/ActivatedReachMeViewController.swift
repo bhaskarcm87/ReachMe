@@ -9,7 +9,6 @@
 import UIKit
 import SwiftyUserDefaults
 
-
 class ActivatedReachMeViewController: UITableViewController {
 
     var tableCellArray = [Any]()
@@ -89,12 +88,12 @@ class ActivatedReachMeViewController: UITableViewController {
         }
     }
     
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onHelpButtonClicked(_ sender: UIBarButtonItem) {
         RMUtility.handleHelpSupportAction(withHelpText: nil)
     }
     
-    //MARK: - Segue Actions
+    // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let destVC = segue.destination as? ActivationReachMeViewController,
@@ -128,7 +127,7 @@ class ActivatedReachMeViewController: UITableViewController {
     }
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension ActivatedReachMeViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

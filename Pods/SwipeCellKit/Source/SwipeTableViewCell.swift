@@ -181,7 +181,7 @@ open class SwipeTableViewCell: UITableViewCell {
             let velocity = gesture.velocity(in: target)
             state = targetState(forVelocity: velocity)
             
-            if actionsView.expanded == true, let expandedAction = actionsView.expandableAction  {
+            if actionsView.expanded == true, let expandedAction = actionsView.expandableAction {
                 perform(action: expandedAction)
             } else {
                 let targetOffset = targetCenter(active: state.isActive)
@@ -498,8 +498,7 @@ extension SwipeTableViewCell {
         
         if gestureRecognizer == panGestureRecognizer,
             let view = gestureRecognizer.view,
-            let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer
-        {
+            let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
             let translation = gestureRecognizer.translation(in: view)
             return abs(translation.y) <= abs(translation.x)
         }

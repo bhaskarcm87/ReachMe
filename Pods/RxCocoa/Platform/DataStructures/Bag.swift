@@ -40,14 +40,14 @@ struct Bag<T> : CustomDebugStringConvertible {
     // data
 
     // first fill inline variables
-    var _key0: BagKey? = nil
-    var _value0: T? = nil
+    var _key0: BagKey?
+    var _value0: T?
 
     // then fill "array dictionary"
     var _pairs = ContiguousArray<Entry>()
 
     // last is sparse dictionary
-    var _dictionary: [BagKey : T]? = nil
+    var _dictionary: [BagKey: T]?
 
     var _onlyFastPath = true
 
@@ -136,7 +136,7 @@ struct Bag<T> : CustomDebugStringConvertible {
 
 extension Bag {
     /// A textual representation of `self`, suitable for debugging.
-    var debugDescription : String {
+    var debugDescription: String {
         return "\(self.count) elements in Bag"
     }
 }

@@ -47,7 +47,7 @@ class SettingsGeneralViewController: UITableViewController {
     }
 }
 
-//MARK: - TableView Delegate
+// MARK: - TableView Delegate
 extension SettingsGeneralViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -97,7 +97,7 @@ extension SettingsGeneralViewController {
             alert.show {
                 if let pass = self.userProfile?.password, !pass.isEmpty {
                     oldPassTextField.becomeFirstResponder()
-                }else {
+                } else {
                     newPassTextField.becomeFirstResponder()
                 }
             }
@@ -135,7 +135,7 @@ extension SettingsGeneralViewController {
     }
 }
 
-//MARK: - SingleSelectionDelegate
+// MARK: - SingleSelectionDelegate
 extension SettingsGeneralViewController: SingleSelectionDelegate {
     func onSelection(_ selectionType: SelectionType) {
         switch selectionType {

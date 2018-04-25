@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-fileprivate enum ScheduleState {
+private enum ScheduleState {
     case initial
     case added(CompositeDisposable.DisposeKey)
     case done
@@ -75,8 +75,7 @@ final class AnyRecursiveScheduler<State> {
             case .initial:
                 if let removeKey = _group.insert(d) {
                     scheduleState = .added(removeKey)
-                }
-                else {
+                } else {
                     scheduleState = .done
                 }
                 break
@@ -128,8 +127,7 @@ final class AnyRecursiveScheduler<State> {
             case .initial:
                 if let removeKey = _group.insert(d) {
                     scheduleState = .added(removeKey)
-                }
-                else {
+                } else {
                     scheduleState = .done
                 }
                 break
@@ -206,8 +204,7 @@ final class RecursiveImmediateScheduler<State> {
             case .initial:
                 if let removeKey = _group.insert(d) {
                     scheduleState = .added(removeKey)
-                }
-                else {
+                } else {
                     scheduleState = .done
                 }
                 break

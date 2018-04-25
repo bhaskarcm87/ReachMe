@@ -17,10 +17,7 @@ extension UICollectionView: HasDataSource {
 
 let collectionViewDataSourceNotSet = CollectionViewDataSourceNotSet()
 
-final class CollectionViewDataSourceNotSet
-    : NSObject
-    , UICollectionViewDataSource {
-
+final class CollectionViewDataSourceNotSet: NSObject, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
@@ -34,10 +31,7 @@ final class CollectionViewDataSourceNotSet
 }
 
 /// For more information take a look at `DelegateProxyType`.
-open class RxCollectionViewDataSourceProxy
-    : DelegateProxy<UICollectionView, UICollectionViewDataSource>
-    , DelegateProxyType 
-    , UICollectionViewDataSource {
+open class RxCollectionViewDataSourceProxy: DelegateProxy<UICollectionView, UICollectionViewDataSource>, DelegateProxyType, UICollectionViewDataSource {
 
     /// Typed parent object.
     public weak private(set) var collectionView: UICollectionView?

@@ -16,9 +16,9 @@ class MQTTConnectPacket: MQTTPacket {
     let keepAlive: UInt16
     let clientID: String
     
-    var username: String? = nil
-    var password: String? = nil
-    var lastWillMessage: MQTTPubMsg? = nil
+    var username: String?
+    var password: String?
+    var lastWillMessage: MQTTPubMsg?
     
     init(clientID: String, cleanSession: Bool, keepAlive: UInt16) {
         self.protocolName = "MQTT"

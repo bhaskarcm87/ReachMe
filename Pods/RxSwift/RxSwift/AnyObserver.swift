@@ -28,7 +28,7 @@ public struct AnyObserver<Element> : ObserverType {
     /// Construct an instance whose `on(event)` calls `observer.on(event)`
     ///
     /// - parameter observer: Observer that receives sequence events.
-    public init<O : ObserverType>(_ observer: O) where O.E == Element {
+    public init<O: ObserverType>(_ observer: O) where O.E == Element {
         self.observer = observer.on
     }
     
@@ -49,7 +49,7 @@ public struct AnyObserver<Element> : ObserverType {
 
 extension AnyObserver {
     /// Collection of `AnyObserver`s
-    typealias s = Bag<(Event<Element>) -> ()>
+    typealias s = Bag<(Event<Element>) -> Void>
 }
 
 extension ObserverType {

@@ -68,7 +68,6 @@ public enum SearchBarPosition {
    case tableViewHeader, navigationBar, hidden
 }
 
-
 public class CountryPickerView: NibView {
     @IBOutlet weak var spacingConstraint: NSLayoutConstraint!
     @IBOutlet public weak var flagImageView: UIImageView!
@@ -190,10 +189,10 @@ public class CountryPickerView: NibView {
     }()
 }
 
-//MARK: Helper methods
+// MARK: Helper methods
 extension CountryPickerView {
     public func setCountryByName(_ name: String) {
-        if let country = countries.first(where: { $0.name == name }){
+        if let country = countries.first(where: { $0.name == name }) {
             selectedCountry = country
         }
     }
@@ -223,8 +222,7 @@ extension CountryPickerView {
     }
 }
 
-
-// MARK:- An internal implementation of the CountryPickerViewDelegate.
+// MARK: - An internal implementation of the CountryPickerViewDelegate.
 // Sets internal properties before calling external delegate.
 extension CountryPickerView {
     func didSelectCountry(_ country: Country) {
@@ -233,7 +231,7 @@ extension CountryPickerView {
     }
 }
 
-// MARK:- An internal implementation of the CountryPickerViewDataSource.
+// MARK: - An internal implementation of the CountryPickerViewDataSource.
 // Returns default options where necessary.
 extension CountryPickerView {
     var preferredCountries: [Country] {

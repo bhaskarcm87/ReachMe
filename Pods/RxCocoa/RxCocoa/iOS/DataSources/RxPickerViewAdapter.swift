@@ -31,8 +31,7 @@ class RxPickerViewArrayDataSource<T>: NSObject, UIPickerViewDataSource, Sectione
 }
 
 class RxPickerViewSequenceDataSource<S: Sequence>
-    : RxPickerViewArrayDataSource<S.Iterator.Element>
-    , RxPickerViewDataSourceType {
+    : RxPickerViewArrayDataSource<S.Iterator.Element>, RxPickerViewDataSourceType {
     typealias Element = S
 
     func pickerView(_ pickerView: UIPickerView, observedEvent: Event<S>) {
@@ -45,8 +44,7 @@ class RxPickerViewSequenceDataSource<S: Sequence>
 }
 
 final class RxStringPickerViewAdapter<S: Sequence>
-    : RxPickerViewSequenceDataSource<S>
-    , UIPickerViewDelegate {
+    : RxPickerViewSequenceDataSource<S>, UIPickerViewDelegate {
     
     typealias TitleForRow = (Int, S.Iterator.Element) -> String?
     private let titleForRow: TitleForRow

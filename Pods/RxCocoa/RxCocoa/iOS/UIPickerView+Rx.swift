@@ -107,7 +107,7 @@
         public func itemTitles<S: Sequence, O: ObservableType>
             (_ source: O)
             -> (_ titleForRow: @escaping (Int, S.Iterator.Element) -> String?)
-            -> Disposable where O.E == S  {
+            -> Disposable where O.E == S {
                 return { titleForRow in
                     let adapter = RxStringPickerViewAdapter<S>(titleForRow: titleForRow)
                     return self.items(adapter: adapter)(source)
@@ -140,7 +140,7 @@
         public func itemAttributedTitles<S: Sequence, O: ObservableType>
             (_ source: O)
             -> (_ attributedTitleForRow: @escaping (Int, S.Iterator.Element) -> NSAttributedString?)
-            -> Disposable where O.E == S  {
+            -> Disposable where O.E == S {
                 return { attributedTitleForRow in
                     let adapter = RxAttributedStringPickerViewAdapter<S>(attributedTitleForRow: attributedTitleForRow)
                     return self.items(adapter: adapter)(source)
@@ -179,7 +179,7 @@
         public func items<S: Sequence, O: ObservableType>
             (_ source: O)
             -> (_ viewForRow: @escaping (Int, S.Iterator.Element, UIView?) -> UIView)
-            -> Disposable where O.E == S  {
+            -> Disposable where O.E == S {
                 return { viewForRow in
                     let adapter = RxPickerViewAdapter<S>(viewForRow: viewForRow)
                     return self.items(adapter: adapter)(source)

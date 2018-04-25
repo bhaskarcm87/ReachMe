@@ -24,11 +24,8 @@ extension ObservableType {
     }
 }
 
-final fileprivate class WindowTimeCountSink<Element, O: ObserverType>
-    : Sink<O>
-    , ObserverType
-    , LockOwnerType
-    , SynchronizedOnType where O.E == Observable<Element> {
+final private class WindowTimeCountSink<Element, O: ObserverType>
+    : Sink<O>, ObserverType, LockOwnerType, SynchronizedOnType where O.E == Observable<Element> {
     typealias Parent = WindowTimeCount<Element>
     typealias E = Element
     
@@ -47,7 +44,7 @@ final fileprivate class WindowTimeCountSink<Element, O: ObserverType>
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
         
-        let _ = _groupDisposable.insert(_timerD)
+        _ = _groupDisposable.insert(_timerD)
         
         _refCountDisposable = RefCountDisposable(disposable: _groupDisposable)
         super.init(observer: observer, cancel: cancel)
@@ -58,7 +55,7 @@ final fileprivate class WindowTimeCountSink<Element, O: ObserverType>
         forwardOn(.next(AddRef(source: _subject, refCount: _refCountDisposable).asObservable()))
         createTimer(_windowId)
         
-        let _ = _groupDisposable.insert(_parent._source.subscribe(self))
+        _ = _groupDisposable.insert(_parent._source.subscribe(self))
         return _refCountDisposable
     }
     
@@ -82,7 +79,7 @@ final fileprivate class WindowTimeCountSink<Element, O: ObserverType>
             _subject.on(.next(element))
             
             do {
-                let _ = try incrementChecked(&_count)
+                _ = try incrementChecked(&_count)
             } catch (let e) {
                 _subject.on(.error(e as Swift.Error))
                 dispose()
@@ -148,7 +145,7 @@ final fileprivate class WindowTimeCountSink<Element, O: ObserverType>
     }
 }
 
-final fileprivate class WindowTimeCount<Element> : Producer<Observable<Element>> {
+final private class WindowTimeCount<Element> : Producer<Observable<Element>> {
     
     fileprivate let _timeSpan: RxTimeInterval
     fileprivate let _count: Int
@@ -162,7 +159,7 @@ final fileprivate class WindowTimeCount<Element> : Producer<Observable<Element>>
         _scheduler = scheduler
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Observable<Element> {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Observable<Element> {
         let sink = WindowTimeCountSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

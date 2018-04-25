@@ -6,7 +6,6 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-
 extension ObservableType {
     /**
     Applies an `accumulator` function over an observable sequence, returning the result of the aggregation as a single element in the result sequence. The specified `seed` value is used as the initial accumulator value.
@@ -42,7 +41,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class ReduceSink<SourceType, AccumulateType, O: ObserverType> : Sink<O>, ObserverType {
+final private class ReduceSink<SourceType, AccumulateType, O: ObserverType> : Sink<O>, ObserverType {
     typealias ResultType = O.E
     typealias Parent = Reduce<SourceType, AccumulateType, ResultType>
     
@@ -61,8 +60,7 @@ final fileprivate class ReduceSink<SourceType, AccumulateType, O: ObserverType> 
         case .next(let value):
             do {
                 _accumulation = try _parent._accumulator(_accumulation, value)
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
@@ -75,8 +73,7 @@ final fileprivate class ReduceSink<SourceType, AccumulateType, O: ObserverType> 
                 forwardOn(.next(result))
                 forwardOn(.completed)
                 dispose()
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
@@ -84,7 +81,7 @@ final fileprivate class ReduceSink<SourceType, AccumulateType, O: ObserverType> 
     }
 }
 
-final fileprivate class Reduce<SourceType, AccumulateType, ResultType> : Producer<ResultType> {
+final private class Reduce<SourceType, AccumulateType, ResultType> : Producer<ResultType> {
     typealias AccumulatorType = (AccumulateType, SourceType) throws -> AccumulateType
     typealias ResultSelectorType = (AccumulateType) throws -> ResultType
     
@@ -106,4 +103,3 @@ final fileprivate class Reduce<SourceType, AccumulateType, ResultType> : Produce
         return (sink: sink, subscription: subscription)
     }
 }
-

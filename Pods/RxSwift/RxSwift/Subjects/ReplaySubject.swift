@@ -10,10 +10,7 @@
 ///
 /// Each notification is broadcasted to all subscribed and future observers, subject to buffer trimming policies.
 public class ReplaySubject<Element>
-    : Observable<Element>
-    , SubjectType
-    , ObserverType
-    , Disposable {
+    : Observable<Element>, SubjectType, ObserverType, Disposable {
     public typealias SubjectObserverType = ReplaySubject<Element>
 
     typealias Observers = AnyObserver<Element>.s
@@ -74,8 +71,7 @@ public class ReplaySubject<Element>
     public static func create(bufferSize: Int) -> ReplaySubject<Element> {
         if bufferSize == 1 {
             return ReplayOne()
-        }
-        else {
+        } else {
             return ReplayMany(bufferSize: bufferSize)
         }
     }
@@ -98,9 +94,8 @@ public class ReplaySubject<Element>
     #endif
 }
 
-fileprivate class ReplayBufferBase<Element>
-    : ReplaySubject<Element>
-    , SynchronizedUnsubscribeType {
+private class ReplayBufferBase<Element>
+    : ReplaySubject<Element>, SynchronizedUnsubscribeType {
     
     func trim() {
         rxAbstractMethod()
@@ -146,14 +141,14 @@ fileprivate class ReplayBufferBase<Element>
         }
     }
     
-    override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         _lock.lock()
         let subscription = _synchronized_subscribe(observer)
         _lock.unlock()
         return subscription
     }
 
-    func _synchronized_subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
+    func _synchronized_subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         if _isDisposed {
             observer.on(.error(RxError.disposed(object: self)))
             return Disposables.create()
@@ -165,8 +160,7 @@ fileprivate class ReplayBufferBase<Element>
         if let stoppedEvent = _stoppedEvent {
             observer.on(stoppedEvent)
             return Disposables.create()
-        }
-        else {
+        } else {
             let key = _observers.insert(observer.on)
             return SubscriptionDisposable(owner: self, key: key)
         }
@@ -231,7 +225,7 @@ fileprivate final class ReplayOne<Element> : ReplayBufferBase<Element> {
     }
 }
 
-fileprivate class ReplayManyBase<Element> : ReplayBufferBase<Element> {
+private class ReplayManyBase<Element> : ReplayBufferBase<Element> {
     fileprivate var _queue: Queue<Element>
     
     init(queueSize: Int) {

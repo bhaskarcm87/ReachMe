@@ -11,7 +11,6 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 
-
 class CallsGeneralCell: UITableViewCell {
 
     static let identifier = String(describing: CallsGeneralCell.self)
@@ -72,16 +71,13 @@ class CallsGeneralCell: UITableViewCell {
         }
     }
     
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onCallButtonClicked(_ sender: UIButton) {
         UIApplication.shared.open(NSURL(string: "telprompt://\(message.fromPhoneNumber!)")! as URL, options: [:], completionHandler: nil)
     }
 }
 
-
-
 class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
-   
     
     static let identifier = String(describing: VoicemailsGeneralCell.self)
     
@@ -100,7 +96,7 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
     var isSliderChanged: Bool  = false
     var message: Message!
     
-    lazy var jukebox : Jukebox = {
+    lazy var jukebox: Jukebox = {
         $0.volume = 1.0
         return $0
     }(Jukebox(delegate: self, items: [])!)
@@ -141,7 +137,6 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
         super.setSelected(selected, animated: animated)
     }
     
-    
     override func layoutSubviews() {
         super .layoutSubviews()
         
@@ -169,7 +164,6 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
         populateLabelWithTime(timerLabel, time: itemDuration)
     }
     
-    
     func jukeboxStateDidChange(_ jukebox: Jukebox) {
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.indicator.alpha = jukebox.state == .loading ? 1 : 0
@@ -186,13 +180,13 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
                 playButton.setImage(#imageLiteral(resourceName: "play-red"), for: .normal)
             }
 
-        } else if jukebox.state == .loading || jukebox.state == .playing  {
+        } else if jukebox.state == .loading || jukebox.state == .playing {
             if isRead {
                 playButton.setImage(#imageLiteral(resourceName: "pause-gray"), for: .normal)
             } else {
                 playButton.setImage(#imageLiteral(resourceName: "pause-red"), for: .normal)
             }
-        } else if jukebox.state == .paused || jukebox.state == .failed  {
+        } else if jukebox.state == .paused || jukebox.state == .failed {
             if isRead {
                 playButton.setImage(#imageLiteral(resourceName: "play-gray"), for: .normal)
             } else {
@@ -229,16 +223,14 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
     func jukeboxDidUpdateMetadata(_ jukebox: Jukebox, forItem: JukeboxItem) {
     }
     
-    
-    func populateLabelWithTime(_ label : UILabel, time: Double) {
+    func populateLabelWithTime(_ label: UILabel, time: Double) {
         let minutes = Int(time / 60)
         let seconds = Int(time) - minutes * 60
         
         label.text = String(format: "%02d", minutes) + ":" + String(format: "%02d", seconds)
     }
     
-    
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func onPlayButtonClicked(_ sender: UIButton) {
         switch jukebox.state {
         case .ready :

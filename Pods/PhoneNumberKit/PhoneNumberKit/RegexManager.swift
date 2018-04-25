@@ -29,15 +29,13 @@ final class RegexManager {
     func regexWithPattern(_ pattern: String) throws -> NSRegularExpression {
         if let regex = regularExpresionPool[pattern] {
             return regex
-        }
-        else {
+        } else {
             do {
                 let regularExpression: NSRegularExpression
                 regularExpression =  try NSRegularExpression(pattern: pattern, options:NSRegularExpression.Options.caseInsensitive)
                 regularExpresionPool[pattern] = regularExpression
                 return regularExpression
-            }
-            catch {
+            } catch {
                 throw PhoneNumberError.generalError
             }
         }
@@ -49,8 +47,7 @@ final class RegexManager {
             let currentPattern =  try regexWithPattern(pattern)
             let matches = currentPattern.matches(in: internalString)
             return matches
-        }
-        catch {
+        } catch {
             throw PhoneNumberError.generalError
         }
     }
@@ -59,8 +56,7 @@ final class RegexManager {
         let fallBackMatches = try regexMatches(PhoneNumberPatterns.validPhoneNumberPattern, string: string)
         if let firstMatch = fallBackMatches.first {
             return firstMatch
-        }
-        else {
+        } else {
             throw PhoneNumberError.notANumber
         }
     }
@@ -75,8 +71,7 @@ final class RegexManager {
                     return true
                 }
             }
-        }
-        catch {
+        } catch {
         }
         return false
     }
@@ -100,12 +95,10 @@ final class RegexManager {
         do {
             let matches = try regexMatches(pattern, string: string)
             return matches.count > 0
-        }
-        catch {
+        } catch {
             return false
         }
     }
-
     
     func matchesEntirely(_ pattern: String?, string: String) -> Bool {
         guard var pattern = pattern else {
@@ -124,8 +117,7 @@ final class RegexManager {
                 matchedStrings.append(processedString)
             }
             return matchedStrings
-        }
-        catch {
+        } catch {
         }
         return []
     }
@@ -143,8 +135,7 @@ final class RegexManager {
                     replacementResult = regex.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: "")
                 }
                 return replacementResult
-            }
-            else if matches.count > 1 {
+            } else if matches.count > 1 {
                 replacementResult = regex.stringByReplacingMatches(in: string, withTemplate: "")
             }
             return replacementResult
@@ -164,8 +155,7 @@ final class RegexManager {
                     replacementResult = regex.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: template)
                 }
                 return replacementResult
-            }
-            else if matches.count > 1 {
+            } else if matches.count > 1 {
                 replacementResult = regex.stringByReplacingMatches(in: string, withTemplate: template)
             }
             return replacementResult
@@ -187,7 +177,7 @@ final class RegexManager {
         }
     }
     
-    func stringByReplacingOccurrences(_ string: String, map: [String:String]) -> String {
+    func stringByReplacingOccurrences(_ string: String, map: [String: String]) -> String {
         var targetString = String()
         for i in 0 ..< string.count {
             let oneChar = string[string.index(string.startIndex, offsetBy: i)]
@@ -207,8 +197,7 @@ final class RegexManager {
                 return false
             }
             return true
-        }
-        else {
+        } else {
             return false
         }
     }
@@ -216,15 +205,12 @@ final class RegexManager {
     func testStringLengthAgainstPattern(_ pattern: String, string: String) -> Bool {
         if (matchesEntirely(pattern, string: string)) {
             return true
-        }
-        else {
+        } else {
             return false
         }
     }
     
 }
-
-
 
 // MARK: Extensions
 
@@ -234,6 +220,3 @@ extension String {
         return nsString.substring(with: range)
     }
 }
-
-
-

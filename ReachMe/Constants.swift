@@ -32,13 +32,11 @@ class Constants: NSObject {
         static let PRIVACY_POLICY = "showPrivacyPolicySegueID"
     }
     
-    
     //Unwind Segue ID's
     struct UnwindSegues {
         static let ACTIVATE_REACHME = "unwindToActivateReachMeControllreWithSegue"
         static let LOGIN = "unwindToLoginViewControllreSegue"
     }
-    
     
     //API Events
     struct ApiCommands {
@@ -65,7 +63,6 @@ class Constants: NSObject {
         static let READ_MESSAGES = "read_msgs"
         static let APP_STATUS = "app_status"
     }
-    
 
     //Server
     #if DEBUG
@@ -93,7 +90,6 @@ extension DefaultsKeys {
     static let APIIVUserIDKey = DefaultsKey<Int>("iv_user_id")
     static let APIIsRMNewUser = DefaultsKey<Bool>("new_rm_user")
     static let APIFetchAfterMsgID = DefaultsKey<Any?>("fetch_after_msgs_id")
-
     
     static let IsLoggedInKey = DefaultsKey<Bool>("isLoggedIn")
     static let IsOnBoarding = DefaultsKey<Bool>("isOnboarding")

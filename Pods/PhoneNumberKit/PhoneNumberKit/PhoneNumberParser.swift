@@ -53,12 +53,10 @@ final class PhoneNumberParser {
             }
             if let potentialCountryCode = extractPotentialCountryCode(fullNumber, nationalNumber: &nationalNumber), potentialCountryCode != 0 {
                 return potentialCountryCode
-            }
-            else {
+            } else {
                 return 0
             }
-        }
-        else {
+        } else {
             let defaultCountryCode = String(metadata.countryCode)
             if fullNumber.hasPrefix(defaultCountryCode) {
                 let nsFullNumber = fullNumber as NSString
@@ -105,8 +103,7 @@ final class PhoneNumberParser {
             }
             let stringRange = NSMakeRange(startPosition, i)
             let subNumber = nsFullNumber.substring(with: stringRange)
-            if let potentialCountryCode = UInt64(subNumber)
-                , metadata.territoriesByCode[potentialCountryCode] != nil {
+            if let potentialCountryCode = UInt64(subNumber), metadata.territoriesByCode[potentialCountryCode] != nil {
                     nationalNumber = nsFullNumber.substring(from: i)
                     return potentialCountryCode
             }
@@ -157,11 +154,9 @@ final class PhoneNumberParser {
         if (isNumberMatchingDesc(nationalNumber, numberDesc: metadata.fixedLine)) {
             if metadata.fixedLine?.nationalNumberPattern == metadata.mobile?.nationalNumberPattern {
                 return .fixedOrMobile
-            }
-            else if (isNumberMatchingDesc(nationalNumber, numberDesc: metadata.mobile)) {
+            } else if (isNumberMatchingDesc(nationalNumber, numberDesc: metadata.mobile)) {
                 return .fixedOrMobile
-            }
-            else {
+            } else {
                 return .fixedLine
             }
         }
@@ -209,8 +204,7 @@ final class PhoneNumberParser {
                 }
                 number = remainString as String
                 return true
-            }
-            catch {
+            } catch {
                 return false
             }
         }
@@ -235,8 +229,7 @@ final class PhoneNumberParser {
                 return matchString
             }
             return nil
-        }
-        catch {
+        } catch {
             return nil
         }
     }
@@ -259,8 +252,7 @@ final class PhoneNumberParser {
         let prefixResult = parsePrefixAsIdd(&number, iddPattern: possibleIddPrefix)
         if prefixResult == true {
             return .numberWithIDD
-        }
-        else {
+        } else {
             return .defaultCountry
         }
     }
@@ -286,21 +278,19 @@ final class PhoneNumberParser {
                 let firstRange = firstMatch.range(at: numOfGroups)
                 let firstMatchStringWithGroup = (firstRange.location != NSNotFound && firstRange.location < number.count) ? number.substring(with: firstRange):  String()
                 let firstMatchStringWithGroupHasValue = regex.hasValue(firstMatchStringWithGroup)
-                if let transformRule = metadata.nationalPrefixTransformRule , firstMatchStringWithGroupHasValue == true {
+                if let transformRule = metadata.nationalPrefixTransformRule, firstMatchStringWithGroupHasValue == true {
                     transformedNumber = regex.replaceFirstStringByRegex(prefixPattern, string: number, templateString: transformRule)
-                }
-                else {
+                } else {
                     let index = number.index(number.startIndex, offsetBy: firstMatchString.count)
                     transformedNumber = String(number[index...])
                 }
-                if (regex.hasValue(nationalNumberRule) && regex.matchesEntirely(nationalNumberRule, string: number) && regex.matchesEntirely(nationalNumberRule, string: transformedNumber) == false){
+                if (regex.hasValue(nationalNumberRule) && regex.matchesEntirely(nationalNumberRule, string: number) && regex.matchesEntirely(nationalNumberRule, string: transformedNumber) == false) {
                     return
                 }
                 number = transformedNumber
                 return
             }
-        }
-        catch {
+        } catch {
             return
         }
     }

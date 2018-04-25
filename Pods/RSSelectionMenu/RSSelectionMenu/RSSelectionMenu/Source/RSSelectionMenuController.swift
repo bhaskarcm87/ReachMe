@@ -146,12 +146,12 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
             
             if UIDevice.current.userInterfaceIdiom == .phone {
                 self.tableView?.frame.size = CGSize(width: backgroundView.frame.size.width - 80, height: backgroundView.frame.size.height - 260)
-            }else {
+            } else {
                 self.tableView?.frame.size = CGSize(width: backgroundView.frame.size.width - 300, height: backgroundView.frame.size.height - 400)
             }
             self.tableView?.center = self.backgroundView.center
             
-        }else {
+        } else {
             self.backgroundView.frame = self.view.frame
             self.tableView?.frame = backgroundView.frame
         }
@@ -165,7 +165,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
         backgroundView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func onBackgroundTapped(sender: UITapGestureRecognizer){
+    @objc func onBackgroundTapped(sender: UITapGestureRecognizer) {
         self.dismiss()
     }
     
@@ -204,7 +204,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     
 }
 
-// MARK:- Public
+// MARK: - Public
 extension RSSelectionMenu {
     
     /// Set selected items and selection event
@@ -227,7 +227,7 @@ extension RSSelectionMenu {
     }
     
     /// Navigationbar title and color
-    public func setNavigationBar(title: String, attributes:[NSAttributedStringKey: Any]? = nil, barTintColor: UIColor? = nil) {
+    public func setNavigationBar(title: String, attributes: [NSAttributedStringKey: Any]? = nil, barTintColor: UIColor? = nil) {
         self.navigationBarTheme = NavigationBarTheme(title: title, attributes: attributes, color: barTintColor)
     }
     
@@ -252,15 +252,14 @@ extension RSSelectionMenu {
             
             if case .Push = self.menuPresentationStyle {
                  self.navigationController?.popViewController(animated: animated!)
-            }
-            else {
+            } else {
                self.dismiss(animated: animated!, completion: nil)
             }
         }
     }
 }
 
-//MARK:- Private
+// MARK: - Private
 extension RSSelectionMenu {
 
     // check if show done button
@@ -294,8 +293,7 @@ extension RSSelectionMenu {
         var tobePresentController: UIViewController = self
         if case .Present = with {
             tobePresentController = UINavigationController(rootViewController: self)
-        }
-        else if case let .Popover(sourceView, size) = with {
+        } else if case let .Popover(sourceView, size) = with {
             tobePresentController.modalPresentationStyle = .popover
             if size != nil { tobePresentController.preferredContentSize = size! }
             
@@ -304,8 +302,7 @@ extension RSSelectionMenu {
             popover.permittedArrowDirections = .any
             popover.sourceView = sourceView
             popover.sourceRect = sourceView.bounds
-        }
-        else if case .Formsheet = with {
+        } else if case .Formsheet = with {
             tobePresentController.modalPresentationStyle = .overCurrentContext
             tobePresentController.modalTransitionStyle = .crossDissolve
         }

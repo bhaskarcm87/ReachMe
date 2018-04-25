@@ -90,7 +90,7 @@ open class RSSelectionTableView<T>: UITableView {
     }
 }
 
-//MARK: - Public
+// MARK: - Public
 extension RSSelectionTableView {
     
     /// set selected items and selection event
@@ -116,7 +116,7 @@ extension RSSelectionTableView {
         self.searchControllerDelegate?.didSearch = { [weak self] (searchText) in
             if searchText.isEmpty {
                 self?.selectionDataSource?.update(dataSource: (self?.selectionDataSource?.dataSource)!, inTableView: self!)
-            }else {
+            } else {
                 let filteredDataSource = self?.searchBarResultDelegate!(searchText) ?? []
                 self?.selectionDataSource?.update(dataSource: filteredDataSource, inTableView: self!)
             }

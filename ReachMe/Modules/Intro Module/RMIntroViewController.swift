@@ -63,7 +63,7 @@ class RMIntroViewController: UIViewController {
         return storyboard!.instantiateViewController(withIdentifier: viewController)
     }
     
-    //MARK: - Button Actions
+    // MARK: - Button Actions
     @IBAction func enterButtonAction(_ sender: UIButton) {
         if let _ = sender.currentTitle?.isEmpty {
            performSegue(withIdentifier: Constants.Segues.LOGIN, sender: self)
@@ -79,7 +79,7 @@ class RMIntroViewController: UIViewController {
 
 }
 
-//MARK: - UIPageController Datasource
+// MARK: - UIPageController Datasource
 extension RMIntroViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewContrllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -108,7 +108,7 @@ extension RMIntroViewController: UIPageViewControllerDataSource {
     }
 }
 
-//MARK: - UIPageController Delegate
+// MARK: - UIPageController Delegate
 extension RMIntroViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let pageContentViewController = pageViewController.viewControllers![0]
@@ -139,7 +139,7 @@ extension RMIntroViewController: UIPageViewControllerDelegate {
     }
 }
 
-//MARK: - PageConroller ScrollviewDelegate
+// MARK: - PageConroller ScrollviewDelegate
 extension RMIntroViewController: UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -177,7 +177,7 @@ extension RMIntroViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: - ColorTransition Methods
+// MARK: - ColorTransition Methods
 extension RMIntroViewController {
     private func calculateRelativePageSizeAndContentOffset(for scrollView: UIScrollView) -> (CGFloat, CGFloat) {
         var pageSize: CGFloat

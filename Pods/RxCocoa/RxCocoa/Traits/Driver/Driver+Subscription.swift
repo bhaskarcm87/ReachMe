@@ -117,5 +117,3 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
         return self.asObservable().subscribe(onNext: onNext, onCompleted: onCompleted, onDisposed: onDisposed)
     }
 }
-
-

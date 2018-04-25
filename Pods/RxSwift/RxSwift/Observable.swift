@@ -15,7 +15,7 @@ public class Observable<Element> : ObservableType {
     
     init() {
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
     }
     
@@ -29,7 +29,7 @@ public class Observable<Element> : ObservableType {
     
     deinit {
 #if TRACE_RESOURCES
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
 #endif
     }
 
@@ -41,4 +41,3 @@ public class Observable<Element> : ObservableType {
         return _map(source: self, transform: transform)
     }
 }
-

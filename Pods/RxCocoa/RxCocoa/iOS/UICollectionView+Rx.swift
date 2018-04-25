@@ -73,7 +73,7 @@ extension Reactive where Base: UICollectionView {
              }
              .disposed(by: disposeBag)
     */
-    public func items<S: Sequence, Cell: UICollectionViewCell, O : ObservableType>
+    public func items<S: Sequence, Cell: UICollectionViewCell, O: ObservableType>
         (cellIdentifier: String, cellType: Cell.Type = Cell.self)
         -> (_ source: O)
         -> (_ configureCell: @escaping (Int, S.Iterator.Element, Cell) -> Void)
@@ -91,7 +91,6 @@ extension Reactive where Base: UICollectionView {
             }
         }
     }
-
     
     /**
     Binds sequences of elements to collection view items using a custom reactive data used to perform the transformation.
@@ -137,8 +136,7 @@ extension Reactive where Base: UICollectionView {
             O: ObservableType>
         (dataSource: DataSource)
         -> (_ source: O)
-        -> Disposable where DataSource.Element == O.E
-          {
+        -> Disposable where DataSource.Element == O.E {
         return { source in
             // This is called for sideeffects only, and to make sure delegate proxy is in place when
             // data source is being bound.

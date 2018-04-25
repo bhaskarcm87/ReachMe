@@ -22,22 +22,20 @@
 //  THE SOFTWARE.
 //
 
-
 import Foundation
 import UIKit
 
 /// UITableViewCellConfiguration
-public typealias UITableViewCellConfiguration<T> = ((_ cell: UITableViewCell, _ dataObject: T, _ indexPath: IndexPath) -> ())
+public typealias UITableViewCellConfiguration<T> = ((_ cell: UITableViewCell, _ dataObject: T, _ indexPath: IndexPath) -> Void)
 
 /// DataSource
 public typealias DataSource<T> = [T]
 
 /// UITableViewCellSelection
-public typealias UITableViewCellSelection<T> = ((_ object: T?, _ isSelected: Bool, _ selectedArray: DataSource<T>) -> ())
+public typealias UITableViewCellSelection<T> = ((_ object: T?, _ isSelected: Bool, _ selectedArray: DataSource<T>) -> Void)
 
 /// FirstRowSelection
-public typealias FirstRowSelection = ((_ object: String, _ isSelected: Bool) -> ())
-
+public typealias FirstRowSelection = ((_ object: String, _ isSelected: Bool) -> Void)
 
 /// FilteredDataSource
 public typealias FilteredDataSource<T> = [T]
@@ -47,7 +45,6 @@ public typealias UISearchBarResult<T> = ((_ searchText: String) -> (FilteredData
 
 /// SearchBar CancelButton
 public typealias SearchBarCancelButtonAttributes = (title: String, tintColor: UIColor?)
-
 
 /// Strings
 public let defaultPlaceHolder          = "Search"

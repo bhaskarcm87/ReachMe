@@ -28,7 +28,6 @@ extension String {
 	}
 }
 
-
 extension NSRegularExpression {
 	func enumerateMatches(in string: String, options: NSRegularExpression.MatchingOptions = [], range: Range<String.Index>? = nil, using block: (NSTextCheckingResult?, NSRegularExpression.MatchingFlags, UnsafeMutablePointer<ObjCBool>) -> Swift.Void) {
 		let range = range ?? string.startIndex..<string.endIndex

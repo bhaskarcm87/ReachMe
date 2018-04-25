@@ -78,7 +78,6 @@ extension Alertift {
             return self
         }
 
-
         /// Add barButtonItem to **popoverPresentationController**.
         ///
         /// If you want to use action sheet on iPad, you have to use this method.

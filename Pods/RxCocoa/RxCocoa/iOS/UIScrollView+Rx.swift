@@ -93,7 +93,6 @@
             return ControlEvent(events: source)
         }
 
-
         /// Reactive wrapper for delegate method `scrollViewDidScrollToTop`
         public var didScrollToTop: ControlEvent<Void> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidScrollToTop(_:))).map { _ in }

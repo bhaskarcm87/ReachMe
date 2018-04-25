@@ -19,7 +19,6 @@ class EditNumberViewController: UITableViewController {
     var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
     var userContact: UserContact!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         if userContact == nil {
@@ -43,7 +42,7 @@ class EditNumberViewController: UITableViewController {
         carrierNameLabel.text = userContact.selectedCarrier?.networkName
     }
     
-    //MARK: - Buttton Actions
+    // MARK: - Buttton Actions
     @IBAction func onSaveButtonClicked(_ sender: UIBarButtonItem) {
         view.endEditing(true)
         guard RMUtility.isNetwork() else {
@@ -99,7 +98,7 @@ class EditNumberViewController: UITableViewController {
     }
 }
 
-//MARK: - TextField delegate
+// MARK: - TextField delegate
 extension EditNumberViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -116,4 +115,3 @@ extension EditNumberViewController: UITextFieldDelegate {
         return true
     }
 }
-

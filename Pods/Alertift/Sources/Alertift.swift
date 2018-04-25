@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Alertift
 /// make alert or action sheet.
 public final class Alertift {    

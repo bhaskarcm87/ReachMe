@@ -6,8 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-protocol ZipSinkProtocol : class
-{
+protocol ZipSinkProtocol: class {
     func next(_ index: Int)
     func fail(_ error: Swift.Error)
     func done(_ index: Int)
@@ -52,13 +51,11 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
             do {
                 let result = try getResult()
                 self.forwardOn(.next(result))
-            }
-            catch let e {
+            } catch let e {
                 self.forwardOn(.error(e))
                 dispose()
             }
-        }
-        else {
+        } else {
             var allOthersDone = true
             
             let arity = _isDone.count
@@ -101,11 +98,9 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
 }
 
 final class ZipObserver<ElementType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+    : ObserverType, LockOwnerType, SynchronizedOnType {
     typealias E = ElementType
-    typealias ValueSetter = (ElementType) -> ()
+    typealias ValueSetter = (ElementType) -> Void
 
     private var _parent: ZipSinkProtocol?
     

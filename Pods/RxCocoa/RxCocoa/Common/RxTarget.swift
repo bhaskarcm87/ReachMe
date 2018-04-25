@@ -10,8 +10,7 @@ import class Foundation.NSObject
 
 import RxSwift
 
-class RxTarget : NSObject
-               , Disposable {
+class RxTarget: NSObject, Disposable {
     
     private var retainSelf: RxTarget?
     

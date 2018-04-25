@@ -21,8 +21,6 @@ open class CoreDataModel {
         return Static.instance
     }
     
-    
-    
     open func getUserProfle() -> Profile? {
         guard let profile = CoreDataModel.sharedInstance().userProfile else {
             var resultProfile: Profile?
@@ -73,10 +71,9 @@ open class CoreDataModel {
     open lazy var managedObjectContext: NSManagedObjectContext = {
         
         var managedObjectContext: NSManagedObjectContext?
-        if #available(iOS 10.0, *){
+        if #available(iOS 10.0, *) {
             managedObjectContext = self.persistentContainer.viewContext
-        }
-        else{
+        } else {
             let coordinator = self.persistentStoreCoordinator
             managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
             managedObjectContext?.persistentStoreCoordinator = coordinator
@@ -110,10 +107,9 @@ open class CoreDataModel {
         }
     }
     
-    
 }
 
-// MARK:- CoreDataModel Entities
+// MARK: - CoreDataModel Entities
 open class CoreDataModelEntity<String>: CoreDataModel {
     open let _entity: String
     
@@ -123,8 +119,7 @@ open class CoreDataModelEntity<String>: CoreDataModel {
     }
 }
 
-// MARK:- CoreData Wrapper
-
+// MARK: - CoreData Wrapper
 
 extension CoreDataModel {
     
@@ -132,7 +127,7 @@ extension CoreDataModel {
         return NSEntityDescription.insertNewObject(forEntityName: entityName._entity, into: managedObjectContext)
         
     }
-    open func fetchRecords(entityName: CoreDataModelEntity<String>, predicate: String? = nil, sortDescriptors: [NSSortDescriptor]? = nil, completion: @escaping (_ records: Any?) -> ()) {
+    open func fetchRecords(entityName: CoreDataModelEntity<String>, predicate: String? = nil, sortDescriptors: [NSSortDescriptor]? = nil, completion: @escaping (_ records: Any?) -> Void) {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName._entity)
         
@@ -146,8 +141,7 @@ extension CoreDataModel {
             let result = try managedObjectContext.fetch(fetchRequest)
             if result.count > 0 {
                 completion(result)
-            }
-            else {
+            } else {
                 completion(nil)
             }
         } catch let error as NSError {
@@ -155,25 +149,22 @@ extension CoreDataModel {
         }
     }
     
-    open func deleteRecord(_ object: NSManagedObject){
+    open func deleteRecord(_ object: NSManagedObject) {
         managedObjectContext.delete(object)
     }
     
-    open func deleteAllRecords(entity: CoreDataModelEntity<String>)
-    {
+    open func deleteAllRecords(entity: CoreDataModelEntity<String>) {
         if #available(iOS 9.0, *) {
             let req = NSFetchRequest<NSFetchRequestResult>(entityName: entity._entity)
             let batchReq = NSBatchDeleteRequest(fetchRequest: req)
             execute(batchReq)
-        }
-        else {
+        } else {
             fetchRecords(entityName: entity, completion: { (results) in
                 if let records = results as? [NSManagedObject] {
                     for record in records {
                         self.deleteRecord(record)
                     }
-                }
-                else {
+                } else {
                     print("CoreData - No records found to delete")
                 }
             })
@@ -181,20 +172,20 @@ extension CoreDataModel {
         }
     }
     
-    open func updateRecords(entity: CoreDataModelEntity<String>, properties: [AnyHashable : Any]) {
+    open func updateRecords(entity: CoreDataModelEntity<String>, properties: [AnyHashable: Any]) {
         
         let batchUpdateRequest = NSBatchUpdateRequest(entityName: entity._entity)
         batchUpdateRequest.propertiesToUpdate = properties
         batchUpdateRequest.resultType = .updatedObjectIDsResultType
         
-        do{
+        do {
             let batchUpdateResult = try managedObjectContext.execute(batchUpdateRequest) as? NSBatchUpdateResult
             
-            if let result = batchUpdateResult{
+            if let result = batchUpdateResult {
                 let objectIds = result.result as! [NSManagedObjectID]
-                for objectId in objectIds{
+                for objectId in objectIds {
                     let managedObject = managedObjectContext.object(with: objectId)
-                    if(!managedObject.isFault){
+                    if(!managedObject.isFault) {
                         managedObjectContext.stalenessInterval = 0
                         managedObjectContext.refresh(managedObject, mergeChanges: true)
                     }
@@ -206,8 +197,7 @@ extension CoreDataModel {
     open func execute(_ request: NSPersistentStoreRequest) {
         do {
             try managedObjectContext.execute(request)
-        }
-        catch {
+        } catch {
             print(error)
         }
     }
@@ -223,4 +213,3 @@ extension CoreDataModel {
     static let MessageEntity = CoreDataModelEntity<String>("Message")
     static let MqttEntity = CoreDataModelEntity<String>("MQTT")
 }
-

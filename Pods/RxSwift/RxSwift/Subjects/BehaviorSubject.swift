@@ -10,11 +10,7 @@
 ///
 /// Observers can subscribe to the subject to receive the last (or initial) value and all subsequent notifications.
 public final class BehaviorSubject<Element>
-    : Observable<Element>
-    , SubjectType
-    , ObserverType
-    , SynchronizedUnsubscribeType
-    , Disposable {
+    : Observable<Element>, SubjectType, ObserverType, SynchronizedUnsubscribeType, Disposable {
     public typealias SubjectObserverType = BehaviorSubject<Element>
 
     typealias Observers = AnyObserver<Element>.s
@@ -68,8 +64,7 @@ public final class BehaviorSubject<Element>
             if let error = _stoppedEvent?.error {
                 // intentionally throw exception
                 throw error
-            }
-            else {
+            } else {
                 return _element
             }
         //}
@@ -106,14 +101,14 @@ public final class BehaviorSubject<Element>
     ///
     /// - parameter observer: Observer to subscribe to the subject.
     /// - returns: Disposable object that can be used to unsubscribe the observer from the subject.
-    public override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    public override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         _lock.lock()
         let subscription = _synchronized_subscribe(observer)
         _lock.unlock()
         return subscription
     }
 
-    func _synchronized_subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
+    func _synchronized_subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         if _isDisposed {
             observer.on(.error(RxError.disposed(object: self)))
             return Disposables.create()

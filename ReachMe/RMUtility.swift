@@ -27,7 +27,6 @@ class RMUtility: NSObject {
         case voicemail
     }
 
-
     open class func sharedInstance() -> RMUtility {
         struct Static {
             static let instance = RMUtility()
@@ -121,21 +120,21 @@ class RMUtility: NSObject {
         var isvalid: Bool = false
         let imageUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension, nil)?.takeRetainedValue()
         
-        if (UTTypeConformsTo(imageUTI!, kUTTypeJPEG)){
+        if (UTTypeConformsTo(imageUTI!, kUTTypeJPEG)) {
             isvalid = true
-        }else if (UTTypeConformsTo(imageUTI!, kUTTypePNG)){
+        } else if (UTTypeConformsTo(imageUTI!, kUTTypePNG)) {
             isvalid = true
-        }else if(UTTypeConformsTo(imageUTI!, kUTTypeHEVC as CFString)) {
-            isvalid = true;
-        }else {
-            isvalid = false;
+        } else if(UTTypeConformsTo(imageUTI!, kUTTypeHEVC as CFString)) {
+            isvalid = true
+        } else {
+            isvalid = false
         }
        // CFRelease(imageUTI)
         
         return isvalid
     }
     
-    class func unlinkForNumber(number: String, completionHandler:@escaping (Bool) -> ()) {
+    class func unlinkForNumber(number: String, completionHandler:@escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "contactID == %@", number)
         let userContact = RMUtility.sharedInstance().userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
         var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
@@ -143,7 +142,6 @@ class RMUtility: NSObject {
                                      "contact_type": "p",
                                      "operation": "d",
                                      "set_as_primary": false]
-        
 
         if userContact.isReachMeHomeActive ||
             userContact.isReachMeIntlActive ||
@@ -230,7 +228,6 @@ class RMUtility: NSObject {
                     }.show()
                 return
             }
-            
             
             let viewAction = UNNotificationAction(identifier: "testView",
                                                   title: "Go To Call Detail",

@@ -57,12 +57,12 @@ extension UIViewPropertyAnimator: SwipeAnimator {
 class UIViewSpringAnimator: SwipeAnimator {
     var isRunning: Bool = false
     
-    let duration:TimeInterval
-    let damping:CGFloat
-    let velocity:CGFloat
+    let duration: TimeInterval
+    let damping: CGFloat
+    let velocity: CGFloat
     
     var animations:(() -> Void)?
-    var completion:((Bool) -> Void)?
+    var completion: ((Bool) -> Void)?
     
     required init(duration: TimeInterval,
                   damping: CGFloat,
@@ -92,7 +92,7 @@ class UIViewSpringAnimator: SwipeAnimator {
         self.startAnimation(afterDelay: 0)
     }
     
-    func startAnimation(afterDelay delay:TimeInterval) {
+    func startAnimation(afterDelay delay: TimeInterval) {
         guard let animations = animations else { return }
         
         isRunning = true

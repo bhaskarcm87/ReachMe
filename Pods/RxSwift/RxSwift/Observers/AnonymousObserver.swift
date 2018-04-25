@@ -11,11 +11,11 @@ final class AnonymousObserver<ElementType> : ObserverBase<ElementType> {
     
     typealias EventHandler = (Event<Element>) -> Void
     
-    private let _eventHandler : EventHandler
+    private let _eventHandler: EventHandler
     
     init(_ eventHandler: @escaping EventHandler) {
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
         _eventHandler = eventHandler
     }
@@ -26,7 +26,7 @@ final class AnonymousObserver<ElementType> : ObserverBase<ElementType> {
     
 #if TRACE_RESOURCES
     deinit {
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
     }
 #endif
 }

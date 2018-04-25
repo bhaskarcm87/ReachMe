@@ -25,7 +25,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, ObserverType {
+final private class ScanSink<ElementType, O: ObserverType> : Sink<O>, ObserverType {
     typealias Accumulate = O.E
     typealias Parent = Scan<ElementType, Accumulate>
     typealias E = ElementType
@@ -45,8 +45,7 @@ final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, Observ
             do {
                 _accumulate = try _parent._accumulator(_accumulate, element)
                 forwardOn(.next(_accumulate))
-            }
-            catch let error {
+            } catch let error {
                 forwardOn(.error(error))
                 dispose()
             }
@@ -61,7 +60,7 @@ final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, Observ
     
 }
 
-final fileprivate class Scan<Element, Accumulate>: Producer<Accumulate> {
+final private class Scan<Element, Accumulate>: Producer<Accumulate> {
     typealias Accumulator = (Accumulate, Element) throws -> Accumulate
     
     fileprivate let _source: Observable<Element>
@@ -74,7 +73,7 @@ final fileprivate class Scan<Element, Accumulate>: Producer<Accumulate> {
         _accumulator = accumulator
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Accumulate {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Accumulate {
         let sink = ScanSink(parent: self, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         return (sink: sink, subscription: subscription)

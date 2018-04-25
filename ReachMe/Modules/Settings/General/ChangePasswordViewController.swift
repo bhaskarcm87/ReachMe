@@ -17,12 +17,11 @@ import UIKit
     }
 }
 
-
 class ChangePasswordViewController: UITableViewController {
     
     let oldPassTextField: UITextField!
     let newPassTextField: UITextField!
-    let confirmPassTextField:  UITextField!
+    let confirmPassTextField: UITextField!
     let alert: UIAlertController!
     var isOldPassValidated = false
     var isNewPassValidated = false
@@ -66,7 +65,7 @@ class ChangePasswordViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     func configureTextFileds() {
         let headerView = UIView(frame: CGRect(x:0, y:0, width:tableView.frame.size.width, height: UIScreen.main.bounds.height / 4.5))
         headerView.addSubview(oldPassTextField)
@@ -76,10 +75,10 @@ class ChangePasswordViewController: UITableViewController {
         oldPassTextField.translatesAutoresizingMaskIntoConstraints = false
         headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .top, relatedBy: .equal, toItem: headerView, attribute: .top, multiplier: 1, constant: 0))
         if let pass = userProfile?.password, !pass.isEmpty {
-            headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,multiplier: 1, constant: 30))
+            headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
             preferredContentSize.height = 163
-        }else {
-            headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,multiplier: 1, constant: 0))
+        } else {
+            headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 0))
             isOldPassValidated = true
             preferredContentSize.height = 123
 
@@ -104,7 +103,7 @@ class ChangePasswordViewController: UITableViewController {
         //New TextField
         newPassTextField.translatesAutoresizingMaskIntoConstraints = false
         headerView.addConstraint(NSLayoutConstraint(item: newPassTextField, attribute: .top, relatedBy: .equal, toItem: oldPassTextField, attribute: .bottom, multiplier: 1, constant: 20))
-        headerView.addConstraint(NSLayoutConstraint(item: newPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,multiplier: 1, constant: 30))
+        headerView.addConstraint(NSLayoutConstraint(item: newPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
         headerView.addConstraint(NSLayoutConstraint(item: newPassTextField, attribute: .leading, relatedBy: .equal, toItem: headerView, attribute: .leading, multiplier: 1, constant: 17))
         headerView.addConstraint(NSLayoutConstraint(item: newPassTextField, attribute: .trailing, relatedBy: .equal, toItem: headerView, attribute: .trailing, multiplier: 1, constant: -17))
         newPassTextField.placeholder = "Enter new password"
@@ -122,7 +121,7 @@ class ChangePasswordViewController: UITableViewController {
         //Confirm TextField
         confirmPassTextField.translatesAutoresizingMaskIntoConstraints = false
         headerView.addConstraint(NSLayoutConstraint(item: confirmPassTextField, attribute: .top, relatedBy: .equal, toItem: newPassTextField, attribute: .bottom, multiplier: 1, constant: 20))
-        headerView.addConstraint(NSLayoutConstraint(item: confirmPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute,multiplier: 1, constant: 30))
+        headerView.addConstraint(NSLayoutConstraint(item: confirmPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
         headerView.addConstraint(NSLayoutConstraint(item: confirmPassTextField, attribute: .leading, relatedBy: .equal, toItem: headerView, attribute: .leading, multiplier: 1, constant: 17))
         headerView.addConstraint(NSLayoutConstraint(item: confirmPassTextField, attribute: .trailing, relatedBy: .equal, toItem: headerView, attribute: .trailing, multiplier: 1, constant: -17))
         confirmPassTextField.placeholder = "Enter new password again"
@@ -136,14 +135,13 @@ class ChangePasswordViewController: UITableViewController {
         confirmPassTextField.clearsOnBeginEditing = true
         confirmPassTextField.returnKeyType = .done
         confirmPassTextField.delegate = self
-        
 
         tableView.tableHeaderView = headerView
     }
     
 }
 
-//MARK: - TextField Delegate
+// MARK: - TextField Delegate
 extension ChangePasswordViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -177,7 +175,7 @@ extension ChangePasswordViewController: UITextFieldDelegate {
             if oldPass != userProfile?.password {
                 alert.set(message: "OLD_PWD_NOT_MATCHED".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 oldPassTextField.text = ""
-            }else{
+            } else {
                 isOldPassValidated = true
                 alert.set(message: "", font: .systemFont(ofSize: 14), color: UIColor.red)
             }
@@ -189,9 +187,9 @@ extension ChangePasswordViewController: UITextFieldDelegate {
             }
             if newPass.count < Constants.PASSWORD_MIN_LENGTH {
                 alert.set(message: "ALERT_PWD".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
-            }else if newPass.count > Constants.PASSWORD_MAX_LENGTH {
+            } else if newPass.count > Constants.PASSWORD_MAX_LENGTH {
                 alert.set(message: "PWD_MAX_LIMIT".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
-            }else {
+            } else {
                 isNewPassValidated = true
                 alert.set(message: "", font: .systemFont(ofSize: 14), color: UIColor.red)
             }
@@ -205,7 +203,7 @@ extension ChangePasswordViewController: UITextFieldDelegate {
                 alert.set(message: "PWD_NOT_MATCH".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 newPassTextField.text = ""
                 confirmPassTextField.text = ""
-            }else {
+            } else {
                 isConfirmPassValidated = true
                 alert.set(message: "", font: .systemFont(ofSize: 14), color: UIColor.red)
             }
@@ -238,8 +236,8 @@ extension ChangePasswordViewController: UITextFieldDelegate {
                 if oldPassTextField.text! == userProfile?.password {
                     alert.actions.last?.isEnabled = true
                     alert.set(message: "".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
-                }else if oldPassLength > storedPassLength ||
-                    (oldPassLength == storedPassLength && oldPassTextField.text! != userProfile?.password){
+                } else if oldPassLength > storedPassLength ||
+                    (oldPassLength == storedPassLength && oldPassTextField.text! != userProfile?.password) {
                     alert.actions.last?.isEnabled = false
                     alert.set(message: "OLD_PWD_NOT_MATCHED".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 } else {
@@ -264,7 +262,7 @@ extension ChangePasswordViewController: UITextFieldDelegate {
                     alert.actions.last?.isEnabled = true
                     alert.set(message: "".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 } else if confirmPassLength > newPassLength ||
-                    (confirmPassLength == newPassLength && confirmPassTextField.text! != newPassTextField.text!){
+                    (confirmPassLength == newPassLength && confirmPassTextField.text! != newPassTextField.text!) {
                     alert.actions.last?.isEnabled = false
                     alert.set(message: "PWD_NOT_MATCH".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 } else {

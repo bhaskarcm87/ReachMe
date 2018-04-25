@@ -22,8 +22,7 @@ class CallsViewController: UITableViewController {
         //fetchRequest.returnsObjectsAsFaults
         frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataModel.sharedInstance().managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
-        do { try frc.performFetch() }
-        catch { fatalError("Error in fetching records") }
+        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
         
         return frc
     }()
@@ -43,7 +42,6 @@ class CallsViewController: UITableViewController {
     }
     var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
-
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,10 +69,8 @@ class CallsViewController: UITableViewController {
             do {
                 try self.fetchedResultsController.performFetch()
                 self.handleBadgeCount()
-            }
-            catch { fatalError("Error in fetching records") }
+            } catch { fatalError("Error in fetching records") }
         })
-
         
     }
 
@@ -82,7 +78,7 @@ class CallsViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
         
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     func handleBadgeCount() {
         var unreadMessageCount: String? = nil
         
@@ -95,7 +91,7 @@ class CallsViewController: UITableViewController {
         }
     }
     
-    //MARK: - Segue Actions
+    // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let selectedMessage = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!)
         guard selectedMessage.readCount == 0 else { return }
@@ -110,7 +106,7 @@ class CallsViewController: UITableViewController {
     }
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension CallsViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -148,7 +144,7 @@ extension CallsViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections{
+        if let sections = fetchedResultsController.sections {
             let currentSection = sections[section]
             return currentSection.numberOfObjects
         }
@@ -173,7 +169,7 @@ extension CallsViewController {
     }
 }
 
-//MARK: - NSFetchedResultsControllerDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 extension CallsViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -197,7 +193,7 @@ extension CallsViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK: - Search Delegates
+// MARK: - Search Delegates
 extension CallsViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     func presentSearchController(_ searchController: UISearchController) {
         isPresentingSearchBar = true
@@ -222,7 +218,7 @@ extension CallsViewController: UISearchResultsUpdating, UISearchControllerDelega
     }
 }
 
-//MARK: - Tabbar Delegate
+// MARK: - Tabbar Delegate
 extension CallsViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
@@ -236,7 +232,7 @@ extension CallsViewController: UITabBarControllerDelegate {
                     
                     //CoreDataModel.sharedInstance().updateRecords(entity: .MessageEntity, properties: ["readCount" : 1])
 
-                    unreadMessages.forEach{ $0.readCount = 1}
+                    unreadMessages.forEach { $0.readCount = 1}
                     CoreDataModel.sharedInstance().saveContext()
                     self.handleBadgeCount()
                 }

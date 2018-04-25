@@ -7,7 +7,7 @@
 //
 
 /// Represents two disposable resources that are disposed together.
-private final class BinaryDisposable : DisposeBase, Cancelable {
+private final class BinaryDisposable: DisposeBase, Cancelable {
 
     private var _isDisposed: AtomicInt = 0
 

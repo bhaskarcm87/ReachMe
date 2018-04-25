@@ -6,15 +6,14 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-protocol CombineLatestProtocol : class {
+protocol CombineLatestProtocol: class {
     func next(_ index: Int)
     func fail(_ error: Swift.Error)
     func done(_ index: Int)
 }
 
 class CombineLatestSink<O: ObserverType>
-    : Sink<O>
-    , CombineLatestProtocol {
+    : Sink<O>, CombineLatestProtocol {
     typealias Element = O.E
    
     let _lock = RecursiveLock()
@@ -47,13 +46,11 @@ class CombineLatestSink<O: ObserverType>
             do {
                 let result = try getResult()
                 forwardOn(.next(result))
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
-        }
-        else {
+        } else {
             var allOthersDone = true
 
             for i in 0 ..< _arity {
@@ -91,9 +88,7 @@ class CombineLatestSink<O: ObserverType>
 }
 
 final class CombineLatestObserver<ElementType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+    : ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Element = ElementType
     typealias ValueSetter = (Element) -> Void
     

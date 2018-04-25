@@ -12,9 +12,7 @@ import UIKit
 import RxSwift
 
 // objc monkey business
-class _RxCollectionViewReactiveArrayDataSource
-    : NSObject
-    , UICollectionViewDataSource {
+class _RxCollectionViewReactiveArrayDataSource: NSObject, UICollectionViewDataSource {
     
     @objc(numberOfSectionsInCollectionView:)
     func numberOfSections(in: UICollectionView) -> Int {
@@ -39,8 +37,7 @@ class _RxCollectionViewReactiveArrayDataSource
 }
 
 class RxCollectionViewReactiveArrayDataSourceSequenceWrapper<S: Sequence>
-    : RxCollectionViewReactiveArrayDataSource<S.Iterator.Element>
-    , RxCollectionViewDataSourceType {
+    : RxCollectionViewReactiveArrayDataSource<S.Iterator.Element>, RxCollectionViewDataSourceType {
     typealias Element = S
 
     override init(cellFactory: @escaping CellFactory) {
@@ -55,15 +52,13 @@ class RxCollectionViewReactiveArrayDataSourceSequenceWrapper<S: Sequence>
     }
 }
 
-
 // Please take a look at `DelegateProxyType.swift`
 class RxCollectionViewReactiveArrayDataSource<Element>
-    : _RxCollectionViewReactiveArrayDataSource
-    , SectionedViewDataSourceType {
+    : _RxCollectionViewReactiveArrayDataSource, SectionedViewDataSourceType {
     
     typealias CellFactory = (UICollectionView, Int, Element) -> UICollectionViewCell
     
-    var itemModels: [Element]? = nil
+    var itemModels: [Element]?
     
     func modelAtIndex(_ index: Int) -> Element? {
         return itemModels?[index]

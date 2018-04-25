@@ -13,7 +13,7 @@ public struct Logging {
     public typealias LogURLRequest = (URLRequest) -> Bool
     
     /// Log URL requests to standard output in curl format.
-    public static var URLRequests: LogURLRequest =  { _ in
+    public static var URLRequests: LogURLRequest = { _ in
     #if DEBUG
         return true
     #else

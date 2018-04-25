@@ -57,7 +57,7 @@ class OTPViewController: UIViewController {
         OTPView.initalizeUI()
     }
 
-    //MARK: - Actions
+    // MARK: - Actions
     @IBAction func onLabelTapGesture(_ sender: UITapGestureRecognizer) {
         guard !timerLabel.isCounting else { return }
         
@@ -131,7 +131,7 @@ class OTPViewController: UIViewController {
     
 }
 
-//MARK: - VPMOTPViewDelegate
+// MARK: - VPMOTPViewDelegate
 extension OTPViewController: VPMOTPViewDelegate {
     func shouldBecomeFirstResponderForOTP(otpFieldIndex index: Int) -> Bool {
         return true
@@ -148,17 +148,17 @@ extension OTPViewController: VPMOTPViewDelegate {
     }
 }
 
-//MARK: - CountdownDelegate
+// MARK: - CountdownDelegate
 extension OTPViewController: CountdownLabelDelegate {
     func countdownFinished() {
         let attributedString = NSMutableAttributedString(string:callmeLabel.text!)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:42,length:7))
+        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:42, length:7))
         callmeLabel.attributedText = attributedString
     }
     
     func countdownStarted() {
         let attributedString = NSMutableAttributedString(string:callmeLabel.text!)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSRange(location:42,length:7))
+        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSRange(location:42, length:7))
         callmeLabel.attributedText = attributedString
     }
 }

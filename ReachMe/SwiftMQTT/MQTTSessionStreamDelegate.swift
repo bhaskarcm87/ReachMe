@@ -57,7 +57,7 @@ class MQTTSessionStream: NSObject, StreamDelegate {
         var bytes = [UInt8](repeating: 0, count: networkPacket.count)
         networkPacket.copyBytes(to: &bytes, count: networkPacket.count)
         if let writtenLength = outputStream?.write(bytes, maxLength: networkPacket.count) {
-            return writtenLength;
+            return writtenLength
         }
         return -1
     }

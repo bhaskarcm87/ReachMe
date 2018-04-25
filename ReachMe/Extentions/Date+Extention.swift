@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 extension Date {
     /// Returns the amount of years from another date
     func years(from date: Date) -> Int {
@@ -38,7 +37,6 @@ extension Date {
     func seconds(from date: Date) -> Int {
         return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
     }
-
     
     /// Returns custom time interval description from another date
     func offset(from date: Date) -> String {

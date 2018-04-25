@@ -21,7 +21,6 @@ class ChatsViewController: UITableViewController {
     }(UISearchController(searchResultsController: nil))
     var isPresentingSearchBar: Bool = false
     
-    
     var mockChatUsers: [ChatUser] = [
         ChatUser(name: "Wordpress", lastChat: "New WordPress Site"),
         ChatUser(name: "IFTTT", lastChat: "See what’s new"),
@@ -29,8 +28,6 @@ class ChatsViewController: UITableViewController {
         ChatUser(name: "Nugget Markets", lastChat: "Nugget Markets Weekly"),
         ChatUser(name: "GeekDesk", lastChat: "We have some exciting")]
     var defaultOptions = SwipeTableOptions()
-
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,12 +48,11 @@ class ChatsViewController: UITableViewController {
 
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension ChatsViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mockChatUsers.count
     }
-    
     
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatsGeneralCell.identifier, for: indexPath) as! ChatsGeneralCell
@@ -78,7 +74,7 @@ extension ChatsViewController {
     }
 }
 
-//MARK: - Swipecell Delegate
+// MARK: - Swipecell Delegate
 extension ChatsViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         let chatUser = mockChatUsers[indexPath.row]
@@ -109,14 +105,12 @@ extension ChatsViewController: SwipeTableViewCellDelegate {
             }
             close.title = ActionDescriptor.close.title
             close.backgroundColor = ActionDescriptor.close.color
-
             
             let block = SwipeAction(style: .default, title: nil) { action, indexPath in
             }
             block.hidesWhenSelected = true
             block.title = ActionDescriptor.block.title
             block.backgroundColor = ActionDescriptor.block.color
-
             
             return [close, block]
         }
@@ -132,7 +126,7 @@ extension ChatsViewController: SwipeTableViewCellDelegate {
     
 }
 
-//MARK: - Search Delegates
+// MARK: - Search Delegates
 extension ChatsViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     func presentSearchController(_ searchController: UISearchController) {
         isPresentingSearchBar = true
@@ -156,7 +150,6 @@ extension ChatsViewController: UISearchResultsUpdating, UISearchControllerDelega
 //        } catch { fatalError("Error in fetching records") }
     }
 }
-
 
 class ChatUser {
     let name: String

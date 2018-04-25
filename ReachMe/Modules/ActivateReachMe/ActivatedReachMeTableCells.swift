@@ -55,4 +55,3 @@ class ActivatedReachMeSwitchToCell: UITableViewCell {
             RMUtility.handleHelpSupportAction(withHelpText: nil)
         }
 }
-

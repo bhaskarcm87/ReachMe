@@ -38,7 +38,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class TimeoutSink<O: ObserverType>: Sink<O>, LockOwnerType, ObserverType {
+final private class TimeoutSink<O: ObserverType>: Sink<O>, LockOwnerType, ObserverType {
     typealias E = O.E
     typealias Parent = Timeout<E>
     
@@ -129,8 +129,7 @@ final fileprivate class TimeoutSink<O: ObserverType>: Sink<O>, LockOwnerType, Ob
     }
 }
 
-
-final fileprivate class Timeout<Element> : Producer<Element> {
+final private class Timeout<Element> : Producer<Element> {
     
     fileprivate let _source: Observable<Element>
     fileprivate let _dueTime: RxTimeInterval
@@ -144,7 +143,7 @@ final fileprivate class Timeout<Element> : Producer<Element> {
         _scheduler = scheduler
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = TimeoutSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

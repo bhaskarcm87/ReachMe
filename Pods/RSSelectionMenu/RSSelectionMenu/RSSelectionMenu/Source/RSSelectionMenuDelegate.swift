@@ -29,7 +29,7 @@ open class RSSelectionMenuDelegate<T>: NSObject, UITableViewDelegate {
     // MARK: - Properties
 
     /// tableview cell selection delegate
-    var selectionDelegate: UITableViewCellSelection<T>? = nil
+    var selectionDelegate: UITableViewCellSelection<T>?
     
     /// selected objects
     var selectedObjects = DataSource<T>()
@@ -40,7 +40,7 @@ open class RSSelectionMenuDelegate<T>: NSObject, UITableViewDelegate {
         selectedObjects = selectedItems
     }
     
-    // MARK:- UITableViewDelegate
+    // MARK: - UITableViewDelegate
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
@@ -63,8 +63,7 @@ open class RSSelectionMenuDelegate<T>: NSObject, UITableViewDelegate {
         // single selection
         if selectionTableView.selectionType == .Single {
             handleActionForSingleSelection(object: dataObject, tableView: selectionTableView)
-        }
-        else {
+        } else {
             // multiple selection
             handleActionForMultiSelection(object: dataObject, tableView: selectionTableView)
         }
@@ -74,7 +73,7 @@ open class RSSelectionMenuDelegate<T>: NSObject, UITableViewDelegate {
     }
 }
 
-// MARK:- Private
+// MARK: - Private
 extension RSSelectionMenuDelegate {
     
     /// action handler for single selection tableview
@@ -102,8 +101,7 @@ extension RSSelectionMenuDelegate {
         // remove if already selected
         if let selectedIndex = tableView.selectionMenu?.isSelected(object: object, from: selectedObjects) {
             selectedObjects.remove(at: selectedIndex)
-        }
-        else {
+        } else {
             selectedObjects.append(object)
             isSelected = true
         }
@@ -153,7 +151,7 @@ extension RSSelectionMenuDelegate {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension RSSelectionMenuDelegate {
     
     /// check for selection status

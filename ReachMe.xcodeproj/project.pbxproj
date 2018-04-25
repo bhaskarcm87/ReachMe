@@ -111,7 +111,7 @@
 		8CD2A9CF208A5BFA00CF4E0A /* rcmessages_audioplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B5208A5BF900CF4E0A /* rcmessages_audioplay@2x.png */; };
 		8CD2A9D0208A5BFA00CF4E0A /* rcmessages_manual@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B6208A5BF900CF4E0A /* rcmessages_manual@2x.png */; };
 		8CD2A9D1208A5BFA00CF4E0A /* rcmessages_videoplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B7208A5BF900CF4E0A /* rcmessages_videoplay@2x.png */; };
-		8CD2A9DB20905DC700CF4E0A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */; };
+		8CD2A9DE209069DB00CF4E0A /* EmailNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2A9DD209069DB00CF4E0A /* EmailNotificationsViewController.swift */; };
 		8CD354A1206513ED009BCF14 /* MessagesTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */; };
 		8CD354A72066D8F1009BCF14 /* RedeemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */; };
 		8CD354AA2066DF61009BCF14 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A92066DF61009BCF14 /* AboutViewController.swift */; };
@@ -250,7 +250,7 @@
 		8CD2A9B5208A5BF900CF4E0A /* rcmessages_audioplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_audioplay@2x.png"; sourceTree = "<group>"; };
 		8CD2A9B6208A5BF900CF4E0A /* rcmessages_manual@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_manual@2x.png"; sourceTree = "<group>"; };
 		8CD2A9B7208A5BF900CF4E0A /* rcmessages_videoplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_videoplay@2x.png"; sourceTree = "<group>"; };
-		8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .swiftlint.yml; path = ReachMe/.swiftlint.yml; sourceTree = "<group>"; };
+		8CD2A9DD209069DB00CF4E0A /* EmailNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailNotificationsViewController.swift; sourceTree = "<group>"; };
 		8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableCells.swift; sourceTree = "<group>"; };
 		8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemViewController.swift; sourceTree = "<group>"; };
 		8CD354A92066DF61009BCF14 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -421,7 +421,6 @@
 		8C637CC12035C77500A38663 = {
 			isa = PBXGroup;
 			children = (
-				8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */,
 				8C1B1139207CEC3100A172B3 /* ReachMe-Bridging-Header.h */,
 				8CD2A97F208A5BF900CF4E0A /* RCMessageKit */,
 				8C1B0F8F20776ACD00A172B3 /* SwiftMQTT */,
@@ -486,6 +485,7 @@
 		8C934CEC2050281C00AAAC73 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				8CD2A9DC209069AA00CF4E0A /* Email Notifications */,
 				8CD354A82066DF44009BCF14 /* About ReachMe */,
 				8CD354A52066D8CE009BCF14 /* Redeem Code */,
 				8C934CED2050281C00AAAC73 /* General */,
@@ -688,6 +688,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		8CD2A9DC209069AA00CF4E0A /* Email Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				8CD2A9DD209069DB00CF4E0A /* EmailNotificationsViewController.swift */,
+			);
+			path = "Email Notifications";
+			sourceTree = "<group>";
+		};
 		8CD354A52066D8CE009BCF14 /* Redeem Code */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,12 +730,12 @@
 			buildConfigurationList = 8C637CDF2035C77500A38663 /* Build configuration list for PBXNativeTarget "ReachMe" */;
 			buildPhases = (
 				5A32B662E01B70047C022EDC /* [CP] Check Pods Manifest.lock */,
+				8CD2A9D920905BBD00CF4E0A /* ShellScript */,
 				8C637CC62035C77500A38663 /* Sources */,
 				8C637CC72035C77500A38663 /* Frameworks */,
 				8C637CC82035C77500A38663 /* Resources */,
 				76A179D7D7DA5C925C1EEB63 /* [CP] Embed Pods Frameworks */,
 				979A50B864E0ACFD0E59E0F9 /* [CP] Copy Pods Resources */,
-				8CD2A9D920905BBD00CF4E0A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -809,7 +817,6 @@
 				8CD2A9CF208A5BFA00CF4E0A /* rcmessages_audioplay@2x.png in Resources */,
 				8CD2A9CA208A5BFA00CF4E0A /* rcmessage_audio@2x.png in Resources */,
 				8CF7B1C9205BB00D00F87FFB /* Invite.storyboard in Resources */,
-				8CD2A9DB20905DC700CF4E0A /* .swiftlint.yml in Resources */,
 				8CD2A9CD208A5BFA00CF4E0A /* rcmessage_send@2x.png in Resources */,
 				8CD2A9D0208A5BFA00CF4E0A /* rcmessages_manual@2x.png in Resources */,
 				8CD2A9D1208A5BFA00CF4E0A /* rcmessages_videoplay@2x.png in Resources */,
@@ -848,6 +855,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alertift/Alertift.framework",
 				"${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
+				"${BUILT_PRODUCTS_DIR}/Former/Former.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RSSelectionMenu/RSSelectionMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
@@ -862,6 +870,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alertift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountdownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Former.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSSelectionMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
@@ -886,7 +895,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
 		};
 		979A50B864E0ACFD0E59E0F9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -981,6 +990,7 @@
 				8CCE67D620849DDF00002E69 /* UIViewController+Extention.swift in Sources */,
 				8C2BD8822040310000E24209 /* ServiceRequest.swift in Sources */,
 				8CA1E2852048849E004E7D6B /* CoreDataModel.swift in Sources */,
+				8CD2A9DE209069DB00CF4E0A /* EmailNotificationsViewController.swift in Sources */,
 				8C1B0FAF20776ACD00A172B3 /* MQTTUnsubPacket.swift in Sources */,
 				8CA1E28E204B43F8004E7D6B /* ActivateReachMeTableCells.swift in Sources */,
 				8CA1E2862048849E004E7D6B /* Profile.swift in Sources */,

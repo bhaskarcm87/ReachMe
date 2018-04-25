@@ -26,7 +26,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class BufferTimeCount<Element> : Producer<[Element]> {
+final private class BufferTimeCount<Element> : Producer<[Element]> {
     
     fileprivate let _timeSpan: RxTimeInterval
     fileprivate let _count: Int
@@ -40,18 +40,15 @@ final fileprivate class BufferTimeCount<Element> : Producer<[Element]> {
         _scheduler = scheduler
     }
     
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == [Element] {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == [Element] {
         let sink = BufferTimeCountSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
     }
 }
 
-final fileprivate class BufferTimeCountSink<Element, O: ObserverType>
-    : Sink<O>
-    , LockOwnerType
-    , ObserverType
-    , SynchronizedOnType where O.E == [Element] {
+final private class BufferTimeCountSink<Element, O: ObserverType>
+    : Sink<O>, LockOwnerType, ObserverType, SynchronizedOnType where O.E == [Element] {
     typealias Parent = BufferTimeCount<Element>
     typealias E = Element
     

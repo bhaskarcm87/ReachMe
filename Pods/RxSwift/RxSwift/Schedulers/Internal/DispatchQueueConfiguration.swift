@@ -30,7 +30,6 @@ extension DispatchQueueConfiguration {
                 return
             }
 
-
             cancel.setDisposable(action(state))
         }
 

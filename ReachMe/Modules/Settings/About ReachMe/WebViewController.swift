@@ -47,7 +47,7 @@ class WebViewController: UIViewController {
     }
 }
 
-//MARK: - WKNavigationDelegate
+// MARK: - WKNavigationDelegate
 extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         spinner.startAnimating()

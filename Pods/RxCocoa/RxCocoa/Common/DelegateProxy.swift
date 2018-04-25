@@ -27,7 +27,7 @@
         private weak private(set) var _parentObject: ParentObject?
 
         fileprivate let _currentDelegateFor: (ParentObject) -> AnyObject?
-        fileprivate let _setCurrentDelegateTo: (AnyObject?, ParentObject) -> ()
+        fileprivate let _setCurrentDelegateTo: (AnyObject?, ParentObject) -> Void
 
         /// Initializes new instance.
         ///
@@ -94,8 +94,7 @@
 
             if let subject = subject {
                 return subject.asObservable()
-            }
-            else {
+            } else {
                 let subject = MessageDispatcher(selector: selector, delegateProxy: self)
                 _sentMessageForSelector[selector] = subject
                 return subject.asObservable()
@@ -151,8 +150,7 @@
 
             if let subject = subject {
                 return subject.asObservable()
-            }
-            else {
+            } else {
                 let subject = MessageDispatcher(selector: selector, delegateProxy: self)
                 _methodInvokedForSelector[selector] = subject
                 return subject.asObservable()
@@ -252,11 +250,10 @@
                 _ = Resources.decrementTotal()
             #endif
         }
-    
 
     }
 
-    fileprivate let mainScheduler = MainScheduler()
+    private let mainScheduler = MainScheduler()
 
     fileprivate final class MessageDispatcher {
         private let dispatcher: PublishSubject<[Any]>
@@ -277,7 +274,7 @@
                 .subscribeOn(mainScheduler)
         }
 
-        var on: (Event<[Any]>) -> () {
+        var on: (Event<[Any]>) -> Void {
             return self.dispatcher.on
         }
 

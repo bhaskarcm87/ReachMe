@@ -64,7 +64,6 @@ class ChatsGeneralCell: SwipeTableViewCell {
     }
 }
 
-
 class IndicatorView: UIView {
     var color = UIColor.clear {
         didSet { setNeedsDisplay() }

@@ -30,11 +30,11 @@ public extension NSObject {
     // dictionary
     @objc public func toDictionary() -> [String: AnyObject] {
         
-        let propertiesDictionary : NSMutableDictionary = NSMutableDictionary()
+        let propertiesDictionary: NSMutableDictionary = NSMutableDictionary()
         let model = Mirror(reflecting: self)
         for (name, value) in model.children {
             propertiesDictionary.setValue(value, forKey: name!)
         }
-        return propertiesDictionary as! [String : AnyObject]
+        return propertiesDictionary as! [String: AnyObject]
     }
 }

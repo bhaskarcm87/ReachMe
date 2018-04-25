@@ -19,16 +19,16 @@ extension String {
         return prefix(1).uppercased() + dropFirst()
     }
     
-    func isValidEmail()->Bool {
+    func isValidEmail() -> Bool {
         // Password should not blank
-        if self.isEmpty{
+        if self.isEmpty {
             return false
         }
         //Email address should accept like:test@gmail.co.uk
         let emailRegEx = "[.0-9a-zA-Z_-]+@[0-9a-zA-Z.-]+\\.[a-zA-Z]{2,20}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         
-        if !emailTest.evaluate(with: self){
+        if !emailTest.evaluate(with: self) {
             return false
         }
         return true

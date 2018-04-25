@@ -22,8 +22,7 @@ class VoicemailsViewController: UITableViewController {
         fetchRequest.sortDescriptors = [sort]
         frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataModel.sharedInstance().managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
-        do { try frc.performFetch() }
-        catch { fatalError("Error in fetching records") }
+        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
         
         return frc
     }()
@@ -66,10 +65,8 @@ class VoicemailsViewController: UITableViewController {
             do {
                 try self.fetchedResultsController.performFetch()
                 self.handleBadgeCount()
-            }
-            catch { fatalError("Error in fetching records") }
+            } catch { fatalError("Error in fetching records") }
         })
-        
 
     }
 
@@ -82,7 +79,7 @@ class VoicemailsViewController: UITableViewController {
         playingJukebox?.pause()
     }
 
-    //MARK: - Custom Methods
+    // MARK: - Custom Methods
     func handleBadgeCount() {
         var unreadMessageCount: String? = nil
         
@@ -96,7 +93,7 @@ class VoicemailsViewController: UITableViewController {
     }
 }
 
-//MARK: - TableView Delegate & Datasource
+// MARK: - TableView Delegate & Datasource
 extension VoicemailsViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -136,7 +133,7 @@ extension VoicemailsViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections{
+        if let sections = fetchedResultsController.sections {
             let currentSection = sections[section]
             return currentSection.numberOfObjects
         }
@@ -187,7 +184,7 @@ extension VoicemailsViewController {
     }
 }
 
-//MARK: - NSFetchedResultsControllerDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 extension VoicemailsViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -211,7 +208,7 @@ extension VoicemailsViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK: - Search Delegates
+// MARK: - Search Delegates
 extension VoicemailsViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     func presentSearchController(_ searchController: UISearchController) {
         isPresentingSearchBar = true
