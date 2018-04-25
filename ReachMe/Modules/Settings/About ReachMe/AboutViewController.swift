@@ -12,6 +12,7 @@ class AboutViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {

@@ -111,6 +111,7 @@
 		8CD2A9CF208A5BFA00CF4E0A /* rcmessages_audioplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B5208A5BF900CF4E0A /* rcmessages_audioplay@2x.png */; };
 		8CD2A9D0208A5BFA00CF4E0A /* rcmessages_manual@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B6208A5BF900CF4E0A /* rcmessages_manual@2x.png */; };
 		8CD2A9D1208A5BFA00CF4E0A /* rcmessages_videoplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9B7208A5BF900CF4E0A /* rcmessages_videoplay@2x.png */; };
+		8CD2A9DB20905DC700CF4E0A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */; };
 		8CD354A1206513ED009BCF14 /* MessagesTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */; };
 		8CD354A72066D8F1009BCF14 /* RedeemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */; };
 		8CD354AA2066DF61009BCF14 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A92066DF61009BCF14 /* AboutViewController.swift */; };
@@ -249,6 +250,7 @@
 		8CD2A9B5208A5BF900CF4E0A /* rcmessages_audioplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_audioplay@2x.png"; sourceTree = "<group>"; };
 		8CD2A9B6208A5BF900CF4E0A /* rcmessages_manual@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_manual@2x.png"; sourceTree = "<group>"; };
 		8CD2A9B7208A5BF900CF4E0A /* rcmessages_videoplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rcmessages_videoplay@2x.png"; sourceTree = "<group>"; };
+		8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = .swiftlint.yml; path = ReachMe/.swiftlint.yml; sourceTree = "<group>"; };
 		8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableCells.swift; sourceTree = "<group>"; };
 		8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemViewController.swift; sourceTree = "<group>"; };
 		8CD354A92066DF61009BCF14 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 		8C637CC12035C77500A38663 = {
 			isa = PBXGroup;
 			children = (
+				8CD2A9DA20905DC700CF4E0A /* .swiftlint.yml */,
 				8C1B1139207CEC3100A172B3 /* ReachMe-Bridging-Header.h */,
 				8CD2A97F208A5BF900CF4E0A /* RCMessageKit */,
 				8C1B0F8F20776ACD00A172B3 /* SwiftMQTT */,
@@ -724,6 +727,7 @@
 				8C637CC82035C77500A38663 /* Resources */,
 				76A179D7D7DA5C925C1EEB63 /* [CP] Embed Pods Frameworks */,
 				979A50B864E0ACFD0E59E0F9 /* [CP] Copy Pods Resources */,
+				8CD2A9D920905BBD00CF4E0A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -805,6 +809,7 @@
 				8CD2A9CF208A5BFA00CF4E0A /* rcmessages_audioplay@2x.png in Resources */,
 				8CD2A9CA208A5BFA00CF4E0A /* rcmessage_audio@2x.png in Resources */,
 				8CF7B1C9205BB00D00F87FFB /* Invite.storyboard in Resources */,
+				8CD2A9DB20905DC700CF4E0A /* .swiftlint.yml in Resources */,
 				8CD2A9CD208A5BFA00CF4E0A /* rcmessage_send@2x.png in Resources */,
 				8CD2A9D0208A5BFA00CF4E0A /* rcmessages_manual@2x.png in Resources */,
 				8CD2A9D1208A5BFA00CF4E0A /* rcmessages_videoplay@2x.png in Resources */,
@@ -869,6 +874,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ReachMe/Pods-ReachMe-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8CD2A9D920905BBD00CF4E0A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		979A50B864E0ACFD0E59E0F9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
