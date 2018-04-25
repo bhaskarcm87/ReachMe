@@ -223,7 +223,7 @@ extension SettingsViewController {
                 tableView.deleteRows(at: [IndexPath.init(row: 1, section: 2)], with: .fade)
                 return
             }
-            
+            ////
             //Remove Lined number section rows except first one
             var indepathList = [IndexPath]()
             let linkedSectionrowCount = tableCellArray[3].count

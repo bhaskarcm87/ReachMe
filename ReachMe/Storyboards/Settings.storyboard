@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="doA-Ib-zog">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="doA-Ib-zog">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Settings-->
         <scene sceneID="hau-hl-zrJ">
@@ -423,25 +418,25 @@
                                 <rect key="frame" x="0.0" y="687.5" width="375" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rhK-ge-5Gk" id="mru-FZ-x5w">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="50.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="50.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Redeem Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ssU-SI-vqv">
-                                            <rect key="frame" x="59" y="8" width="108.5" height="20.5"/>
+                                            <rect key="frame" x="52" y="8" width="108.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Invite codes, Promo codes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zEc-KH-Euh">
-                                            <rect key="frame" x="59" y="28.5" width="150" height="14.5"/>
+                                            <rect key="frame" x="52" y="28.5" width="150" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="redeem" id="Ngb-aj-b4O">
-                                            <rect key="frame" x="15" y="10" width="29" height="29"/>
+                                            <rect key="frame" x="8" y="10" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -454,25 +449,25 @@
                                 <rect key="frame" x="0.0" y="738.5" width="375" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1PK-yx-1A2" id="zIm-Fx-Tuq">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="50.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="50.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="General" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xOn-Q5-QZ4">
-                                            <rect key="frame" x="59" y="8" width="59.5" height="20.5"/>
+                                            <rect key="frame" x="52" y="8" width="59.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Password &amp; Ringtone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UUG-0g-9yh">
-                                            <rect key="frame" x="59" y="28.5" width="120" height="14.5"/>
+                                            <rect key="frame" x="52" y="28.5" width="120" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="settings_account_icn" id="MUq-3d-cFY">
-                                            <rect key="frame" x="15" y="10" width="29" height="29"/>
+                                            <rect key="frame" x="8" y="10" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -485,7 +480,7 @@
                                 <rect key="frame" x="0.0" y="789.5" width="375" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="43G-JH-gwh" id="O8i-0S-PGa">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="50.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="50.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings_info_icn" translatesAutoresizingMaskIntoConstraints="NO" id="OAE-AY-qkm">
@@ -499,7 +494,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Carrier Support" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcl-41-hEx">
-                                            <rect key="frame" x="61" y="13" width="281" height="24"/>
+                                            <rect key="frame" x="61" y="13" width="288" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="XwY-z8-Mf7"/>
                                             </constraints>
@@ -529,14 +524,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="App Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EhA-Hn-YkA">
-                                            <rect key="frame" x="59" y="0.0" width="301" height="50.5"/>
+                                            <rect key="frame" x="52" y="0.0" width="308" height="50.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="settings_instavoice_icn" id="FN9-g8-8ob">
-                                            <rect key="frame" x="15" y="10" width="29" height="29"/>
+                                            <rect key="frame" x="8" y="10" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -598,7 +593,7 @@
                             <outlet property="delegate" destination="9JF-tw-g5m" id="KXc-dE-Uek"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Voicemail Greetings" id="4F5-vr-5h2">
+                    <navigationItem key="navigationItem" title="Voicemail Greetings" largeTitleDisplayMode="never" id="4F5-vr-5h2">
                         <barButtonItem key="rightBarButtonItem" title="Help" id="eYl-Ir-hLE"/>
                     </navigationItem>
                 </tableViewController>
@@ -660,7 +655,7 @@
                             <outlet property="delegate" destination="ezS-FA-hrP" id="RGr-ft-I5V"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Email Notifications" id="nR4-0T-diw">
+                    <navigationItem key="navigationItem" title="Email Notifications" largeTitleDisplayMode="never" id="nR4-0T-diw">
                         <barButtonItem key="rightBarButtonItem" title="Help" id="Uq0-4g-oiV"/>
                     </navigationItem>
                 </tableViewController>
@@ -800,7 +795,7 @@
                             <outlet property="delegate" destination="cOr-Xz-KUf" id="i7w-6r-aqf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Redeem Code" id="9Yq-Eo-HwT">
+                    <navigationItem key="navigationItem" title="Redeem Code" largeTitleDisplayMode="never" id="9Yq-Eo-HwT">
                         <barButtonItem key="rightBarButtonItem" title="Help" id="tTq-Tz-9Ke"/>
                     </navigationItem>
                     <connections>
@@ -962,7 +957,7 @@
                             <outlet property="delegate" destination="TCF-KT-quU" id="eDx-Ja-EY7"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="General" id="Tob-CG-ifB"/>
+                    <navigationItem key="navigationItem" title="General" largeTitleDisplayMode="never" id="Tob-CG-ifB"/>
                     <connections>
                         <outlet property="passwordHindLabel" destination="NBr-ab-hQU" id="n5S-TR-gxy"/>
                         <outlet property="passwordSetLabel" destination="Hbm-qD-XeQ" id="gGY-cv-RjQ"/>
