@@ -319,7 +319,7 @@ extension ServiceRequest {
                 if let customSettingsJsonString = responseDics["custom_settings"] as? String, !customSettingsJsonString.isEmpty {
                     let customSettings = RMUtility.parseJSONToArrayOfDictionary(inputString: customSettingsJsonString)
                     
-                    for (_, customSetting) in (customSettings?.enumerated())! {
+                    for customSetting in customSettings! {
                         if let recordingTime = customSetting["recording_time"] as? String {
                             ServiceRequest.shared().userProfile.recordingTime = recordingTime
                         } else if let storageLocation = customSetting["storage_location"] as? String {
@@ -535,7 +535,7 @@ extension ServiceRequest {
                 
                 let customSettingsJsonString = responseDics["custom_settings"] as! String
                 let customSettings = RMUtility.parseJSONToArrayOfDictionary(inputString: customSettingsJsonString)
-                for (_, customSetting) in (customSettings?.enumerated())! {
+                for customSetting in customSettings! {
                     
                     if let carrierJsonString = customSetting["carrier"] as? String {
                         let carrier = RMUtility.parseJSONToDictionary(inputString: carrierJsonString)
@@ -865,7 +865,7 @@ extension ServiceRequest {
     func startRequestForDownloadProfilePic(completionHandler:@escaping (Data) -> Void) {
         
         _ =  Alamofire.request((ServiceRequest.shared().userProfile.profilePicURL)!)
-            .validate { _, _, imageData in
+            .validate { request, response, imageData in
                 ServiceRequest.shared().userProfile.profilePicData = imageData
                 CoreDataModel.sharedInstance().saveContext()
                 completionHandler(imageData!)
@@ -880,7 +880,7 @@ extension ServiceRequest {
     func startRequestForDownloadImage(forURL downloadURL: String, completionHandler:@escaping (Data) -> Void) {
         
         _ =  Alamofire.request(downloadURL)
-            .validate { _, _, imageData in
+            .validate { request, response, imageData in
                 completionHandler(imageData!)
                 return .success
         }
