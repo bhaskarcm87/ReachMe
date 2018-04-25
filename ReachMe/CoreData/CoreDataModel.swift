@@ -52,7 +52,7 @@ open class CoreDataModel {
         let url = self.applicationDocumentsDirectory.appendingPathComponent("\(self.dataModel).sqlite")
         var failureReason = "CoreData - There was an error creating or loading the application's saved data."
         do {
-            let options = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
+            let options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true ]
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
         } catch {
             var dict = [String: AnyObject]()
@@ -96,14 +96,16 @@ open class CoreDataModel {
     // MARK: - Core Data Saving support
     open func saveContext () {
         if managedObjectContext.hasChanges {
-            do {
-                try managedObjectContext.save()
-                CoreDataModel.sharedInstance().userProfile = nil
-            } catch {
-                let nserror = error as NSError
-                NSLog("CoreData - Unresolved error \(nserror), \(nserror.userInfo)")
-                abort()
-            }
+            managedObjectContext.performAndWait({
+                do {
+                    try self.managedObjectContext.save()
+                    CoreDataModel.sharedInstance().userProfile = nil
+                } catch {
+                    let nserror = error as NSError
+                    NSLog("CoreData - Unresolved error \(nserror), \(nserror.userInfo)")
+                    abort()
+                }
+            })
         }
     }
     
@@ -185,7 +187,7 @@ extension CoreDataModel {
                 let objectIds = result.result as! [NSManagedObjectID]
                 for objectId in objectIds {
                     let managedObject = managedObjectContext.object(with: objectId)
-                    if(!managedObject.isFault) {
+                    if !managedObject.isFault {
                         managedObjectContext.stalenessInterval = 0
                         managedObjectContext.refresh(managedObject, mergeChanges: true)
                     }

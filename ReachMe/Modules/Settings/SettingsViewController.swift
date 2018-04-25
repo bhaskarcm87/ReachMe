@@ -42,10 +42,10 @@ class SettingsViewController: UITableViewController {
         
         ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
             guard success else { return }
-            CoreDataModel.sharedInstance().saveContext()
             ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
                 guard success else { return }
                 CoreDataModel.sharedInstance().saveContext()
+                self.constructtableCells()
                 self.tableView.reloadData()
             })
         })
@@ -57,6 +57,8 @@ class SettingsViewController: UITableViewController {
     }
    
     func constructtableCells() {
+        tableCellArray.removeAll()
+        
         //Profile
         let editProfileCell = tableView.dequeueReusableCell(withIdentifier: "SettingsProfileEditCell")
         editProfileCell?.detailTextLabel?.text = userProfile?.primaryContact?.countryName
@@ -79,8 +81,8 @@ class SettingsViewController: UITableViewController {
         let numberCount = NSMutableAttributedString(string: "\(((userProfile?.userContacts?.count)! - 1))")
         let combination = NSMutableAttributedString()
         combination.append(numberCount)
-        let extraString = NSMutableAttributedString(string:"------------------------")//To create space temporary adding few charachters
-        extraString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:0, length:24))
+        let extraString = NSMutableAttributedString(string: "------------------------")//To create space temporary adding few charachters
+        extraString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: 24))
         combination.append(extraString)
         linkedNumbersCell?.detailTextLabel?.attributedText = combination
         tableCellArray.append([linkedNumbersCell as Any])
@@ -260,11 +262,9 @@ extension SettingsViewController {
                                 guard success else { return }
                                 
                                 //Change existing primary contact to false
-                                for contact in (self.userProfile?.userContacts?.allObjects as? [UserContact])! {
-                                    if contact.isPrimary {
+                                for contact in (self.userProfile?.userContacts?.allObjects as? [UserContact])! where contact.isPrimary == true {
                                         contact.isPrimary = false
                                         break
-                                    }
                                 }
                                 
                                 //Update selected Contact to true
@@ -315,7 +315,7 @@ extension SettingsViewController {
         } else if tableCell?.tag == 5 { //Secondary Number
             let predicate = NSPredicate(format: "formatedNumber == %@", (tableCell?.textLabel?.text)!)
             let userContact = userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
-            if (userContact.selectedCarrier == nil && (userContact.voiceMailInfo?.countryVoicemailSupport)!) {
+            if  userContact.selectedCarrier == nil && (userContact.voiceMailInfo?.countryVoicemailSupport)! {
                 performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: nil)
                 return
             }
