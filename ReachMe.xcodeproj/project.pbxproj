@@ -35,7 +35,6 @@
 		8C1B105E207C91C700A172B3 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B105D207C91C700A172B3 /* ChatsViewController.swift */; };
 		8C1B1060207CA81200A172B3 /* ChatTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B105F207CA81200A172B3 /* ChatTableCells.swift */; };
 		8C1B1063207CD10900A172B3 /* ChatUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B1062207CD10900A172B3 /* ChatUserViewController.swift */; };
-		8C2892502038817C0026537B /* KeyboardAvoidScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C28924F2038817C0026537B /* KeyboardAvoidScrollView.swift */; };
 		8C2892522039883E0026537B /* UITapGestureRecognizer+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2892512039883E0026537B /* UITapGestureRecognizer+Extention.swift */; };
 		8C2892602039FA5C0026537B /* RMIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C28925A2039FA5C0026537B /* RMIntroViewController.swift */; };
 		8C2892612039FA5C0026537B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C28925C2039FA5C0026537B /* LoginViewController.swift */; };
@@ -155,7 +154,6 @@
 		8C1B105F207CA81200A172B3 /* ChatTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableCells.swift; sourceTree = "<group>"; };
 		8C1B1062207CD10900A172B3 /* ChatUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserViewController.swift; sourceTree = "<group>"; };
 		8C1B1139207CEC3100A172B3 /* ReachMe-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ReachMe-Bridging-Header.h"; path = "ReachMe/ReachMe-Bridging-Header.h"; sourceTree = "<group>"; };
-		8C28924F2038817C0026537B /* KeyboardAvoidScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAvoidScrollView.swift; sourceTree = "<group>"; };
 		8C2892512039883E0026537B /* UITapGestureRecognizer+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Extention.swift"; sourceTree = "<group>"; };
 		8C28925A2039FA5C0026537B /* RMIntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMIntroViewController.swift; sourceTree = "<group>"; };
 		8C28925C2039FA5C0026537B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -331,14 +329,6 @@
 			path = Chats;
 			sourceTree = "<group>";
 		};
-		8C28924E203881420026537B /* CustomClasses */ = {
-			isa = PBXGroup;
-			children = (
-				8C28924F2038817C0026537B /* KeyboardAvoidScrollView.swift */,
-			);
-			path = CustomClasses;
-			sourceTree = "<group>";
-		};
 		8C2892582039FA5C0026537B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,7 +443,6 @@
 				8C2BD8812040310000E24209 /* ServiceRequest.swift */,
 				8CA1E2802048849E004E7D6B /* CoreData */,
 				8C2892582039FA5C0026537B /* Modules */,
-				8C28924E203881420026537B /* CustomClasses */,
 				8C637CE420370F5500A38663 /* Extentions */,
 				8C637CCD2035C77500A38663 /* AppDelegate.swift */,
 				8C2892692039FE3C0026537B /* Storyboards */,
@@ -996,7 +985,6 @@
 				8CA1E2862048849E004E7D6B /* Profile.swift in Sources */,
 				8C9791C9206AE04A004BFA3B /* Jukebox.swift in Sources */,
 				8CB230222064D22100760CD3 /* CallsViewController.swift in Sources */,
-				8C2892502038817C0026537B /* KeyboardAvoidScrollView.swift in Sources */,
 				8C17CF242038052900CCADC1 /* Constants.swift in Sources */,
 				8C972EC4205915D1008C9FEA /* UIAlertController+Extention.swift in Sources */,
 				8CD2A9BA208A5BF900CF4E0A /* RCBubbleHeaderCell.m in Sources */,
