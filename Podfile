@@ -18,4 +18,5 @@ target 'ReachMe' do
 	pod 'SwipeCellKit'
 	pod 'Former'
 	pod 'SwiftLint'
+	pod 'MTCoordinatorView'
 end

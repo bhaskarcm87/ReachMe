@@ -12,7 +12,10 @@ import StoreKit
 
 class SettingsViewController: UITableViewController {
 
-    var storeProductViewController = SKStoreProductViewController()
+    lazy var storeProductViewController: SKStoreProductViewController = {
+        $0.delegate = self
+        return $0
+    }(SKStoreProductViewController())
     var tableCellArray = [[Any]]()
     var userProfile: Profile? {
         get {
@@ -23,23 +26,15 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        storeProductViewController.delegate = self
-
-        let headerCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileHeaderCell.identifier) as! SettingsProfileHeaderCell
-        tableView.tableHeaderView = headerCell
+//        let headerCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileHeaderCell.identifier) as! SettingsProfileHeaderCell
+//        tableView.tableHeaderView = headerCell
         
         constructtableCells()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        } else {
-            // Fallback on earlier versions
-        }
-        
+                
         ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
             guard success else { return }
             ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
@@ -60,12 +55,12 @@ class SettingsViewController: UITableViewController {
         tableCellArray.removeAll()
         
         //Profile
-        let editProfileCell = tableView.dequeueReusableCell(withIdentifier: "SettingsProfileEditCell")
-        editProfileCell?.detailTextLabel?.text = userProfile?.primaryContact?.countryName
-        tableCellArray.append([editProfileCell as Any])
+//        let editProfileCell = tableView.dequeueReusableCell(withIdentifier: "SettingsProfileEditCell")
+//        editProfileCell?.detailTextLabel?.text = userProfile?.primaryContact?.countryName
+//        tableCellArray.append([editProfileCell as Any])
 
-//        let profileCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileCell.identifier) as! SettingsProfileCell
-//        tableCellArray.append([profileCell])
+        let profileCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileCell.identifier) as! SettingsProfileCell
+        tableCellArray.append([profileCell])
         
         //PrimaryNumber
         let primaryNumberCell = tableView.dequeueReusableCell(withIdentifier: SettingsPrimaryNumberCell.identifier) as! SettingsPrimaryNumberCell
@@ -136,13 +131,15 @@ class SettingsViewController: UITableViewController {
        // guard let url = URL(string: "https://itunes.apple.com/us/app/instavoice-reachme/id1345352747?mt=8") else { return }
        // UIApplication.shared.open(url, options: [:], completionHandler: nil)
         
+        ANLoader.showLoading(" ", disableUI: true)
         let parametersDict = [SKStoreProductParameterITunesItemIdentifier: 1345352747]
         storeProductViewController.loadProduct(withParameters: parametersDict, completionBlock: { (status: Bool, error: Error?) -> Void in
+            ANLoader.hide()
             if status {
                 self.present(self.storeProductViewController, animated: true, completion: nil)
             } else {
                 if let error = error {
-                    print("Error: \(error.localizedDescription)")
+                    RMUtility.showAlert(withMessage: error.localizedDescription)
             }}})
     }
     
@@ -173,7 +170,7 @@ extension SettingsViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+                
         let tableCell = tableView.cellForRow(at: indexPath)
         guard tableCell?.tag != 0 else { return }
 

@@ -79,6 +79,7 @@
 		8CA1E28A20495F3C004E7D6B /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1E28920495F3C004E7D6B /* ResetPasswordViewController.swift */; };
 		8CA1E28E204B43F8004E7D6B /* ActivateReachMeTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1E28D204B43F8004E7D6B /* ActivateReachMeTableCells.swift */; };
 		8CA1E294204C466D004E7D6B /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1E293204C466D004E7D6B /* DesignableView.swift */; };
+		8CA32644209211DC00004521 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA32643209211DC00004521 /* ProfileViewController.swift */; };
 		8CB2301F2063B7EA00760CD3 /* InstavoiceNotificationTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */; };
 		8CB230222064D22100760CD3 /* CallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB230212064D22100760CD3 /* CallsViewController.swift */; };
 		8CCE67D220849CC400002E69 /* NSObject+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D120849CC400002E69 /* NSObject+Extention.swift */; };
@@ -201,6 +202,7 @@
 		8CA1E28920495F3C004E7D6B /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		8CA1E28D204B43F8004E7D6B /* ActivateReachMeTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateReachMeTableCells.swift; sourceTree = "<group>"; };
 		8CA1E293204C466D004E7D6B /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		8CA32643209211DC00004521 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = InstavoiceNotificationTone.caf; sourceTree = "<group>"; };
 		8CB230212064D22100760CD3 /* CallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsViewController.swift; sourceTree = "<group>"; };
 		8CCE67D120849CC400002E69 /* NSObject+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extention.swift"; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 		8C934CEC2050281C00AAAC73 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				8CA32642209211BA00004521 /* Profile */,
 				8CD2A9DC209069AA00CF4E0A /* Email Notifications */,
 				8CD354A82066DF44009BCF14 /* About ReachMe */,
 				8CD354A52066D8CE009BCF14 /* Redeem Code */,
@@ -504,6 +507,14 @@
 			name = CoreData;
 			path = ReachMe/CoreData;
 			sourceTree = SOURCE_ROOT;
+		};
+		8CA32642209211BA00004521 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8CA32643209211DC00004521 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
 		};
 		8CB230202064D20400760CD3 /* Calls */ = {
 			isa = PBXGroup;
@@ -845,6 +856,7 @@
 				"${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/Former/Former.framework",
+				"${BUILT_PRODUCTS_DIR}/MTCoordinatorView/MTCoordinatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RSSelectionMenu/RSSelectionMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
@@ -860,6 +872,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountdownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Former.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MTCoordinatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSSelectionMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
@@ -950,6 +963,7 @@
 				8CD2A9C2208A5BFA00CF4E0A /* RCMessageCell.m in Sources */,
 				8CD2A9B9208A5BF900CF4E0A /* RCSectionFooterCell.m in Sources */,
 				8C972EC22057E152008C9FEA /* ActivationReachMeTableCells.swift in Sources */,
+				8CA32644209211DC00004521 /* ProfileViewController.swift in Sources */,
 				8C1B0FA720776ACD00A172B3 /* MQTTPingPacket.swift in Sources */,
 				8CD354A1206513ED009BCF14 /* MessagesTableCells.swift in Sources */,
 				8C2892612039FA5C0026537B /* LoginViewController.swift in Sources */,

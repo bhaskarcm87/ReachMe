@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsProfileHeaderCell: UITableViewCell {
+/*class SettingsProfileHeaderCell: UITableViewCell {
     
     static let identifier = String(describing: SettingsProfileHeaderCell.self)
     
@@ -47,8 +47,9 @@ class SettingsProfileHeaderCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-}
-/*class SettingsProfileCell: UITableViewCell {
+}*/
+
+class SettingsProfileCell: UITableViewCell {
     
     static let identifier = String(describing: SettingsProfileCell.self)
     
@@ -89,7 +90,7 @@ class SettingsProfileHeaderCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-}*/
+}
 
 class SettingsPrimaryNumberCell: UITableViewCell {
     

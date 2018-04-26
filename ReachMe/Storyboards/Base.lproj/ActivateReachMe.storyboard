@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nhd-aN-ANj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nhd-aN-ANj">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Helvetica.ttc">
+            <string>Helvetica</string>
+        </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Activate ReachMe-->
         <scene sceneID="xEt-6r-XVT">
             <objects>
                 <tableViewController storyboardIdentifier="ActivateReachMeViewController" hidesBottomBarWhenPushed="YES" id="4tE-yk-z0F" customClass="ActivateReachMeViewController" customModule="ReachMe" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="q4Y-ga-XE2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -696,10 +704,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkZ-eY-BJ4" customClass="DesignableLabel" customModule="ReachMe" customModuleProvider="target">
-                                            <rect key="frame" x="26" y="10" width="323" height="109"/>
+                                            <rect key="frame" x="0.0" y="10" width="0.0" height="109"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_outline" translatesAutoresizingMaskIntoConstraints="NO" id="Fn3-Tb-y9l">
-                                                    <rect key="frame" x="8" y="10" width="24" height="24"/>
+                                                    <rect key="frame" x="0.0" y="10" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="Dpy-b4-Fbz"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="R05-8W-RdB"/>
@@ -708,16 +716,16 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="v9B-5C-Ckh">
-                                                    <rect key="frame" x="40" y="10" width="275" height="89"/>
+                                                    <rect key="frame" x="0.0" y="10" width="0.0" height="89"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="InstaVoice Reachme is not available" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBz-ah-Qvd">
-                                                            <rect key="frame" x="0.0" y="0.0" width="275" height="47"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="82"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="We are working hard to make it available for every carrier in the world" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muS-OO-rrN">
-                                                            <rect key="frame" x="0.0" y="54" width="275" height="35"/>
+                                                            <rect key="frame" x="0.0" y="89" width="0.0" height="0.0"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -792,7 +800,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG1-QF-gYt">
-                                            <rect key="frame" x="66" y="32.5" width="275" height="75.5"/>
+                                            <rect key="frame" x="66" y="32.5" width="275" height="77"/>
                                             <gestureRecognizers/>
                                             <attributedString key="attributedText">
                                                 <fragment>
@@ -840,7 +848,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNc-1w-WPr">
-                                            <rect key="frame" x="68" y="10.5" width="239" height="50"/>
+                                            <rect key="frame" x="68" y="11" width="239" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iLq-PY-Fb5" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="239" height="50"/>
@@ -880,11 +888,8 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="xNc-1w-WPr" secondAttribute="bottom" constant="2" id="41a-Zs-N9w"/>
-                                        <constraint firstAttribute="bottom" secondItem="xNc-1w-WPr" secondAttribute="bottom" constant="10" id="E4X-gs-mxw"/>
-                                        <constraint firstItem="xNc-1w-WPr" firstAttribute="top" secondItem="kqI-sc-Dzl" secondAttribute="topMargin" constant="2" id="LGO-0L-CCO"/>
+                                        <constraint firstItem="xNc-1w-WPr" firstAttribute="top" secondItem="kqI-sc-Dzl" secondAttribute="topMargin" id="Jgg-OC-gsz"/>
                                         <constraint firstItem="xNc-1w-WPr" firstAttribute="leading" secondItem="kqI-sc-Dzl" secondAttribute="leading" constant="68" id="qB0-XH-qPX"/>
-                                        <constraint firstItem="xNc-1w-WPr" firstAttribute="top" secondItem="kqI-sc-Dzl" secondAttribute="top" constant="10" id="ref-dc-wmB"/>
                                         <constraint firstAttribute="trailing" secondItem="xNc-1w-WPr" secondAttribute="trailing" constant="68" id="wJ0-zC-kKz"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -900,7 +905,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5qw-0k-do1">
-                                            <rect key="frame" x="68" y="10.5" width="239" height="50"/>
+                                            <rect key="frame" x="68" y="11" width="239" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RZf-hT-MWr" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="239" height="50"/>
@@ -941,10 +946,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="5qw-0k-do1" secondAttribute="trailing" constant="68" id="6er-pA-1KN"/>
-                                        <constraint firstItem="5qw-0k-do1" firstAttribute="top" secondItem="DIG-TK-LTf" secondAttribute="topMargin" constant="2" id="Mmm-IP-oSI"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="5qw-0k-do1" secondAttribute="bottom" constant="2" id="WKB-Mk-E4p"/>
-                                        <constraint firstAttribute="bottom" secondItem="5qw-0k-do1" secondAttribute="bottom" constant="10" id="cXn-9w-RHC"/>
-                                        <constraint firstItem="5qw-0k-do1" firstAttribute="top" secondItem="DIG-TK-LTf" secondAttribute="top" constant="10" id="eav-8Z-SAB"/>
+                                        <constraint firstItem="5qw-0k-do1" firstAttribute="top" secondItem="DIG-TK-LTf" secondAttribute="topMargin" id="NVG-zl-Ln2"/>
                                         <constraint firstItem="5qw-0k-do1" firstAttribute="leading" secondItem="DIG-TK-LTf" secondAttribute="leading" constant="68" id="wgS-f2-RuO"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -1078,6 +1080,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <size key="freeformSize" width="375" height="1500"/>
                     <connections>
                         <segue destination="Daj-CZ-9nn" kind="show" identifier="showHowToActivateReachMeSegueID" id="KIe-2R-eoT"/>
                         <segue destination="Gmr-do-7HX" kind="show" identifier="showActivatedReachMeSegueID" id="Pn1-7t-qv5"/>
@@ -1729,7 +1732,7 @@
                                 <rect key="frame" x="0.0" y="764" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WUH-oG-W30" id="ZLs-Ns-eI6">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fl2-kg-R0x" customClass="DesignableButton" customModule="ReachMe" customModuleProvider="target">
@@ -2041,7 +2044,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zK-N5-IH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-879" y="2690"/>
+            <point key="canvasLocation" x="-879" y="2722"/>
         </scene>
         <!--Personalisation-->
         <scene sceneID="El8-Z2-Kx2">
@@ -2276,7 +2279,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jyS-2g-pok" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="433" y="2691"/>
+            <point key="canvasLocation" x="433" y="2383"/>
         </scene>
         <!--Activated Reach Me View Controller-->
         <scene sceneID="ANb-el-wJJ">
