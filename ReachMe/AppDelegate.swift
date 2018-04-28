@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = reachMeNavVC
             
         } else if Defaults[.IsLoggedInKey] {
+            //ServiceRequest.shared().connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
             RMUtility.showdDashboard()
@@ -72,13 +73,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if Defaults[.IsLoggedInKey] {
-            ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
-        }
+//        if Defaults[.IsLoggedInKey] {
+//            ServiceRequest.shared().connectMQTT()
+//            ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
+//        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        ServiceRequest.shared().connectMQTT()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -8,8 +8,9 @@
 
 import UIKit
 import MTCoordinatorView
+import Former
 
-class ProfileViewController: UITableViewController {
+class ProfileViewController: FormViewController {
 
     var userProfile: Profile? {
         get {
@@ -18,36 +19,106 @@ class ProfileViewController: UITableViewController {
     }
     fileprivate var coordinateManager: MTCoordinateManager?
     var editPicView: MTCoordinateContainer!
+    
+    lazy var createHeader: ((String) -> ViewFormer) = { text in
+        return LabelViewFormer<FormLabelHeaderView>()
+            .configure {
+                $0.text = text
+                $0.viewHeight = 40
+        }
+    }
+    private lazy var formerInputAccessoryView: FormerInputAccessoryView = FormerInputAccessoryView(former: self.former)
+    lazy var nameRow = TextFieldRowFormer<FormTextFieldCell>() {
+        $0.titleLabel.text = "Name"
+        $0.textField.returnKeyType = .next
+        $0.textField.textAlignment = .right
+        $0.textField.clearButtonMode = .never
+        $0.textField.inputAccessoryView = self.formerInputAccessoryView
+        }.configure {
+            $0.placeholder = "Enter name"
+    }
+
+    lazy var emailRow = TextFieldRowFormer<FormTextFieldCell>() {
+        $0.titleLabel.text = "Email"
+        $0.textField.returnKeyType = .next
+        $0.textField.textAlignment = .right
+        $0.textField.clearButtonMode = .never
+        $0.textField.inputAccessoryView = self.formerInputAccessoryView
+        }.configure {
+            $0.placeholder = "Enter email"
+    }
+    
+    lazy var genderRow = InlinePickerRowFormer<FormInlinePickerCell, UITableViewRowAnimation>(instantiateType: .Class) {
+        $0.titleLabel.text = "Gender"
+        }.configure {
+            let genders = ["N/A", "Male", "Female", "Other"]
+            $0.pickerItems = genders.map { InlinePickerItem(title: $0) }
+        }.onValueChanged { _ in
+            //$0.value!
+    }
+    
+    let birthdayRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+        $0.titleLabel.text = "Birthday"
+        }.inlineCellSetup {
+            $0.datePicker.datePickerMode = .date
+        }.configure { _ in
+        }.displayTextFromDate(String.profileDateStyle)
+    
+    lazy var countryRow = InlinePickerRowFormer<FormInlinePickerCell, UITableViewRowAnimation>(instantiateType: .Class) {
+        $0.titleLabel.text = "Country"
+        }.configure {
+            let genders = ["N/A", "Male", "Female", "Other"]
+            $0.pickerItems = genders.map { InlinePickerItem(title: $0) }
+        }.onValueChanged { _ in
+            //$0.value!
+    }
+    
+    lazy var stateRow = LabelRowFormer<FormLabelCell>()
+        .configure {
+            $0.text = "State"
+            $0.subText = "Select State"
+        }.onSelected { [weak self] _ in
+            self?.former.deselect(animated: true)
+    }
+    
+    lazy var cityRow = TextFieldRowFormer<FormTextFieldCell>() {
+        $0.titleLabel.text = "City"
+        $0.textField.textAlignment = .right
+        $0.textField.clearButtonMode = .never
+        }.configure {
+            $0.placeholder = "Enter City"
+    }
+
+    lazy var section = SectionFormer(rowFormer: nameRow, emailRow, genderRow, birthdayRow, countryRow, stateRow, cityRow)
+        .set(headerViewFormer: createHeader(""))
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
-
+        
         if let profilePicData = userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
             let headerView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 250))
             headerView.image = profileImage
-            coordinateManager = MTCoordinateManager.init(vc: self, scrollView: tableView, header: headerView)
+            coordinateManager = MTCoordinateManager.init(vc: self, scrollView: self.tableView, header: headerView)
             editPicView = createEditPicView()
-            coordinateManager?.setContainer(tableView, views: editPicView)
+            coordinateManager?.setContainer(self.tableView, views: editPicView)
+        }
+        
+        former.append(sectionFormer: section).onScroll {
+            guard let manager = self.coordinateManager else {
+                return
+            }
+            manager.scrolledDetection($0)
+        }
+        self.former[0...0].flatMap { $0.rowFormers }.forEach {
+            $0.enabled = false
         }
 
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
     }
 
     func createEditPicView() -> MTCoordinateContainer {
@@ -67,19 +138,28 @@ class ProfileViewController: UITableViewController {
     // MARK: - Button Actions
     override func setEditing(_ editing: Bool, animated: Bool) {
         editPicView.isHidden = !editing
+        self.former[0...0].flatMap { $0.rowFormers }.forEach {
+            $0.enabled = editing
+        }
         super.setEditing(editing, animated: true)
     }
     
     func hadleEditPhotoAction() {
         
     }
+    
 }
 
-extension ProfileViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let manager = coordinateManager else {
-            return
-        }
-        manager.scrolledDetection(scrollView)
-    }
+final class EditProfile {
+    
+    static let sharedInstance = EditProfile()
+    
+    var image: UIImage?
+    var name: String?
+    var email: String?
+    var gender: String?
+    var birthDay: Date?
+    var country: String?
+    var state: String?
+    var city: String?
 }

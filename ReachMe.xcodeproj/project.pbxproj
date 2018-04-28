@@ -80,6 +80,9 @@
 		8CA1E28E204B43F8004E7D6B /* ActivateReachMeTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1E28D204B43F8004E7D6B /* ActivateReachMeTableCells.swift */; };
 		8CA1E294204C466D004E7D6B /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1E293204C466D004E7D6B /* DesignableView.swift */; };
 		8CA32644209211DC00004521 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA32643209211DC00004521 /* ProfileViewController.swift */; };
+		8CA3264F2093527F00004521 /* ProfileLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3264D2093527F00004521 /* ProfileLabelCell.swift */; };
+		8CA326502093527F00004521 /* ProfileLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CA3264E2093527F00004521 /* ProfileLabelCell.xib */; };
+		8CA326522093544F00004521 /* FormerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA326512093544F00004521 /* FormerInputAccessoryView.swift */; };
 		8CB2301F2063B7EA00760CD3 /* InstavoiceNotificationTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */; };
 		8CB230222064D22100760CD3 /* CallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB230212064D22100760CD3 /* CallsViewController.swift */; };
 		8CCE67D220849CC400002E69 /* NSObject+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D120849CC400002E69 /* NSObject+Extention.swift */; };
@@ -203,6 +206,9 @@
 		8CA1E28D204B43F8004E7D6B /* ActivateReachMeTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateReachMeTableCells.swift; sourceTree = "<group>"; };
 		8CA1E293204C466D004E7D6B /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		8CA32643209211DC00004521 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		8CA3264D2093527F00004521 /* ProfileLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLabelCell.swift; sourceTree = "<group>"; };
+		8CA3264E2093527F00004521 /* ProfileLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileLabelCell.xib; sourceTree = "<group>"; };
+		8CA326512093544F00004521 /* FormerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormerInputAccessoryView.swift; sourceTree = "<group>"; };
 		8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = InstavoiceNotificationTone.caf; sourceTree = "<group>"; };
 		8CB230212064D22100760CD3 /* CallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsViewController.swift; sourceTree = "<group>"; };
 		8CCE67D120849CC400002E69 /* NSObject+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extention.swift"; sourceTree = "<group>"; };
@@ -511,6 +517,9 @@
 		8CA32642209211BA00004521 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				8CA326512093544F00004521 /* FormerInputAccessoryView.swift */,
+				8CA3264D2093527F00004521 /* ProfileLabelCell.swift */,
+				8CA3264E2093527F00004521 /* ProfileLabelCell.xib */,
 				8CA32643209211DC00004521 /* ProfileViewController.swift */,
 			);
 			path = Profile;
@@ -815,6 +824,7 @@
 				8CD2A9CC208A5BFA00CF4E0A /* rcmessage_outgoing.aiff in Resources */,
 				8CF7B1C1205BAE0100F87FFB /* Settings.storyboard in Resources */,
 				8CD2A9CF208A5BFA00CF4E0A /* rcmessages_audioplay@2x.png in Resources */,
+				8CA326502093527F00004521 /* ProfileLabelCell.xib in Resources */,
 				8CD2A9CA208A5BFA00CF4E0A /* rcmessage_audio@2x.png in Resources */,
 				8CF7B1C9205BB00D00F87FFB /* Invite.storyboard in Resources */,
 				8CD2A9CD208A5BFA00CF4E0A /* rcmessage_send@2x.png in Resources */,
@@ -955,6 +965,7 @@
 				8C28926E203ABE600026537B /* PasswordViewController.swift in Sources */,
 				8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */,
 				8C2892522039883E0026537B /* UITapGestureRecognizer+Extention.swift in Sources */,
+				8CA3264F2093527F00004521 /* ProfileLabelCell.swift in Sources */,
 				8C1B0FA620776ACD00A172B3 /* MQTTPacketFixedHeader.swift in Sources */,
 				8CD2A9BC208A5BF900CF4E0A /* RCTextMessageCell.m in Sources */,
 				8C2892652039FAD50026537B /* OTPViewController.swift in Sources */,
@@ -974,6 +985,7 @@
 				8CD2A9C7208A5BFA00CF4E0A /* RCMessagesView.m in Sources */,
 				8C972EC02056CAA9008C9FEA /* ActivationReachMeViewController.swift in Sources */,
 				8C02DCDE203C518B00CB8A46 /* RMUtility.swift in Sources */,
+				8CA326522093544F00004521 /* FormerInputAccessoryView.swift in Sources */,
 				8CD2A9C0208A5BFA00CF4E0A /* RCAudioMessageCell.m in Sources */,
 				8CD2A9BB208A5BF900CF4E0A /* RCSectionHeaderCell.m in Sources */,
 				8CD354AC2066E19E009BCF14 /* WebViewController.swift in Sources */,

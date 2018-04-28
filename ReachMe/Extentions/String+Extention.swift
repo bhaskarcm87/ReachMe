@@ -26,12 +26,19 @@ extension String {
         }
         //Email address should accept like:test@gmail.co.uk
         let emailRegEx = "[.0-9a-zA-Z_-]+@[0-9a-zA-Z.-]+\\.[a-zA-Z]{2,20}"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         
         if !emailTest.evaluate(with: self) {
             return false
         }
         return true
+    }
+    
+    static func profileDateStyle(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .current
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: date)
     }
 }
 

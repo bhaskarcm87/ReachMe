@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -118,9 +119,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="I0b-M5-ezN" kind="show" id="Bfd-zl-Aol"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsProfileCell" rowHeight="70" id="hEF-1S-NCP" customClass="SettingsProfileCell" customModule="ReachMe" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="246.5" width="375" height="70"/>
@@ -202,7 +200,7 @@
                                     <outlet property="statusView" destination="OrJ-bk-vJi" id="PWt-Rt-kks"/>
                                     <outlet property="subtitleLabel" destination="k0B-K3-8AH" id="BP4-GG-ggF"/>
                                     <outlet property="titleLabel" destination="LDf-tK-TZy" id="Gpi-5q-Lg4"/>
-                                    <segue destination="I0b-M5-ezN" kind="show" id="F6d-A8-bbG"/>
+                                    <segue destination="E65-Yz-HKV" kind="show" id="e8B-2J-6CF"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" tag="6" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsPrimaryNumberCell" rowHeight="56" id="khx-q8-ttv" customClass="SettingsPrimaryNumberCell" customModule="ReachMe" customModuleProvider="target">
@@ -605,33 +603,20 @@
             <point key="canvasLocation" x="2081" y="-1271"/>
         </scene>
         <!--My Profile-->
-        <scene sceneID="zCm-OP-jug">
+        <scene sceneID="rB3-ZH-sdR">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="I0b-M5-ezN" customClass="ProfileViewController" customModule="ReachMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3RS-Qy-KDP">
+                <viewController hidesBottomBarWhenPushed="YES" id="E65-Yz-HKV" customClass="ProfileViewController" customModule="ReachMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ieu-J2-b6j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Bj3-MB-eEl">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bj3-MB-eEl" id="wqm-3L-Blk">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="I0b-M5-ezN" id="nvH-Mq-0Kx"/>
-                            <outlet property="delegate" destination="I0b-M5-ezN" id="A1K-3v-OD7"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="My Profile" largeTitleDisplayMode="never" id="cq8-Fr-xPM"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sc1-YE-XMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <viewLayoutGuide key="safeArea" id="sHW-hR-zie"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="My Profile" largeTitleDisplayMode="never" id="uQ9-zh-0UE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xJz-wk-Pcg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2081" y="-1962"/>
+            <point key="canvasLocation" x="2081" y="-1961"/>
         </scene>
         <!--Email Notifications-->
         <scene sceneID="0VJ-V5-hM9">
@@ -983,7 +968,4 @@
         <image name="settings_instavoice_icn" width="29" height="29"/>
         <image name="settings_voicemail_greetings" width="29" height="29"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="F6d-A8-bbG"/>
-    </inferredMetricsTieBreakers>
 </document>

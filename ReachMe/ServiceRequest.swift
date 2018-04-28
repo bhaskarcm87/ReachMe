@@ -29,11 +29,9 @@ open class ServiceRequest: NSObject {
         }
     }
     
-    var mqttSession: MQTTSession!
+    var mqttSession: MQTTSession?
     
     func connectMQTT() {
-        guard Defaults[.IsLoggedInKey] else { return }
-        
         let clientID = String(format: "iv/pn/device%012ld", (ServiceRequest.shared().userProfile.mqttSettings?.mqttDeviceID)!)
         mqttSession = MQTTSession(host: Constants.URL_MQTT_SERVER,
                                   port: 8883,
@@ -41,16 +39,16 @@ open class ServiceRequest: NSObject {
                                   cleanSession: true,
                                   keepAlive: 60,
                                   useSSL: true)
-        mqttSession.delegate = self
+        mqttSession?.delegate = self
         
-        mqttSession.connect {
+        mqttSession?.connect {
             guard $0 else { print("Error Occurred During MQTT Connection \($1)"); return }
             
-            self.mqttSession.subscribe(to: clientID, delivering: .atLeastOnce) {
+            self.mqttSession?.subscribe(to: clientID, delivering: .atLeastOnce) {
                 guard $0 else { print("Error Occurred During MQTT Subscribe \($1)"); return }
                 
                 let payload = RMUtility.getPayloadForMQTT()
-                self.mqttSession.publish(payload, in: (ServiceRequest.shared().userProfile.mqttSettings?.chatTopic)!, delivering: .atLeastOnce, retain: false, completion: {
+                self.mqttSession?.publish(payload, in: (ServiceRequest.shared().userProfile.mqttSettings?.chatTopic)!, delivering: .atLeastOnce, retain: false, completion: {
                     guard $0 else { print("Error Occurred During MQTT Connect Publish \($1)"); return }
                 })
             }
@@ -59,9 +57,9 @@ open class ServiceRequest: NSObject {
     
     func disConnectMQTT() {
         let payload = RMUtility.getPayloadForMQTT()
-        mqttSession.publish(payload, in: (ServiceRequest.shared().userProfile.mqttSettings?.chatTopic)!, delivering: .atLeastOnce, retain: false, completion: {
+        mqttSession?.publish(payload, in: (ServiceRequest.shared().userProfile.mqttSettings?.chatTopic)!, delivering: .atLeastOnce, retain: false, completion: {
             
-            self.mqttSession.disconnect()
+            self.mqttSession?.disconnect()
             guard $0 else { print("Error Occurred During MQTT Disconnect Publish \($1)"); return }
         })
     }
