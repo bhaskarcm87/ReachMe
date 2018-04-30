@@ -83,6 +83,18 @@
 		8CA3264F2093527F00004521 /* ProfileLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3264D2093527F00004521 /* ProfileLabelCell.swift */; };
 		8CA326502093527F00004521 /* ProfileLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CA3264E2093527F00004521 /* ProfileLabelCell.xib */; };
 		8CA326522093544F00004521 /* FormerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA326512093544F00004521 /* FormerInputAccessoryView.swift */; };
+		8CA3284D2095B80C00004521 /* LocalePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328432095B80B00004521 /* LocalePickerViewController.swift */; };
+		8CA328542095B97C00004521 /* UISearchBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328532095B97C00004521 /* UISearchBar+Extensions.swift */; };
+		8CA328562095B9FD00004521 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328552095B9FD00004521 /* UIView+Extensions.swift */; };
+		8CA328582095BA7400004521 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328572095BA7400004521 /* UIImageView+Extensions.swift */; };
+		8CA3285A2095BB7500004521 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328592095BB7400004521 /* UIApplication+Extensions.swift */; };
+		8CA3285D2095D8FD00004521 /* LocaleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3285B2095D8FD00004521 /* LocaleInfo.swift */; };
+		8CA3285E2095D8FD00004521 /* LocaleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3285C2095D8FD00004521 /* LocaleStore.swift */; };
+		8CA3286F2095E87A00004521 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3286D2095E87A00004521 /* Assets.swift */; };
+		8CA328702095E87A00004521 /* PhotoLibraryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA3286E2095E87A00004521 /* PhotoLibraryPickerViewController.swift */; };
+		8CA328722095E9ED00004521 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328712095E9ED00004521 /* Array+Extensions.swift */; };
+		8CA328772095EAC600004521 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328742095EAC500004521 /* ImagePickerViewController.swift */; };
+		8CA328782095EAC600004521 /* ItemWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA328762095EAC500004521 /* ItemWithImage.swift */; };
 		8CB2301F2063B7EA00760CD3 /* InstavoiceNotificationTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */; };
 		8CB230222064D22100760CD3 /* CallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB230212064D22100760CD3 /* CallsViewController.swift */; };
 		8CCE67D220849CC400002E69 /* NSObject+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D120849CC400002E69 /* NSObject+Extention.swift */; };
@@ -209,6 +221,18 @@
 		8CA3264D2093527F00004521 /* ProfileLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLabelCell.swift; sourceTree = "<group>"; };
 		8CA3264E2093527F00004521 /* ProfileLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileLabelCell.xib; sourceTree = "<group>"; };
 		8CA326512093544F00004521 /* FormerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormerInputAccessoryView.swift; sourceTree = "<group>"; };
+		8CA328432095B80B00004521 /* LocalePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalePickerViewController.swift; sourceTree = "<group>"; };
+		8CA328532095B97C00004521 /* UISearchBar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Extensions.swift"; sourceTree = "<group>"; };
+		8CA328552095B9FD00004521 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		8CA328572095BA7400004521 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		8CA328592095BB7400004521 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
+		8CA3285B2095D8FD00004521 /* LocaleInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocaleInfo.swift; sourceTree = "<group>"; };
+		8CA3285C2095D8FD00004521 /* LocaleStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocaleStore.swift; sourceTree = "<group>"; };
+		8CA3286D2095E87A00004521 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		8CA3286E2095E87A00004521 /* PhotoLibraryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPickerViewController.swift; sourceTree = "<group>"; };
+		8CA328712095E9ED00004521 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		8CA328742095EAC500004521 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
+		8CA328762095EAC500004521 /* ItemWithImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemWithImage.swift; sourceTree = "<group>"; };
 		8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = InstavoiceNotificationTone.caf; sourceTree = "<group>"; };
 		8CB230212064D22100760CD3 /* CallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsViewController.swift; sourceTree = "<group>"; };
 		8CCE67D120849CC400002E69 /* NSObject+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extention.swift"; sourceTree = "<group>"; };
@@ -420,6 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				8C1B1139207CEC3100A172B3 /* ReachMe-Bridging-Header.h */,
+				8CA328412095B80B00004521 /* CountryAlertPicker */,
 				8CD2A97F208A5BF900CF4E0A /* RCMessageKit */,
 				8C1B0F8F20776ACD00A172B3 /* SwiftMQTT */,
 				8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */,
@@ -475,6 +500,11 @@
 				8CCE67D120849CC400002E69 /* NSObject+Extention.swift */,
 				8CCE67D320849D8B00002E69 /* UIStoryboard+Extention.swift */,
 				8CCE67D520849DDF00002E69 /* UIViewController+Extention.swift */,
+				8CA328532095B97C00004521 /* UISearchBar+Extensions.swift */,
+				8CA328552095B9FD00004521 /* UIView+Extensions.swift */,
+				8CA328572095BA7400004521 /* UIImageView+Extensions.swift */,
+				8CA328592095BB7400004521 /* UIApplication+Extensions.swift */,
+				8CA328712095E9ED00004521 /* Array+Extensions.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -523,6 +553,53 @@
 				8CA32643209211DC00004521 /* ProfileViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		8CA328412095B80B00004521 /* CountryAlertPicker */ = {
+			isa = PBXGroup;
+			children = (
+				8CA328732095EAC500004521 /* Image */,
+				8CA3286B2095E87A00004521 /* PhotoLibrary */,
+				8CA3285B2095D8FD00004521 /* LocaleInfo.swift */,
+				8CA3285C2095D8FD00004521 /* LocaleStore.swift */,
+				8CA328432095B80B00004521 /* LocalePickerViewController.swift */,
+			);
+			name = CountryAlertPicker;
+			path = ReachMe/CountryAlertPicker;
+			sourceTree = "<group>";
+		};
+		8CA3286B2095E87A00004521 /* PhotoLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				8CA3286C2095E87A00004521 /* Managers */,
+				8CA3286E2095E87A00004521 /* PhotoLibraryPickerViewController.swift */,
+			);
+			path = PhotoLibrary;
+			sourceTree = "<group>";
+		};
+		8CA3286C2095E87A00004521 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8CA3286D2095E87A00004521 /* Assets.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		8CA328732095EAC500004521 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				8CA328742095EAC500004521 /* ImagePickerViewController.swift */,
+				8CA328752095EAC500004521 /* Views */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		8CA328752095EAC500004521 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8CA328762095EAC500004521 /* ItemWithImage.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8CB230202064D20400760CD3 /* Calls */ = {
@@ -939,7 +1016,9 @@
 				8CD2A9BE208A5BFA00CF4E0A /* RCPictureMessageCell.m in Sources */,
 				8CD2A9BD208A5BF900CF4E0A /* RCEmojiMessageCell.m in Sources */,
 				8C1B0FAC20776ACD00A172B3 /* MQTTSubAckPacket.swift in Sources */,
+				8CA3284D2095B80C00004521 /* LocalePickerViewController.swift in Sources */,
 				8C972EC620594B07008C9FEA /* ActivatedReachMeViewController.swift in Sources */,
+				8CA3285A2095BB7500004521 /* UIApplication+Extensions.swift in Sources */,
 				8C1B0FB120776ACD00A172B3 /* MQTTSession.swift in Sources */,
 				8C1B0FA820776ACD00A172B3 /* MQTTPingResp.swift in Sources */,
 				8C2892632039FA5C0026537B /* VPMOTPView.swift in Sources */,
@@ -952,9 +1031,11 @@
 				8CD2A9C4208A5BFA00CF4E0A /* RCMessage.m in Sources */,
 				8C02DCE2203D97BD00CB8A46 /* String+Extention.swift in Sources */,
 				8CA1E2842048849E004E7D6B /* CoreDataContextObserver.swift in Sources */,
+				8CA328562095B9FD00004521 /* UIView+Extensions.swift in Sources */,
 				8CD2A9BF208A5BFA00CF4E0A /* RCVideoMessageCell.m in Sources */,
 				8C1B105E207C91C700A172B3 /* ChatsViewController.swift in Sources */,
 				8C2892622039FA5C0026537B /* VPMOTPTextField.swift in Sources */,
+				8CA328542095B97C00004521 /* UISearchBar+Extensions.swift in Sources */,
 				8C637CCE2035C77500A38663 /* AppDelegate.swift in Sources */,
 				8C1B1060207CA81200A172B3 /* ChatTableCells.swift in Sources */,
 				8C02DCDA203C407300CB8A46 /* ANLoader.swift in Sources */,
@@ -963,6 +1044,7 @@
 				8C1B0FA320776ACD00A172B3 /* MQTTConnectPacket.swift in Sources */,
 				8C1B0FA520776ACD00A172B3 /* MQTTPacket.swift in Sources */,
 				8C28926E203ABE600026537B /* PasswordViewController.swift in Sources */,
+				8CA328702095E87A00004521 /* PhotoLibraryPickerViewController.swift in Sources */,
 				8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */,
 				8C2892522039883E0026537B /* UITapGestureRecognizer+Extention.swift in Sources */,
 				8CA3264F2093527F00004521 /* ProfileLabelCell.swift in Sources */,
@@ -975,18 +1057,22 @@
 				8CD2A9B9208A5BF900CF4E0A /* RCSectionFooterCell.m in Sources */,
 				8C972EC22057E152008C9FEA /* ActivationReachMeTableCells.swift in Sources */,
 				8CA32644209211DC00004521 /* ProfileViewController.swift in Sources */,
+				8CA328582095BA7400004521 /* UIImageView+Extensions.swift in Sources */,
 				8C1B0FA720776ACD00A172B3 /* MQTTPingPacket.swift in Sources */,
 				8CD354A1206513ED009BCF14 /* MessagesTableCells.swift in Sources */,
 				8C2892612039FA5C0026537B /* LoginViewController.swift in Sources */,
 				8CCE67D420849D8B00002E69 /* UIStoryboard+Extention.swift in Sources */,
+				8CA328722095E9ED00004521 /* Array+Extensions.swift in Sources */,
 				8C7D7AC7206246DE0002DF2D /* Date+Extention.swift in Sources */,
 				8CD2A9B8208A5BF900CF4E0A /* RCBubbleFooterCell.m in Sources */,
 				8CD2A9C5208A5BFA00CF4E0A /* RCMenuItem.m in Sources */,
 				8CD2A9C7208A5BFA00CF4E0A /* RCMessagesView.m in Sources */,
+				8CA3286F2095E87A00004521 /* Assets.swift in Sources */,
 				8C972EC02056CAA9008C9FEA /* ActivationReachMeViewController.swift in Sources */,
 				8C02DCDE203C518B00CB8A46 /* RMUtility.swift in Sources */,
 				8CA326522093544F00004521 /* FormerInputAccessoryView.swift in Sources */,
 				8CD2A9C0208A5BFA00CF4E0A /* RCAudioMessageCell.m in Sources */,
+				8CA3285D2095D8FD00004521 /* LocaleInfo.swift in Sources */,
 				8CD2A9BB208A5BF900CF4E0A /* RCSectionHeaderCell.m in Sources */,
 				8CD354AC2066E19E009BCF14 /* WebViewController.swift in Sources */,
 				8C1B0FA420776ACD00A172B3 /* MQTTDisconnectPacket.swift in Sources */,
@@ -998,6 +1084,7 @@
 				8C9920352046A0ED00C5ED14 /* SelectCarrierViewController.swift in Sources */,
 				8C1B0FB220776ACD00A172B3 /* MQTTSessionStreamDelegate.swift in Sources */,
 				8CF7B1CB205BC10500F87FFB /* SettingsViewController.swift in Sources */,
+				8CA3285E2095D8FD00004521 /* LocaleStore.swift in Sources */,
 				8C1B0FAA20776ACD00A172B3 /* MQTTPublishPacket.swift in Sources */,
 				8C2BD88420415EED00E24209 /* ForgotPasswordViewController.swift in Sources */,
 				8CA1E28A20495F3C004E7D6B /* ResetPasswordViewController.swift in Sources */,
@@ -1007,6 +1094,7 @@
 				8CA1E2852048849E004E7D6B /* CoreDataModel.swift in Sources */,
 				8CD2A9DE209069DB00CF4E0A /* EmailNotificationsViewController.swift in Sources */,
 				8C1B0FAF20776ACD00A172B3 /* MQTTUnsubPacket.swift in Sources */,
+				8CA328782095EAC600004521 /* ItemWithImage.swift in Sources */,
 				8CA1E28E204B43F8004E7D6B /* ActivateReachMeTableCells.swift in Sources */,
 				8CA1E2862048849E004E7D6B /* Profile.swift in Sources */,
 				8C9791C9206AE04A004BFA3B /* Jukebox.swift in Sources */,
@@ -1015,6 +1103,7 @@
 				8C972EC4205915D1008C9FEA /* UIAlertController+Extention.swift in Sources */,
 				8CD2A9BA208A5BF900CF4E0A /* RCBubbleHeaderCell.m in Sources */,
 				8CA1E294204C466D004E7D6B /* DesignableView.swift in Sources */,
+				8CA328772095EAC600004521 /* ImagePickerViewController.swift in Sources */,
 				8C9791C8206AE04A004BFA3B /* JukeboxItem.swift in Sources */,
 				8C1B0FAE20776ACD00A172B3 /* MQTTUnSubAckPacket.swift in Sources */,
 				8C97917E206A2BCF004BFA3B /* VoicemailsViewController.swift in Sources */,

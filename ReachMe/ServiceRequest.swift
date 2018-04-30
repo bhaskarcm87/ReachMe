@@ -438,9 +438,13 @@ extension ServiceRequest {
                         carrier.deactiBoth = ussdValues!["deacti_both"] as? String
                         carrier.actiCNF = ussdValues!["acti_cnf"] as? String
                         carrier.deactiCNF = ussdValues!["acti_uncf"] as? String
-                        carrier.isHLREnabled = ussdValues!["is_hlr_callfwd_enabled"] as! Bool
-                        carrier.isVOIPEnabled = ussdValues!["voip_enabled"] as! Bool
                         carrier.additionalActiInfo = ussdValues!["add_acti_info"] as? String
+                        if let hlrStatus = ussdValues!["is_hlr_callfwd_enabled"] as? Bool {
+                            carrier.isHLREnabled = hlrStatus
+                        }
+                        if let voipStatus = ussdValues!["voip_enabled"] as? Bool {
+                            carrier.isVOIPEnabled = voipStatus
+                        }
                         
                         if carrier.reachMeIntl || carrier.reachMeHome || carrier.reachMeVoiceMail {
                             carrier.isReachMeSupport = true

@@ -25,4 +25,9 @@ extension UIViewController {
     static func personalisationViewController() -> PersonalisationViewController {
         return UIStoryboard.activateReachMe().instantiateViewController(withIdentifier: PersonalisationViewController.string()) as! PersonalisationViewController
     }
+    
+    var alertController: UIAlertController? {
+        guard let alert = UIApplication.topViewController() as? UIAlertController else { return nil }
+        return alert
+    }
 }

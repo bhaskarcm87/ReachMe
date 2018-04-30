@@ -15,6 +15,7 @@ import RxSwift
 import RxCocoa
 import MobileCoreServices
 import UserNotifications
+import Photos
 
 class RMUtility: NSObject {
     
@@ -285,6 +286,20 @@ class RMUtility: NSObject {
             print("Error: Not able to convert Dictionary to Data for MQTT Payload")
         }
         return jsonData
+    }
+    
+    class func getUIImage(asset: PHAsset) -> UIImage? {
+        var img: UIImage?
+        let manager = PHImageManager.default()
+        let options = PHImageRequestOptions()
+        options.version = .original
+        options.isSynchronous = true
+        manager.requestImageData(for: asset, options: options) { data, _, _, _ in
+            if let data = data {
+                img = UIImage(data: data)
+            }
+        }
+        return img
     }
 }
 

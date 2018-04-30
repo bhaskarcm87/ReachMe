@@ -18,6 +18,17 @@ extension UIColor {
         self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
     }
     
+    convenience init(hex: Int, alpha: CGFloat) {
+        let r = CGFloat((hex & 0xFF0000) >> 16)/255
+        let g = CGFloat((hex & 0xFF00) >> 8)/255
+        let b = CGFloat(hex & 0xFF)/255
+        self.init(red: r, green: g, blue: b, alpha: alpha)
+    }
+    
+    convenience init(hex: Int) {
+        self.init(hex: hex, alpha: 1.0)
+    }
+    
     class func ReachMeColor() -> UIColor { return #colorLiteral(red: 0.9058823529, green: 0.3294117647, blue: 0.2941176471, alpha: 1) }
     
     class func introPage1Color() -> UIColor { return #colorLiteral(red: 0.7843137255, green: 0.05882352941, blue: 0.0862745098, alpha: 1) }
