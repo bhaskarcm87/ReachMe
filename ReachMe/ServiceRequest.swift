@@ -1040,6 +1040,32 @@ extension ServiceRequest {
     }
 }
 
+// MARK: - STETES_LIST API
+extension ServiceRequest {
+    
+    func startRequestForStatesList(forCountryCode countryCode: String, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
+        
+        var params: [String: Any] = ["cmd": Constants.ApiCommands.STATE_LIST,
+                                     "country_code": countryCode]
+        params = RMUtility.serverRequestAddCommonData(params: &params)
+        let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
+        
+        Alamofire.request(Constants.URL_SERVER,
+                          method: .post,
+                          encoding: payload).validate().responseJSON { (response) in
+                            
+                            //Handle Error
+                            guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
+                                completionHandler(nil, false)
+                                return
+                            }
+                            
+                            //Handle response Data
+                            completionHandler(responseDics, true)
+        }
+    }
+}
+
 /*func urlRequestWithComponents(urlString:String, parameters:[String: Any], imageData:Data, fileName: String) -> (URLRequestConvertible, Data) {
     let lineEnd = "\r\n"
     let twoHyphens = "--"

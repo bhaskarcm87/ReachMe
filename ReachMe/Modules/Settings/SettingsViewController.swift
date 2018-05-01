@@ -34,7 +34,8 @@ class SettingsViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+
         ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
             guard success else { return }
             ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in

@@ -9,6 +9,7 @@
 import UIKit
 import MTCoordinatorView
 import Former
+import RSSelectionMenu
 
 class ProfileViewController: FormViewController {
 
@@ -74,17 +75,22 @@ class ProfileViewController: FormViewController {
     lazy var countryRow = LabelRowFormer<FormLabelCell>()
         .configure {
             $0.text = "Country"
-            $0.subText = "Select Country"
             $0.cell.formSubTextLabel()?.textColor = .black
+            if let country = userProfile?.countryName {
+                $0.subText = country
+            } else {
+                $0.subText = "Select Country"
+            }
         }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             let alert = UIAlertController(style: .alert)
             alert.addLocalePicker(type: .country) {
-                if let rowFormer = self?.former.rowFormer(indexPath: IndexPath.init(row: 4, section: 0)) as? LabelRowFormer<FormLabelCell> {
+                if let rowFormer = self?.former.rowFormer(indexPath: IndexPath(row: 4, section: 0)) as? LabelRowFormer<FormLabelCell> {
                     rowFormer.subText = $0?.country
                     rowFormer.update()
                 }
                 EditProfile.sharedInstance.country = $0?.country
+                EditProfile.sharedInstance.phoneCode = $0?.phoneCode
             }
             alert.addAction(title: "Cancel", style: .cancel)
             alert.show()
@@ -95,8 +101,33 @@ class ProfileViewController: FormViewController {
             $0.text = "State"
             $0.subText = "Select State"
             $0.cell.formSubTextLabel()?.textColor = .black
+            
         }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
+            ANLoader.showLoading("", disableUI: true)
+            ServiceRequest.shared().startRequestForStatesList(forCountryCode: "091", completionHandler: { (responseDisc, success) in
+                ANLoader.hide()
+                guard success else { return }
+                if let states = responseDisc?["state_list"] as? [[String: Any]], states.count > 0 {
+                    let stateNames = states.map {$0["stateName"] as! String}
+                    
+                    let selectionMenu =  RSSelectionMenu(dataSource: stateNames) { (cell, object, indexPath) in
+                        cell.textLabel?.text = object
+                    }
+                    if let rowFormer = self?.former.rowFormer(indexPath: IndexPath(row: 5, section: 0)) as? LabelRowFormer<FormLabelCell> {
+
+                        selectionMenu.setSelectedItems(items: []) { (text, isSelected, selectedItems) in
+                            rowFormer.subText = text
+                            rowFormer.update()
+                            EditProfile.sharedInstance.state = text
+                        }
+                        selectionMenu.showSearchBar(withPlaceHolder: "Select State", tintColor: UIColor.white.withAlphaComponent(0.3)) { (searchText) -> ([String]) in
+                            return stateNames.filter({ $0.lowercased().contains(searchText.lowercased()) })
+                        }
+                        selectionMenu.show(style: .Popover(sourceView: rowFormer.cell, size: CGSize(width: 300, height: 400)), from: self!)
+                    }
+                }
+            })
     }
     
     lazy var cityRow = TextFieldRowFormer<FormTextFieldCell>() {
@@ -123,10 +154,10 @@ class ProfileViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
-        
-//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        navigationController?.navigationBar.shadowImage = UIImage()
-//        navigationController?.navigationBar.isTranslucent = true
+
+        UIApplication.shared.statusBarView?.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
         
         if let profilePicData = userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
@@ -141,7 +172,6 @@ class ProfileViewController: FormViewController {
                 return
             }
             manager.scrolledDetection($0)
-            
         }
         self.former[0...0].flatMap { $0.rowFormers }.forEach {
             $0.enabled = false
@@ -196,6 +226,7 @@ final class EditProfile {
     var gender: String?
     var birthDay: Date?
     var country: String?
+    var phoneCode: String?
     var state: String?
     var city: String?
 }

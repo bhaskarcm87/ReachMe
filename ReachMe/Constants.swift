@@ -62,6 +62,7 @@ class Constants: NSObject {
         static let DELETE_MESSAGE = "delete_msg"
         static let READ_MESSAGES = "read_msgs"
         static let APP_STATUS = "app_status"
+        static let STATE_LIST = "list_states"
     }
 
     //Server
