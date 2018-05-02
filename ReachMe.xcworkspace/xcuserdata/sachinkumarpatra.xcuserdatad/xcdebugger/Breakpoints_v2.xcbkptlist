@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/SwiftMQTT/MQTTSession.swift"
-            timestampString = "546509494.836984"
+            timestampString = "546965011.472464"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/Modules/Settings/Profile/ProfileViewController.swift"
-            timestampString = "546896073.157395"
+            timestampString = "546965011.47277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "stateRow"
             landmarkType = "24">
          </BreakpointContent>

@@ -43,8 +43,8 @@ open class JukeboxItem: NSObject {
     
     // MARK: - Properties -
     
-            let identifier: String
-            var delegate: JukeboxItemDelegate?
+    let identifier: String
+    weak var delegate: JukeboxItemDelegate?
     fileprivate var didLoad = false
     open  var localTitle: String?
     open  let URL: Foundation.URL
@@ -76,7 +76,7 @@ open class JukeboxItem: NSObject {
     
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
 
-        if change?[NSKeyValueChangeKey(rawValue:"name")] is NSNull {
+        if change?[NSKeyValueChangeKey(rawValue: "name")] is NSNull {
             delegate?.jukeboxItemDidFail(self)
             return
         }
@@ -135,7 +135,7 @@ open class JukeboxItem: NSObject {
     }
     
     open override var description: String {
-        return "<JukeboxItem:\ntitle: \(meta.title)\nalbum: \(meta.album)\nartist:\(meta.artist)\nduration : \(meta.duration),\ncurrentTime : \(currentTime)\nURL: \(URL)>"
+        return "<JukeboxItem:\ntitle: \(String(describing: meta.title))\nalbum: \(String(describing: meta.album))\nartist:\(String(describing: meta.artist))\nduration : \(String(describing: meta.duration)),\ncurrentTime : \(String(describing: currentTime))\nURL: \(URL)>"
     }
     
     // MARK: - Private methods -
@@ -204,7 +204,7 @@ private extension JukeboxItem.Meta {
         case "artist"? :
             artist = item.value as? String
         case "artwork"? :
-            processArtwork(fromMetadataItem : item)
+            processArtwork(fromMetadataItem: item)
         default :
             break
         }

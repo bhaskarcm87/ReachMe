@@ -317,12 +317,12 @@ open class Jukebox: NSObject, JukeboxItemDelegate {
         let trackCount = queuedItems.count
         
         var nowPlayingInfo: [String: AnyObject] = [
-            MPMediaItemPropertyPlaybackDuration : duration as AnyObject,
-            MPMediaItemPropertyTitle : title as AnyObject,
-            MPNowPlayingInfoPropertyElapsedPlaybackTime : currentTime as AnyObject,
-            MPNowPlayingInfoPropertyPlaybackQueueCount :trackCount as AnyObject,
-            MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber as AnyObject,
-            MPMediaItemPropertyMediaType : MPMediaType.anyAudio.rawValue as AnyObject
+            MPMediaItemPropertyPlaybackDuration: duration as AnyObject,
+            MPMediaItemPropertyTitle: title as AnyObject,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime as AnyObject,
+            MPNowPlayingInfoPropertyPlaybackQueueCount: trackCount as AnyObject,
+            MPNowPlayingInfoPropertyPlaybackQueueIndex: trackNumber as AnyObject,
+            MPMediaItemPropertyMediaType: MPMediaType.anyAudio.rawValue as AnyObject
         ]
         
         if let artist = item.meta.artist {

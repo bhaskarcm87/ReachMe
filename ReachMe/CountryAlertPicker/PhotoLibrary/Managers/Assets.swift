@@ -7,7 +7,7 @@ public struct Assets {
     /// Requests access to the user's contacts
     ///
     /// - Parameter requestGranted: Result as Bool
-    public static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> ()) {
+    public static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> Swift.Void) {
         PHPhotoLibrary.requestAuthorization { status in
             requestGranted(status)
         }
@@ -22,7 +22,7 @@ public struct Assets {
         case error(error: Error)
     }
     
-    public static func fetch(_ completion: @escaping (FetchResults) -> Void) {
+    public static func fetch(_ completion: @escaping (FetchResults) -> Swift.Void) {
         guard PHPhotoLibrary.authorizationStatus() == .authorized else {
             let error: NSError = NSError(domain: "PhotoLibrary Error", code: 1, userInfo: [NSLocalizedDescriptionKey: "No PhotoLibrary Access"])
             completion(FetchResults.error(error: error))

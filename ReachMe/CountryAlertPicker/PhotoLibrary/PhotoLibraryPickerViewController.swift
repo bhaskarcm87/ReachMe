@@ -159,7 +159,7 @@ final class PhotoLibraryPickerViewController: UIViewController {
         }
     }
     
-    func checkStatus(completionHandler: @escaping ([PHAsset]) -> ()) {
+    func checkStatus(completionHandler: @escaping ([PHAsset]) -> Swift.Void) {
         switch PHPhotoLibrary.authorizationStatus() {
             
         case .notDetermined:
@@ -190,7 +190,7 @@ final class PhotoLibraryPickerViewController: UIViewController {
         }
     }
     
-    func fetchPhotos(completionHandler: @escaping ([PHAsset]) -> ()) {
+    func fetchPhotos(completionHandler: @escaping ([PHAsset]) -> Swift.Void) {
         Assets.fetch { [unowned self] result in
             switch result {
                 

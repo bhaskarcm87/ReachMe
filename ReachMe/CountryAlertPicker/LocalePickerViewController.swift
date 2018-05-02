@@ -200,18 +200,14 @@ final class LocalePickerViewController: UIViewController {
     func indexPathOfSelectedInfo() -> IndexPath? {
         guard let selectedInfo = selectedInfo else { return nil }
         if searchController.isActive {
-            for row in 0 ..< filteredInfo.count {
-                if filteredInfo[row].country == selectedInfo.country {
-                    return IndexPath(row: row, section: 0)
-                }
+            for row in 0 ..< filteredInfo.count where filteredInfo[row].country == selectedInfo.country {
+                return IndexPath(row: row, section: 0)
             }
         }
         for section in 0 ..< sortedInfoKeys.count {
             if let orderedInfo = orderedInfo[sortedInfoKeys[section]] {
-                for row in 0 ..< orderedInfo.count {
-                    if orderedInfo[row].country == selectedInfo.country {
-                        return IndexPath(row: row, section: section)
-                    }
+                for row in 0 ..< orderedInfo.count where orderedInfo[row].country == selectedInfo.country {
+                    return IndexPath(row: row, section: section)
                 }
             }
         }

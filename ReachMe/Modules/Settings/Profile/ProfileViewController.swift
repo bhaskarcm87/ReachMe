@@ -37,7 +37,11 @@ class ProfileViewController: FormViewController {
         $0.textField.clearButtonMode = .never
         $0.textField.inputAccessoryView = self.formerInputAccessoryView
         }.configure {
-            $0.placeholder = "Enter name"
+            if let username = userProfile?.userName, !username.isEmpty {
+                $0.text = username
+            } else {
+                $0.placeholder = "Enter name"
+            }
         }.onTextChanged {
             EditProfile.sharedInstance.name = $0
     }
@@ -49,7 +53,11 @@ class ProfileViewController: FormViewController {
         $0.textField.clearButtonMode = .never
         $0.textField.inputAccessoryView = self.formerInputAccessoryView
         }.configure {
-            $0.placeholder = "Enter email"
+            if let email = userProfile?.emailID, !email.isEmpty {
+                $0.text = email
+            } else {
+                $0.placeholder = "Enter email"
+            }
         }.onTextChanged {
             EditProfile.sharedInstance.email = $0
     }
@@ -60,17 +68,54 @@ class ProfileViewController: FormViewController {
         }.configure {
             let genders = ["N/A", "Male", "Female", "Other"]
             $0.pickerItems = genders.map { InlinePickerItem(title: $0) }
+            if let gender = userProfile?.gender {
+                if gender == "Male" {
+                    $0.selectedRow = 1
+                } else if gender == "Female" {
+                    $0.selectedRow = 2
+                } else if gender == "Other" {
+                    $0.selectedRow = 3
+                }
+            }
         }.onValueChanged {
             EditProfile.sharedInstance.gender = $0.title
     }
     
-    let birthdayRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+    lazy var birthdayRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
         $0.titleLabel.text = "Birthday"
         $0.displayLabel.textColor = .black
         }.inlineCellSetup {
             $0.datePicker.datePickerMode = .date
-        }.configure { _ in
+        }.configure {
+            if let birthday = userProfile?.birthday {
+                $0.date = birthday
+            }
+        }.onDateChanged {
+            EditProfile.sharedInstance.birthDay = $0
         }.displayTextFromDate(String.profileDateStyle)
+    
+    lazy var noBirthDayRow = LabelRowFormer<FormLabelCell>()
+        .configure {
+            $0.text = "Birthday"
+            $0.subText = "N/A"
+            $0.cell.formSubTextLabel()?.textColor = .black
+            
+        }.onSelected { [weak self] _ in
+            self?.former.deselect(animated: true)
+            if self?.former.numberOfRows == 7 {
+                self?.former.insertUpdate(rowFormers: [(self?.datePickerRow)!], above: (self?.countryRow)!, rowAnimation: .top)
+            } else {
+                self?.former.removeUpdate(rowFormers: [(self?.datePickerRow)!], rowAnimation: .bottom)
+            }
+    }
+    
+    lazy var datePickerRow = DatePickerRowFormer<FormDatePickerCell>() {
+        $0.datePicker.datePickerMode = .date
+        }.onDateChanged {
+            self.noBirthDayRow.subText = String.profileDateStyle(date: $0)
+            self.noBirthDayRow.update()
+            EditProfile.sharedInstance.birthDay = $0
+    }
     
     lazy var countryRow = LabelRowFormer<FormLabelCell>()
         .configure {
@@ -135,12 +180,22 @@ class ProfileViewController: FormViewController {
         $0.textField.textAlignment = .right
         $0.textField.clearButtonMode = .never
         }.configure {
-            $0.placeholder = "Enter City"
+            if let city = userProfile?.city, !city.isEmpty {
+                $0.text = city
+            } else {
+                $0.placeholder = "Enter City"
+            }
         }.onTextChanged {
             EditProfile.sharedInstance.city = $0
     }
 
-    lazy var section = SectionFormer(rowFormer: nameRow, emailRow, genderRow, birthdayRow, countryRow, stateRow, cityRow)
+    lazy var section = SectionFormer(rowFormer: nameRow,
+                                     emailRow,
+                                     genderRow,
+                                     (userProfile?.birthday != nil) ? birthdayRow : noBirthDayRow,
+                                     countryRow,
+                                     stateRow,
+                                     cityRow)
         .set(headerViewFormer: createHeader(""))
 
     lazy var headerImageView: UIImageView = {
@@ -148,16 +203,16 @@ class ProfileViewController: FormViewController {
         $0.contentMode = .scaleAspectFill
         $0.isUserInteractionEnabled = true
         return $0
-    }(UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 250)))
+    }(UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 250)))
     
     // MARK: - Viewlifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
 
-        UIApplication.shared.statusBarView?.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
+        UIApplication.shared.statusBarView?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
+        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
         if let profilePicData = userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
@@ -185,7 +240,7 @@ class ProfileViewController: FormViewController {
 
     func createEditPicView() -> MTCoordinateContainer {
         let iconView = UIImageView.init(image: #imageLiteral(resourceName: "edit_pic_camera"))
-        let centerX = self.view.frame.width / 2
+        let centerX = view.frame.width / 2
         let iconSize = 40.f
         let startX = centerX - (iconSize / 2)
         iconView.frame = CGRect(x: startX, y: 120.f, width: iconSize, height: iconSize)

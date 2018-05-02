@@ -21,3 +21,4 @@ disabled_rules:
   - implicit_getter
   - unused_enumerated
   - syntactic_sugar
+  - empty_enum_arguments

@@ -63,6 +63,7 @@
         <attribute name="mqttUser" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="countryCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="countryImageData" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -167,7 +168,7 @@
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
         <element name="Message" positionX="-333" positionY="-7" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
-        <element name="Profile" positionX="-54" positionY="243" width="128" height="613"/>
+        <element name="Profile" positionX="-54" positionY="243" width="128" height="630"/>
         <element name="SupportContact" positionX="-396" positionY="441" width="128" height="208"/>
         <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>
         <element name="VoiceMail" positionX="241" positionY="263" width="128" height="450"/>
