@@ -108,6 +108,7 @@ class PersonalisationViewController: UITableViewController {
                 ANLoader.hide()
                 guard success else { return }
                 //TODO: Upload Profile pic
+                CoreDataModel.sharedInstance().saveContext()
                 Defaults[.IsPersonalisation] = false
                 Defaults[.IsLoggedInKey] = true
                 ServiceRequest.shared().connectMQTT()

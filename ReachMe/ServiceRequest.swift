@@ -14,7 +14,7 @@ import PhoneNumberKit
 import CountryPickerView
 import UserNotifications
 
-open class ServiceRequest: NSObject {
+open class ServiceRequest: NSObject, URLSessionDelegate {
     
     open class func shared() -> ServiceRequest {
         struct Static {
@@ -311,7 +311,37 @@ extension ServiceRequest {
                 ServiceRequest.shared().userProfile.state = responseDics["state"] as? String
                 ServiceRequest.shared().userProfile.twPostEnabled = responseDics["tw_post_enabled"] as! Bool
                 ServiceRequest.shared().userProfile.fbPostEnabled = responseDics["fb_post_enabled"] as! Bool
+                if let dateOfBirth = responseDics["date_of_birth"] as? [String: Int] {
+                    if let year = dateOfBirth["year"], let month = dateOfBirth["month"], let dayOfMonth = dateOfBirth["dayOfMonth"] {
+                        if let date = RMUtility.getDateFromYearMonthDay(year: year, month: month+1, day: dayOfMonth) {
+                            ServiceRequest.shared().userProfile.birthday = date
+                        }
+                    }
+                }
+                            
+                //greeting_name
+                if let greetingNameJsonString = responseDics["greeting_name"] as? String, !greetingNameJsonString.isEmpty {
+                    let greetingNameDic = RMUtility.parseJSONToDictionary(inputString: greetingNameJsonString)
+                    ServiceRequest.shared().userProfile.greetingNameUri = greetingNameDic!["uri"] as? String
+                    ServiceRequest.shared().userProfile.greetingNameDuration = greetingNameDic!["duration"] as! Int32
+                }
                 
+                //greeting_welcome
+                if let greetinWelcomeJsonString = responseDics["greeting_welcome"] as? String, !greetinWelcomeJsonString.isEmpty {
+                    let greetingWelcomeDic = RMUtility.parseJSONToDictionary(inputString: greetinWelcomeJsonString)
+                    ServiceRequest.shared().userProfile.greetingWelcomeUri = greetingWelcomeDic!["uri"] as? String
+                    ServiceRequest.shared().userProfile.greetingWelcomeDuration = greetingWelcomeDic!["duration"] as! Int32
+                }
+                
+                //Email Notifications voicemail email time_zone vsms_enabled mc_enabled
+                if let emailNotificationsString = responseDics["voicemail"] as? String, !emailNotificationsString.isEmpty {
+                    let emailNotificationDic = RMUtility.parseJSONToDictionary(inputString: emailNotificationsString)
+                    ServiceRequest.shared().userProfile.vEmail = emailNotificationDic!["email"] as? String
+                    ServiceRequest.shared().userProfile.timeZone = emailNotificationDic!["time_zone"] as? String
+                    ServiceRequest.shared().userProfile.vsmsEnabled = emailNotificationDic!["vsms_enabled"] as! Bool
+                    ServiceRequest.shared().userProfile.mcEnabled = emailNotificationDic!["mc_enabled"] as! Bool
+                }
+                            
                 //Custom Settings
                 var phoneDetailsDic: [String: Any]?
                 if let customSettingsJsonString = responseDics["custom_settings"] as? String, !customSettingsJsonString.isEmpty {
@@ -1040,7 +1070,7 @@ extension ServiceRequest {
     }
 }
 
-// MARK: - STETES_LIST API
+// MARK: - STATES_LIST API
 extension ServiceRequest {
     
     func startRequestForStatesList(forCountryCode countryCode: String, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
@@ -1094,20 +1124,101 @@ extension ServiceRequest {
 // MARK: - UPLOAD_PIC API
 extension ServiceRequest {
     
-    func startRequestForUploadProfilePic(completionHandler:@escaping (Bool) -> Void) {
+    func startRequestForUploadProfilePic(imageData: Data, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.UPLOAD_PIC,
                                      "file_name": userProfile.userID!,
                                      "file_type": "png"]
         params = RMUtility.serverRequestAddCommonData(params: &params)
+        
 
-       // let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
+//        let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
+//        Alamofire.upload(multipartFormData: { multipartFormData in
+//            multipartFormData.append(imageData, withName: "content", fileName: self.userProfile.userID!, mimeType: "multipart/form-data; boundary=*****")},
+//                         usingThreshold: UInt64.init(),
+//                         to: Constants.URL_SERVER,
+//                         method: .post,
+//                         headers: ["data": requestJSON],
+//                         encodingCompletion: { encodingResult in
+//                            switch encodingResult {
+//                            case .success(let upload, _, _):
+//                                upload.responseJSON { response in
+//                                    debugPrint(response)
+//                                }
+//                            case .failure(let encodingError):
+//                                print(encodingError)
+//                            }
+//        })
         
-//                ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
-//                    guard success else { return }
+//        let boundary = "*****"
+//        Alamofire.upload(multipartFormData: { multipartFormData in
+//            multipartFormData.append(imageData, withName: "content", fileName: self.userProfile.userID!, mimeType: "multipart/form-data; boundary=\(boundary)")
+//            for (key, value) in params {
+//                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+//            }
+//        }, to: Constants.URL_SERVER) { (result) in
+//            switch result {
+//            case .success(let upload, _, _):
+//
+//                upload.uploadProgress(closure: { (progress) in
+//                    print("Upload Progress: \(progress.fractionCompleted)")
 //                })
+//
+//                upload.responseJSON { response in
+//                    print(response.result.isSuccess)
+//                }
+//
+//            case .failure(let encodingError):
+//                print(encodingError)
+//            }
+//        }
         
-      //  let urlRequest = urlRequestWithComponents(urlString: Constants.URL_SERVER, parameters: params, imageData: userProfile.profilePicData!, fileName: userProfile.userID!)
+        let lineEnd = "\r\n"
+        let twoHyphens = "--"
+        let boundary = "*****"
+
+        // create url request to send
+        var mutableURLRequest = URLRequest(url: URL(string: Constants.URL_SERVER)!)
+        mutableURLRequest.httpMethod = "POST"
+        let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
+        mutableURLRequest.addValue(requestJSON, forHTTPHeaderField: "data")
+        mutableURLRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        // create upload data to send
+        var uploadData = Data()
+        uploadData.append("\(twoHyphens)\(boundary)\(lineEnd)".data(using: String.Encoding.utf8)!)
+        uploadData.append("Content-Disposition: form-data;  name=\"content\"; filename=\(userProfile.userID!) \(lineEnd)".data(using: String.Encoding.utf8)!)
+        uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
+        uploadData.append(imageData)
+        uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
+        uploadData.append("\(twoHyphens)\(boundary)\(twoHyphens)\(lineEnd)".data(using: String.Encoding.utf8)!)
+
+        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
+        let task = session.uploadTask(with: mutableURLRequest, from: uploadData) { (responseData, response, error) in
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 200..<300:
+                    print("Success")
+                case 400..<500:
+                    print("Request error")
+                case 500..<600:
+                    print("Server error")
+                case let otherCode:
+                    print("Other code: \(otherCode)")
+                }
+            }
+
+            // Do something with the response data
+            if let responseData = responseData,
+                let responseString = String(data: responseData, encoding: String.Encoding.utf8) {
+                print("Server Response:")
+                print(responseString)
+            }
+
+        }
+        task.resume()
+        
+       // let urlRequest = urlRequestWithComponents(urlString: Constants.URL_SERVER, parameters: params, imageData: userProfile.profilePicData!, fileName: userProfile.userID!)
     }
 }
 
@@ -1130,8 +1241,6 @@ extension ServiceRequest { //NOTE: As i observs, all the response parameters of 
                             if ServiceRequest.shared().handleserviceError(response: response) == nil {
                                 return
                             }
-                
-                //Handle response Data
 
         }
     }
@@ -1165,6 +1274,7 @@ open class ServiceRequestBackground: NSObject {
     }
 }
 
+// MARK: - MQTTSessionDelegate
 extension ServiceRequest: MQTTSessionDelegate {
     
     public func mqttDidReceive(message data: Data, in topic: String, from session: MQTTSession) {

@@ -97,7 +97,11 @@ class LoginViewController: UIViewController {
             self.userProfile = self.coreData.getNewObject(entityName: .ProfileEntity) as! Profile
             self.userProfile.countryName = self.countryPicker.selectedCountry.name
             self.userProfile.countryCode = self.countryPicker.selectedCountry.code
-            self.userProfile.countryPhoneCode = self.countryPicker.selectedCountry.phoneCode
+            if let stateSearchCode = self.countryPicker.selectedCountry.stateSearchCode {
+                self.userProfile.countryPhoneCode = stateSearchCode
+            } else {
+                self.userProfile.countryPhoneCode = self.countryPicker.selectedCountry.phoneCode
+            }
             self.userProfile.mobileNumber = self.numberTextField.nationalNumber
             self.userProfile.countryISOCode = String(self.countryPicker.selectedCountry.phoneCode.dropFirst())
             self.userProfile.userID = String(describing: self.userProfile.countryISOCode!) + String(describing: self.userProfile.mobileNumber!)

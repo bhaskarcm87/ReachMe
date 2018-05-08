@@ -43,7 +43,7 @@ class ProfileViewController: FormViewController {
                 $0.placeholder = "Enter name"
             }
         }.onTextChanged {
-            EditProfile.sharedInstance.name = $0
+            self.userProfile?.userName = $0
     }
 
     lazy var emailRow = TextFieldRowFormer<FormTextFieldCell>() {
@@ -59,7 +59,7 @@ class ProfileViewController: FormViewController {
                 $0.placeholder = "Enter email"
             }
         }.onTextChanged {
-            EditProfile.sharedInstance.email = $0
+            self.userProfile?.emailID = $0
     }
     
     lazy var genderRow = InlinePickerRowFormer<FormInlinePickerCell, UITableViewRowAnimation>(instantiateType: .Class) {
@@ -69,16 +69,24 @@ class ProfileViewController: FormViewController {
             let genders = ["N/A", "Male", "Female", "Other"]
             $0.pickerItems = genders.map { InlinePickerItem(title: $0) }
             if let gender = userProfile?.gender {
-                if gender == "Male" {
+                if gender == "m" {
                     $0.selectedRow = 1
-                } else if gender == "Female" {
+                } else if gender == "f" {
                     $0.selectedRow = 2
-                } else if gender == "Other" {
+                } else if gender == "o" {
                     $0.selectedRow = 3
                 }
             }
         }.onValueChanged {
-            EditProfile.sharedInstance.gender = $0.title
+            if $0.title == "Male" {
+                self.userProfile?.gender = "m"
+            } else if $0.title == "Female" {
+                self.userProfile?.gender = "f"
+            } else if $0.title == "Other" {
+                self.userProfile?.gender = "o"
+            } else {
+                self.userProfile?.gender = nil
+            }
     }
     
     lazy var birthdayRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
@@ -91,7 +99,7 @@ class ProfileViewController: FormViewController {
                 $0.date = birthday
             }
         }.onDateChanged {
-            EditProfile.sharedInstance.birthDay = $0
+            self.userProfile?.birthday = $0
         }.displayTextFromDate(String.profileDateStyle)
     
     lazy var noBirthDayRow = LabelRowFormer<FormLabelCell>()
@@ -114,7 +122,7 @@ class ProfileViewController: FormViewController {
         }.onDateChanged {
             self.noBirthDayRow.subText = String.profileDateStyle(date: $0)
             self.noBirthDayRow.update()
-            EditProfile.sharedInstance.birthDay = $0
+            self.userProfile?.birthday = $0
     }
     
     lazy var countryRow = LabelRowFormer<FormLabelCell>()
@@ -134,8 +142,14 @@ class ProfileViewController: FormViewController {
                     rowFormer.subText = $0?.country
                     rowFormer.update()
                 }
-                EditProfile.sharedInstance.country = $0?.country
-                EditProfile.sharedInstance.phoneCode = $0?.phoneCode
+                self?.userProfile?.countryName = $0?.country
+                self?.userProfile?.countryCode = $0?.code
+
+                if let stateSearchCode = $0?.stateSearchCode {
+                    self?.userProfile?.countryPhoneCode = stateSearchCode
+                } else {
+                    self?.userProfile?.countryPhoneCode = $0?.phoneCode
+                }
             }
             alert.addAction(title: "Cancel", style: .cancel)
             alert.show()
@@ -144,13 +158,17 @@ class ProfileViewController: FormViewController {
     lazy var stateRow = LabelRowFormer<FormLabelCell>()
         .configure {
             $0.text = "State"
-            $0.subText = "Select State"
+            if let state  = userProfile?.state, !state.isEmpty {
+                $0.subText = state
+            } else {
+                $0.subText = "Select State"
+            }
             $0.cell.formSubTextLabel()?.textColor = .black
             
         }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             ANLoader.showLoading("", disableUI: true)
-            ServiceRequest.shared().startRequestForStatesList(forCountryCode: "091", completionHandler: { (responseDisc, success) in
+            ServiceRequest.shared().startRequestForStatesList(forCountryCode: (self?.userProfile?.countryPhoneCode)!, completionHandler: { (responseDisc, success) in
                 ANLoader.hide()
                 guard success else { return }
                 if let states = responseDisc?["state_list"] as? [[String: Any]], states.count > 0 {
@@ -164,7 +182,7 @@ class ProfileViewController: FormViewController {
                         selectionMenu.setSelectedItems(items: []) { (text, isSelected, selectedItems) in
                             rowFormer.subText = text
                             rowFormer.update()
-                            EditProfile.sharedInstance.state = text
+                            self?.userProfile?.state = text
                         }
                         selectionMenu.showSearchBar(withPlaceHolder: "Select State", tintColor: UIColor.white.withAlphaComponent(0.3)) { (searchText) -> ([String]) in
                             return stateNames.filter({ $0.lowercased().contains(searchText.lowercased()) })
@@ -186,7 +204,7 @@ class ProfileViewController: FormViewController {
                 $0.placeholder = "Enter City"
             }
         }.onTextChanged {
-            EditProfile.sharedInstance.city = $0
+            self.userProfile?.city = $0
     }
 
     lazy var section = SectionFormer(rowFormer: nameRow,
@@ -238,6 +256,12 @@ class ProfileViewController: FormViewController {
         super.didReceiveMemoryWarning()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParentViewController {
+            self.userProfile?.managedObjectContext?.rollback()
+        }
+    }
     func createEditPicView() -> MTCoordinateContainer {
         let iconView = UIImageView.init(image: #imageLiteral(resourceName: "edit_pic_camera"))
         let centerX = view.frame.width / 2
@@ -249,8 +273,20 @@ class ProfileViewController: FormViewController {
             let alert = UIAlertController(style: .alert)
             alert.addPhotoLibraryPicker(flow: .vertical, paging: false,
                                         selection: .single(action: { assets in
-                                            self?.headerImageView.image = RMUtility.getUIImage(asset: assets!)
-                                            EditProfile.sharedInstance.image = RMUtility.getUIImage(asset: assets!)
+                                            if let imageData = RMUtility.getImageData(asset: assets!) {
+                                                self?.headerImageView.image = UIImage(data: imageData)
+//                                                ServiceRequest.shared().startRequestForUploadProfilePic(imageData: imageData, completionHandler: { (success) in
+//                                                    print("temp")
+//                                                })
+
+//                                                if let pngData = UIImagePNGRepresentation(UIImage(data: imageData)!) {
+//                                                    ServiceRequest.shared().startRequestForUploadProfilePic(imageData: pngData, completionHandler: { (success) in
+//                                                        print("temp")
+//                                                    })
+//                                                }
+
+                                                self?.userProfile?.profilePicData = imageData
+                                            }
                                         }))
             alert.addAction(title: "Cancel", style: .cancel)
             alert.show()
@@ -266,22 +302,42 @@ class ProfileViewController: FormViewController {
         self.former[0...0].flatMap { $0.rowFormers }.forEach {
             $0.enabled = editing
         }
+        if !editing {
+            ANLoader.showLoading("", disableUI: true)
+            var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
+                                         "dob_format": "MM-dd-yyyy",
+                                         "country_code": (userProfile?.countryPhoneCode)! as Any]
+            if let username = userProfile?.userName {
+                params["screen_name"] = username
+            }
+            if let email = userProfile?.emailID {
+                params["email"] = email
+            }
+            if let gender = userProfile?.gender {
+                params["gender"] = gender
+            } else {
+                params["gender"] = ""
+            }
+            if let birthday = userProfile?.birthday {
+                params["date_of_birth"] = RMUtility.getDOBStringFromDate(date: birthday)
+            }
+            if let state = userProfile?.state {
+                params["state"] = state
+            }
+            if let city = userProfile?.city {
+                params["city"] = city
+            }
+            
+            ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+                ANLoader.hide()
+                guard success else { return }
+                
+                CoreDataModel.sharedInstance().saveContext()
+                RMUtility.showAlert(withMessage: "Profile saved successfully")
+
+            }
+        }
         super.setEditing(editing, animated: true)
     }
     
-}
-
-final class EditProfile {
-    
-    static let sharedInstance = EditProfile()
-    
-    var image: UIImage?
-    var name: String?
-    var email: String?
-    var gender: String?
-    var birthDay: Date?
-    var country: String?
-    var phoneCode: String?
-    var state: String?
-    var city: String?
 }

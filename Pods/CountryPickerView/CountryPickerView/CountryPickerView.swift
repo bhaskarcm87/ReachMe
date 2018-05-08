@@ -45,22 +45,24 @@ public struct Country {
    public var name: String
    public var code: String
    public var phoneCode: String
+   public var stateSearchCode: String?
    public var flag: UIImage {
         return UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
             in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
     }
     
-   internal init(name: String, code: String, phoneCode: String) {
+   internal init(name: String, code: String, phoneCode: String, stateSearchCode: String?) {
         self.name = name
         self.code = code
         self.phoneCode = phoneCode
+        self.stateSearchCode = stateSearchCode
     }
 }
 
-public func ==(lhs: Country, rhs: Country) -> Bool {
+public func == (lhs: Country, rhs: Country) -> Bool {
     return lhs.code == rhs.code
 }
-public func !=(lhs: Country, rhs: Country) -> Bool {
+public func != (lhs: Country, rhs: Country) -> Bool {
     return lhs.code != rhs.code
 }
 
@@ -179,7 +181,7 @@ public class CountryPickerView: NibView {
                         continue
                 }
                 
-                let country = Country(name: name, code: code, phoneCode: phoneCode)
+                let country = Country(name: name, code: code, phoneCode: phoneCode, stateSearchCode: countryObj["state_search_code"] as? String)
                 countries.append(country)
             }
             

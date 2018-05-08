@@ -12,6 +12,8 @@ public struct LocaleInfo {
     public var country: String
     public var code: String
     public var phoneCode: String
+    public var stateSearchCode: String?
+
     
     public var flag: UIImage? {
         return UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())", in: Bundle(for: CountryPickerView.self), compatibleWith: nil)
@@ -30,10 +32,11 @@ public struct LocaleInfo {
         return locale?.localizedString(forCurrencyCode: currencyCode)
     }
     
-    init(country: String, code: String, phoneCode: String) {
+    init(country: String, code: String, phoneCode: String, stateSearchCode: String?) {
         self.country = country
         self.code = code
         self.phoneCode = phoneCode
+        self.stateSearchCode = stateSearchCode
         
         self.locale = Locale.availableIdentifiers.map { Locale(identifier: $0) }.first(where: { $0.regionCode == code })
     }

@@ -40,7 +40,7 @@ struct LocaleStore {
                     let phoneCode = countryObj["dial_code"] as? String else {
                         continue
                 }
-                let new = LocaleInfo(country: country, code: code, phoneCode: phoneCode)
+                let new = LocaleInfo(country: country, code: code, phoneCode: phoneCode, stateSearchCode: countryObj["state_search_code"] as? String)
                 result.append(new)
             }
             return completionHandler(FetchResults.success(response: result))

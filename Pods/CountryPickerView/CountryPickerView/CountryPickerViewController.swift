@@ -99,7 +99,7 @@ extension CountryPickerViewController {
         if searchBarPosition == .hidden {
             return
         }
-        searchController = UISearchController(searchResultsController:  nil)
+        searchController = UISearchController(searchResultsController: nil)
         searchController?.searchResultsUpdater = self
         searchController?.dimsBackgroundDuringPresentation = false
         searchController?.hidesNavigationBarDuringPresentation = searchBarPosition == .tableViewHeader

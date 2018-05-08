@@ -217,15 +217,14 @@ class RMUtility: NSObject {
     }
     
     class func registerForPushNotifications() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
-            (granted, error) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             
             guard granted else {
                 Alertift.alert(title: "Turn On Notifications",
                                message: "To receive Voicemail and Missed call instantly, Notifications must be enabled for ReachMe app. Tap Settings to turn on Notifications.")
                     .action(.default("Cancel"))
                     .action(.default("Settings")) { (action, count, nil) in
-                        UIApplication.shared.open(URL(string:"App-Prefs:root=Notifications")!, options: [:], completionHandler: nil)
+                        UIApplication.shared.open(URL(string: "App-Prefs:root=Notifications")!, options: [:], completionHandler: nil)
                     }.show()
                 return
             }
@@ -288,18 +287,35 @@ class RMUtility: NSObject {
         return jsonData
     }
     
-    class func getUIImage(asset: PHAsset) -> UIImage? {
-        var img: UIImage?
+    class func getImageData(asset: PHAsset) -> Data? {
+        var returnData: Data?
         let manager = PHImageManager.default()
         let options = PHImageRequestOptions()
         options.version = .original
         options.isSynchronous = true
         manager.requestImageData(for: asset, options: options) { data, _, _, _ in
             if let data = data {
-                img = UIImage(data: data)
+                returnData = data
             }
         }
-        return img
+        return returnData
+    }
+    
+    class func getDateFromYearMonthDay(year: Int, month: Int, day: Int) -> Date? {
+        var dateComp = DateComponents()
+        dateComp.year = year
+        dateComp.month = month
+        dateComp.day = day
+        
+        let gregorian = NSCalendar(identifier: .gregorian)
+        let date = gregorian?.date(from: dateComp)
+        return date
+    }
+    
+    class func getDOBStringFromDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        return dateFormatter.string(from: date)
     }
 }
 

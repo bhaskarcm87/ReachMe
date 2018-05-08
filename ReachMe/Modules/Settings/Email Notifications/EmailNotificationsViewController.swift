@@ -3,16 +3,16 @@
 //  ReachMe
 //
 //  Created by Sachin Kumar Patra on 4/25/18.
-//  Copyright © 2018 sachin. All rights reserved.
+//  Copyright  2018 sachin. All rights reserved.
 //
 
 import UIKit
 import Former
 
 class EmailNotificationsViewController: UITableViewController {
-
+    
     public private(set) lazy var former: Former = Former(tableView: self.tableView)
-
+    
     lazy var createHeader: ((String) -> ViewFormer) = { text in
         return LabelViewFormer<FormLabelHeaderView>()
             .configure {
@@ -23,8 +23,13 @@ class EmailNotificationsViewController: UITableViewController {
     
     lazy var emailAddressRow = LabelRowFormer<FormLabelCell>()
         .configure {
-            $0.text = "Email address"
-            $0.subText = "Add"
+            if let vEmail = self.userProfile?.vEmail {
+                $0.text = self.userProfile?.vEmail
+                $0.subText = "Edit"
+            } else {
+                $0.text = "Email address"
+                $0.subText = "Add"
+            }
             $0.cell.formSubTextLabel()?.textColor = .ReachMeColor()
     }
     
@@ -32,16 +37,15 @@ class EmailNotificationsViewController: UITableViewController {
         $0.titleLabel.text = "Voicemail"
         $0.switchButton.onTintColor = .ReachMeColor()
         }.configure {
-            $0.switched = false
+            $0.switched = (self.userProfile?.vsmsEnabled)!
         }.onSwitchChanged { switched in
-            
     }
     
     lazy var missedCallRow = SwitchRowFormer<FormSwitchCell>() {
         $0.titleLabel.text = "Missed Call"
         $0.switchButton.onTintColor = .ReachMeColor()
         }.configure {
-            $0.switched = false
+            $0.switched = (self.userProfile?.mcEnabled)!
         }.onSwitchChanged { switched in
     }
     
@@ -53,7 +57,9 @@ class EmailNotificationsViewController: UITableViewController {
             $0.pickerItems = TimeZone.knownTimeZoneIdentifiers.map { InlinePickerItem(title: $0) }
             $0.displayEditingColor = .ReachMeColor()
             $0.pickerItems.insert(InlinePickerItem(title: TimeZone.current.identifier), at: 0)
-            // $0.selectedRow
+            for (index, identifier) in TimeZone.knownTimeZoneIdentifiers.enumerated() where self.userProfile?.timeZone == identifier {
+                $0.selectedRow = index + 1
+            }
     }
     
     var userProfile: Profile? {
@@ -61,24 +67,24 @@ class EmailNotificationsViewController: UITableViewController {
             return CoreDataModel.sharedInstance().getUserProfle()!
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let section = SectionFormer(rowFormer: emailAddressRow, voicemailRow, missedCallRow, timeZoneRow)
             .set(headerViewFormer: createHeader("Receive Voicemail & Missed Call Alerts on your email address"))
         former.append(sectionFormer: section)
-
+        
         emailAddressRow.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             //self?.emailAddressRow.cell.formTextLabel()?.text = ""
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     //private lazy var subRowFormers: RowFormer = {
     //    return CheckRowFormer<FormCheckCell>() {
     //        $0.titleLabel.text = "Sachin"
@@ -88,5 +94,5 @@ class EmailNotificationsViewController: UITableViewController {
     
     //self?.former.insertUpdate(rowFormers: [(self?.subRowFormers)!], below: (self?.emailAddressRow)!, rowAnimation: .top)
     //self?.former.removeUpdate(rowFormers: [(self?.subRowFormers)!], rowAnimation: .top)
-
+    
 }
