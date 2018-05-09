@@ -46,7 +46,7 @@ class RMUtility: NSObject {
     class func convertDictionaryToJSONString(dictionary: [String: Any]) -> String {
         var jsonData = Data()
         do {
-            jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
+            jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
         } catch {
             print("Error: Not able to convert from server params data to JSON")
         }

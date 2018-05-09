@@ -47,6 +47,7 @@ class CallsViewController: UITableViewController {
         super.awakeFromNib()
         tabBarController?.customizableViewControllers = []
         tabBarController?.delegate = self
+        tableView.tableFooterView = UIView()
 
         handleBadgeCount()
         ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)

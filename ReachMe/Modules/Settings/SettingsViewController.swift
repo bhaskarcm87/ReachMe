@@ -61,6 +61,7 @@ class SettingsViewController: UITableViewController {
 //        tableCellArray.append([editProfileCell as Any])
 
         let profileCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileCell.identifier) as! SettingsProfileCell
+        profileCell.updateCell()
         tableCellArray.append([profileCell])
         
         //PrimaryNumber

@@ -67,7 +67,9 @@ class SettingsProfileCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+    }
+    
+    func updateCell() {
         if let profilePicData = userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
             spinnerView.stopAnimating()

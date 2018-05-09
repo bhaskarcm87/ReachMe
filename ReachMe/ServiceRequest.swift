@@ -14,7 +14,7 @@ import PhoneNumberKit
 import CountryPickerView
 import UserNotifications
 
-open class ServiceRequest: NSObject, URLSessionDelegate {
+open class ServiceRequest: NSObject {
     
     open class func shared() -> ServiceRequest {
         struct Static {
@@ -1096,129 +1096,39 @@ extension ServiceRequest {
     }
 }
 
-/*func urlRequestWithComponents(urlString:String, parameters:[String: Any], imageData:Data, fileName: String) -> (URLRequestConvertible, Data) {
-    let lineEnd = "\r\n"
-    let twoHyphens = "--"
-    let boundary = "*****"
-    
-    // create url request to send
-    var mutableURLRequest = URLRequest(url: URL(string: urlString)!)
-    //var mutableURLRequest = NSMutableURLRequest(url: URL(string: urlString)!)
-    mutableURLRequest.httpMethod = HTTPMethod.post.rawValue
-    let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: parameters)
-    mutableURLRequest.addValue(requestJSON, forHTTPHeaderField: "data")
-    mutableURLRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    
-    // create upload data to send
-    var uploadData = Data()
-    uploadData.append("\(twoHyphens)\(boundary)\(lineEnd)".data(using: String.Encoding.utf8)!)
-    uploadData.append("Content-Disposition: form-data;  name=\"content\"; filename=\(fileName) \(lineEnd)".data(using: String.Encoding.utf8)!)
-    uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
-    uploadData.append(imageData)
-    uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
-    uploadData.append("\(twoHyphens)\(boundary)\(twoHyphens)\(lineEnd)".data(using: String.Encoding.utf8)!)
-    
-    return try! (Alamofire.URLEncoding.default.encode(mutableURLRequest, with: nil), uploadData)
-}*/
-
 // MARK: - UPLOAD_PIC API
 extension ServiceRequest {
     
-    func startRequestForUploadProfilePic(imageData: Data, completionHandler:@escaping (Bool) -> Void) {
+    func startRequestForUploadProfilePic(picData: Data, completionHandler:@escaping (Bool) -> Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.UPLOAD_PIC,
                                      "file_name": userProfile.userID!,
                                      "file_type": "png"]
         params = RMUtility.serverRequestAddCommonData(params: &params)
         
-
-//        let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
-//        Alamofire.upload(multipartFormData: { multipartFormData in
-//            multipartFormData.append(imageData, withName: "content", fileName: self.userProfile.userID!, mimeType: "multipart/form-data; boundary=*****")},
-//                         usingThreshold: UInt64.init(),
-//                         to: Constants.URL_SERVER,
-//                         method: .post,
-//                         headers: ["data": requestJSON],
-//                         encodingCompletion: { encodingResult in
-//                            switch encodingResult {
-//                            case .success(let upload, _, _):
-//                                upload.responseJSON { response in
-//                                    debugPrint(response)
-//                                }
-//                            case .failure(let encodingError):
-//                                print(encodingError)
-//                            }
-//        })
-        
-//        let boundary = "*****"
-//        Alamofire.upload(multipartFormData: { multipartFormData in
-//            multipartFormData.append(imageData, withName: "content", fileName: self.userProfile.userID!, mimeType: "multipart/form-data; boundary=\(boundary)")
-//            for (key, value) in params {
-//                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-//            }
-//        }, to: Constants.URL_SERVER) { (result) in
-//            switch result {
-//            case .success(let upload, _, _):
-//
-//                upload.uploadProgress(closure: { (progress) in
-//                    print("Upload Progress: \(progress.fractionCompleted)")
-//                })
-//
-//                upload.responseJSON { response in
-//                    print(response.result.isSuccess)
-//                }
-//
-//            case .failure(let encodingError):
-//                print(encodingError)
-//            }
-//        }
-        
-        let lineEnd = "\r\n"
-        let twoHyphens = "--"
-        let boundary = "*****"
-
-        // create url request to send
-        var mutableURLRequest = URLRequest(url: URL(string: Constants.URL_SERVER)!)
-        mutableURLRequest.httpMethod = "POST"
         let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
-        mutableURLRequest.addValue(requestJSON, forHTTPHeaderField: "data")
-        mutableURLRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        // create upload data to send
-        var uploadData = Data()
-        uploadData.append("\(twoHyphens)\(boundary)\(lineEnd)".data(using: String.Encoding.utf8)!)
-        uploadData.append("Content-Disposition: form-data;  name=\"content\"; filename=\(userProfile.userID!) \(lineEnd)".data(using: String.Encoding.utf8)!)
-        uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
-        uploadData.append(imageData)
-        uploadData.append("\(lineEnd)".data(using: String.Encoding.utf8)!)
-        uploadData.append("\(twoHyphens)\(boundary)\(twoHyphens)\(lineEnd)".data(using: String.Encoding.utf8)!)
-
-        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
-        let task = session.uploadTask(with: mutableURLRequest, from: uploadData) { (responseData, response, error) in
-            if let httpResponse = response as? HTTPURLResponse {
-                switch httpResponse.statusCode {
-                case 200..<300:
-                    print("Success")
-                case 400..<500:
-                    print("Request error")
-                case 500..<600:
-                    print("Server error")
-                case let otherCode:
-                    print("Other code: \(otherCode)")
-                }
-            }
-
-            // Do something with the response data
-            if let responseData = responseData,
-                let responseString = String(data: responseData, encoding: String.Encoding.utf8) {
-                print("Server Response:")
-                print(responseString)
-            }
-
-        }
-        task.resume()
-        
-       // let urlRequest = urlRequestWithComponents(urlString: Constants.URL_SERVER, parameters: params, imageData: userProfile.profilePicData!, fileName: userProfile.userID!)
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(picData, withName: self.userProfile.userID!, fileName: self.userProfile.userID!, mimeType: "")},
+                         usingThreshold: UInt64.init(),
+                         to: Constants.URL_SERVER,
+                         method: .post,
+                         headers: ["data": requestJSON],
+                         encodingCompletion: { encodingResult in
+                            switch encodingResult {
+                            case .success(let upload, _, _):
+                                upload.responseJSON { response in
+                                    if response.result.isSuccess {
+                                        completionHandler(true)
+                                    } else {
+                                        completionHandler(false)
+                                    }
+                                    //debugPrint(response)
+                                }
+                            case .failure(let encodingError):
+                                print(encodingError)
+                                completionHandler(false)
+                            }
+        })
     }
 }
 
@@ -1314,7 +1224,7 @@ extension ServiceRequest: MQTTSessionDelegate {
         
         if subtitle != nil {
             let content = UNMutableNotificationContent()
-            content.title = "InstaVoice"
+            content.title = "ReachMe"
             // content.subtitle = subtitle
             content.body = subtitle
             content.sound = UNNotificationSound(named: "InstavoiceNotificationTone")

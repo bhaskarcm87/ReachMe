@@ -223,14 +223,16 @@ class ProfileViewController: FormViewController {
         return $0
     }(UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 250)))
     
+    var changedPicData: Data?
+    
     // MARK: - Viewlifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
 
-        UIApplication.shared.statusBarView?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        UIApplication.shared.statusBarView?.backgroundColor = UIColor.white.withAlphaComponent(0.7)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.7)
         
         if let profilePicData = userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
@@ -262,6 +264,7 @@ class ProfileViewController: FormViewController {
             self.userProfile?.managedObjectContext?.rollback()
         }
     }
+    
     func createEditPicView() -> MTCoordinateContainer {
         let iconView = UIImageView.init(image: #imageLiteral(resourceName: "edit_pic_camera"))
         let centerX = view.frame.width / 2
@@ -275,22 +278,11 @@ class ProfileViewController: FormViewController {
                                         selection: .single(action: { assets in
                                             if let imageData = RMUtility.getImageData(asset: assets!) {
                                                 self?.headerImageView.image = UIImage(data: imageData)
-//                                                ServiceRequest.shared().startRequestForUploadProfilePic(imageData: imageData, completionHandler: { (success) in
-//                                                    print("temp")
-//                                                })
-
-//                                                if let pngData = UIImagePNGRepresentation(UIImage(data: imageData)!) {
-//                                                    ServiceRequest.shared().startRequestForUploadProfilePic(imageData: pngData, completionHandler: { (success) in
-//                                                        print("temp")
-//                                                    })
-//                                                }
-
-                                                self?.userProfile?.profilePicData = imageData
+                                                self?.changedPicData = imageData
                                             }
                                         }))
             alert.addAction(title: "Cancel", style: .cancel)
             alert.show()
-
         })
         firstChildView.isHidden = true
         return firstChildView
@@ -329,12 +321,23 @@ class ProfileViewController: FormViewController {
             }
             
             ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
-                ANLoader.hide()
                 guard success else { return }
                 
-                CoreDataModel.sharedInstance().saveContext()
-                RMUtility.showAlert(withMessage: "Profile saved successfully")
-
+                if let data = self.changedPicData {
+                    ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
+                        ANLoader.hide()
+                        if successUpload {
+                            self.userProfile?.profilePicData = data
+                            self.changedPicData = nil
+                            CoreDataModel.sharedInstance().saveContext()
+                            RMUtility.showAlert(withMessage: "Profile saved successfully")
+                        }
+                    })
+                } else {
+                    ANLoader.hide()
+                    CoreDataModel.sharedInstance().saveContext()
+                    RMUtility.showAlert(withMessage: "Profile saved successfully")
+                }
             }
         }
         super.setEditing(editing, animated: true)

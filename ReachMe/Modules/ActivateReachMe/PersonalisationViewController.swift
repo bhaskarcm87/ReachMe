@@ -95,9 +95,6 @@ class PersonalisationViewController: UITableViewController {
             //Saving local DB
             userProfile?.userName = nameTextField.text
             userProfile?.emailID = emailTextField.text
-            if let profilePicData = UIImagePNGRepresentation(profileImageView.image!) {
-                userProfile?.profilePicData = profilePicData
-            }
 
             //Update server
             ANLoader.showLoading("", disableUI: true)
@@ -105,14 +102,21 @@ class PersonalisationViewController: UITableViewController {
                                          "screen_name": userProfile?.userName as Any,
                                          "email": userProfile?.emailID as Any]
             ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
-                ANLoader.hide()
                 guard success else { return }
-                //TODO: Upload Profile pic
-                CoreDataModel.sharedInstance().saveContext()
-                Defaults[.IsPersonalisation] = false
-                Defaults[.IsLoggedInKey] = true
-                ServiceRequest.shared().connectMQTT()
-                RMUtility.showdDashboard()
+                
+                if let data = UIImagePNGRepresentation(self.profileImageView.image!) {
+                    ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
+                        ANLoader.hide()
+                        if successUpload {
+                            self.userProfile?.profilePicData = data
+                        }
+                        CoreDataModel.sharedInstance().saveContext()
+                        Defaults[.IsPersonalisation] = false
+                        Defaults[.IsLoggedInKey] = true
+                        ServiceRequest.shared().connectMQTT()
+                        RMUtility.showdDashboard()
+                    })
+                }
             }
         }
     }

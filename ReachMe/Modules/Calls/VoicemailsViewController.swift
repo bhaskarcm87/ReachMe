@@ -51,6 +51,7 @@ class VoicemailsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
 
         //Searchbar
         if #available(iOS 11.0, *) {
