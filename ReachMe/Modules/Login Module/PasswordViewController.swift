@@ -20,14 +20,12 @@ class PasswordViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     private let disposeBag = DisposeBag()
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mobileNumberLabel.text = userProfile?.mobileNumberFormated
+        mobileNumberLabel.text = Constants.appDelegate.userProfile?.mobileNumberFormated
         setupTextChangeHandling()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,14 +88,16 @@ class PasswordViewController: UIViewController {
             Defaults[.needSetDeviceInfo] = true
             RMUtility.registerForPushNotifications()
 
-            if Defaults[.APIIsRMNewUser] {
-                Defaults[.IsCarrierSelection] = true
-                self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)
-            } else {
-                Defaults[.IsLoggedInKey] = true
-                ServiceRequest.shared().connectMQTT()
-                RMUtility.showdDashboard()
-            }
+            DispatchQueue.main.async(execute: {
+                if Defaults[.APIIsRMNewUser] {
+                    Defaults[.IsCarrierSelection] = true
+                    self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)
+                } else {
+                    Defaults[.IsLoggedInKey] = true
+                    ServiceRequest.shared().connectMQTT()
+                    RMUtility.showdDashboard()
+                }
+            })
         }
     }
     

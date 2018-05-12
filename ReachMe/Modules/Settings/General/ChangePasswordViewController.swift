@@ -26,11 +26,6 @@ class ChangePasswordViewController: UITableViewController {
     var isOldPassValidated = false
     var isNewPassValidated = false
     var isConfirmPassValidated = false
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     
     // MARK: - Initializers
     init(oldPassTextField: UITextField, newPassTextField: UITextField, confirmPassTextField: UITextField, alert: UIAlertController) {
@@ -67,14 +62,14 @@ class ChangePasswordViewController: UITableViewController {
     
     // MARK: - Custom Methods
     func configureTextFileds() {
-        let headerView = UIView(frame: CGRect(x:0, y:0, width:tableView.frame.size.width, height: UIScreen.main.bounds.height / 4.5))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: UIScreen.main.bounds.height / 4.5))
         headerView.addSubview(oldPassTextField)
         headerView.addSubview(newPassTextField)
         headerView.addSubview(confirmPassTextField)
         
         oldPassTextField.translatesAutoresizingMaskIntoConstraints = false
         headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .top, relatedBy: .equal, toItem: headerView, attribute: .top, multiplier: 1, constant: 0))
-        if let pass = userProfile?.password, !pass.isEmpty {
+        if let pass = Constants.appDelegate.userProfile?.password, !pass.isEmpty {
             headerView.addConstraint(NSLayoutConstraint(item: oldPassTextField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
             preferredContentSize.height = 163
         } else {
@@ -172,7 +167,7 @@ extension ChangePasswordViewController: UITextFieldDelegate {
                 alert.set(message: "OLD_PASS".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 return
             }
-            if oldPass != userProfile?.password {
+            if oldPass != Constants.appDelegate.userProfile?.password {
                 alert.set(message: "OLD_PWD_NOT_MATCHED".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 oldPassTextField.text = ""
             } else {
@@ -229,15 +224,15 @@ extension ChangePasswordViewController: UITextFieldDelegate {
         case oldPassTextField:
             if isNewPassValidated, isConfirmPassValidated {
                 guard let oldPassLength = oldPassTextField.text?.count,
-                    let storedPassLength = userProfile?.password?.count else {
+                    let storedPassLength = Constants.appDelegate.userProfile?.password?.count else {
                         return false
                 }
                 
-                if oldPassTextField.text! == userProfile?.password {
+                if oldPassTextField.text! == Constants.appDelegate.userProfile?.password {
                     alert.actions.last?.isEnabled = true
                     alert.set(message: "".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 } else if oldPassLength > storedPassLength ||
-                    (oldPassLength == storedPassLength && oldPassTextField.text! != userProfile?.password) {
+                    (oldPassLength == storedPassLength && oldPassTextField.text! != Constants.appDelegate.userProfile?.password) {
                     alert.actions.last?.isEnabled = false
                     alert.set(message: "OLD_PWD_NOT_MATCHED".localized, font: .systemFont(ofSize: 14), color: UIColor.red)
                 } else {
@@ -268,8 +263,8 @@ extension ChangePasswordViewController: UITextFieldDelegate {
                 } else {
                     alert.actions.last?.isEnabled = false
                 }
-                
             }
+            
         default:
             break
         }

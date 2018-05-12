@@ -47,12 +47,11 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var continueButton: UIButton!
     private let disposeBag = DisposeBag()
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mobileNumberLabel.text = userProfile?.mobileNumberFormated
+        mobileNumberLabel.text = Constants.appDelegate.userProfile?.mobileNumberFormated
         setupTextChangeHandling()
     }
 

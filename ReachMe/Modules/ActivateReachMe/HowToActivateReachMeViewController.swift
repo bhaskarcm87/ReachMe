@@ -53,7 +53,7 @@ class HowToActivateReachMeViewController: UITableViewController {
             label3.text = "Withdraw, share or forward voicemails with anyone"
         }
         
-        if ((userContact.selectedCarrier?.ussdString) != nil) {
+        if (userContact.selectedCarrier?.ussdString) != nil {
             if userContact.isReachMeIntlActive {
                 activateButton.setTitle("Switch To Home", for: .normal)
             } else if userContact.isReachMeHomeActive {
@@ -71,7 +71,7 @@ class HowToActivateReachMeViewController: UITableViewController {
     }
     
     func startCounter() {
-        timer.setCountDownTime(minutes:10)
+        timer.setCountDownTime(minutes: 10)
         timer.start()
     }
 

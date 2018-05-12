@@ -18,12 +18,6 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         $0.obscuresBackgroundDuringPresentation = false
         $0.delegate = self
         $0.searchBar.sizeToFit()
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = $0
-            extendedLayoutIncludesOpaqueBars = true
-        } else {
-            tableView.tableHeaderView = $0.searchBar
-        }
         definesPresentationContext = true
         return $0
     }(UISearchController(searchResultsController: nil))
@@ -32,8 +26,9 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
     var selectionList = [String]()
     var filteredSearchData = [String]()
     var isPresentingSearchBar: Bool = false
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
     var userContact: UserContact!
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     //var observer: CoreDataContextObserver?
     
     override func viewDidLoad() {
@@ -42,6 +37,14 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
             navigationItem.setHidesBackButton(true, animated: false)
         }
         
+        //Searchbar
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            extendedLayoutIncludesOpaqueBars = true
+        } else {
+            tableView.tableHeaderView = searchController.searchBar
+        }
+
         tableView.register(SelectCarrierTableCell.self, forCellReuseIdentifier: SelectCarrierTableCell.identifier)
         
         //        //Adding Observer for change DB
@@ -57,12 +60,12 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
             ANLoader.hide()
             //Prepare List data
             if self.userContact == nil {
-                self.userContact = self.userProfile?.primaryContact!
+                self.userContact = Constants.appDelegate.userProfile?.primaryContact!
                 //If for secondary number carriers are not there, check if primary contact country code is same as secondary number then copy those to secondary number ans save context
             } else if self.userContact.carriers?.count == 0,
-                self.userProfile?.primaryContact?.countryCode == self.userContact.countryCode {
-                self.userContact.carriers = self.userProfile?.primaryContact?.carriers
-                CoreDataModel.sharedInstance().saveContext()
+                Constants.appDelegate.userProfile?.primaryContact?.countryCode == self.userContact.countryCode {
+                self.userContact.carriers = Constants.appDelegate.userProfile?.primaryContact?.carriers
+                self.coreDataStack.saveContexts()
             }
             
             var resultSet = Set<String>()
@@ -165,21 +168,20 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         ANLoader.showLoading("", disableUI: true)
         ServiceRequest.shared().startRequestForUpdateSettings(completionHandler: { (success) in
             guard success else {//If error occurs undo the local changes for this context
-                self.userProfile?.managedObjectContext?.rollback()
+                Constants.appDelegate.userProfile?.managedObjectContext?.rollback()
                 return
             }
             
-            ANLoader.hide()
-            CoreDataModel.sharedInstance().saveContext()
-            
-            if Defaults[.IsCarrierSelection] {
-                Defaults[.IsCarrierSelection] = false
-                Defaults[.IsOnBoarding] = true
-                self.performSegue(withIdentifier: Constants.Segues.ACTIVATE_REACHME, sender: self)
-            } else {
-                self.navigationController?.popViewController(animated: true)
-            }
-            
+            self.coreDataStack.saveContexts(withCompletion: { (error) in
+                ANLoader.hide()
+                if Defaults[.IsCarrierSelection] {
+                    Defaults[.IsCarrierSelection] = false
+                    Defaults[.IsOnBoarding] = true
+                    self.performSegue(withIdentifier: Constants.Segues.ACTIVATE_REACHME, sender: self)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
         })
     }
 }

@@ -19,4 +19,3 @@ class DesignableButton: UIButton {
 @IBDesignable
 class DesignableLabel: UILabel {
 }
-

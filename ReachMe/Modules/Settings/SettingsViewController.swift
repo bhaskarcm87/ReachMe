@@ -16,20 +16,14 @@ class SettingsViewController: UITableViewController {
         $0.delegate = self
         return $0
     }(SKStoreProductViewController())
+    private let coreDataStack = Constants.appDelegate.coreDataStack
     var tableCellArray = [[Any]]()
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let headerCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileHeaderCell.identifier) as! SettingsProfileHeaderCell
-//        tableView.tableHeaderView = headerCell
-        
         constructtableCells()
+    
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,76 +34,81 @@ class SettingsViewController: UITableViewController {
             guard success else { return }
             ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
                 guard success else { return }
-                CoreDataModel.sharedInstance().saveContext()
                 self.constructtableCells()
                 self.tableView.reloadData()
             })
         })
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-   
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            self.constructtableCells()
+            self.tableView.reloadData()
+        }
+    }
+
     func constructtableCells() {
         tableCellArray.removeAll()
         
         //Profile
-//        let editProfileCell = tableView.dequeueReusableCell(withIdentifier: "SettingsProfileEditCell")
-//        editProfileCell?.detailTextLabel?.text = userProfile?.primaryContact?.countryName
-//        tableCellArray.append([editProfileCell as Any])
-
         let profileCell = tableView.dequeueReusableCell(withIdentifier: SettingsProfileCell.identifier) as! SettingsProfileCell
-        profileCell.updateCell()
         tableCellArray.append([profileCell])
         
         //PrimaryNumber
         let primaryNumberCell = tableView.dequeueReusableCell(withIdentifier: SettingsPrimaryNumberCell.identifier) as! SettingsPrimaryNumberCell
-        if let countryImage = UIImage(data: (userProfile?.primaryContact?.countryImageData)!) {
-            primaryNumberCell.countryImageView.image = countryImage
-        }
-        primaryNumberCell.titleLabel.text = userProfile?.primaryContact?.formatedNumber
-        primaryNumberCell.subtitleLabel.text = userProfile?.primaryContact?.selectedCarrier?.networkName
         tableCellArray.append([primaryNumberCell])
         
         //LinkedNumber
         let linkedNumbersCell = tableView.dequeueReusableCell(withIdentifier: "SettingsLinkedNumbersCell")
-        let numberCount = NSMutableAttributedString(string: "\(((userProfile?.userContacts?.count)! - 1))")
+        linkedNumbersCell?.tag = 1 // Close state
+        let numberCount = NSMutableAttributedString(string: "\(((Constants.appDelegate.userProfile?.userContacts?.count)! - 1))")
         let combination = NSMutableAttributedString()
         combination.append(numberCount)
         let extraString = NSMutableAttributedString(string: "------------------------")//To create space temporary adding few charachters
         extraString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: 24))
         combination.append(extraString)
         linkedNumbersCell?.detailTextLabel?.attributedText = combination
+        linkedNumbersCell?.textLabel?.text = "Linked Numbers"
         tableCellArray.append([linkedNumbersCell as Any])
         
         //Last Section
         var lastSectionArray = [Any]()
         //Voicemail
         let voiceMailCell = tableView.dequeueReusableCell(withIdentifier: "SettingsVoicemailCell")
+        voiceMailCell?.textLabel?.text = "Voicemail Greetings"
+        voiceMailCell?.detailTextLabel?.text = "Welcome messages"
         lastSectionArray.append(voiceMailCell as Any)
+
         //Email Notification
         let emailNotificationCell = tableView.dequeueReusableCell(withIdentifier: "SettingsEmailNotfiCell")
+        emailNotificationCell?.textLabel?.text = "Email Notifications"
+        emailNotificationCell?.detailTextLabel?.text = "Receive Voicemail & Missed Call Alerts"
         lastSectionArray.append(emailNotificationCell as Any)
         //Redeem
         let redeemCell = tableView.dequeueReusableCell(withIdentifier: "SettingsRedeemCell")
+        redeemCell?.textLabel?.text = "Redeem Code"
+        redeemCell?.detailTextLabel?.text = "Invite codes, Promo codes"
         lastSectionArray.append(redeemCell as Any)
         //General
         let generalCell = tableView.dequeueReusableCell(withIdentifier: "SettingsGeneralCell")
+        generalCell?.textLabel?.text = "General"
+        generalCell?.detailTextLabel?.text = "Password & Ringtone"
         lastSectionArray.append(generalCell as Any)
         //Carrier Logo Support
-        if userProfile?.primaryContact?.selectedCarrier?.logoSupportURL != nil {
+        if Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportURL != nil {
             let carrierSupportCell = tableView.dequeueReusableCell(withIdentifier: SettingsCarrierLogoSupportCell.identifier) as! SettingsCarrierLogoSupportCell
-            carrierSupportCell.titleLabel.text = "\((userProfile?.primaryContact?.selectedCarrier?.networkName)!) Carrier Support"
+            carrierSupportCell.titleLabel.customFontTextStyle = "Body"
             lastSectionArray.append(carrierSupportCell)
         }
         
         //Version
         let versionCell = tableView.dequeueReusableCell(withIdentifier: "SettingsVersionCell")
         versionCell?.textLabel?.text = "ReachMe \(Bundle.main.infoDictionary!["CFBundleShortVersionString"]!) (\(Bundle.main.infoDictionary!["CFBundleVersion"]!))"
-        //let appID = Bundle.main.infoDictionary!["CFBundleIdentifier"]! NOTE: Unblock this after all done
-        let appID = "com.kirusa.ReachMe"
+        let appID = Bundle.main.infoDictionary!["CFBundleIdentifier"]!
         let ituneURL = URL(string: "http://itunes.apple.com/lookup?bundleId=\(appID)")!
         do {
             let data = try Data.init(contentsOf: ituneURL)
@@ -181,10 +180,11 @@ extension SettingsViewController {
             (tableCell?.accessoryView as! UIImageView).image = #imageLiteral(resourceName: "settings_up_arrow")
 
             let newLinkCell = tableView.dequeueReusableCell(withIdentifier: "SettingsLinkNewCell")
+            newLinkCell?.textLabel?.text = "Link New"
             
-            guard let contactCount = userProfile?.userContacts?.count, contactCount > 1  else {
+            guard let contactCount = Constants.appDelegate.userProfile?.userContacts?.count, contactCount > 1  else {
                 tableCellArray[2].append(newLinkCell as Any)
-                tableView.insertRows(at: [IndexPath.init(row: 1, section: 2)], with: .fade)
+                tableView.insertRows(at: [IndexPath(row: 1, section: 2)], with: .fade)
                 return
             }
             
@@ -193,7 +193,7 @@ extension SettingsViewController {
             tableView.insertSections(IndexSet(integer: 2), with: .fade)
             
             var numberRowCount = 1
-            (userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
+            (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
                 if !userContact.isPrimary {
                     let numberCell = tableView.dequeueReusableCell(withIdentifier: "SettingsSecondaryNumberCell")
                     numberCell?.textLabel?.text = userContact.formatedNumber
@@ -202,21 +202,21 @@ extension SettingsViewController {
                         numberCell?.imageView?.image = countryImage
                     }
                     tableCellArray[3].append(numberCell as Any)
-                    tableView.insertRows(at: [IndexPath.init(row: numberRowCount, section: 3)], with: .fade)
+                    tableView.insertRows(at: [IndexPath(row: numberRowCount, section: 3)], with: .fade)
                     numberRowCount += 1
                 }
             })
             
             tableCellArray[3].append(newLinkCell as Any)
-            tableView.insertRows(at: [IndexPath.init(row: numberRowCount, section: 3)], with: .fade)
+            tableView.insertRows(at: [IndexPath(row: numberRowCount, section: 3)], with: .fade)
             
         } else if tableCell?.tag == 2 {
             tableCell?.tag = 1 // Close state
             (tableCell?.accessoryView as! UIImageView).image = #imageLiteral(resourceName: "down_arrow_settings")
 
-            guard let contactCount = userProfile?.userContacts?.count, contactCount > 1  else {
+            guard let contactCount = Constants.appDelegate.userProfile?.userContacts?.count, contactCount > 1  else {
                 tableCellArray[2].remove(at: 1)//Remove New Link if no secendary numbers
-                tableView.deleteRows(at: [IndexPath.init(row: 1, section: 2)], with: .fade)
+                tableView.deleteRows(at: [IndexPath(row: 1, section: 2)], with: .fade)
                 return
             }
             ////
@@ -237,10 +237,10 @@ extension SettingsViewController {
             
             DispatchQueue.main.async { //Using main queue otherwise Actionsheet showing in delay
                 let alertFit = Alertift.actionSheet(title: "Change Primary Number", message: "Primary Number is your USER ID to access ReachMe on all your devices. ")
-                    .action(.default("\((self.userProfile?.primaryContact?.formatedNumber)!)"))
+                    .action(.default("\((Constants.appDelegate.userProfile?.primaryContact?.formatedNumber)!)"))
                 alertFit.alertController.setTitleFont(font: .boldSystemFont(ofSize: 18))
                 
-                (self.userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
+                (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
                     if !userContact.isPrimary {
                         _ = alertFit.action(.default("\((userContact.formatedNumber)!)")) { action, index in
                             
@@ -261,16 +261,16 @@ extension SettingsViewController {
                                 guard success else { return }
                                 
                                 //Change existing primary contact to false
-                                for contact in (self.userProfile?.userContacts?.allObjects as? [UserContact])! where contact.isPrimary == true {
+                                for contact in (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])! where contact.isPrimary == true {
                                         contact.isPrimary = false
                                         break
                                 }
                                 
                                 //Update selected Contact to true
                                 userContact.isPrimary = true
-                                self.userProfile?.primaryContact = userContact
+                                Constants.appDelegate.userProfile?.primaryContact = userContact
                                 
-                                CoreDataModel.sharedInstance().saveContext()
+                                self.coreDataStack.saveContexts()
                                 
                                 DispatchQueue.main.async {
                                     //Close expanding state of tableview
@@ -301,7 +301,7 @@ extension SettingsViewController {
             }
             
         } else if tableCell?.tag == 4 {//Link New
-            guard let contactCounts = userProfile?.userContacts?.count, contactCounts <= 11 else {
+            guard let contactCounts = Constants.appDelegate.userProfile?.userContacts?.count, contactCounts <= 11 else {
                 RMUtility.showAlert(withMessage: "Limit Exceeded! Only 10 verified numbers can be linked to account")
                 return
             }
@@ -313,7 +313,7 @@ extension SettingsViewController {
             
         } else if tableCell?.tag == 5 { //Secondary Number
             let predicate = NSPredicate(format: "formatedNumber == %@", (tableCell?.textLabel?.text)!)
-            let userContact = userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
+            let userContact = Constants.appDelegate.userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
             if  userContact.selectedCarrier == nil && (userContact.voiceMailInfo?.countryVoicemailSupport)! {
                 performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: nil)
                 return
@@ -324,7 +324,7 @@ extension SettingsViewController {
             performSegue(withIdentifier: Constants.Segues.ACTIVATE_REACHME, sender: nil)
             
         } else if tableCell?.tag == 7 { //Carrier Support
-            guard let url = URL(string: "\((userProfile?.primaryContact?.selectedCarrier?.logoSupportURL)!)") else { return }
+            guard let url = URL(string: "\((Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportURL)!)") else { return }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
  
@@ -343,6 +343,15 @@ extension SettingsViewController {
         }
         return nil
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
 }
 
 extension SettingsViewController: SKStoreProductViewControllerDelegate {

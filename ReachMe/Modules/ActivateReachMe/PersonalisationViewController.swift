@@ -12,18 +12,14 @@ import Alamofire
 
 class PersonalisationViewController: UITableViewController {
 
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var ringtoneLabel: UILabel!
     
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-
     fileprivate lazy var imagePicker: UIImagePickerController = {
         $0.allowsEditing = true
         $0.sourceType = .photoLibrary
@@ -37,9 +33,9 @@ class PersonalisationViewController: UITableViewController {
         Defaults[.IsOnBoarding] = false
         imagePicker.delegate = self
         
-        nameTextField.text = userProfile?.userName
-        emailTextField.text = userProfile?.emailID
-        if let profilePicData = userProfile?.profilePicData,
+        nameTextField.text = Constants.appDelegate.userProfile?.userName
+        emailTextField.text = Constants.appDelegate.userProfile?.emailID
+        if let profilePicData = Constants.appDelegate.userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
             profileImageView.image = profileImage
             
@@ -93,28 +89,30 @@ class PersonalisationViewController: UITableViewController {
             }
 
             //Saving local DB
-            userProfile?.userName = nameTextField.text
-            userProfile?.emailID = emailTextField.text
+            Constants.appDelegate.userProfile?.userName = nameTextField.text
+            Constants.appDelegate.userProfile?.emailID = emailTextField.text
 
             //Update server
             ANLoader.showLoading("", disableUI: true)
             var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
-                                         "screen_name": userProfile?.userName as Any,
-                                         "email": userProfile?.emailID as Any]
+                                         "screen_name": Constants.appDelegate.userProfile?.userName as Any,
+                                         "email": Constants.appDelegate.userProfile?.emailID as Any]
             ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
                 guard success else { return }
                 
                 if let data = UIImagePNGRepresentation(self.profileImageView.image!) {
                     ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
-                        ANLoader.hide()
                         if successUpload {
-                            self.userProfile?.profilePicData = data
+                            Constants.appDelegate.userProfile?.profilePicData = data
                         }
-                        CoreDataModel.sharedInstance().saveContext()
                         Defaults[.IsPersonalisation] = false
                         Defaults[.IsLoggedInKey] = true
                         ServiceRequest.shared().connectMQTT()
-                        RMUtility.showdDashboard()
+
+                        self.coreDataStack.saveContexts(withCompletion: { (error) in
+                            ANLoader.hide()
+                            RMUtility.showdDashboard()
+                        })
                     })
                 }
             }

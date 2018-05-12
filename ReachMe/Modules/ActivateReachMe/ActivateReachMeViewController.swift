@@ -12,18 +12,18 @@ import SwiftyUserDefaults
 
 class ActivateReachMeViewController: UITableViewController {
     
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-    
-    var userContact: UserContact!
     var tableCellArray = [Any]()
     var missedCallcount = "0"
     var voicemailCount = "0"
     var incomingCallCount = "0"
-    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
+    var userContact: UserContact! {
+        get {
+            return Constants.appDelegate.userProfile?.primaryContact!
+        } set {}
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if Defaults[.IsOnBoarding] {
@@ -32,10 +32,6 @@ class ActivateReachMeViewController: UITableViewController {
         
         //let predicate = NSPredicate(format: "isPrimary == %@", NSNumber(value: true))
         // userContact = userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
-        if userContact == nil {
-            userContact = userProfile?.primaryContact!
-        }
-        
         if !Defaults[.IsOnBoarding] &&
             (userContact.isReachMeHomeActive || userContact.isReachMeIntlActive || userContact.isReachMeVoiceMailActive) {
             getUsageSummary()
@@ -64,7 +60,7 @@ class ActivateReachMeViewController: UITableViewController {
                 usageSummaryCell.countryImageView.image = countryImage
             }
             usageSummaryCell.numberLabel.text = userContact.formatedNumber
-            usageSummaryCell.countryNameLabel.text = userProfile?.countryName
+            usageSummaryCell.countryNameLabel.text = Constants.appDelegate.userProfile?.countryName
             usageSummaryCell.networkNameLabel.text = "\((userContact.selectedCarrier?.networkName)!)   "
             usageSummaryCell.incomingCallsCountLabel.text = incomingCallCount
             usageSummaryCell.missedCallsCountLabel.text = missedCallcount
@@ -82,7 +78,7 @@ class ActivateReachMeViewController: UITableViewController {
                 titleCell.countryNameLabel.text = userContact.formatedNumber
             } else {
                 titleCell.numberLabel.text = userContact.formatedNumber
-                titleCell.countryNameLabel.text = userProfile?.countryName
+                titleCell.countryNameLabel.text = Constants.appDelegate.userProfile?.countryName
             }
             titleCell.networkNameLabel.text = "\((userContact.selectedCarrier?.networkName)!)   "
             tableCellArray.append(titleCell)
@@ -94,7 +90,7 @@ class ActivateReachMeViewController: UITableViewController {
             tableCellArray.append(selectModeCell as Any)
             
             //ReachMe Intl
-            if ((userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)!) {
+            if (userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)! {
                 
                 let reachMeIntlCell = tableView.dequeueReusableCell(withIdentifier: ActivateReachMeIntlCell.identifier) as! ActivateReachMeIntlCell
                 
@@ -115,7 +111,7 @@ class ActivateReachMeViewController: UITableViewController {
             }
             
             //ReachMe Home
-            if ((userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)!) {
+            if (userContact.voiceMailInfo?.rmIntl)! && (userContact.voiceMailInfo?.rmHome)! {
                 
                 let reachMeHomeCell = tableView.dequeueReusableCell(withIdentifier: ActivateReachMeHomeCell.identifier) as! ActivateReachMeHomeCell
                 
@@ -212,10 +208,11 @@ class ActivateReachMeViewController: UITableViewController {
             guard success else { return }
             
             //Delete from local DB
-            ANLoader.hide()
-            CoreDataModel.sharedInstance().deleteRecord(self.userContact)
-            CoreDataModel.sharedInstance().saveContext()
-            self.navigationController?.popViewController(animated: true)
+            self.coreDataStack.defaultContext.delete(self.userContact)
+            self.coreDataStack.saveContexts(withCompletion: { (error) in
+                ANLoader.hide()
+                self.navigationController?.popViewController(animated: true)
+            })
         }
     }
     
@@ -280,7 +277,7 @@ extension ActivateReachMeViewController {
         let intlCell = tableView.cellForRow(at: indexPath) as? ActivateReachMeIntlCell
         let voiceMailCell = tableView.cellForRow(at: indexPath) as? ActivateReachMeVoiceMailCell
         
-        guard ((homeCell != nil) || (intlCell != nil) || (voiceMailCell != nil)) else {
+        guard (homeCell != nil) || (intlCell != nil) || (voiceMailCell != nil) else {
             return
         }
         
@@ -293,9 +290,9 @@ extension ActivateReachMeViewController {
                 performSegue(withIdentifier: Constants.Segues.ACTIVATED, sender: RMUtility.ReachMeType.voicemail)
             }
         } else {
-            if (homeCell != nil) {
+            if homeCell != nil {
                 performSegue(withIdentifier: Constants.Segues.HOWTO_ACTIVAE_REACHME, sender: RMUtility.ReachMeType.home)
-            } else if (intlCell != nil) {
+            } else if intlCell != nil {
                 performSegue(withIdentifier: Constants.Segues.HOWTO_ACTIVAE_REACHME, sender: RMUtility.ReachMeType.international)
             } else {
                 performSegue(withIdentifier: Constants.Segues.HOWTO_ACTIVAE_REACHME, sender: RMUtility.ReachMeType.voicemail)

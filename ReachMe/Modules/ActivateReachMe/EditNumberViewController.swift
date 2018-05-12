@@ -16,14 +16,14 @@ class EditNumberViewController: UITableViewController {
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var carrierNameLabel: UILabel!
     
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
-    var userContact: UserContact!
+    var userContact: UserContact! {
+        get {
+            return Constants.appDelegate.userProfile?.primaryContact!
+        } set {}
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if userContact == nil {
-            userContact = userProfile?.primaryContact!
-        }
         
         if let countryImage = UIImage(data: userContact.countryImageData!) {
             countryImageView.image = countryImage
@@ -56,13 +56,9 @@ class EditNumberViewController: UITableViewController {
         ANLoader.showLoading("", disableUI: true)
         ServiceRequest.shared().startRequestForUpdateSettings { (success) in
             guard success else { return }
-            
-            CoreDataModel.sharedInstance().saveContext()
-            
             ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
                 guard success else { return }
                 ANLoader.hide()
-                CoreDataModel.sharedInstance().saveContext()
                 self.navigationController?.popViewController(animated: true)
             })
         }

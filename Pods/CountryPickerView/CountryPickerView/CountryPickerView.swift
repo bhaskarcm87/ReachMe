@@ -50,6 +50,9 @@ public struct Country {
         return UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
             in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
     }
+    public var countryImageData: Data? {
+        return UIImageJPEGRepresentation(flag, 1)
+    }
     
    internal init(name: String, code: String, phoneCode: String, stateSearchCode: String?) {
         self.name = name

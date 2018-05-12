@@ -13,15 +13,14 @@ class ForgotPasswordViewController: UIViewController {
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var countryNameLabel: UILabel!
     @IBOutlet weak var countryFlag: UIImageView!
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let flagimage = UIImage(data: (userProfile?.countryImageData)!)
+        let flagimage = UIImage(data: (Constants.appDelegate.userProfile?.countryImageData)!)
         countryFlag.image = flagimage
-        countryNameLabel.text = userProfile?.countryName
-        phoneNumberLabel.text = userProfile?.mobileNumberFormated
+        countryNameLabel.text = Constants.appDelegate.userProfile?.countryName
+        phoneNumberLabel.text = Constants.appDelegate.userProfile?.mobileNumberFormated
     }
     
     override func didReceiveMemoryWarning() {

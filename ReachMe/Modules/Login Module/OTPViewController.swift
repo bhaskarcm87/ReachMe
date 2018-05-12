@@ -25,7 +25,6 @@ class OTPViewController: UIViewController {
     @IBOutlet weak var OTPView: VPMOTPView!
     var otpType: OTPType = .Register /*Default*/
     var otpString: String?
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +38,7 @@ class OTPViewController: UIViewController {
     }
     
     func setupCounter() {
-        timerLabel.setCountDownTime(minutes:10)
+        timerLabel.setCountDownTime(minutes: 10)
         timerLabel.timeFormat = "mm:ss"
         timerLabel.animationType = .Evaporate
         timerLabel.countdownDelegate = self
@@ -67,7 +66,7 @@ class OTPViewController: UIViewController {
             
             Alertift.alert(title: """
                                      Confirm mobile number
-                                     \(userProfile?.mobileNumberFormated! ?? "")
+                                     \(Constants.appDelegate.userProfile?.mobileNumberFormated! ?? "")
                                   """,
                            message: "You will receive a call with the validation code. Is the number OK, or would you like to change it?")
                 .action(.destructive("Change")) { (action, count, nil) in
@@ -151,13 +150,13 @@ extension OTPViewController: VPMOTPViewDelegate {
 // MARK: - CountdownDelegate
 extension OTPViewController: CountdownLabelDelegate {
     func countdownFinished() {
-        let attributedString = NSMutableAttributedString(string:callmeLabel.text!)
+        let attributedString = NSMutableAttributedString(string: callmeLabel.text!)
         attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:42, length:7))
         callmeLabel.attributedText = attributedString
     }
     
     func countdownStarted() {
-        let attributedString = NSMutableAttributedString(string:callmeLabel.text!)
+        let attributedString = NSMutableAttributedString(string: callmeLabel.text!)
         attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSRange(location:42, length:7))
         callmeLabel.attributedText = attributedString
     }

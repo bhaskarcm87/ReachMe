@@ -13,27 +13,7 @@ open class CoreDataModel {
     
     var userProfile: Profile?
 
-    open class func sharedInstance() -> CoreDataModel {
-        
-        struct Static {
-            static let instance = CoreDataModel()
-        }
-        return Static.instance
-    }
-    
-    open func getUserProfle() -> Profile? {
-        guard let profile = CoreDataModel.sharedInstance().userProfile else {
-            var resultProfile: Profile?
-            CoreDataModel.sharedInstance().fetchRecords(entityName: .ProfileEntity) { (results) in
-                guard let profileList = results as? [Profile] else { return }
-                resultProfile = profileList.first
-            }
-            CoreDataModel.sharedInstance().userProfile = resultProfile
-            return resultProfile
-        }
-        
-        return profile
-    }
+    static let sharedInstanc = CoreDataModel()
     
     open var dataModel = "ReachMe"
     
@@ -71,18 +51,18 @@ open class CoreDataModel {
     open lazy var managedObjectContext: NSManagedObjectContext = {
         
         var managedObjectContext: NSManagedObjectContext?
-        if #available(iOS 10.0, *) {
-            managedObjectContext = self.persistentContainer.viewContext
-        } else {
+//        if #available(iOS 10.0, *) {
+//            managedObjectContext = self.persistentContainer.viewContext
+//        } else {
             let coordinator = self.persistentStoreCoordinator
-            managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+            managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            managedObjectContext?.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             managedObjectContext?.persistentStoreCoordinator = coordinator
             
-        }
+        //}
         return managedObjectContext!
     }()
-    // iOS-10
-    @available(iOS 10.0, *)
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.dataModel)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -96,16 +76,16 @@ open class CoreDataModel {
     // MARK: - Core Data Saving support
     open func saveContext () {
         if managedObjectContext.hasChanges {
-            managedObjectContext.performAndWait({
+            //managedObjectContext.performAndWait({
                 do {
                     try self.managedObjectContext.save()
-                    CoreDataModel.sharedInstance().userProfile = nil
+                    //CoreDataModel.sharedInstance().userProfile = nil
                 } catch {
                     let nserror = error as NSError
                     NSLog("CoreData - Unresolved error \(nserror), \(nserror.userInfo)")
                     abort()
                 }
-            })
+           // })
         }
     }
     

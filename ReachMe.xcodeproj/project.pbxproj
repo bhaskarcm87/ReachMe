@@ -36,6 +36,7 @@
 		8C637CDB2035C77500A38663 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C637CD92035C77500A38663 /* LaunchScreen.storyboard */; };
 		8C637CE620370FA200A38663 /* UIColor+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C637CE520370FA200A38663 /* UIColor+Extention.swift */; };
 		8C7007E420A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7007E320A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift */; };
+		8C70081920A46B08008FB5C4 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70081820A46B08008FB5C4 /* UILabel+Extensions.swift */; };
 		8C7D7AC7206246DE0002DF2D /* Date+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7AC6206246DE0002DF2D /* Date+Extention.swift */; };
 		8C7D7AC92062476A0002DF2D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7AC82062476A0002DF2D /* ChangePasswordViewController.swift */; };
 		8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7ACA206247990002DF2D /* SettingsGeneralViewController.swift */; };
@@ -130,6 +131,8 @@
 		8CD354A72066D8F1009BCF14 /* RedeemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */; };
 		8CD354AA2066DF61009BCF14 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A92066DF61009BCF14 /* AboutViewController.swift */; };
 		8CD354AC2066E19E009BCF14 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354AB2066E19E009BCF14 /* WebViewController.swift */; };
+		8CDA60BF20A6320600A00873 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA60BE20A6320600A00873 /* CoreDataStack.swift */; };
+		8CDA60C120A6326C00A00873 /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */; };
 		8CF7B1C1205BAE0100F87FFB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */; };
 		8CF7B1C3205BAF4500F87FFB /* AboutReachMe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */; };
 		8CF7B1C5205BAFCD00F87FFB /* Calls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */; };
@@ -172,6 +175,7 @@
 		8C637CDC2035C77500A38663 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C637CE520370FA200A38663 /* UIColor+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extention.swift"; sourceTree = "<group>"; };
 		8C7007E320A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoicemailGreetingsViewController.swift; sourceTree = "<group>"; };
+		8C70081820A46B08008FB5C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		8C7D7AC6206246DE0002DF2D /* Date+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extention.swift"; sourceTree = "<group>"; };
 		8C7D7AC82062476A0002DF2D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		8C7D7ACA206247990002DF2D /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +287,8 @@
 		8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemViewController.swift; sourceTree = "<group>"; };
 		8CD354A92066DF61009BCF14 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8CD354AB2066E19E009BCF14 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		8CDA60BE20A6320600A00873 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
 		8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutReachMe.storyboard; sourceTree = "<group>"; };
 		8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calls.storyboard; sourceTree = "<group>"; };
@@ -468,6 +474,7 @@
 				8CA328572095BA7400004521 /* UIImageView+Extensions.swift */,
 				8CA328592095BB7400004521 /* UIApplication+Extensions.swift */,
 				8CA328712095E9ED00004521 /* Array+Extensions.swift */,
+				8C70081820A46B08008FB5C4 /* UILabel+Extensions.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -511,6 +518,8 @@
 				8CA1E2812048849E004E7D6B /* CoreDataContextObserver.swift */,
 				8CA1E2822048849E004E7D6B /* CoreDataModel.swift */,
 				8CA1E2832048849E004E7D6B /* Profile.swift */,
+				8CDA60BE20A6320600A00873 /* CoreDataStack.swift */,
+				8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */,
 			);
 			name = CoreData;
 			path = ReachMe/CoreData;
@@ -1078,6 +1087,7 @@
 				8CB4275120A071FF00D666E2 /* MQTTPingPacket.swift in Sources */,
 				8C28926E203ABE600026537B /* PasswordViewController.swift in Sources */,
 				8CB4275220A071FF00D666E2 /* MQTTPingResp.swift in Sources */,
+				8C70081920A46B08008FB5C4 /* UILabel+Extensions.swift in Sources */,
 				8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */,
 				8C2892522039883E0026537B /* UITapGestureRecognizer+Extention.swift in Sources */,
 				8C2892652039FAD50026537B /* OTPViewController.swift in Sources */,
@@ -1100,6 +1110,7 @@
 				8C02DCDE203C518B00CB8A46 /* RMUtility.swift in Sources */,
 				8CA326522093544F00004521 /* FormerInputAccessoryView.swift in Sources */,
 				8CD354AC2066E19E009BCF14 /* WebViewController.swift in Sources */,
+				8CDA60C120A6326C00A00873 /* NSManagedObjectContext+Extension.swift in Sources */,
 				8C972EC820596470008C9FEA /* ActivatedReachMeTableCells.swift in Sources */,
 				8C1B1063207CD10900A172B3 /* ChatUserViewController.swift in Sources */,
 				8C637CD62035C77500A38663 /* ReachMe.xcdatamodeld in Sources */,
@@ -1137,6 +1148,7 @@
 				8C972EC4205915D1008C9FEA /* UIAlertController+Extention.swift in Sources */,
 				8CB4274D20A071FF00D666E2 /* MQTTConnectPacket.swift in Sources */,
 				8CB4272B20A071FF00D666E2 /* PhotoLibraryPickerViewController.swift in Sources */,
+				8CDA60BF20A6320600A00873 /* CoreDataStack.swift in Sources */,
 				8CA1E294204C466D004E7D6B /* DesignableView.swift in Sources */,
 				8CB4273A20A071FF00D666E2 /* RCAudioMessageCell.m in Sources */,
 				8C9791C8206AE04A004BFA3B /* JukeboxItem.swift in Sources */,

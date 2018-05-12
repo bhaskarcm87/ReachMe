@@ -24,12 +24,6 @@ class CallsGeneralCell: UITableViewCell {
     @IBOutlet weak var msgFromLabel: UILabel!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var message: Message!
-
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,7 +60,7 @@ class CallsGeneralCell: UITableViewCell {
             }
         }
         
-        if let contactCount = userProfile?.userContacts?.count, contactCount > 1 {
+        if let contactCount = Constants.appDelegate.userProfile?.userContacts?.count, contactCount > 1 {
             msgFromLabel.text = "To: \(message.receivePhoneNumber!)"
         }
     }

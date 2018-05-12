@@ -16,7 +16,7 @@ class WebViewController: UIViewController {
         $0.center = view.center
         view.addSubview($0)
         return $0
-    }(WKWebView(frame: CGRect(x:0, y: 0, width: view.frame.size.width, height: view.frame.size.height), configuration: WKWebViewConfiguration()))
+    }(WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height), configuration: WKWebViewConfiguration()))
     
     lazy var spinner: UIActivityIndicatorView = {
         $0.center = view.center

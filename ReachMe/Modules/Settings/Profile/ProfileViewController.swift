@@ -14,14 +14,10 @@ import RSSelectionMenu
 class ProfileViewController: FormViewController {
 
     // MARK: - Properties
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     fileprivate var coordinateManager: MTCoordinateManager?
     var editPicView: MTCoordinateContainer!
-    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     lazy var createHeader: ((String) -> ViewFormer) = { text in
         return LabelViewFormer<FormLabelHeaderView>()
             .configure {
@@ -32,43 +28,55 @@ class ProfileViewController: FormViewController {
     private lazy var formerInputAccessoryView: FormerInputAccessoryView = FormerInputAccessoryView(former: self.former)
     lazy var nameRow = TextFieldRowFormer<FormTextFieldCell>() {
         $0.titleLabel.text = "Name"
+        $0.titleLabel.font = .preferredFont(forTextStyle: .body)
+        $0.titleLabel.adjustsFontForContentSizeCategory = true
+        $0.textField.font = .preferredFont(forTextStyle: .body)
+        $0.textField.adjustsFontForContentSizeCategory = true
         $0.textField.returnKeyType = .next
         $0.textField.textAlignment = .right
         $0.textField.clearButtonMode = .never
         $0.textField.inputAccessoryView = self.formerInputAccessoryView
         }.configure {
-            if let username = userProfile?.userName, !username.isEmpty {
+            if let username = Constants.appDelegate.userProfile?.userName, !username.isEmpty {
                 $0.text = username
             } else {
                 $0.placeholder = "Enter name"
             }
         }.onTextChanged {
-            self.userProfile?.userName = $0
+            Constants.appDelegate.userProfile?.userName = $0
     }
 
     lazy var emailRow = TextFieldRowFormer<FormTextFieldCell>() {
         $0.titleLabel.text = "Email"
+        $0.titleLabel.font = .preferredFont(forTextStyle: .body)
+        $0.titleLabel.adjustsFontForContentSizeCategory = true
+        $0.textField.font = .preferredFont(forTextStyle: .body)
+        $0.textField.adjustsFontForContentSizeCategory = true
         $0.textField.returnKeyType = .next
         $0.textField.textAlignment = .right
         $0.textField.clearButtonMode = .never
         $0.textField.inputAccessoryView = self.formerInputAccessoryView
         }.configure {
-            if let email = userProfile?.emailID, !email.isEmpty {
+            if let email = Constants.appDelegate.userProfile?.emailID, !email.isEmpty {
                 $0.text = email
             } else {
                 $0.placeholder = "Enter email"
             }
         }.onTextChanged {
-            self.userProfile?.emailID = $0
+            Constants.appDelegate.userProfile?.emailID = $0
     }
     
     lazy var genderRow = InlinePickerRowFormer<FormInlinePickerCell, UITableViewRowAnimation>(instantiateType: .Class) {
         $0.titleLabel.text = "Gender"
+        $0.titleLabel.font = .preferredFont(forTextStyle: .body)
+        $0.titleLabel.adjustsFontForContentSizeCategory = true
+        $0.displayLabel.font = .preferredFont(forTextStyle: .body)
+        $0.displayLabel.adjustsFontForContentSizeCategory = true
         $0.displayLabel.textColor = .black
         }.configure {
             let genders = ["N/A", "Male", "Female", "Other"]
             $0.pickerItems = genders.map { InlinePickerItem(title: $0) }
-            if let gender = userProfile?.gender {
+            if let gender = Constants.appDelegate.userProfile?.gender {
                 if gender == "m" {
                     $0.selectedRow = 1
                 } else if gender == "f" {
@@ -79,33 +87,41 @@ class ProfileViewController: FormViewController {
             }
         }.onValueChanged {
             if $0.title == "Male" {
-                self.userProfile?.gender = "m"
+                Constants.appDelegate.userProfile?.gender = "m"
             } else if $0.title == "Female" {
-                self.userProfile?.gender = "f"
+                Constants.appDelegate.userProfile?.gender = "f"
             } else if $0.title == "Other" {
-                self.userProfile?.gender = "o"
+                Constants.appDelegate.userProfile?.gender = "o"
             } else {
-                self.userProfile?.gender = nil
+                Constants.appDelegate.userProfile?.gender = nil
             }
     }
     
     lazy var birthdayRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
         $0.titleLabel.text = "Birthday"
+        $0.titleLabel.font = .preferredFont(forTextStyle: .body)
+        $0.titleLabel.adjustsFontForContentSizeCategory = true
+        $0.displayLabel.font = .preferredFont(forTextStyle: .body)
+        $0.displayLabel.adjustsFontForContentSizeCategory = true
         $0.displayLabel.textColor = .black
         }.inlineCellSetup {
             $0.datePicker.datePickerMode = .date
         }.configure {
-            if let birthday = userProfile?.birthday {
+            if let birthday = Constants.appDelegate.userProfile?.birthday {
                 $0.date = birthday
             }
         }.onDateChanged {
-            self.userProfile?.birthday = $0
+            Constants.appDelegate.userProfile?.birthday = $0
         }.displayTextFromDate(String.profileDateStyle)
     
     lazy var noBirthDayRow = LabelRowFormer<FormLabelCell>()
         .configure {
             $0.text = "Birthday"
             $0.subText = "N/A"
+            $0.cell.formTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formTextLabel()?.adjustsFontForContentSizeCategory = true
+            $0.cell.formSubTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formSubTextLabel()?.adjustsFontForContentSizeCategory = true
             $0.cell.formSubTextLabel()?.textColor = .black
             
         }.onSelected { [weak self] _ in
@@ -122,14 +138,18 @@ class ProfileViewController: FormViewController {
         }.onDateChanged {
             self.noBirthDayRow.subText = String.profileDateStyle(date: $0)
             self.noBirthDayRow.update()
-            self.userProfile?.birthday = $0
+            Constants.appDelegate.userProfile?.birthday = $0
     }
     
     lazy var countryRow = LabelRowFormer<FormLabelCell>()
         .configure {
             $0.text = "Country"
+            $0.cell.formTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formTextLabel()?.adjustsFontForContentSizeCategory = true
+            $0.cell.formSubTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formSubTextLabel()?.adjustsFontForContentSizeCategory = true
             $0.cell.formSubTextLabel()?.textColor = .black
-            if let country = userProfile?.countryName {
+            if let country = Constants.appDelegate.userProfile?.countryName {
                 $0.subText = country
             } else {
                 $0.subText = "Select Country"
@@ -142,13 +162,13 @@ class ProfileViewController: FormViewController {
                     rowFormer.subText = $0?.country
                     rowFormer.update()
                 }
-                self?.userProfile?.countryName = $0?.country
-                self?.userProfile?.countryCode = $0?.code
+                Constants.appDelegate.userProfile?.countryName = $0?.country
+                Constants.appDelegate.userProfile?.countryCode = $0?.code
 
                 if let stateSearchCode = $0?.stateSearchCode {
-                    self?.userProfile?.countryPhoneCode = stateSearchCode
+                    Constants.appDelegate.userProfile?.countryPhoneCode = stateSearchCode
                 } else {
-                    self?.userProfile?.countryPhoneCode = $0?.phoneCode
+                    Constants.appDelegate.userProfile?.countryPhoneCode = $0?.phoneCode
                 }
             }
             alert.addAction(title: "Cancel", style: .cancel)
@@ -158,7 +178,11 @@ class ProfileViewController: FormViewController {
     lazy var stateRow = LabelRowFormer<FormLabelCell>()
         .configure {
             $0.text = "State"
-            if let state  = userProfile?.state, !state.isEmpty {
+            $0.cell.formTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formTextLabel()?.adjustsFontForContentSizeCategory = true
+            $0.cell.formSubTextLabel()?.font = .preferredFont(forTextStyle: .body)
+            $0.cell.formSubTextLabel()?.adjustsFontForContentSizeCategory = true
+            if let state  = Constants.appDelegate.userProfile?.state, !state.isEmpty {
                 $0.subText = state
             } else {
                 $0.subText = "Select State"
@@ -168,49 +192,55 @@ class ProfileViewController: FormViewController {
         }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             ANLoader.showLoading("", disableUI: true)
-            ServiceRequest.shared().startRequestForStatesList(forCountryCode: (self?.userProfile?.countryPhoneCode)!, completionHandler: { (responseDisc, success) in
+            ServiceRequest.shared().startRequestForStatesList(forCountryCode: (Constants.appDelegate.userProfile?.countryPhoneCode)!, completionHandler: { (responseDisc, success) in
                 ANLoader.hide()
                 guard success else { return }
                 if let states = responseDisc?["state_list"] as? [[String: Any]], states.count > 0 {
                     let stateNames = states.map {$0["stateName"] as! String}
                     
-                    let selectionMenu =  RSSelectionMenu(dataSource: stateNames) { (cell, object, indexPath) in
-                        cell.textLabel?.text = object
-                    }
-                    if let rowFormer = self?.former.rowFormer(indexPath: IndexPath(row: 5, section: 0)) as? LabelRowFormer<FormLabelCell> {
-
-                        selectionMenu.setSelectedItems(items: []) { (text, isSelected, selectedItems) in
-                            rowFormer.subText = text
-                            rowFormer.update()
-                            self?.userProfile?.state = text
+                    OperationQueue.main.addOperation({
+                        let selectionMenu =  RSSelectionMenu(dataSource: stateNames) { (cell, object, indexPath) in
+                            cell.textLabel?.text = object
                         }
-                        selectionMenu.showSearchBar(withPlaceHolder: "Select State", tintColor: UIColor.white.withAlphaComponent(0.3)) { (searchText) -> ([String]) in
-                            return stateNames.filter({ $0.lowercased().contains(searchText.lowercased()) })
+                        if let rowFormer = self?.former.rowFormer(indexPath: IndexPath(row: 5, section: 0)) as? LabelRowFormer<FormLabelCell> {
+                            
+                            selectionMenu.setSelectedItems(items: []) { (text, isSelected, selectedItems) in
+                                rowFormer.subText = text
+                                rowFormer.update()
+                                Constants.appDelegate.userProfile?.state = text
+                            }
+                            selectionMenu.showSearchBar(withPlaceHolder: "Select State", tintColor: UIColor.white.withAlphaComponent(0.3)) { (searchText) -> ([String]) in
+                                return stateNames.filter({ $0.lowercased().contains(searchText.lowercased()) })
+                            }
+                            selectionMenu.show(style: .Popover(sourceView: rowFormer.cell, size: CGSize(width: 300, height: 400)), from: self!)
                         }
-                        selectionMenu.show(style: .Popover(sourceView: rowFormer.cell, size: CGSize(width: 300, height: 400)), from: self!)
-                    }
+                    })
                 }
             })
     }
     
     lazy var cityRow = TextFieldRowFormer<FormTextFieldCell>() {
         $0.titleLabel.text = "City"
+        $0.titleLabel.font = .preferredFont(forTextStyle: .body)
+        $0.titleLabel.adjustsFontForContentSizeCategory = true
+        $0.textField.font = .preferredFont(forTextStyle: .body)
+        $0.textField.adjustsFontForContentSizeCategory = true
         $0.textField.textAlignment = .right
         $0.textField.clearButtonMode = .never
         }.configure {
-            if let city = userProfile?.city, !city.isEmpty {
+            if let city = Constants.appDelegate.userProfile?.city, !city.isEmpty {
                 $0.text = city
             } else {
                 $0.placeholder = "Enter City"
             }
         }.onTextChanged {
-            self.userProfile?.city = $0
+            Constants.appDelegate.userProfile?.city = $0
     }
 
     lazy var section = SectionFormer(rowFormer: nameRow,
                                      emailRow,
                                      genderRow,
-                                     (userProfile?.birthday != nil) ? birthdayRow : noBirthDayRow,
+                                     (Constants.appDelegate.userProfile?.birthday != nil) ? birthdayRow : noBirthDayRow,
                                      countryRow,
                                      stateRow,
                                      cityRow)
@@ -234,7 +264,7 @@ class ProfileViewController: FormViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.7)
         
-        if let profilePicData = userProfile?.profilePicData,
+        if let profilePicData = Constants.appDelegate.userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
             headerImageView.image = profileImage
             coordinateManager = MTCoordinateManager(vc: self, scrollView: self.tableView, header: headerImageView)
@@ -261,7 +291,7 @@ class ProfileViewController: FormViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isMovingFromParentViewController {
-            self.userProfile?.managedObjectContext?.rollback()
+            Constants.appDelegate.userProfile?.managedObjectContext?.rollback()
         }
     }
     
@@ -298,25 +328,25 @@ class ProfileViewController: FormViewController {
             ANLoader.showLoading("", disableUI: true)
             var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                          "dob_format": "MM-dd-yyyy",
-                                         "country_code": (userProfile?.countryPhoneCode)! as Any]
-            if let username = userProfile?.userName {
+                                         "country_code": (Constants.appDelegate.userProfile?.countryPhoneCode)! as Any]
+            if let username = Constants.appDelegate.userProfile?.userName {
                 params["screen_name"] = username
             }
-            if let email = userProfile?.emailID {
+            if let email = Constants.appDelegate.userProfile?.emailID {
                 params["email"] = email
             }
-            if let gender = userProfile?.gender {
+            if let gender = Constants.appDelegate.userProfile?.gender {
                 params["gender"] = gender
             } else {
                 params["gender"] = ""
             }
-            if let birthday = userProfile?.birthday {
+            if let birthday = Constants.appDelegate.userProfile?.birthday {
                 params["date_of_birth"] = RMUtility.getDOBStringFromDate(date: birthday)
             }
-            if let state = userProfile?.state {
+            if let state = Constants.appDelegate.userProfile?.state {
                 params["state"] = state
             }
-            if let city = userProfile?.city {
+            if let city = Constants.appDelegate.userProfile?.city {
                 params["city"] = city
             }
             
@@ -327,16 +357,19 @@ class ProfileViewController: FormViewController {
                     ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
                         ANLoader.hide()
                         if successUpload {
-                            self.userProfile?.profilePicData = data
+                            Constants.appDelegate.userProfile?.profilePicData = data
                             self.changedPicData = nil
-                            CoreDataModel.sharedInstance().saveContext()
-                            RMUtility.showAlert(withMessage: "Profile saved successfully")
+                            self.coreDataStack.saveContexts(withCompletion: { (error) in
+                                ANLoader.hide()
+                                RMUtility.showAlert(withMessage: "Profile saved successfully")
+                            })
                         }
                     })
                 } else {
-                    ANLoader.hide()
-                    CoreDataModel.sharedInstance().saveContext()
-                    RMUtility.showAlert(withMessage: "Profile saved successfully")
+                    self.coreDataStack.saveContexts(withCompletion: { (error) in
+                        ANLoader.hide()
+                        RMUtility.showAlert(withMessage: "Profile saved successfully")
+                    })
                 }
             }
         }

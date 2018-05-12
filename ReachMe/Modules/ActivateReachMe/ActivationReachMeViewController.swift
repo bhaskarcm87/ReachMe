@@ -24,7 +24,8 @@ class ActivationReachMeViewController: UITableViewController {
     var tableCellArray = [Any]()
     var infoceCellDetailLabel: UILabel!
     var helpText: String!
-    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,7 +34,7 @@ class ActivationReachMeViewController: UITableViewController {
         case .activate:
             if reachMeType == RMUtility.ReachMeType.international {
                 dialCode = userContact.voiceMailInfo!.actiUNCF
-            } else if (userContact.isReachMeIntlActive) {
+            } else if userContact.isReachMeIntlActive {
                 dialCode = userContact.voiceMailInfo!.deactiUNCF
             } else {
                 dialCode = userContact.voiceMailInfo!.actiCNF
@@ -121,7 +122,7 @@ class ActivationReachMeViewController: UITableViewController {
                             let alert = UIAlertController(style: .alert, title: "Congratulations")
                             alert.set(message: alertMessage, font: .systemFont(ofSize: 13), color: UIColor(red: 3, green: 3, blue: 3))
                             alert.addAction(title: "OK", style: .default) { (alertAction) in
-                                CoreDataModel.sharedInstance().saveContext()
+                                self.coreDataStack.saveContexts()
                                 self.performSegue(withIdentifier: Constants.UnwindSegues.ACTIVATE_REACHME, sender: self)
                             }
                             self.present(alert, animated: true, completion: nil)
@@ -160,13 +161,13 @@ class ActivationReachMeViewController: UITableViewController {
         tableCellArray.append(titleCell)
         
         //BundleValueCell
-        if ((userContact.selectedCarrier?.additionalActiInfo) != nil) {
+        if (userContact.selectedCarrier?.additionalActiInfo) != nil {
             let totalString = """
             Call Forwarding
             \((userContact.selectedCarrier?.additionalActiInfo)!)
             """
             let newstring = NSString(string: totalString)
-            let attributedString = NSMutableAttributedString(string:totalString)
+            let attributedString = NSMutableAttributedString(string: totalString)
             
             attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.8), range: newstring.range(of: "Call Forwarding"))
             attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.systemFont(ofSize: 16), range: newstring.range(of: "Call Forwarding"))

@@ -8,47 +8,6 @@
 
 import UIKit
 
-/*class SettingsProfileHeaderCell: UITableViewCell {
-    
-    static let identifier = String(describing: SettingsProfileHeaderCell.self)
-    
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var statusView: DesignableView!
-    @IBOutlet weak var spinnerView: UIActivityIndicatorView!
-    
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        if let profilePicData = userProfile?.profilePicData,
-            let profileImage = UIImage(data: profilePicData) {
-            spinnerView.stopAnimating()
-            profileImageView.image = profileImage
-            
-        } else {// If image not downloaded yet, then dwonload once
-            ServiceRequest.shared().startRequestForDownloadProfilePic(completionHandler: { (imageData) in
-                if let profileImage = UIImage(data: imageData) {
-                    DispatchQueue.main.async {
-                        self.spinnerView.stopAnimating()
-                        self.profileImageView.image = profileImage
-                    }
-                }
-            })
-        }
-        titleLabel.text = userProfile?.userName
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-}*/
-
 class SettingsProfileCell: UITableViewCell {
     
     static let identifier = String(describing: SettingsProfileCell.self)
@@ -59,18 +18,22 @@ class SettingsProfileCell: UITableViewCell {
     @IBOutlet weak var statusView: DesignableView!
     @IBOutlet weak var spinnerView: UIActivityIndicatorView!
     
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateCell()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        updateCell()
     }
     
     func updateCell() {
-        if let profilePicData = userProfile?.profilePicData,
+        if let profilePicData = Constants.appDelegate.userProfile?.profilePicData,
             let profileImage = UIImage(data: profilePicData) {
             spinnerView.stopAnimating()
             profileImageView.image = profileImage
@@ -85,8 +48,8 @@ class SettingsProfileCell: UITableViewCell {
                 }
             })
         }
-        titleLabel.text = userProfile?.userName
-        subtitleLabel.text = userProfile?.primaryContact?.countryName
+        titleLabel.text = Constants.appDelegate.userProfile?.userName
+        subtitleLabel.text = Constants.appDelegate.userProfile?.primaryContact?.countryName
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -104,6 +67,24 @@ class SettingsPrimaryNumberCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateCell()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        updateCell()
+    }
+
+    func updateCell() {
+        if let countryImage = UIImage(data: (Constants.appDelegate.userProfile?.primaryContact?.countryImageData)!) {
+            countryImageView.image = countryImage
+        }
+        titleLabel.text = Constants.appDelegate.userProfile?.primaryContact?.formatedNumber
+        subtitleLabel.text = Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.networkName
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -116,27 +97,35 @@ class SettingsCarrierLogoSupportCell: UITableViewCell {
     @IBOutlet weak var carrierImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     static let identifier = String(describing: SettingsCarrierLogoSupportCell.self)
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-       // carrierImageView.contentMode = .scaleAspectFit
-       // carrierImageView.clipsToBounds = true
+        updateCell()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
 
-        if let carrierLogoSupportImageData = userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData,
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        updateCell()
+    }
+    
+    func updateCell() {
+        // carrierImageView.contentMode = .scaleAspectFit
+        // carrierImageView.clipsToBounds = true
+        
+        if let carrierLogoSupportImageData = Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData,
             let carriaerLogoImage = UIImage(data: carrierLogoSupportImageData) {
             carrierImageView.image = carriaerLogoImage
             
         } else {// If image not downloaded yet, then dwonload once
-            ServiceRequest.shared().startRequestForDownloadImage(forURL: (userProfile?.primaryContact?.selectedCarrier?.logoHomeURL)!, completionHandler: { (logoImageData) in
-
-                self.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData = logoImageData
-                CoreDataModel.sharedInstance().saveContext()
+            ServiceRequest.shared().startRequestForDownloadImage(forURL: (Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoHomeURL)!, completionHandler: { (logoImageData) in
+                
+                Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData = logoImageData
+                self.coreDataStack.saveContexts()
                 if let carriaerLogoImage = UIImage(data: logoImageData) {
                     DispatchQueue.main.async {
                         self.carrierImageView.image = carriaerLogoImage
@@ -144,6 +133,8 @@ class SettingsCarrierLogoSupportCell: UITableViewCell {
                 }
             })
         }
+        
+        titleLabel.text = "\((Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.networkName)!) Carrier Support"
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

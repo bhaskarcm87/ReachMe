@@ -14,6 +14,7 @@ import PhoneNumberKit
 import Alertift
 import CoreTelephony
 import SwiftyUserDefaults
+import CoreData
 
 enum AutheticationType {
     case authTypeOTP
@@ -33,9 +34,8 @@ class LoginViewController: UIViewController {
     let countryPicker = CountryPickerView()
     private let disposeBag = DisposeBag()
     @IBOutlet weak var numberTextField: PhoneNumberTextField!
-    var userProfile: Profile!
-    let coreData = CoreDataModel.sharedInstance()
-    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,50 +93,57 @@ class LoginViewController: UIViewController {
                 RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
                 return
              }
-         
-            self.userProfile = self.coreData.getNewObject(entityName: .ProfileEntity) as! Profile
-            self.userProfile.countryName = self.countryPicker.selectedCountry.name
-            self.userProfile.countryCode = self.countryPicker.selectedCountry.code
-            if let stateSearchCode = self.countryPicker.selectedCountry.stateSearchCode {
-                self.userProfile.countryPhoneCode = stateSearchCode
-            } else {
-                self.userProfile.countryPhoneCode = self.countryPicker.selectedCountry.phoneCode
-            }
-            self.userProfile.mobileNumber = self.numberTextField.nationalNumber
-            self.userProfile.countryISOCode = String(self.countryPicker.selectedCountry.phoneCode.dropFirst())
-            self.userProfile.userID = String(describing: self.userProfile.countryISOCode!) + String(describing: self.userProfile.mobileNumber!)
-            self.userProfile.mobileNumberFormated = self.countryPicker.selectedCountry.phoneCode  + " " + self.numberTextField.text!
-            if let countryImageData = UIImagePNGRepresentation(self.countryPicker.selectedCountry.flag) {
-                self.userProfile.countryImageData = countryImageData
-            }
-            
-            let networkInfo = CTTelephonyNetworkInfo()
-            if let carrier = networkInfo.subscriberCellularProvider {
-                self.userProfile.simCarrierName = carrier.carrierName
-                self.userProfile.simMCCNumber = carrier.mobileCountryCode
-                self.userProfile.simMNCNumber = carrier.mobileNetworkCode
-                self.userProfile.simISOCode = carrier.isoCountryCode
-                self.userProfile.simMCCMNCNumber = carrier.mobileCountryCode! + carrier.mobileNetworkCode!
-            }
-            
-            self.coreData.saveContext()
             
             ANLoader.showLoading("", disableUI: true)
-            ServiceRequest.shared().startRequestForJoinUser(completionHandler: { (response) in
-                ANLoader.hide()
-                switch response as AutheticationType {
-                case .authTypeOTP:
-                     self.performSegue(withIdentifier: Constants.Segues.OTP, sender: self)
-
-                case .authTypePassword:
-                     self.performSegue(withIdentifier: Constants.Segues.PASSWORD, sender: self)
-                    
-                case .authTypeMultiuser:
-                    break
-
-                case .error:
-                    break
+            self.coreDataStack.performAndWait(inContext: { (context) in
+                let userProfile = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.PROFILE, into: context) as! Profile
+                userProfile.countryName = self.countryPicker.selectedCountry.name
+                userProfile.countryCode = self.countryPicker.selectedCountry.code
+                if let stateSearchCode = self.countryPicker.selectedCountry.stateSearchCode {
+                    userProfile.countryPhoneCode = stateSearchCode
+                } else {
+                    userProfile.countryPhoneCode = self.countryPicker.selectedCountry.phoneCode
                 }
+                userProfile.mobileNumber = self.numberTextField.nationalNumber
+                userProfile.countryISOCode = String(self.countryPicker.selectedCountry.phoneCode.dropFirst())
+                userProfile.userID = String(describing: userProfile.countryISOCode!) + String(describing: userProfile.mobileNumber!)
+                userProfile.mobileNumberFormated = self.countryPicker.selectedCountry.phoneCode  + " " + self.numberTextField.text!
+                if let countryImageData = UIImagePNGRepresentation(self.countryPicker.selectedCountry.flag) {
+                    userProfile.countryImageData = countryImageData
+                }
+                
+                let networkInfo = CTTelephonyNetworkInfo()
+                if let carrier = networkInfo.subscriberCellularProvider {
+                    userProfile.simCarrierName = carrier.carrierName
+                    userProfile.simMCCNumber = carrier.mobileCountryCode
+                    userProfile.simMNCNumber = carrier.mobileNetworkCode
+                    userProfile.simISOCode = carrier.isoCountryCode
+                    userProfile.simMCCMNCNumber = carrier.mobileCountryCode! + carrier.mobileNetworkCode!
+                }
+                
+                //Constants.appDelegate.userProfile = userProfile
+//                if let error = context.saveToParentsAndWait() {
+//                    print("Coredata save error \(error.localizedDescription)")
+//                }
+            })
+            
+            ServiceRequest.shared().startRequestForJoinUser(completionHandler: { (response, errorMessage) in
+                ANLoader.hide()
+                DispatchQueue.main.async(execute: {
+                    switch response as AutheticationType {
+                    case .authTypeOTP:
+                        self.performSegue(withIdentifier: Constants.Segues.OTP, sender: self)
+                        
+                    case .authTypePassword:
+                        self.performSegue(withIdentifier: Constants.Segues.PASSWORD, sender: self)
+                        
+                    case .authTypeMultiuser:
+                        break
+                        
+                    case .error:
+                        RMUtility.showAlert(withMessage: errorMessage!)
+                    }
+                })
             })
 
         }.show()

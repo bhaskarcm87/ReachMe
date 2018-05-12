@@ -16,11 +16,13 @@ import RxCocoa
 import MobileCoreServices
 import UserNotifications
 import Photos
+import CoreData
 
 class RMUtility: NSObject {
     
     static let kUTTypeHEVC = "public.heic"
-    var userProfile: Profile? = CoreDataModel.sharedInstance().getUserProfle()
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+    static let shared = RMUtility()
 
     enum ReachMeType {
         case home
@@ -28,15 +30,17 @@ class RMUtility: NSObject {
         case voicemail
     }
 
-    open class func sharedInstance() -> RMUtility {
-        struct Static {
-            static let instance = RMUtility()
-        }
-        return Static.instance
-    }
+//    open class func sharedInstance() -> RMUtility {
+//        struct Static {
+//            static let instance = RMUtility()
+//        }
+//        return Static.instance
+//    }
     
     class func showAlert(withMessage message: String, title: String? = nil) {
-        Alertift.alert(title: title, message: message).action(.default("OK")).show()
+        DispatchQueue.main.async {
+            Alertift.alert(title: title, message: message).action(.default("OK")).show()
+        }
     }
     
     class func isNetwork() -> Bool {
@@ -113,8 +117,8 @@ class RMUtility: NSObject {
     }
 
     class func deleteUserProfile() {
-        CoreDataModel.sharedInstance().deleteAllRecords(entity: .ProfileEntity)
-        CoreDataModel.sharedInstance().userProfile = nil
+        RMUtility.shared.coreDataStack.deleteAllRecords(entity: Constants.EntityName.PROFILE)
+        Constants.appDelegate._userProfile = nil
     }
     
     class func isValidImageforServerUpload(pathExtension: CFString) -> Bool {
@@ -137,7 +141,7 @@ class RMUtility: NSObject {
     
     class func unlinkForNumber(number: String, completionHandler:@escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "contactID == %@", number)
-        let userContact = RMUtility.sharedInstance().userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
+        let userContact = Constants.appDelegate.userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
         var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
                                      "contact": number,
                                      "contact_type": "p",
@@ -193,7 +197,7 @@ class RMUtility: NSObject {
     class func handleHelpSupportAction(withHelpText helptext: String?) {
         
         let predicate = NSPredicate(format: "supportType == %@", "Help")
-        if let supportHelp = RMUtility.sharedInstance().userProfile?.supportContacts?.filtered(using: predicate).first as? SupportContact {
+        if let supportHelp = Constants.appDelegate.userProfile?.supportContacts?.filtered(using: predicate).first as? SupportContact {
             guard RMUtility.isNetwork() else {
                 RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
                 return
@@ -316,6 +320,18 @@ class RMUtility: NSObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy"
         return dateFormatter.string(from: date)
+    }
+    
+    class func getProfileforConext(context: NSManagedObjectContext) -> Profile? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
+        do {
+            let results = try context.fetch(fetchRequest)
+            guard let profileList = results as? [Profile] else { return nil }
+            return profileList.first
+        } catch let error as NSError {
+            print("CoreData - Fetch failed: \(error.localizedDescription)")
+        }
+        return nil
     }
 }
 

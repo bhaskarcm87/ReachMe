@@ -12,6 +12,16 @@ import SwiftyUserDefaults
 class Constants: NSObject {
     @objc static let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
+    struct EntityName {
+        static let PROFILE = "Profile"
+        static let USERCONTACT = "UserContact"
+        static let CARRIER = "Carrier"
+        static let SUPPORT_CONTACT = "SupportContact"
+        static let VOICEMAIL = "VoiceMail"
+        static let MESSAGE = "Message"
+        static let MQTT = "MQTT"
+    }
+    
     //Segue ID's
     struct Segues {
         static let LOGIN = "showLoginSegueID"
@@ -66,13 +76,13 @@ class Constants: NSObject {
     }
 
     //Server
-    #if DEBUG
-        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
-        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
-    #else
+//    #if DEBUG
+//        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
+//        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
+//    #else
         static let URL_SERVER = "https://blogs.instavoice.com/iv"
         static let URL_MQTT_SERVER = "pn.instavoice.com"
-    #endif
+    //#endif
     
     //Others
     static let PASSWORD_MIN_LENGTH = 6

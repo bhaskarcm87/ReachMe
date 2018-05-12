@@ -12,43 +12,54 @@ import Alertift
 
 class SettingsGeneralViewController: UITableViewController {
 
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
-    @IBOutlet weak var passwordSetLabel: UILabel!
-    @IBOutlet weak var passwordHindLabel: UILabel!
-    @IBOutlet weak var ringtoneSetLabel: UILabel!
     var errorMessage: String = ""
+    private let coreDataStack = Constants.appDelegate.coreDataStack
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ringtoneSetLabel.text =  Defaults[.isRingtoneSet] ? "iPhone" : "ReachMe"
-
-        //If password not set
-        guard let pass = userProfile?.password, !pass.isEmpty else {
-            passwordSetLabel.text = "Set Password"
-            passwordHindLabel.text = "Set"
-            return
-        }
-        
-        //If password already set
-        var timeSienceLastChanged = "Not changed"
-        if let lastChangedPasswordTime = userProfile?.passwordSetTime {
-            timeSienceLastChanged = (Date().offset(from: lastChangedPasswordTime))
-        }
-        passwordSetLabel.text = "Last changed: \(timeSienceLastChanged)"
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            tableView.reloadData()
+        }
+    }
 }
 
 // MARK: - TableView Delegate
 extension SettingsGeneralViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return section == 0 ? 2 : 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     
+        switch indexPath {
+        case IndexPath(row: 0, section: 0):
+            let passChangeCell = tableView.dequeueReusableCell(withIdentifier: GeneralPassTableCell.identifier) as! GeneralPassTableCell
+            return passChangeCell
+        case IndexPath(row: 1, section: 0):
+            let ringtoneCell = tableView.dequeueReusableCell(withIdentifier: GeneralRingtoneTableCell.identifier) as! GeneralRingtoneTableCell
+            return ringtoneCell
+        case IndexPath(row: 0, section: 1):
+            let logoutCell = tableView.dequeueReusableCell(withIdentifier: "GeneralLogoutTableCell")
+            return logoutCell!
+        default:
+            break
+        }
+        
+        return UITableViewCell()
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -58,8 +69,9 @@ extension SettingsGeneralViewController {
             let oldPassTextField = UITextField(frame: .zero)
             let newPassTextField = UITextField(frame: .zero)
             let confirmPassTextField = UITextField(frame: .zero)
-            
-            let alert = UIAlertController(style: .alert, title: "\(passwordHindLabel.text!) Password")
+            let cell = tableView.cellForRow(at: indexPath) as! GeneralPassTableCell
+
+            let alert = UIAlertController(style: .alert, title: "\(cell.passwordHindLabel.text!) Password")
             alert.set(message: self.errorMessage, font: .systemFont(ofSize: 14), color: .red)
             alert.addAction(title: "Cancel", style: .default)
             alert.addAction(title: "Confirm", style: .default, isEnabled: false) { (alertAction) in
@@ -86,16 +98,16 @@ extension SettingsGeneralViewController {
                     }
                     
                     RMUtility.showAlert(withMessage: "PWD_CHANGED".localized)
-                    self.userProfile?.password = newPassTextField.text
-                    self.userProfile?.passwordSetTime = Date()
-                    CoreDataModel.sharedInstance().saveContext()
-                    self.passwordSetLabel.text = "Last changed: Just now"
+                    Constants.appDelegate.userProfile?.password = newPassTextField.text
+                    Constants.appDelegate.userProfile?.passwordSetTime = Date()
+                    self.coreDataStack.saveContexts()
+                    cell.passwordSetLabel.text = "Last changed: Just now"
                 }
             }
             
             alert.addChangePasswordController(oldPassTextField: oldPassTextField, newPassTextField: newPassTextField, confirmPassTextField: confirmPassTextField, alert: alert)
             alert.show {
-                if let pass = self.userProfile?.password, !pass.isEmpty {
+                if let pass = Constants.appDelegate.userProfile?.password, !pass.isEmpty {
                     oldPassTextField.becomeFirstResponder()
                 } else {
                     newPassTextField.becomeFirstResponder()
@@ -133,17 +145,81 @@ extension SettingsGeneralViewController {
             break
         }
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
 }
 
 // MARK: - SingleSelectionDelegate
 extension SettingsGeneralViewController: SingleSelectionDelegate {
     func onSelection(_ selectionType: SelectionType) {
-        switch selectionType {
-        case .ringTone:
-            ringtoneSetLabel.text =  Defaults[.isRingtoneSet] ? "iPhone" : "ReachMe"
-            
-        case .notificationTone:
-            break
+        tableView.reloadData()
+    }
+}
+
+// MARK: - TableCells
+class GeneralPassTableCell: UITableViewCell {
+    
+    @IBOutlet weak var passwordSetLabel: UILabel!
+    @IBOutlet weak var passwordHindLabel: UILabel!
+    static let identifier = String(describing: GeneralPassTableCell.self)
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateCell()
+    }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        updateCell()
+    }
+    
+    func updateCell() {
+        //If password not set
+        guard let pass = Constants.appDelegate.userProfile?.password, !pass.isEmpty else {
+            passwordSetLabel.text = "Set Password"
+            passwordHindLabel.text = "Set"
+            return
         }
+        
+        //If password already set
+        var timeSienceLastChanged = "Not changed"
+        if let lastChangedPasswordTime = Constants.appDelegate.userProfile?.passwordSetTime {
+            timeSienceLastChanged = (Date().offset(from: lastChangedPasswordTime))
+        }
+        passwordSetLabel.text = "Last changed: \(timeSienceLastChanged)"
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+}
+
+class GeneralRingtoneTableCell: UITableViewCell {
+    
+    @IBOutlet weak var ringtoneSetLabel: UILabel!
+    static let identifier = String(describing: GeneralRingtoneTableCell.self)
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateCell()
+    }
+        
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        updateCell()
+    }
+    
+    func updateCell() {
+        ringtoneSetLabel.text =  Defaults[.isRingtoneSet] ? "iPhone" : "ReachMe"
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
 }

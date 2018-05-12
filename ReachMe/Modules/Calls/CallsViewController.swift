@@ -13,6 +13,8 @@ import SwiftyUserDefaults
 
 class CallsViewController: UITableViewController {
    
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     lazy var fetchedResultsController: NSFetchedResultsController<Message> = {
         let frc: NSFetchedResultsController<Message>
         let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
@@ -20,7 +22,7 @@ class CallsViewController: UITableViewController {
         let sort = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sort]
         //fetchRequest.returnsObjectsAsFaults
-        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataModel.sharedInstance().managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
         do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
         
@@ -35,11 +37,6 @@ class CallsViewController: UITableViewController {
         return $0
     }(UISearchController(searchResultsController: nil))
 
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
 
@@ -64,8 +61,8 @@ class CallsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
-        observer = CoreDataContextObserver(context: (userProfile?.managedObjectContext)!)
-        observer?.observeObject(object: userProfile!, state: .Updated, completionBlock: { object, state in
+        observer = CoreDataContextObserver(context: (Constants.appDelegate.userProfile?.managedObjectContext)!)
+        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
             // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
             do {
                 try self.fetchedResultsController.performFetch()
@@ -101,8 +98,9 @@ class CallsViewController: UITableViewController {
             guard success else { return }
             
             selectedMessage.readCount = 1
-            CoreDataModel.sharedInstance().saveContext()
-            self.handleBadgeCount()
+            self.coreDataStack.saveContexts(withCompletion: { (error) in
+                self.handleBadgeCount()
+            })
         }
     }
 }
@@ -136,9 +134,10 @@ extension CallsViewController {
                         cellToDelete.isUserInteractionEnabled = true
                         return
                     }
-                    CoreDataModel.sharedInstance().managedObjectContext.delete(messageToDelete)
-                    CoreDataModel.sharedInstance().saveContext()
-                    self.handleBadgeCount()
+                    self.coreDataStack.defaultContext.delete(messageToDelete)
+                    self.coreDataStack.saveContexts(withCompletion: { (error) in
+                        self.handleBadgeCount()
+                    })
                 })
 
             }.show()
@@ -177,6 +176,7 @@ extension CallsViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
         switch type {
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .left)
@@ -234,8 +234,9 @@ extension CallsViewController: UITabBarControllerDelegate {
                     //CoreDataModel.sharedInstance().updateRecords(entity: .MessageEntity, properties: ["readCount" : 1])
 
                     unreadMessages.forEach { $0.readCount = 1}
-                    CoreDataModel.sharedInstance().saveContext()
-                    self.handleBadgeCount()
+                    self.coreDataStack.saveContexts(withCompletion: { (error) in
+                        self.handleBadgeCount()
+                    })
                 }
             }
         }

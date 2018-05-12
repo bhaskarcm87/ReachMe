@@ -14,13 +14,15 @@ import RxCocoa
 
 class VoicemailsViewController: UITableViewController {
 
+    private let coreDataStack = Constants.appDelegate.coreDataStack
+
     lazy var fetchedResultsController: NSFetchedResultsController<Message> = {
         let frc: NSFetchedResultsController<Message>
         let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "type == %@", "vsms")
         let sort = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sort]
-        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataModel.sharedInstance().managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
         do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
         
@@ -35,11 +37,6 @@ class VoicemailsViewController: UITableViewController {
         return $0
     }(UISearchController(searchResultsController: nil))
     
-    var userProfile: Profile? {
-        get {
-            return CoreDataModel.sharedInstance().getUserProfle()!
-        }
-    }
     var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
     var playingJukebox: Jukebox?
@@ -61,8 +58,8 @@ class VoicemailsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
-        observer = CoreDataContextObserver(context: (userProfile?.managedObjectContext)!)
-        observer?.observeObject(object: userProfile!, state: .Updated, completionBlock: { object, state in
+        observer = CoreDataContextObserver(context: (Constants.appDelegate.userProfile?.managedObjectContext)!)
+        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
             do {
                 try self.fetchedResultsController.performFetch()
                 self.handleBadgeCount()
@@ -124,9 +121,10 @@ extension VoicemailsViewController {
                         cellToDelete.isUserInteractionEnabled = true
                         return
                     }
-                    CoreDataModel.sharedInstance().managedObjectContext.delete(messageToDelete)
-                    CoreDataModel.sharedInstance().saveContext()
-                    self.handleBadgeCount()
+                    self.coreDataStack.defaultContext.delete(messageToDelete)
+                    self.coreDataStack.saveContexts(withCompletion: { (error) in
+                        self.handleBadgeCount()
+                    })
                 })
                 
             }.show()
@@ -165,7 +163,7 @@ extension VoicemailsViewController {
                 //Detaching delegate notification of fetch results during read state update in DB, otherwise cells are freshly reloading, so playing state in UI not updating properly
                 self.fetchedResultsController.delegate = nil
                 message.readCount = 1
-                CoreDataModel.sharedInstance().saveContext()
+                self.coreDataStack.saveContexts()
                 self.handleBadgeCount()
                 cell.isRead = true
                 self.fetchedResultsController.delegate = self
