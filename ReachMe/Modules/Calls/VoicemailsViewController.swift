@@ -37,7 +37,6 @@ class VoicemailsViewController: UITableViewController {
         return $0
     }(UISearchController(searchResultsController: nil))
     
-    var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
     var playingJukebox: Jukebox?
     
@@ -58,14 +57,6 @@ class VoicemailsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
-        observer = CoreDataContextObserver(context: (Constants.appDelegate.userProfile?.managedObjectContext)!)
-        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
-            do {
-                try self.fetchedResultsController.performFetch()
-                self.handleBadgeCount()
-            } catch { fatalError("Error in fetching records") }
-        })
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,6 +66,14 @@ class VoicemailsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         playingJukebox?.pause()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.tableView.reloadData()
+            }
+        }
     }
 
     // MARK: - Custom Methods
@@ -115,7 +114,7 @@ extension VoicemailsViewController {
                 
                 let messageToDelete = self.fetchedResultsController.object(at: indexPath)
                 ServiceRequest.shared().startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
-                    cellToDelete.deleteSpinner.stopAnimating()
+                    DispatchQueue.main.async { cellToDelete.deleteSpinner.stopAnimating() }
                     guard success else {
                         cellToDelete.alpha = 1
                         cellToDelete.isUserInteractionEnabled = true
@@ -204,6 +203,7 @@ extension VoicemailsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+        handleBadgeCount()
     }
 }
 

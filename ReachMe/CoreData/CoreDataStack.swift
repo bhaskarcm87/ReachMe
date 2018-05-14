@@ -334,8 +334,6 @@ open class CoreDataStack {
         defaultContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         defaultContext.undoManager = nil
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(contextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextDidSave, object: nil)
-
     }
     
     public func deleteAllRecords(entity: String) {
@@ -348,10 +346,4 @@ open class CoreDataStack {
             print(error)
         }
     }
-    
-//    @objc func contextObjectsDidChange(_ notification: Notification) {
-//        print(notification)
-//
-//    }
-
 }

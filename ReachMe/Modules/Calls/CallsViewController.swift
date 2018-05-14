@@ -191,7 +191,7 @@ extension CallsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
-        self.handleBadgeCount()
+        handleBadgeCount()
     }
 }
 

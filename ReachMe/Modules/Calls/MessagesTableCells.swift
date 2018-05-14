@@ -51,6 +51,11 @@ class CallsGeneralCell: UITableViewCell {
             msgDateLabel.font = UIFont.boldSystemFont(ofSize: 13)
         }
         
+        msgUsernameLabel.customFontTextStyle = "Body"
+        msgContentLabel.customFontTextStyle = "Body"
+        msgDateLabel.customFontTextStyle = "Body"
+        msgFromLabel.customFontTextStyle = "Body"
+
         if message.type == "mc" {
             msgContentLabel.text = "Missed call"
             if message.flow == "r" {
@@ -100,25 +105,30 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
             return message.readCount == 0 ? false : true
         }
         set {
-            if newValue {
-                msgDateLabel.textColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
-                msgDateLabel.font = UIFont.systemFont(ofSize: 13)
-                slider.setThumbImage(#imageLiteral(resourceName: "slide-img-small-gray"), for: .normal)
-                if jukebox.state == .loading || jukebox.state == .playing {
-                    playButton.setImage(#imageLiteral(resourceName: "pause-gray"), for: .normal)
+            OperationQueue.main.addOperation {
+                if newValue {
+                    self.msgDateLabel.textColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+                    self.msgDateLabel.font = UIFont.systemFont(ofSize: 13)
+                    self.slider.setThumbImage(#imageLiteral(resourceName: "slide-img-small-gray"), for: .normal)
+                    if self.jukebox.state == .loading || self.jukebox.state == .playing {
+                        self.playButton.setImage(#imageLiteral(resourceName: "pause-gray"), for: .normal)
+                    } else {
+                        self.playButton.setImage(#imageLiteral(resourceName: "play-gray"), for: .normal)
+                    }
                 } else {
-                    playButton.setImage(#imageLiteral(resourceName: "play-gray"), for: .normal)
+                    self.msgDateLabel.textColor = .black
+                    self.msgDateLabel.font = UIFont.boldSystemFont(ofSize: 13)
+                    self.slider.setThumbImage(#imageLiteral(resourceName: "slide-img-small-red"), for: .normal)
+                    
+                    if self.jukebox.state == .loading || self.jukebox.state == .playing {
+                        self.playButton.setImage(#imageLiteral(resourceName: "pause-red"), for: .normal)
+                    } else {
+                        self.playButton.setImage(#imageLiteral(resourceName: "play-red"), for: .normal)
+                    }
                 }
-            } else {
-                msgDateLabel.textColor = .black
-                msgDateLabel.font = UIFont.boldSystemFont(ofSize: 13)
-                slider.setThumbImage(#imageLiteral(resourceName: "slide-img-small-red"), for: .normal)
                 
-                if jukebox.state == .loading || jukebox.state == .playing {
-                    playButton.setImage(#imageLiteral(resourceName: "pause-red"), for: .normal)
-                } else {
-                    playButton.setImage(#imageLiteral(resourceName: "play-red"), for: .normal)
-                }
+                self.msgUsernameLabel.customFontTextStyle = "Body"
+                self.msgDateLabel.customFontTextStyle = "Body"
             }
         }
     }
