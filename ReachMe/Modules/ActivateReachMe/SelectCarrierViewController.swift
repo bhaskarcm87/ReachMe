@@ -28,8 +28,6 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
     var isPresentingSearchBar: Bool = false
     var userContact: UserContact!
     private let coreDataStack = Constants.appDelegate.coreDataStack
-
-    //var observer: CoreDataContextObserver?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,14 +44,7 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         }
 
         tableView.register(SelectCarrierTableCell.self, forCellReuseIdentifier: SelectCarrierTableCell.identifier)
-        
-        //        //Adding Observer for change DB
-        //        observer = CoreDataContextObserver(context: (userProfile?.managedObjectContext)!)
-        //        //Get notification on DB change
-        //        observer?.observeObject(object: userProfile!, state: .Updated, completionBlock: { object, state in
-        //            // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
-        //        })
-        
+                
         ANLoader.showLoading("", disableUI: true)
         ServiceRequest.shared().startRequestForListOfCarriers(forUserContact: userContact, completionHandler: { (success) in
             guard success else { return }

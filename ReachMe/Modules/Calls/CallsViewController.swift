@@ -37,7 +37,7 @@ class CallsViewController: UITableViewController {
         return $0
     }(UISearchController(searchResultsController: nil))
 
-    var observer: CoreDataContextObserver?
+    //var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
 
     override func awakeFromNib() {
@@ -61,15 +61,15 @@ class CallsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
-        observer = CoreDataContextObserver(context: (Constants.appDelegate.userProfile?.managedObjectContext)!)
-        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
-            // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
-            do {
-                try self.fetchedResultsController.performFetch()
-                self.handleBadgeCount()
-            } catch { fatalError("Error in fetching records") }
-        })
-        
+//        observer = CoreDataContextObserver(context: Constants.appDelegate.coreDataStack.defaultContext)
+//        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
+//            // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
+//            do {
+//                try self.fetchedResultsController.performFetch()
+//                self.handleBadgeCount()
+//            } catch { fatalError("Error in fetching records") }
+//        })
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -128,7 +128,7 @@ extension CallsViewController {
                 
                 let messageToDelete = self.fetchedResultsController.object(at: indexPath)
                 ServiceRequest.shared().startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
-                    cellToDelete.spinner.stopAnimating()
+                    DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
                     guard success else {
                         cellToDelete.alpha = 1
                         cellToDelete.isUserInteractionEnabled = true
@@ -191,6 +191,7 @@ extension CallsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+        self.handleBadgeCount()
     }
 }
 

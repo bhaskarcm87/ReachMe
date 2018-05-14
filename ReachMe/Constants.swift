@@ -76,13 +76,13 @@ class Constants: NSObject {
     }
 
     //Server
-//    #if DEBUG
-//        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
-//        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
-//    #else
+    #if DEBUG
+        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
+        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
+    #else
         static let URL_SERVER = "https://blogs.instavoice.com/iv"
         static let URL_MQTT_SERVER = "pn.instavoice.com"
-    //#endif
+    #endif
     
     //Others
     static let PASSWORD_MIN_LENGTH = 6
@@ -102,7 +102,7 @@ extension DefaultsKeys {
     static let APIIsRMNewUser = DefaultsKey<Bool>("new_rm_user")
     static let APIFetchAfterMsgID = DefaultsKey<Any?>("fetch_after_msgs_id")
     
-    static let IsLoggedInKey = DefaultsKey<Bool>("isLoggedIn")
+    static let IsLoggedIn = DefaultsKey<Bool>("isLoggedIn")
     static let IsOnBoarding = DefaultsKey<Bool>("isOnboarding")
     static let IsCarrierSelection = DefaultsKey<Bool>("IsCarrierSelection")
     static let IsPersonalisation = DefaultsKey<Bool>("IsPersonalisation")

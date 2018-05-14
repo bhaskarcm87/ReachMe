@@ -93,7 +93,7 @@ class PasswordViewController: UIViewController {
                     Defaults[.IsCarrierSelection] = true
                     self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)
                 } else {
-                    Defaults[.IsLoggedInKey] = true
+                    Defaults[.IsLoggedIn] = true
                     ServiceRequest.shared().connectMQTT()
                     RMUtility.showdDashboard()
                 }

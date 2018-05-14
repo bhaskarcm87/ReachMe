@@ -11,7 +11,7 @@ import CoreData
 
 open class CoreDataStack {
     
-    // MARK: - Properties
+    // MARK: - Propertie
     
     /**
      Casual CoreData objects.
@@ -333,6 +333,9 @@ open class CoreDataStack {
         defaultContext.parent = writerContext
         defaultContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         defaultContext.undoManager = nil
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(contextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextDidSave, object: nil)
+
     }
     
     public func deleteAllRecords(entity: String) {
@@ -345,4 +348,10 @@ open class CoreDataStack {
             print(error)
         }
     }
+    
+//    @objc func contextObjectsDidChange(_ notification: Notification) {
+//        print(notification)
+//
+//    }
+
 }

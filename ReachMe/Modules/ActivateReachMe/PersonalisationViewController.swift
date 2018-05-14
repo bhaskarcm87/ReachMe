@@ -106,7 +106,7 @@ class PersonalisationViewController: UITableViewController {
                             Constants.appDelegate.userProfile?.profilePicData = data
                         }
                         Defaults[.IsPersonalisation] = false
-                        Defaults[.IsLoggedInKey] = true
+                        Defaults[.IsLoggedIn] = true
                         ServiceRequest.shared().connectMQTT()
 
                         self.coreDataStack.saveContexts(withCompletion: { (error) in

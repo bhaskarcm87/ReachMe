@@ -25,27 +25,25 @@ open class ServiceRequest: NSObject {
     }
     
     private let coreDataStack = Constants.appDelegate.coreDataStack
-    
-    let myQueue = DispatchQueue(label: "Get Progile & Settings", qos: .background/*, attributes: .concurrent*/)
-    
+        
     var mqttSession: MQTTSession?
     
     func connectMQTT() {
         let clientID = String(format: "iv/pn/device%012ld", (Constants.appDelegate.userProfile?.mqttSettings?.mqttDeviceID)!)
-        mqttSession = MQTTSession(host: Constants.URL_MQTT_SERVER,
+        self.mqttSession = MQTTSession(host: Constants.URL_MQTT_SERVER,
                                   port: 8883,
                                   clientID: clientID,
                                   cleanSession: true,
                                   keepAlive: 60,
                                   useSSL: true)
-        mqttSession?.delegate = self
-
-        mqttSession?.connect {
+        self.mqttSession?.delegate = self
+    
+        self.mqttSession?.connect {
             guard $0 else { print("Error Occurred During MQTT Connection \($1)"); return }
-
+            
             self.mqttSession?.subscribe(to: clientID, delivering: .atLeastOnce) {
                 guard $0 else { print("Error Occurred During MQTT Subscribe \($1)"); return }
-
+                
                 let payload = RMUtility.getPayloadForMQTT()
                 self.mqttSession?.publish(payload, in: (Constants.appDelegate.userProfile?.mqttSettings?.chatTopic)!, delivering: .atLeastOnce, retain: false, completion: {
                     guard $0 else { print("Error Occurred During MQTT Connect Publish \($1)"); return }
@@ -139,6 +137,9 @@ open class ServiceRequest: NSObject {
                 }
                 
                 userProfile.addToMessages(message)
+                if let error = saveBlock(true) {
+                    print("Coredata merge failed from writer context to default context. \(error.localizedDescription)")
+                }
             }
         })
     }
@@ -398,7 +399,7 @@ extension ServiceRequest {
                                 updatedUserContact.formatedNumber = formatedNumber
                                 
                                 if let regionCode = PhoneNumberKit().getRegionCode(of: number) {
-                                    DispatchQueue.main.async(execute: {
+                                    DispatchQueue.main.sync(execute: {
                                         let country =  (CountryPickerView()).countries.filter({ $0.code == regionCode })
                                         updatedUserContact.countryName = country.first?.name
                                         updatedUserContact.countryImageData = country.first?.countryImageData!
@@ -416,15 +417,15 @@ extension ServiceRequest {
                             print("Coredata save error. \(error.localizedDescription)")
                         }
                     }
-                }) {
+                }, andInMainThread: {
                     if Constants.appDelegate.userProfile?.primaryContact?.carriers == nil || Constants.appDelegate.userProfile?.primaryContact?.carriers?.count == 0 {
                         ServiceRequest.shared().startRequestForListOfCarriers(forUserContact: (Constants.appDelegate.userProfile?.primaryContact!)!, completionHandler: { (success) in
                             guard success else { return }
                         })
                     }
                     completionHandler(true)
-                }
-
+                })
+                            
         }
     }
 }
@@ -526,9 +527,9 @@ extension ServiceRequest {
                         
                         userContact.addToCarriers(updatedCarrier)
                     }
-                }) {
+                }, andInMainThread: {
                     completionHandler(true)
-                }
+                })
         }
     }
 }
@@ -712,10 +713,9 @@ extension ServiceRequest {
                     userProfile.mqttSettings?.mqttPortSSL = responseDics["mqtt_port_ssl"] as? String
                     userProfile.mqttSettings?.mqttDeviceID = responseDics["iv_user_device_id"] as! Int32
                     
-                }) {
+                }, andInMainThread: {
                     completionHandler(true)
-                }
-
+                })
         }
     }
 }
@@ -1065,7 +1065,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Delete Message", qos: .background)) { (response) in
                 
                             if ServiceRequest.shared().handleserviceError(response: response) == nil {
-                                completionHandler?(false)
+                                DispatchQueue.main.async { completionHandler?(false) }
                                 return
                             }
                             

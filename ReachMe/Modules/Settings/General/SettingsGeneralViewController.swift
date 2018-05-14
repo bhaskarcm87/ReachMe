@@ -135,7 +135,7 @@ extension SettingsGeneralViewController {
                         ANLoader.hide()
                         guard success else { return }
 
-                        Defaults[.IsLoggedInKey] = false
+                        Defaults[.IsLoggedIn] = false
                         ServiceRequest.shared().disConnectMQTT()
                         self.performSegue(withIdentifier: Constants.UnwindSegues.LOGIN, sender: nil)
                     })

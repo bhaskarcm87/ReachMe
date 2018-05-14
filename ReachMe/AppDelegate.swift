@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var bgService: ServiceRequestBackground!
-    internal var coreDataStack = CoreDataStack(modelFileNames: ["ReachMe"], persistentFileName: "ReachMe.sqlite")
+    var coreDataStack = CoreDataStack(modelFileNames: ["ReachMe"], persistentFileName: "ReachMe.sqlite")
     public var _userProfile: Profile?
     var userProfile: Profile? {
         get {
@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     guard let profileList = results as? [Profile] else { return nil }
                     _userProfile = profileList.first
                 } catch let error as NSError {
-                    print("CoreData - Fetch failed: \(error.localizedDescription)")
+                    print("CoreData Profile Table - Fetch failed: \(error.localizedDescription)")
                 }
             }
             
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let reachMeNavVC = UIStoryboard(name: "NavController", bundle: nil).instantiateViewController(withIdentifier: "ReachMeNavControllerID") as! UINavigationController
         // Check if launched from notification
-        if let _ = launchOptions?[.remoteNotification] as? [String: AnyObject], Defaults[.IsLoggedInKey] {
+        if let _ = launchOptions?[.remoteNotification] as? [String: AnyObject], Defaults[.IsLoggedIn] {
             //TODO:--
             // let aps = notification["aps"] as! [String: AnyObject]
             
@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             reachMeNavVC.viewControllers = [personalisationVC]
             window?.rootViewController = reachMeNavVC
             
-        } else if Defaults[.IsLoggedInKey] {
+        } else if Defaults[.IsLoggedIn] {
             ServiceRequest.shared().connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if Defaults[.IsLoggedInKey] {
+        if Defaults[.IsLoggedIn] {
             ServiceRequest.shared().connectMQTT()
             ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
         }

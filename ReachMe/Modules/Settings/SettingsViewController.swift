@@ -23,7 +23,6 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
         
         constructtableCells()
-    
     }
 
     override func viewWillAppear(_ animated: Bool) {

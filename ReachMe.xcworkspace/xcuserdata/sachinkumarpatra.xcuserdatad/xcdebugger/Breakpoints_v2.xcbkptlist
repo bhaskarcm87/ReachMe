@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AudioPlayer/player/extensions/AudioPlayer+Control.swift"
-            timestampString = "543874390.8213921"
+            filePath = "ReachMe/ServiceRequest.swift"
+            timestampString = "547990867.035609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "seek(to:byAdaptingTimeToFitSeekableRanges:toleranceBefore:toleranceAfter:completionHandler:)"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "handleFetchMessagesResponse(responseDics:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ChattoAdditions/Source/Chat Items/AudioMessages/AudioMessagePresenter.swift"
-            timestampString = "545572561.701403"
+            filePath = "ReachMe/CoreData/CoreDataContextObserver.swift"
+            timestampString = "547979963.9632879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "dequeueCell(collectionView:indexPath:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "handleContextObjectDidChangeNotification(notification:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chatto/Source/ChatController/Collaborators/ChatItemPresenterFactory.swift"
-            timestampString = "545242997.413747"
+            filePath = "ReachMe/AppDelegate.swift"
+            timestampString = "547987702.67387"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "createChatItemPresenter(_:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,76 +57,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chatto/Source/ChatController/Collaborators/ChatItemPresenterFactory.swift"
-            timestampString = "545243178.6799051"
+            filePath = "ReachMe/ThirdParty/SwiftMQTT/MQTTSession.swift"
+            timestampString = "547990867.035774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "createChatItemPresenter(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChattoAdditions/Source/Input/ChatInputBar.swift"
-            timestampString = "545307334.0337"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "loadNib()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat Items/Base Message/BaseMessageHandler.swift"
-            timestampString = "545309460.784528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "userDidBeginLongPressOnBubble(viewModel:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReachMe/Modules/Chats/ChatUserViewController.swift"
-            timestampString = "546331728.987038"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "rcmessage(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReachMe/SwiftMQTT/MQTTSession.swift"
-            timestampString = "546965011.472464"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "connect(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -137,94 +73,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReachMe/CountryAlertPicker/Telegram/Layouts/PhotoLayout.swift"
-            timestampString = "546707182.008243"
+            filePath = "ReachMe/ServiceRequest.swift"
+            timestampString = "547990867.036227"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "targetContentOffset(forProposedContentOffset:)"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "connectMQTT()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReachMe/CountryAlertPicker/Telegram/TelegramPickerViewController.swift"
-            timestampString = "546707182.008315"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReachMe/CountryAlertPicker/Telegram/TelegramPickerViewController.swift"
-            timestampString = "546707182.008386"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
-            landmarkName = "action(withAsset:at:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReachMe/Modules/Settings/SettingsTableCells.swift"
-            timestampString = "547852274.308385"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "updateCell()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ReachMe.SettingsCarrierLogoSupportCell.updateCell() -&gt; ()"
-                  moduleName = "ReachMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sachinkumarpatra/Desktop/Sachin/MyNewReachMe/ReachMe/ReachMe/Modules/Settings/SettingsTableCells.swift"
-                  timestampString = "547842658.8213691"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "141"
-                  endingLineNumber = "141"
-                  offsetFromSymbolStart = "908">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Foundation.Data) -&gt; () in ReachMe.SettingsCarrierLogoSupportCell.updateCell() -&gt; ()"
-                  moduleName = "ReachMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sachinkumarpatra/Desktop/Sachin/MyNewReachMe/ReachMe/ReachMe/Modules/Settings/SettingsTableCells.swift"
-                  timestampString = "547842658.824224"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "143"
-                  endingLineNumber = "143"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
