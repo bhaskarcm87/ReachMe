@@ -41,7 +41,7 @@ class PersonalisationViewController: UITableViewController {
             
         } else {// If image not downloaded yet, then dwonload once
             ANLoader.showLoading("", disableUI: true)
-            ServiceRequest.shared().startRequestForDownloadProfilePic(completionHandler: { (imageData) in
+            ServiceRequest.shared.startRequestForDownloadProfilePic(completionHandler: { (imageData) in
                 ANLoader.hide()
                 if let profileImage = UIImage(data: imageData) {
                     DispatchQueue.main.async {
@@ -97,17 +97,17 @@ class PersonalisationViewController: UITableViewController {
             var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                          "screen_name": Constants.appDelegate.userProfile?.userName as Any,
                                          "email": Constants.appDelegate.userProfile?.emailID as Any]
-            ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
                 guard success else { return }
                 
                 if let data = UIImagePNGRepresentation(self.profileImageView.image!) {
-                    ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
+                    ServiceRequest.shared.startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
                         if successUpload {
                             Constants.appDelegate.userProfile?.profilePicData = data
                         }
                         Defaults[.IsPersonalisation] = false
                         Defaults[.IsLoggedIn] = true
-                        ServiceRequest.shared().connectMQTT()
+                        ServiceRequest.shared.connectMQTT()
 
                         self.coreDataStack.saveContexts(withCompletion: { (error) in
                             ANLoader.hide()

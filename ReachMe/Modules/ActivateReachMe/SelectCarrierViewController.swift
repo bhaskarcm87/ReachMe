@@ -46,7 +46,7 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.register(SelectCarrierTableCell.self, forCellReuseIdentifier: SelectCarrierTableCell.identifier)
                 
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForListOfCarriers(forUserContact: userContact, completionHandler: { (success) in
+        ServiceRequest.shared.startRequestForListOfCarriers(forUserContact: userContact, completionHandler: { (success) in
             guard success else { return }
             ANLoader.hide()
             //Prepare List data
@@ -157,7 +157,7 @@ class SelectCarrierViewController: UIViewController, UITableViewDelegate, UITabl
     func updateServerforChangedSettings() {
         
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForUpdateSettings(completionHandler: { (success) in
+        ServiceRequest.shared.startRequestForUpdateSettings(completionHandler: { (success) in
             guard success else {//If error occurs undo the local changes for this context
                 Constants.appDelegate.userProfile?.managedObjectContext?.rollback()
                 return

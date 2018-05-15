@@ -89,7 +89,7 @@ class HowToActivateReachMeViewController: UITableViewController {
                                          "phone_num": userContact.contactID!,
                                          "action": "enable"]
             startCounter()
-            ServiceRequest.shared().startRequestForVoicemailSetting(withVoicemailInfo: &params, completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForVoicemailSetting(withVoicemailInfo: &params, completionHandler: { (success) in
                 ANLoader.hide()
                 guard success else { return }
                 

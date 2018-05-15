@@ -54,9 +54,9 @@ class EditNumberViewController: UITableViewController {
         userContact.imageName = "iphone"
         
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForUpdateSettings { (success) in
+        ServiceRequest.shared.startRequestForUpdateSettings { (success) in
             guard success else { return }
-            ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForFetchSettings(completionHandler: { (success) in
                 guard success else { return }
                 ANLoader.hide()
                 self.navigationController?.popViewController(animated: true)

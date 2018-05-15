@@ -104,7 +104,7 @@ class ActivationReachMeViewController: UITableViewController {
                         }
                         
                         ANLoader.showLoading("", disableUI: true)
-                        ServiceRequest.shared().startRequestForUpdateSettings(completionHandler: { (success) in
+                        ServiceRequest.shared.startRequestForUpdateSettings(completionHandler: { (success) in
                             ANLoader.hide()
                             guard success else {//If error occurs undo the local changes for this context
                                 self.userContact?.managedObjectContext?.rollback()

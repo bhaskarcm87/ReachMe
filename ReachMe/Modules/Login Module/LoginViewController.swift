@@ -119,15 +119,10 @@ class LoginViewController: UIViewController {
                     userProfile.simMNCNumber = carrier.mobileNetworkCode
                     userProfile.simISOCode = carrier.isoCountryCode
                     userProfile.simMCCMNCNumber = carrier.mobileCountryCode! + carrier.mobileNetworkCode!
-                }
-                
-                //Constants.appDelegate.userProfile = userProfile
-//                if let error = context.saveToParentsAndWait() {
-//                    print("Coredata save error \(error.localizedDescription)")
-//                }
+                }                
             })
             
-            ServiceRequest.shared().startRequestForJoinUser(completionHandler: { (response, errorMessage) in
+            ServiceRequest.shared.startRequestForJoinUser(completionHandler: { (response, errorMessage) in
                 ANLoader.hide()
                 DispatchQueue.main.async(execute: {
                     switch response as AutheticationType {

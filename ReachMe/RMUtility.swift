@@ -161,7 +161,7 @@ class RMUtility: NSObject {
                     }
                     
                     ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared().startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                    ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
                         guard success else { return }
                         completionHandler(success)
                         RMUtility.showAlert(withMessage: "Number has been deleted successfully")
@@ -184,7 +184,7 @@ class RMUtility: NSObject {
                 .action(.default("Confirm")) { (action, count, nil) in
                     
                     ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared().startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                    ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
                         guard success else { return }
                         completionHandler(success)
                         RMUtility.showAlert(withMessage: "Number has been deleted successfully")

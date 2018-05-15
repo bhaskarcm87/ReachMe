@@ -35,7 +35,7 @@ class ForgotPasswordViewController: UIViewController {
     @IBAction func onContinueClicked(_ sender: UIButton) {
         
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForGeneratePassword { (success) in
+        ServiceRequest.shared.startRequestForGeneratePassword { (success) in
             ANLoader.hide()
             guard success else { return }
             self.performSegue(withIdentifier: Constants.Segues.OTP, sender: self)

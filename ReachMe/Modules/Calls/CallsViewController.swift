@@ -47,7 +47,7 @@ class CallsViewController: UITableViewController {
         tableView.tableFooterView = UIView()
 
         handleBadgeCount()
-        ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
+        ServiceRequest.shared.startRequestForFetchMessages(completionHandler: nil)
     }
     
     override func viewDidLoad() {
@@ -94,7 +94,7 @@ class CallsViewController: UITableViewController {
         let selectedMessage = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!)
         guard selectedMessage.readCount == 0 else { return }
         
-        ServiceRequest.shared().startRequestForReadMessages(messages: [selectedMessage]) { (success) in
+        ServiceRequest.shared.startRequestForReadMessages(messages: [selectedMessage]) { (success) in
             guard success else { return }
             
             selectedMessage.readCount = 1
@@ -127,7 +127,7 @@ extension CallsViewController {
                 cellToDelete.isUserInteractionEnabled = false
                 
                 let messageToDelete = self.fetchedResultsController.object(at: indexPath)
-                ServiceRequest.shared().startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
+                ServiceRequest.shared.startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
                     DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
                     guard success else {
                         cellToDelete.alpha = 1
@@ -229,7 +229,7 @@ extension CallsViewController: UITabBarControllerDelegate {
             
             if let unreadMessages  = self.fetchedResultsController.fetchedObjects?.filter({$0.readCount == 0}),
                 unreadMessages.count > 0 {
-                ServiceRequest.shared().startRequestForReadMessages(messages: unreadMessages) { (success) in
+                ServiceRequest.shared.startRequestForReadMessages(messages: unreadMessages) { (success) in
                     guard success else { return }
                     
                     //CoreDataModel.sharedInstance().updateRecords(entity: .MessageEntity, properties: ["readCount" : 1])

@@ -176,7 +176,7 @@ class ActivateReachMeViewController: UITableViewController {
         }
         
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForUsageSummary(forPhoneNumber: userContact.contactID!) { (responseDisc, success) in
+        ServiceRequest.shared.startRequestForUsageSummary(forPhoneNumber: userContact.contactID!) { (responseDisc, success) in
             ANLoader.hide()
             guard success else { return }
             

@@ -113,7 +113,7 @@ extension VoicemailsViewController {
                 cellToDelete.isUserInteractionEnabled = false
                 
                 let messageToDelete = self.fetchedResultsController.object(at: indexPath)
-                ServiceRequest.shared().startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
+                ServiceRequest.shared.startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
                     DispatchQueue.main.async { cellToDelete.deleteSpinner.stopAnimating() }
                     guard success else {
                         cellToDelete.alpha = 1
@@ -156,7 +156,7 @@ extension VoicemailsViewController {
             
             //Handle Readstate
             guard message.readCount == 0 else { return }
-            ServiceRequest.shared().startRequestForReadMessages(messages: [message]) { (success) in
+            ServiceRequest.shared.startRequestForReadMessages(messages: [message]) { (success) in
                 guard success else { return }
                 
                 //Detaching delegate notification of fetch results during read state update in DB, otherwise cells are freshly reloading, so playing state in UI not updating properly

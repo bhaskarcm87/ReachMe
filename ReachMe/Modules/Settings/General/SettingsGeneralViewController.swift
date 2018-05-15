@@ -87,7 +87,7 @@ extension SettingsGeneralViewController {
                 ANLoader.showLoading("", disableUI: true)
                 var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                              "pwd": newPassTextField.text!]
-                ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+                ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
                     ANLoader.hide()
                     guard success else {
                         //Not sure to show again chage password alert on failure
@@ -128,7 +128,7 @@ extension SettingsGeneralViewController {
                 .action(.default("OK")) { (action, count, nil) in
 
                     ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared().startRequestForSignOut(completionHandler: { (success) in
+                    ServiceRequest.shared.startRequestForSignOut(completionHandler: { (success) in
                         let loginVC = UIViewController.loginViewController()
                         self.navigationController?.viewControllers.insert(loginVC, at: 0)
 
@@ -136,7 +136,7 @@ extension SettingsGeneralViewController {
                         guard success else { return }
 
                         Defaults[.IsLoggedIn] = false
-                        ServiceRequest.shared().disConnectMQTT()
+                        ServiceRequest.shared.disConnectMQTT()
                         self.performSegue(withIdentifier: Constants.UnwindSegues.LOGIN, sender: nil)
                     })
                 }.show()

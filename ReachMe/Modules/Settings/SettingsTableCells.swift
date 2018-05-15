@@ -39,7 +39,7 @@ class SettingsProfileCell: UITableViewCell {
             profileImageView.image = profileImage
             
         } else {// If image not downloaded yet, then dwonload once
-            ServiceRequest.shared().startRequestForDownloadProfilePic(completionHandler: { (imageData) in
+            ServiceRequest.shared.startRequestForDownloadProfilePic(completionHandler: { (imageData) in
                 if let profileImage = UIImage(data: imageData) {
                     DispatchQueue.main.async {
                         self.spinnerView.stopAnimating()
@@ -122,7 +122,7 @@ class SettingsCarrierLogoSupportCell: UITableViewCell {
             carrierImageView.image = carriaerLogoImage
             
         } else {// If image not downloaded yet, then dwonload once
-            ServiceRequest.shared().startRequestForDownloadImage(forURL: (Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoHomeURL)!, completionHandler: { (logoImageData) in
+            ServiceRequest.shared.startRequestForDownloadImage(forURL: (Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoHomeURL)!, completionHandler: { (logoImageData) in
                 
                 Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData = logoImageData
                 self.coreDataStack.saveContexts()

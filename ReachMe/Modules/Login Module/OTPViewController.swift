@@ -79,7 +79,7 @@ class OTPViewController: UIViewController {
                     }
                     
                     ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared().startRequestForGenerateVerificationCode(completionHandler: { (success) in
+                    ServiceRequest.shared.startRequestForGenerateVerificationCode(completionHandler: { (success) in
                         ANLoader.hide()
                         guard success else { return }
 
@@ -102,7 +102,7 @@ class OTPViewController: UIViewController {
         
         switch otpType {
         case .Register:
-            ServiceRequest.shared().startRequestForVerifyUser(otpString: otpString!, completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForVerifyUser(otpString: otpString!, completionHandler: { (success) in
                 guard success else { return }
                 ANLoader.hide()
                 
@@ -111,13 +111,13 @@ class OTPViewController: UIViewController {
                     self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)
                 } else {
                     Defaults[.IsLoggedIn] = true
-                    ServiceRequest.shared().connectMQTT()
+                    ServiceRequest.shared.connectMQTT()
                     RMUtility.showdDashboard()
                 }
             })
             
         case .Forgot:
-            ServiceRequest.shared().startRequestForVerifyPassword(otpString: otpString!, completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForVerifyPassword(otpString: otpString!, completionHandler: { (success) in
                 guard success else { return }
                 ANLoader.hide()
                 self.performSegue(withIdentifier: Constants.Segues.RESET_PASSWORD, sender: self)

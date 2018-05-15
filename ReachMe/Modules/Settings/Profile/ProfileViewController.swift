@@ -192,7 +192,7 @@ class ProfileViewController: FormViewController {
         }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             ANLoader.showLoading("", disableUI: true)
-            ServiceRequest.shared().startRequestForStatesList(forCountryCode: (Constants.appDelegate.userProfile?.countryPhoneCode)!, completionHandler: { (responseDisc, success) in
+            ServiceRequest.shared.startRequestForStatesList(forCountryCode: (Constants.appDelegate.userProfile?.countryPhoneCode)!, completionHandler: { (responseDisc, success) in
                 ANLoader.hide()
                 guard success else { return }
                 if let states = responseDisc?["state_list"] as? [[String: Any]], states.count > 0 {
@@ -350,11 +350,11 @@ class ProfileViewController: FormViewController {
                 params["city"] = city
             }
             
-            ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
                 guard success else { return }
                 
                 if let data = self.changedPicData {
-                    ServiceRequest.shared().startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
+                    ServiceRequest.shared.startRequestForUploadProfilePic(picData: data, completionHandler: { (successUpload) in
                         ANLoader.hide()
                         if successUpload {
                             Constants.appDelegate.userProfile?.profilePicData = data

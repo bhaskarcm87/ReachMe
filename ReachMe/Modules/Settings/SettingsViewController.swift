@@ -29,9 +29,9 @@ class SettingsViewController: UITableViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
 
-        ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
+        ServiceRequest.shared.startRequestForGetProfileInfo(completionHandler: { (success) in
             guard success else { return }
-            ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForFetchSettings(completionHandler: { (success) in
                 guard success else { return }
                 self.constructtableCells()
                 self.tableView.reloadData()
@@ -255,7 +255,7 @@ extension SettingsViewController {
                                                          "set_as_primary": true]
                             
                             ANLoader.showLoading("", disableUI: true)
-                            ServiceRequest.shared().startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                            ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
                                 ANLoader.hide()
                                 guard success else { return }
                                 

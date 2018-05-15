@@ -17,13 +17,7 @@ import CoreData
 
 open class ServiceRequest: NSObject {
     
-    open class func shared() -> ServiceRequest {
-        struct Static {
-            static let instance = ServiceRequest()
-        }
-        return Static.instance
-    }
-    
+    static let shared = ServiceRequest()
     private let coreDataStack = Constants.appDelegate.coreDataStack
         
     var mqttSession: MQTTSession?
@@ -227,14 +221,14 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Verify User", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 //Handle response Data
-                ServiceRequest.shared().parseCommonResponseforLoginProcess(responseDics: responseDics)
+                ServiceRequest.shared.parseCommonResponseforLoginProcess(responseDics: responseDics)
 
-                ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
+                ServiceRequest.shared.startRequestForGetProfileInfo(completionHandler: { (success) in
                     guard success else { return }
-                    ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
+                    ServiceRequest.shared.startRequestForFetchSettings(completionHandler: { (success) in
                         guard success else { return }
 
                         completionHandler(true)
@@ -263,10 +257,10 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "SignIn", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 //Handle response Data
-                ServiceRequest.shared().parseCommonResponseforLoginProcess(responseDics: responseDics)
+                ServiceRequest.shared.parseCommonResponseforLoginProcess(responseDics: responseDics)
 
                 Defaults[.APIPnsAppIdKey] = responseDics[DefaultsKeys.APIPnsAppIdKey._key] as? String
                 Defaults[.APIDocURLKey] = responseDics[DefaultsKeys.APIDocURLKey._key] as? String
@@ -277,9 +271,9 @@ extension ServiceRequest {
                     userProfile?.password = passWord
                 })
                             
-                ServiceRequest.shared().startRequestForGetProfileInfo(completionHandler: { (success) in
+                ServiceRequest.shared.startRequestForGetProfileInfo(completionHandler: { (success) in
                     guard success else { return }
-                    ServiceRequest.shared().startRequestForFetchSettings(completionHandler: { (success) in
+                    ServiceRequest.shared.startRequestForFetchSettings(completionHandler: { (success) in
                         guard success else { return }
                         
                         completionHandler(true)
@@ -303,7 +297,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Profile Info", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                     let userProfile = RMUtility.getProfileforConext(context: context)!
@@ -419,7 +413,7 @@ extension ServiceRequest {
                     }
                 }, andInMainThread: {
                     if Constants.appDelegate.userProfile?.primaryContact?.carriers == nil || Constants.appDelegate.userProfile?.primaryContact?.carriers?.count == 0 {
-                        ServiceRequest.shared().startRequestForListOfCarriers(forUserContact: (Constants.appDelegate.userProfile?.primaryContact!)!, completionHandler: { (success) in
+                        ServiceRequest.shared.startRequestForListOfCarriers(forUserContact: (Constants.appDelegate.userProfile?.primaryContact!)!, completionHandler: { (success) in
                             guard success else { return }
                         })
                     }
@@ -446,7 +440,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Carrier List", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                     let userProfile = RMUtility.getProfileforConext(context: context)!
@@ -549,7 +543,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Fetch Settings", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 //Handle response Data
                 self.coreDataStack.deleteAllRecords(entity: Constants.EntityName.SUPPORT_CONTACT)
@@ -736,7 +730,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON { (response) in
 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 return
                             }
 
@@ -790,7 +784,7 @@ extension ServiceRequest {
                               method: .post,
                               encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Update Settings", qos: .background)) { (response) in
 
-                                if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                                if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                     completionHandler(false)
                                     return
                                 }
@@ -816,7 +810,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Genearate Password", qos: .background)) { (response) in
 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 completionHandler(false)
                                 return
                             }
@@ -843,13 +837,13 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Verify Password", qos: .background)) { (response) in
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else {
                     completionHandler(false)
                     return
                 }
 
                 //Handle response Data
-                ServiceRequest.shared().parseCommonResponseforLoginProcess(responseDics: responseDics)
+                ServiceRequest.shared.parseCommonResponseforLoginProcess(responseDics: responseDics)
 
                 completionHandler(true)
         }
@@ -868,7 +862,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Update Profile Info", qos: .background)) { (response) in
 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 completionHandler(false)
                                 return
                             }
@@ -892,7 +886,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Manage User Contact", qos: .background)) { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else { return }
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 //Handle response Data
                 completionHandler(responseDics, true)
@@ -962,7 +956,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON { (response) in
 
                 //Handle Error
-                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
+                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else {
                     completionHandler(nil, false)
                     return
                 }
@@ -986,7 +980,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON { (response) in
                 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 completionHandler(false)
                                 return
                             }
@@ -1012,7 +1006,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Set Device Info", qos: .background)) { (response) in
                 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 return
                             }
                 
@@ -1038,12 +1032,12 @@ extension ServiceRequest {
                               method: .post,
                               encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Fetch Message", qos: .background)) { (response) in
                                 
-                                guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
+                                guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else {
                                     completionHandler?(false)
                                     return
                                 }
                                 
-                                ServiceRequest.shared().handleFetchMessagesResponse(responseDics: responseDics)
+                                ServiceRequest.shared.handleFetchMessagesResponse(responseDics: responseDics)
                                 
                                 completionHandler?(true)
             }
@@ -1064,7 +1058,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Delete Message", qos: .background)) { (response) in
                 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 DispatchQueue.main.async { completionHandler?(false) }
                                 return
                             }
@@ -1088,7 +1082,7 @@ extension ServiceRequest {
                           method: .post,
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Read Message", qos: .background)) { (response) in
 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 completionHandler?(false)
                                 return
                             }
@@ -1113,7 +1107,7 @@ extension ServiceRequest {
                           encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "States List", qos: .background)) { (response) in
 
                             //Handle Error
-                            guard let responseDics = ServiceRequest.shared().handleserviceError(response: response) else {
+                            guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else {
                                 completionHandler(nil, false)
                                 return
                             }
@@ -1176,7 +1170,7 @@ extension ServiceRequest { //NOTE: As i observs, all the response parameters of 
                           method: .post,
                           encoding: payload).validate().responseJSON { (response) in
                 
-                            if ServiceRequest.shared().handleserviceError(response: response) == nil {
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
                                 return
                             }
 
@@ -1206,7 +1200,7 @@ open class ServiceRequestBackground: NSObject {
                 guard let responseDics = response.result.value as? [String: Any] else {completionHandler(false); return }
                 guard (responseDics["status"] as! String) != "error" else {completionHandler(false); return }
                 
-                ServiceRequest.shared().handleFetchMessagesResponse(responseDics: responseDics)
+                ServiceRequest.shared.handleFetchMessagesResponse(responseDics: responseDics)
                 completionHandler(true)
         }
     }
@@ -1216,7 +1210,7 @@ open class ServiceRequestBackground: NSObject {
 extension ServiceRequest: MQTTSessionDelegate {
     
     public func mqttDidReceive(message data: Data, in topic: String, from session: MQTTSession) {
-        ServiceRequest.shared().startRequestForFetchMessages(completionHandler: nil)
+        ServiceRequest.shared.startRequestForFetchMessages(completionHandler: nil)
         
         //Parse Data to show Local Notification
         var result: [String: Any]!

@@ -129,10 +129,10 @@ class ResetPasswordViewController: UIViewController {
         ANLoader.showLoading("", disableUI: true)
         var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                      "pwd": confirmPasswordTextField.text!]
-        ServiceRequest.shared().startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+        ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
             guard success else { return }
 
-            ServiceRequest.shared().startRequestForSignIn(passWord: self.confirmPasswordTextField.text!) { (success) in
+            ServiceRequest.shared.startRequestForSignIn(passWord: self.confirmPasswordTextField.text!) { (success) in
                 ANLoader.hide()
                 guard success else { return }
 

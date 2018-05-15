@@ -81,7 +81,7 @@ class PasswordViewController: UIViewController {
         }
 
         ANLoader.showLoading("", disableUI: true)
-        ServiceRequest.shared().startRequestForSignIn(passWord: passwordTextField.text!) { (success) in
+        ServiceRequest.shared.startRequestForSignIn(passWord: passwordTextField.text!) { (success) in
             ANLoader.hide()
             guard success else { return }
             
@@ -94,7 +94,7 @@ class PasswordViewController: UIViewController {
                     self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)
                 } else {
                     Defaults[.IsLoggedIn] = true
-                    ServiceRequest.shared().connectMQTT()
+                    ServiceRequest.shared.connectMQTT()
                     RMUtility.showdDashboard()
                 }
             })
