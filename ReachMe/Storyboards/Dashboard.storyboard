@@ -38,9 +38,9 @@
                     <connections>
                         <segue destination="3H7-PU-eqO" kind="relationship" relationship="viewControllers" id="toy-Tb-BWf"/>
                         <segue destination="MgI-OX-GGR" kind="relationship" relationship="viewControllers" id="gSd-1c-qdr"/>
-                        <segue destination="B92-jF-ETZ" kind="relationship" relationship="viewControllers" id="nhm-Kr-DRB"/>
-                        <segue destination="Qus-KX-wOh" kind="relationship" relationship="viewControllers" id="JwS-PT-dcc"/>
                         <segue destination="brz-Mp-guQ" kind="relationship" relationship="viewControllers" id="X0w-2e-ggq"/>
+                        <segue destination="Qus-KX-wOh" kind="relationship" relationship="viewControllers" id="JwS-PT-dcc"/>
+                        <segue destination="B92-jF-ETZ" kind="relationship" relationship="viewControllers" id="nhm-Kr-DRB"/>
                         <segue destination="Eo5-F1-ZQN" kind="relationship" relationship="viewControllers" id="sMB-dL-FUt"/>
                         <segue destination="dwo-Ao-DAC" kind="relationship" relationship="viewControllers" id="DUa-nR-eeA"/>
                     </connections>

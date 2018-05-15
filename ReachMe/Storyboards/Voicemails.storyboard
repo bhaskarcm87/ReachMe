@@ -113,14 +113,14 @@
                                                     </connections>
                                                 </button>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="vwe-QG-D80">
-                                                    <rect key="frame" x="43" y="0.0" width="138" height="32"/>
+                                                    <rect key="frame" x="43" y="0.0" width="146" height="32"/>
                                                     <color key="tintColor" red="0.85490196078431369" green="0.2627450980392157" blue="0.21176470588235294" alpha="0.51669520547945202" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderVlaueChanged:" destination="tbF-tz-bD1" eventType="valueChanged" id="eWn-H8-vNQ"/>
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0:02" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39f-4M-XIy">
-                                                    <rect key="frame" x="184" y="0.0" width="38" height="31"/>
+                                                    <rect key="frame" x="192" y="0.0" width="30" height="31"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.59607843137254901" green="0.59607843137254901" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
