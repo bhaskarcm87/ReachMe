@@ -546,8 +546,7 @@ extension ServiceRequest {
                 guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else { return }
 
                 //Handle response Data
-                self.coreDataStack.deleteAllRecords(entity: Constants.EntityName.SUPPORT_CONTACT)
-                            
+                self.coreDataStack.deleteAllRecordsForEntity(entity: Constants.EntityName.SUPPORT_CONTACT)
                 self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                     let userProfile = RMUtility.getProfileforConext(context: context)!
                     

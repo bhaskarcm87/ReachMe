@@ -21,21 +21,12 @@ import CoreData
 class RMUtility: NSObject {
     
     static let kUTTypeHEVC = "public.heic"
-    private let coreDataStack = Constants.appDelegate.coreDataStack
-    static let shared = RMUtility()
 
     enum ReachMeType {
         case home
         case international
         case voicemail
     }
-
-//    open class func sharedInstance() -> RMUtility {
-//        struct Static {
-//            static let instance = RMUtility()
-//        }
-//        return Static.instance
-//    }
     
     class func showAlert(withMessage message: String, title: String? = nil) {
         DispatchQueue.main.async {
@@ -117,7 +108,7 @@ class RMUtility: NSObject {
     }
 
     class func deleteUserProfile() {
-        RMUtility.shared.coreDataStack.deleteAllRecords(entity: Constants.EntityName.PROFILE)
+        Constants.appDelegate.coreDataStack.deleteAllRecordsForEntity(entity: Constants.EntityName.PROFILE)
         Constants.appDelegate._userProfile = nil
     }
     

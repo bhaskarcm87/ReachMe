@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/AppDelegate.swift"
-            timestampString = "548067460.155398"
+            timestampString = "548075909.084267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/ServiceRequest.swift"
-            timestampString = "548067460.155597"
+            timestampString = "548075909.084383"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "handleFetchMessagesResponse(responseDics:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/Modules/Calls/VoicemailsViewController.swift"
-            timestampString = "548067460.155728"
+            timestampString = "548075909.084515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "172"
@@ -121,28 +121,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReachMe/Modules/ActivateReachMe/ActivateReachMeViewController.swift"
-            timestampString = "548067460.1558011"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "constructtableCells()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ReachMe/ServiceRequest.swift"
-            timestampString = "548067460.155872"
+            timestampString = "548075909.0845799"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1223"
-            endingLineNumber = "1223"
+            startingLineNumber = "1216"
+            endingLineNumber = "1216"
             landmarkName = "mqttDidReceive(message:in:from:)"
             landmarkType = "7">
          </BreakpointContent>

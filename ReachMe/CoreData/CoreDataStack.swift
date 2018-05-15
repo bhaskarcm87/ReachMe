@@ -336,14 +336,14 @@ open class CoreDataStack {
         
     }
     
-    public func deleteAllRecords(entity: String) {
+    public func deleteAllRecordsForEntity(entity: String) {
         let context = newContext()
         let req = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         let batchReq = NSBatchDeleteRequest(fetchRequest: req)
         do {
             try context.execute(batchReq)
         } catch {
-            print(error)
+            print("Coredata error: Delete all records \(error.localizedDescription)")
         }
     }
 }
