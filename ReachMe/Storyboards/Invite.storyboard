@@ -13,7 +13,7 @@
         <!--Invite-->
         <scene sceneID="Acj-oe-b7P">
             <objects>
-                <viewController id="pVz-aO-AK8" sceneMemberID="viewController">
+                <viewController id="pVz-aO-AK8" customClass="InviteViewController" customModule="ReachMe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ydb-Q6-OlW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,42 +30,67 @@
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="inviteBtnClicked:" destination="pVz-aO-AK8" eventType="touchUpInside" id="RJw-yn-ohH"/>
+                                </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="invite" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ADV-9p-LSY">
-                                <rect key="frame" x="107.5" y="70" width="160" height="95"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="95" id="O5n-mY-g4e"/>
-                                </constraints>
-                            </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VqJ-CJ-Z1H">
-                                <rect key="frame" x="16" y="175" width="343" height="48.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite your friends to ReachMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k59-1X-hkY">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIv-yt-cVo">
-                                        <rect key="frame" x="0.0" y="30.5" width="343" height="18"/>
-                                        <string key="text">Your friends and family can save roaming costs when traveling abroad and receive incoming calls over data when their phones are unreachable.</string>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="no4-hP-jfT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="589"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InviteTableCellID" rowHeight="270" id="rj0-IZ-dAS">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="270"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rj0-IZ-dAS" id="C0j-Wu-THk">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VHs-Nh-ca5">
+                                                    <rect key="frame" x="0.0" y="60" width="375" height="200"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" image="invite" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-kZ-VyA">
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="101.5"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite your friends to ReachMe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPD-60-Egm">
+                                                            <rect key="frame" x="0.0" y="111.5" width="375" height="20.5"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NaL-xK-ChA">
+                                                            <rect key="frame" x="0.0" y="142" width="375" height="58"/>
+                                                            <string key="text">Your friends and family can save roaming costs when traveling abroad and receive incoming calls over data when their phones are unreachable.</string>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VHs-Nh-ca5" firstAttribute="top" secondItem="C0j-Wu-THk" secondAttribute="top" constant="60" id="BRf-zp-MH6"/>
+                                                <constraint firstItem="VHs-Nh-ca5" firstAttribute="leading" secondItem="C0j-Wu-THk" secondAttribute="leading" id="Kmn-pe-wqw"/>
+                                                <constraint firstAttribute="bottom" secondItem="VHs-Nh-ca5" secondAttribute="bottom" constant="10" id="MIi-3m-Iof"/>
+                                                <constraint firstAttribute="trailing" secondItem="VHs-Nh-ca5" secondAttribute="trailing" id="hc1-gU-MWe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="pVz-aO-AK8" id="Aff-y9-oFD"/>
+                                    <outlet property="delegate" destination="pVz-aO-AK8" id="t3X-ph-UAf"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="mNC-TU-uuP" firstAttribute="trailing" secondItem="VqJ-CJ-Z1H" secondAttribute="trailing" constant="16" id="4Um-QW-GcK"/>
                             <constraint firstItem="W2T-dK-ZbE" firstAttribute="leading" secondItem="mNC-TU-uuP" secondAttribute="leading" constant="16" id="9Md-xd-ODM"/>
+                            <constraint firstItem="W2T-dK-ZbE" firstAttribute="top" secondItem="no4-hP-jfT" secondAttribute="bottom" constant="8" id="B51-xj-dly"/>
+                            <constraint firstItem="no4-hP-jfT" firstAttribute="leading" secondItem="mNC-TU-uuP" secondAttribute="leading" id="Ggq-Eo-ncg"/>
+                            <constraint firstItem="no4-hP-jfT" firstAttribute="top" secondItem="Ydb-Q6-OlW" secondAttribute="top" id="Ggy-gb-vjm"/>
                             <constraint firstItem="mNC-TU-uuP" firstAttribute="trailing" secondItem="W2T-dK-ZbE" secondAttribute="trailing" constant="16" id="XGt-bm-Viv"/>
-                            <constraint firstItem="ADV-9p-LSY" firstAttribute="centerX" secondItem="mNC-TU-uuP" secondAttribute="centerX" id="cKb-kX-Xgi"/>
-                            <constraint firstItem="VqJ-CJ-Z1H" firstAttribute="top" secondItem="ADV-9p-LSY" secondAttribute="bottom" constant="10" id="d0p-Vx-lDq"/>
+                            <constraint firstItem="no4-hP-jfT" firstAttribute="trailing" secondItem="mNC-TU-uuP" secondAttribute="trailing" id="fhc-6p-n86"/>
                             <constraint firstItem="mNC-TU-uuP" firstAttribute="bottom" secondItem="W2T-dK-ZbE" secondAttribute="bottom" constant="34" id="h3D-FZ-iEr"/>
-                            <constraint firstItem="VqJ-CJ-Z1H" firstAttribute="leading" secondItem="mNC-TU-uuP" secondAttribute="leading" constant="16" id="qoa-Rn-9Iw"/>
-                            <constraint firstItem="ADV-9p-LSY" firstAttribute="top" secondItem="mNC-TU-uuP" secondAttribute="top" constant="50" id="sXS-15-qcw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mNC-TU-uuP"/>
                     </view>
