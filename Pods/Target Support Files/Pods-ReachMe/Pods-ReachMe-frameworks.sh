@@ -103,7 +103,6 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Alertift/Alertift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Former/Former.framework"
@@ -118,7 +117,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Alertift/Alertift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Former/Former.framework"

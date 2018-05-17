@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alertift
 
 class EditNumberViewController: UITableViewController {
     
@@ -73,15 +72,15 @@ class EditNumberViewController: UITableViewController {
             userContact.isReachMeIntlActive ||
             userContact.isReachMeVoiceMailActive {
             
-            Alertift.alert(title: "Do you want to change carrier?",
-                           message: "Your service is active for this Carrier. Please, Deactivate before changing the carrier.")
-                .action(.default("Cancel")) { (action, count, nil) in
-                    self.tableView.deselectRow(at: IndexPath(row: 2, section: 0), animated: true)
-                }
-                .action(.default("OK")) { (action, count, nil) in
-                    self.view.endEditing(true)
-                    self.navigationController?.popViewController(animated: true)
-                }.show()
+            let alert = UIAlertController(style: .alert, title: "Do you want to change carrier?", message: "Your service is active for this Carrier. Please, Deactivate before changing the carrier.")
+            alert.addAction(title: "Cancel", handler: { _ in
+                self.tableView.deselectRow(at: IndexPath(row: 2, section: 0), animated: true)
+            })
+            alert.addAction(title: "OK", handler: { _ in
+                self.view.endEditing(true)
+                self.navigationController?.popViewController(animated: true)
+            })
+            alert.show()
             return false
         }
         

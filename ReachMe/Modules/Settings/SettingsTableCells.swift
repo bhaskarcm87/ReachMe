@@ -122,16 +122,17 @@ class SettingsCarrierLogoSupportCell: UITableViewCell {
             carrierImageView.image = carriaerLogoImage
             
         } else {// If image not downloaded yet, then dwonload once
-            ServiceRequest.shared.startRequestForDownloadImage(forURL: (Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoHomeURL)!, completionHandler: { (logoImageData) in
-                
-                Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData = logoImageData
-                self.coreDataStack.saveContexts()
-                if let carriaerLogoImage = UIImage(data: logoImageData) {
-                    DispatchQueue.main.async {
-                        self.carrierImageView.image = carriaerLogoImage
+            if let logoURL = Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoHomeURL {
+                ServiceRequest.shared.startRequestForDownloadImage(forURL: logoURL, completionHandler: { (logoImageData) in
+                    Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.logoSupportImageData = logoImageData
+                    self.coreDataStack.saveContexts()
+                    if let carriaerLogoImage = UIImage(data: logoImageData) {
+                        DispatchQueue.main.async {
+                            self.carrierImageView.image = carriaerLogoImage
+                        }
                     }
-                }
-            })
+                })
+            }
         }
         
         titleLabel.text = "\((Constants.appDelegate.userProfile?.primaryContact?.selectedCarrier?.networkName)!) Carrier Support"

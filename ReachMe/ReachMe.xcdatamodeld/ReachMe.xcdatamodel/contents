@@ -28,6 +28,16 @@
         <attribute name="ussdString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vsmsNodeID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="DeviceContact" representedClassName="DeviceContact" syncable="YES" codeGenerationType="class">
+        <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contactPicData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="emails" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isEmailType" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isIV" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phones" optional="YES" attributeType="Transformable" customClassName="[ContactPhone]" syncable="YES"/>
+    </entity>
     <entity name="Message" representedClassName="Message" syncable="YES" codeGenerationType="class">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contentType" optional="YES" attributeType="String" syncable="YES"/>
@@ -105,10 +115,11 @@
         <attribute name="vEmail" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="volumeModeRaw" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="vsmsEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="deviceContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DeviceContact" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" syncable="YES"/>
         <relationship name="mqttSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MQTT" syncable="YES"/>
         <relationship name="primaryContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserContact" syncable="YES"/>
-        <relationship name="supportContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SupportContact" inverseName="supportContacts" inverseEntity="SupportContact" syncable="YES"/>
+        <relationship name="supportContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SupportContact" syncable="YES"/>
         <relationship name="userContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserContact" inverseName="userContacts" inverseEntity="UserContact" syncable="YES"/>
     </entity>
     <entity name="SupportContact" representedClassName="SupportContact" syncable="YES" codeGenerationType="class">
@@ -122,7 +133,6 @@
         <attribute name="supportType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnailPicURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="supportContacts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="supportContacts" inverseEntity="Profile" syncable="YES"/>
     </entity>
     <entity name="UserContact" representedClassName="UserContact" syncable="YES" codeGenerationType="class">
         <attribute name="bloggerID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -172,12 +182,14 @@
         <attribute name="rmVM" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="vSMSNodeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <fetchRequest name="DeviceContactFetch" entity="DeviceContact" predicateString="isEmailType == 0"/>
     <elements>
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
-        <element name="Message" positionX="-333" positionY="-7" width="128" height="345"/>
+        <element name="DeviceContact" positionX="-216" positionY="84" width="128" height="165"/>
+        <element name="Message" positionX="-387" positionY="6" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
-        <element name="Profile" positionX="-54" positionY="243" width="128" height="750"/>
-        <element name="SupportContact" positionX="-396" positionY="441" width="128" height="208"/>
+        <element name="Profile" positionX="-54" positionY="243" width="128" height="763"/>
+        <element name="SupportContact" positionX="-396" positionY="441" width="128" height="193"/>
         <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>
         <element name="VoiceMail" positionX="241" positionY="263" width="128" height="450"/>
     </elements>

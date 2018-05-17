@@ -37,7 +37,9 @@
 		8C637CE620370FA200A38663 /* UIColor+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C637CE520370FA200A38663 /* UIColor+Extention.swift */; };
 		8C7007E420A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7007E320A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift */; };
 		8C70081920A46B08008FB5C4 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70081820A46B08008FB5C4 /* UILabel+Extensions.swift */; };
+		8C7A3C5320AD993B004445AD /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7A3C5220AD993B004445AD /* ContactListViewController.swift */; };
 		8C7CCE0D20AB1C17004B6863 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7CCE0C20AB1C17004B6863 /* InviteViewController.swift */; };
+		8C7CCE1020AC4EFE004B6863 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7CCE0F20AC4EFE004B6863 /* ContactsManager.swift */; };
 		8C7D7AC7206246DE0002DF2D /* Date+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7AC6206246DE0002DF2D /* Date+Extention.swift */; };
 		8C7D7AC92062476A0002DF2D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7AC82062476A0002DF2D /* ChangePasswordViewController.swift */; };
 		8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D7ACA206247990002DF2D /* SettingsGeneralViewController.swift */; };
@@ -177,7 +179,9 @@
 		8C637CE520370FA200A38663 /* UIColor+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extention.swift"; sourceTree = "<group>"; };
 		8C7007E320A1D4BC008FB5C4 /* VoicemailGreetingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoicemailGreetingsViewController.swift; sourceTree = "<group>"; };
 		8C70081820A46B08008FB5C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		8C7A3C5220AD993B004445AD /* ContactListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewController.swift; sourceTree = "<group>"; };
 		8C7CCE0C20AB1C17004B6863 /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
+		8C7CCE0F20AC4EFE004B6863 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		8C7D7AC6206246DE0002DF2D /* Date+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extention.swift"; sourceTree = "<group>"; };
 		8C7D7AC82062476A0002DF2D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		8C7D7ACA206247990002DF2D /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
@@ -494,6 +498,8 @@
 			isa = PBXGroup;
 			children = (
 				8C7CCE0C20AB1C17004B6863 /* InviteViewController.swift */,
+				8C7A3C5220AD993B004445AD /* ContactListViewController.swift */,
+				8C7CCE0F20AC4EFE004B6863 /* ContactsManager.swift */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -993,7 +999,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ReachMe/Pods-ReachMe-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Alertift/Alertift.framework",
 				"${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/Former/Former.framework",
@@ -1009,7 +1014,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alertift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountdownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Former.framework",
@@ -1080,6 +1084,7 @@
 				8CCE67D220849CC400002E69 /* NSObject+Extention.swift in Sources */,
 				8CB4273820A071FF00D666E2 /* RCPictureMessageCell.m in Sources */,
 				8C02DCE2203D97BD00CB8A46 /* String+Extention.swift in Sources */,
+				8C7A3C5320AD993B004445AD /* ContactListViewController.swift in Sources */,
 				8CB4275820A071FF00D666E2 /* MQTTUnSubAckPacket.swift in Sources */,
 				8CA1E2842048849E004E7D6B /* CoreDataContextObserver.swift in Sources */,
 				8CA328562095B9FD00004521 /* UIView+Extensions.swift in Sources */,
@@ -1128,6 +1133,7 @@
 				8C637CD62035C77500A38663 /* ReachMe.xcdatamodeld in Sources */,
 				8CB4275620A071FF00D666E2 /* MQTTSubAckPacket.swift in Sources */,
 				8C9920352046A0ED00C5ED14 /* SelectCarrierViewController.swift in Sources */,
+				8C7CCE1020AC4EFE004B6863 /* ContactsManager.swift in Sources */,
 				8CB4273B20A071FF00D666E2 /* RCLocationMessageCell.m in Sources */,
 				8CB4272620A071FF00D666E2 /* ItemWithImage.swift in Sources */,
 				8CF7B1CB205BC10500F87FFB /* SettingsViewController.swift in Sources */,

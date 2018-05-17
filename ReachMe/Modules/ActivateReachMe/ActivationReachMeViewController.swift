@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftyUserDefaults
-import Alertift
 
 enum ActivationType: String {
     case activate = "activate"

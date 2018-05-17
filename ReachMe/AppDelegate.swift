@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let activateReachMeVC = UIStoryboard(name: "ActivateReachMe", bundle: nil).instantiateViewController(withIdentifier: Constants.STORYBOARD_ID_ACTIVATE_REACHME) as! ActivateReachMeViewController
 //        reachMeNavVC.viewControllers = [activateReachMeVC]
 //        window?.rootViewController = reachMeNavVC
-        
+
         let reachMeNavVC = UIStoryboard(name: "NavController", bundle: nil).instantiateViewController(withIdentifier: "ReachMeNavControllerID") as! UINavigationController
         // Check if launched from notification
         if let _ = launchOptions?[.remoteNotification] as? [String: AnyObject], Defaults[.IsLoggedIn] {
@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = reachMeNavVC
             
         } else if Defaults[.IsLoggedIn] {
-            ServiceRequest.shared.connectMQTT()
+            //ServiceRequest.shared.connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
             RMUtility.showdDashboard()
@@ -91,12 +91,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
-        ServiceRequest.shared.disConnectMQTT()
+        //ServiceRequest.shared.disConnectMQTT()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if Defaults[.IsLoggedIn] {
-            ServiceRequest.shared.connectMQTT()
+            //ServiceRequest.shared.connectMQTT()
             ServiceRequest.shared.startRequestForFetchMessages(completionHandler: nil)
         }
     }

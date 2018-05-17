@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import Alertift
 import SwiftyUserDefaults
 
 class CallsViewController: UITableViewController {
@@ -110,37 +109,35 @@ extension CallsViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
+        
+        let alert = UIAlertController(style: .alert, title: "Delete missed call?", message: "This missed call will be deleted from your account.")
+        alert.addAction(title: "Cancel")
+        alert.addAction(title: "Delete", handler: { _ in
+            guard RMUtility.isNetwork() else {
+                RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                return
+            }
             
-        Alertift.alert(title: "Delete missed call?",
-                       message: "This missed call will be deleted from your account.")
-            .action(.default("Cancel"))
-            .action(.default("Delete")) { (action, count, nil) in
-                
-                guard RMUtility.isNetwork() else {
-                    RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+            let cellToDelete = tableView.cellForRow(at: indexPath) as! CallsGeneralCell
+            cellToDelete.spinner.startAnimating()
+            cellToDelete.alpha = 0.6
+            cellToDelete.isUserInteractionEnabled = false
+            
+            let messageToDelete = self.fetchedResultsController.object(at: indexPath)
+            ServiceRequest.shared.startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
+                DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
+                guard success else {
+                    cellToDelete.alpha = 1
+                    cellToDelete.isUserInteractionEnabled = true
                     return
                 }
-                
-                let cellToDelete = tableView.cellForRow(at: indexPath) as! CallsGeneralCell
-                cellToDelete.spinner.startAnimating()
-                cellToDelete.alpha = 0.6
-                cellToDelete.isUserInteractionEnabled = false
-                
-                let messageToDelete = self.fetchedResultsController.object(at: indexPath)
-                ServiceRequest.shared.startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
-                    DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
-                    guard success else {
-                        cellToDelete.alpha = 1
-                        cellToDelete.isUserInteractionEnabled = true
-                        return
-                    }
-                    self.coreDataStack.defaultContext.delete(messageToDelete)
-                    self.coreDataStack.saveContexts(withCompletion: { (error) in
-                        self.handleBadgeCount()
-                    })
+                self.coreDataStack.defaultContext.delete(messageToDelete)
+                self.coreDataStack.saveContexts(withCompletion: { (error) in
+                    self.handleBadgeCount()
                 })
-
-            }.show()
+            })
+        })
+        alert.show()            
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

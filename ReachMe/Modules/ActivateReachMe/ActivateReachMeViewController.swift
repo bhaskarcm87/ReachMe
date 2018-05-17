@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alertift
 import SwiftyUserDefaults
 
 class ActivateReachMeViewController: UITableViewController {
@@ -263,13 +262,12 @@ extension ActivateReachMeViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (indexPath.row == 3) && userContact.isReachMeIntlActive {
-            
-            Alertift.alert(title: "Are you back to \(userContact.countryName!)",
-                message: "If you switch to ReachMe Home when you are outside the home country, International roaming charges will be applicable. Do you want to continue?")
-                .action(.default("Cancel"))
-                .action(.default("Continue")) { (action, count, nil) in
-                    self.performSegue(withIdentifier: Constants.Segues.HOWTO_ACTIVAE_REACHME, sender: RMUtility.ReachMeType.home)
-                }.show()
+            let alert = UIAlertController(style: .alert, title: "Are you back to \(userContact.countryName!)", message: "If you switch to ReachMe Home when you are outside the home country, International roaming charges will be applicable. Do you want to continue?")
+            alert.addAction(title: "Cancel")
+            alert.addAction(title: "Continue", handler: { _ in
+                self.performSegue(withIdentifier: Constants.Segues.HOWTO_ACTIVAE_REACHME, sender: RMUtility.ReachMeType.home)
+            })
+            alert.show()
             return
         }
         

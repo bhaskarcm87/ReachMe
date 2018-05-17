@@ -6,7 +6,6 @@ target 'ReachMe' do
   use_frameworks!
 
         pod 'Alamofire', '~> 4.2.0'
- 	pod 'Alertift', '~> 3.0'
 	pod 'ReachabilitySwift'
 	pod 'RxSwift'
         pod 'RxCocoa'

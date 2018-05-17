@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alertift
 import StoreKit
 
 class SettingsViewController: UITableViewController {
@@ -234,70 +233,68 @@ extension SettingsViewController {
             
         } else if tableCell?.tag == 3 {//Change Primary Number
             
-            DispatchQueue.main.async { //Using main queue otherwise Actionsheet showing in delay
-                let alertFit = Alertift.actionSheet(title: "Change Primary Number", message: "Primary Number is your USER ID to access ReachMe on all your devices. ")
-                    .action(.default("\((Constants.appDelegate.userProfile?.primaryContact?.formatedNumber)!)"))
-                alertFit.alertController.setTitleFont(font: .boldSystemFont(ofSize: 18))
-                
-                (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
-                    if !userContact.isPrimary {
-                        _ = alertFit.action(.default("\((userContact.formatedNumber)!)")) { action, index in
-                            
-                            guard RMUtility.isNetwork() else {
-                                RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
-                                return
-                            }
-                            
-                            var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
-                                                         "contact": userContact.contactID!,
-                                                         "contact_type": "p",
-                                                         "operation": "u",
-                                                         "set_as_primary": true]
-                            
-                            ANLoader.showLoading("", disableUI: true)
-                            ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
-                                ANLoader.hide()
-                                guard success else { return }
-                                
-                                //Change existing primary contact to false
-                                for contact in (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])! where contact.isPrimary == true {
-                                        contact.isPrimary = false
-                                        break
-                                }
-                                
-                                //Update selected Contact to true
-                                userContact.isPrimary = true
-                                Constants.appDelegate.userProfile?.primaryContact = userContact
-                                
-                                self.coreDataStack.saveContexts()
-                                
-                                DispatchQueue.main.async {
-                                    //Close expanding state of tableview
-                                    self.tableView.selectRow(at: IndexPath(row: 0, section: 3), animated: true, scrollPosition: .none)
-                                    self.tableView.delegate?.tableView!(self.tableView, didSelectRowAt: IndexPath(row: 0, section: 3))
-                                    
-                                    RMUtility.showAlert(withMessage: "Setting Saved")
-                                    
-                                    //Reload view
-                                    self.tableCellArray.removeAll()
-                                    self.constructtableCells()
-                                    self.tableView.reloadData()
-                                }
-                                
-                            }
+            let alert = UIAlertController(style: .actionSheet, title: "Change Primary Number", message: "Primary Number is your USER ID to access ReachMe on all your devices. ") // if actionsheet shows in delay try with main thread or queue
+            alert.setTitleFont(font: .boldSystemFont(ofSize: 18))
+            alert.addAction(title: "\((Constants.appDelegate.userProfile?.primaryContact?.formatedNumber)!)")
+            (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
+                if !userContact.isPrimary {
+                    
+                    alert.addAction(title: "\((userContact.formatedNumber)!)", handler: { _ in
+                        guard RMUtility.isNetwork() else {
+                            RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                            return
                         }
-                    }
-                })
-                for (index, action) in alertFit.alertController.actions.enumerated() {
-                    if index == 0 {
-                        action.setValue(true, forKey: "checked")
-                    } else {
-                        action.setValue(UIColor.black, forKey: "titleTextColor")
-                    }
+                        
+                        var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
+                                                     "contact": userContact.contactID!,
+                                                     "contact_type": "p",
+                                                     "operation": "u",
+                                                     "set_as_primary": true]
+                        
+                        ANLoader.showLoading("", disableUI: true)
+                        ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                            ANLoader.hide()
+                            guard success else { return }
+                            
+                            //Change existing primary contact to false
+                            for contact in (Constants.appDelegate.userProfile?.userContacts?.allObjects as? [UserContact])! where contact.isPrimary == true {
+                                contact.isPrimary = false
+                                break
+                            }
+                            
+                            //Update selected Contact to true
+                            userContact.isPrimary = true
+                            Constants.appDelegate.userProfile?.primaryContact = userContact
+                            
+                            self.coreDataStack.saveContexts()
+                            
+                            DispatchQueue.main.async {
+                                //Close expanding state of tableview
+                                self.tableView.selectRow(at: IndexPath(row: 0, section: 3), animated: true, scrollPosition: .none)
+                                self.tableView.delegate?.tableView!(self.tableView, didSelectRowAt: IndexPath(row: 0, section: 3))
+                                
+                                RMUtility.showAlert(withMessage: "Setting Saved")
+                                
+                                //Reload view
+                                self.tableCellArray.removeAll()
+                                self.constructtableCells()
+                                self.tableView.reloadData()
+                            }
+                            
+                        }
+                    })
                 }
-                _ = alertFit.action(.cancel("Cancel"))
-                alertFit.show()
+            })
+            for (index, action) in alert.actions.enumerated() {
+                if index == 0 {
+                    action.setValue(true, forKey: "checked")
+                } else {
+                    action.setValue(UIColor.black, forKey: "titleTextColor")
+                }
             }
+
+            alert.addAction(title: "Cancel", style: .cancel)
+            alert.show()
             
         } else if tableCell?.tag == 4 {//Link New
             guard let contactCounts = Constants.appDelegate.userProfile?.userContacts?.count, contactCounts <= 11 else {

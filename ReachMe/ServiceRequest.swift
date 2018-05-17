@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 import SwiftyUserDefaults
-import Alertift
 import PhoneNumberKit
 import CountryPickerView
 import UserNotifications
@@ -17,7 +16,7 @@ import CoreData
 
 open class ServiceRequest: NSObject {
     
-    static let shared = ServiceRequest()
+    public static let shared = ServiceRequest()
     private let coreDataStack = Constants.appDelegate.coreDataStack
         
     var mqttSession: MQTTSession?
@@ -131,9 +130,9 @@ open class ServiceRequest: NSObject {
                 }
                 
                 userProfile.addToMessages(message)
-                if let error = saveBlock(true) {
-                    print("Coredata merge failed from writer context to default context. \(error.localizedDescription)")
-                }
+            }
+            if let error = saveBlock(true) {
+                print("Coredata merge failed from writer context to default context. \(error.localizedDescription)")
             }
         })
     }
@@ -186,16 +185,16 @@ extension ServiceRequest {
                     completionHandler(.authTypeOTP, nil)
                     
                 case "set_primary_pwd":
-                    Alertift.alert(title: "Multi Login",
-                                   message: """
+                    let alert = UIAlertController(style: .alert, title: "Multi Login", message: """
                                                 You are already logged into your account on different device
                                                 Please set password on your first device
                                                 Go to Settings -> Account -> Set Password
                                                 """)
-                        .action(.default("OK")) { (_, _, _) in
-                            //TODO: Handle Multiple Login
-                            completionHandler(.authTypeMultiuser, nil)
-                        }.show()
+                    alert.addAction(title: "OK", handler: { _ in
+                        //TODO: Handle Multiple Login
+                        completionHandler(.authTypeMultiuser, nil)
+                    })
+                    alert.show()
                     
                 default:
                     break
@@ -399,7 +398,7 @@ extension ServiceRequest {
                                         updatedUserContact.countryImageData = country.first?.countryImageData!
                                     })
                                 }
-                            } catch { print("Generic parser error") }
+                            } catch { print("PhonenumberKit parser error") }
                         }
                         
                         //If this is primary number request for carrier list

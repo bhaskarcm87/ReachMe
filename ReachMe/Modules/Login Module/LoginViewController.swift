@@ -11,7 +11,6 @@ import CountryPickerView
 import RxSwift
 import RxCocoa
 import PhoneNumberKit
-import Alertift
 import CoreTelephony
 import SwiftyUserDefaults
 import CoreData
@@ -80,19 +79,18 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onSignInClicked(_ sender: UIButton) {
-            
-         Alertift.alert(title: "Confirm mobile number",
-                       message: """
+        
+        let alert = UIAlertController(style: .alert, title: "Confirm mobile number", message: """
                                     Is this OK,
                                     or would you like to change it?
                                 """)
-        .action(.destructive("Change"))
-        .action(.default("Confirm")) { (action, count, nil) in
+        alert.addAction(title: "Cancel", style: .destructive)
+        alert.addAction(title: "Confirm", handler: { _ in
             self.view.endEditing(true)
-             guard RMUtility.isNetwork() else {
+            guard RMUtility.isNetwork() else {
                 RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
                 return
-             }
+            }
             
             ANLoader.showLoading("", disableUI: true)
             self.coreDataStack.performAndWait(inContext: { (context) in
@@ -119,7 +117,7 @@ class LoginViewController: UIViewController {
                     userProfile.simMNCNumber = carrier.mobileNetworkCode
                     userProfile.simISOCode = carrier.isoCountryCode
                     userProfile.simMCCMNCNumber = carrier.mobileCountryCode! + carrier.mobileNetworkCode!
-                }                
+                }
             })
             
             ServiceRequest.shared.startRequestForJoinUser(completionHandler: { (response, errorMessage) in
@@ -140,8 +138,8 @@ class LoginViewController: UIViewController {
                     }
                 })
             })
-
-        }.show()
+        })
+        alert.show()
     }
     
     @IBAction func onSelectCountryClicked(_ sender: UIButton) {

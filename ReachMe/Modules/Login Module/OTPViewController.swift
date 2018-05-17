@@ -8,7 +8,6 @@
 
 import UIKit
 import CountdownLabel
-import Alertift
 import SwiftyUserDefaults
 
 enum OTPType {
@@ -64,31 +63,31 @@ class OTPViewController: UIViewController {
         let callmeRange = (text as NSString).range(of: "Call Me")
         if sender.didTapAttributedTextInLabel(label: callmeLabel, inRange: callmeRange) {
             
-            Alertift.alert(title: """
-                                     Confirm mobile number
-                                     \(Constants.appDelegate.userProfile?.mobileNumberFormated! ?? "")
-                                  """,
-                           message: "You will receive a call with the validation code. Is the number OK, or would you like to change it?")
-                .action(.destructive("Change")) { (action, count, nil) in
-                    self.navigationController?.popViewController(animated: true)
+            let alert = UIAlertController(style: .alert,
+                                          title: """
+                                                    Confirm mobile number
+                                                    \(Constants.appDelegate.userProfile?.mobileNumberFormated! ?? "")
+                                                 """, message: "You will receive a call with the validation code. Is the number OK, or would you like to change it?")
+            alert.addAction(title: "Change", style: .destructive, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            })
+            alert.addAction(title: "Ok", handler: { _ in
+                guard RMUtility.isNetwork() else {
+                    RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                    return
                 }
-                .action(.default("Ok")) { (action, count, nil) in
-                    guard RMUtility.isNetwork() else {
-                        RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
-                        return
-                    }
+                
+                ANLoader.showLoading("", disableUI: true)
+                ServiceRequest.shared.startRequestForGenerateVerificationCode(completionHandler: { (success) in
+                    ANLoader.hide()
+                    guard success else { return }
                     
-                    ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared.startRequestForGenerateVerificationCode(completionHandler: { (success) in
-                        ANLoader.hide()
-                        guard success else { return }
-
-                        self.setupCounter()
-                        RMUtility.showAlert(withMessage: "VALIDATION_CALL".localized)
-
-                    })
+                    self.setupCounter()
+                    RMUtility.showAlert(withMessage: "VALIDATION_CALL".localized)
                     
-            }.show()
+                })
+            })
+            alert.show()            
         }
     }
     
@@ -151,13 +150,13 @@ extension OTPViewController: VPMOTPViewDelegate {
 extension OTPViewController: CountdownLabelDelegate {
     func countdownFinished() {
         let attributedString = NSMutableAttributedString(string: callmeLabel.text!)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location:42, length:7))
+        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 42, length: 7))
         callmeLabel.attributedText = attributedString
     }
     
     func countdownStarted() {
         let attributedString = NSMutableAttributedString(string: callmeLabel.text!)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSRange(location:42, length:7))
+        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSRange(location: 42, length: 7))
         callmeLabel.attributedText = attributedString
     }
 }

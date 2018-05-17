@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/AppDelegate.swift"
-            timestampString = "548092485.933538"
+            timestampString = "548176376.1409039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReachMe/ServiceRequest.swift"
-            timestampString = "548092485.933678"
+            timestampString = "548239537.546167"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "handleFetchMessagesResponse(responseDics:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -105,13 +105,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReachMe/Modules/Calls/VoicemailsViewController.swift"
-            timestampString = "548092485.933848"
+            filePath = "ReachMe/ServiceRequest.swift"
+            timestampString = "548239537.546345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "1214"
+            endingLineNumber = "1214"
+            landmarkName = "mqttDidReceive(message:in:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -121,14 +121,46 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReachMe/ServiceRequest.swift"
-            timestampString = "548092485.933919"
+            filePath = "ReachMe/Modules/Invite/InviteViewController.swift"
+            timestampString = "548262676.330821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1215"
-            endingLineNumber = "1215"
-            landmarkName = "mqttDidReceive(message:in:from:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in ReachMe.InviteViewController.viewDidLoad() -&gt; ()"
+                  moduleName = "ReachMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sachinkumarpatra/Desktop/Sachin/MyNewReachMe/ReachMe/ReachMe/Modules/Invite/InviteViewController.swift"
+                  timestampString = "548256849.296634"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "980">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (Swift.Bool) -&gt; () in ReachMe.InviteViewController.viewDidLoad() -&gt; ()"
+                  moduleName = "ReachMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sachinkumarpatra/Desktop/Sachin/MyNewReachMe/ReachMe/ReachMe/Modules/Invite/InviteViewController.swift"
+                  timestampString = "548256849.29953"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

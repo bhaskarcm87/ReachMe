@@ -20,6 +20,7 @@ class Constants: NSObject {
         static let VOICEMAIL = "VoiceMail"
         static let MESSAGE = "Message"
         static let MQTT = "MQTT"
+        static let DEVICECONTACT = "DeviceContact"
     }
     
     //Segue ID's
@@ -40,6 +41,7 @@ class Constants: NSObject {
         static let FREQUENTLY_ASKED = "showFrequentlyAskedSegueID"
         static let TERMS_CONDITIONS = "showTermsConditionsSegueID"
         static let PRIVACY_POLICY = "showPrivacyPolicySegueID"
+        static let CONTACT_LIST = "showContactListSegue"
     }
     
     //Unwind Segue ID's

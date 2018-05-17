@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alertift
 import UIKit
 import Reachability
 import SwiftyUserDefaults
@@ -28,10 +27,15 @@ class RMUtility: NSObject {
         case voicemail
     }
     
+    enum ContactListType {
+        case phone
+        case email
+    }
+    
     class func showAlert(withMessage message: String, title: String? = nil) {
-        DispatchQueue.main.async {
-            Alertift.alert(title: title, message: message).action(.default("OK")).show()
-        }
+        let alert = UIAlertController(style: .alert, title: title, message: message)
+        alert.addAction(title: "OK")
+        alert.show()
     }
     
     class func isNetwork() -> Bool {
@@ -142,23 +146,22 @@ class RMUtility: NSObject {
         if userContact.isReachMeHomeActive ||
             userContact.isReachMeIntlActive ||
             userContact.isReachMeVoiceMailActive {
-            Alertift.alert(title: "Unlink number from account?", message: "If you are unlinking the number from account, we will deactivate ReachMe For this number.")
-                .action(.default("Cancel"))
-                .action(.default("Continue")) { (action, count, nil) in
-                    
-                    guard RMUtility.isNetwork() else {
-                        RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
-                        return
-                    }
-                    
-                    ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
-                        guard success else { return }
-                        completionHandler(success)
-                        RMUtility.showAlert(withMessage: "Number has been deleted successfully")
-                    }
-                    
-                }.show()
+            let alert = UIAlertController(style: .alert, title: "Unlink number from account?", message: "If you are unlinking the number from account, we will deactivate ReachMe For this number.")
+            alert.addAction(title: "Cancel")
+            alert.addAction(title: "Continue", handler: { _ in
+                guard RMUtility.isNetwork() else {
+                    RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                    return
+                }
+                
+                ANLoader.showLoading("", disableUI: true)
+                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                    guard success else { return }
+                    completionHandler(success)
+                    RMUtility.showAlert(withMessage: "Number has been deleted successfully")
+                }
+            })
+            alert.show()
 
         } else {
             
@@ -167,21 +170,25 @@ class RMUtility: NSObject {
                 return
             }
             
-            Alertift.alert(title: """
-                                     Confirm Delete
-                                     +\(number)
-                                  """, message: "You are about to delete this number from your account, are you sure?")
-                .action(.default("Cancel"))
-                .action(.default("Confirm")) { (action, count, nil) in
-                    
-                    ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
-                        guard success else { return }
-                        completionHandler(success)
-                        RMUtility.showAlert(withMessage: "Number has been deleted successfully")
-                    }
-                    
-                }.show()
+            let alert = UIAlertController(style: .alert, title: """
+                Confirm Delete
+                +\(number)
+                """, message: "You are about to delete this number from your account, are you sure?")
+            alert.addAction(title: "Cancel")
+            alert.addAction(title: "Confirm", handler: { _ in
+                guard RMUtility.isNetwork() else {
+                    RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                    return
+                }
+                
+                ANLoader.showLoading("", disableUI: true)
+                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                    guard success else { return }
+                    completionHandler(success)
+                    RMUtility.showAlert(withMessage: "Number has been deleted successfully")
+                }
+            })
+            alert.show()
         }
     }
     
@@ -215,12 +222,12 @@ class RMUtility: NSObject {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             
             guard granted else {
-                Alertift.alert(title: "Turn On Notifications",
-                               message: "To receive Voicemail and Missed call instantly, Notifications must be enabled for ReachMe app. Tap Settings to turn on Notifications.")
-                    .action(.default("Cancel"))
-                    .action(.default("Settings")) { (action, count, nil) in
-                        UIApplication.shared.open(URL(string: "App-Prefs:root=Notifications")!, options: [:], completionHandler: nil)
-                    }.show()
+                let alert = UIAlertController(style: .alert, title: "Turn On Notifications", message: "To receive Voicemail and Missed call instantly, Notifications must be enabled for ReachMe app. Tap Settings to turn on Notifications.")
+                alert.addAction(title: "Cancel")
+                alert.addAction(title: "Settings", handler: { _ in
+                    UIApplication.shared.open(URL(string: "App-Prefs:root=Notifications")!, options: [:], completionHandler: nil)
+                })
+                alert.show()
                 return
             }
             

@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftyUserDefaults
-import Alertift
 
 class SettingsGeneralViewController: UITableViewController {
 
@@ -122,24 +121,23 @@ extension SettingsGeneralViewController {
             
         //Logout
         case IndexPath(row: 0, section: 1):
-            Alertift.alert(title: "Logout?",
-                           message: "You will no longer receive data calls for numbers linked in the account. Are you sure you want to log out?")
-                .action(.default("Cancel"))
-                .action(.default("OK")) { (action, count, nil) in
-
-                    ANLoader.showLoading("", disableUI: true)
-                    ServiceRequest.shared.startRequestForSignOut(completionHandler: { (success) in
-                        let loginVC = UIViewController.loginViewController()
-                        self.navigationController?.viewControllers.insert(loginVC, at: 0)
-
-                        ANLoader.hide()
-                        guard success else { return }
-
-                        Defaults[.IsLoggedIn] = false
-                        ServiceRequest.shared.disConnectMQTT()
-                        self.performSegue(withIdentifier: Constants.UnwindSegues.LOGIN, sender: nil)
-                    })
-                }.show()
+            let alert = UIAlertController(style: .alert, title: "Logout?", message: "You will no longer receive data calls for numbers linked in the account. Are you sure you want to log out?")
+            alert.addAction(title: "Cancel")
+            alert.addAction(title: "OK", handler: { _ in
+                ANLoader.showLoading("", disableUI: true)
+                ServiceRequest.shared.startRequestForSignOut(completionHandler: { (success) in
+                    let loginVC = UIViewController.loginViewController()
+                    self.navigationController?.viewControllers.insert(loginVC, at: 0)
+                    
+                    ANLoader.hide()
+                    guard success else { return }
+                    
+                    Defaults[.IsLoggedIn] = false
+                    ServiceRequest.shared.disConnectMQTT()
+                    self.performSegue(withIdentifier: Constants.UnwindSegues.LOGIN, sender: nil)
+                })
+            })
+            alert.show()
             
         default:
             break

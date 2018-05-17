@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Alertift
 import Alamofire
 import SwiftyUserDefaults
 

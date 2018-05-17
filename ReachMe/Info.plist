@@ -26,11 +26,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>NSCameraUsageDescription</string>
+	<string>You may want to send image to Help to resolve any issue. ReachMe needs access to Camera.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>ReachMe needs access to Contacts to display caller names for ReachMe calls, Voicemails and Missed calls. We do not share this info with anyone else. Refer to our Privacy Policy to know more about how we use it and how it benefits you.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>NSMicrophoneUsageDescription</string>
+	<string>ReachMe app needs access to Microphone to answer the ReachMe call and record Voicemail greetings.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>NSPhotoLibraryUsageDescription</string>
+	<string>ReachMe needs access to Photo Library while setting or changing profile pictures.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

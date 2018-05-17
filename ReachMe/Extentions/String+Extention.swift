@@ -40,6 +40,12 @@ extension String {
         dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: date)
     }
+    
+    func trim() -> String {
+        let characterSet = CharacterSet.init(charactersIn: "_$!<>")
+        return self.trimmingCharacters(in: characterSet)
+    }
+
 }
 
 extension String: ParameterEncoding {
