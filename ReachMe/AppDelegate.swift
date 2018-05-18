@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //ServiceRequest.shared.connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
-            RMUtility.showdDashboard()
+            RMUtility.showdDashboard()            
         }
 
         return true

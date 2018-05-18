@@ -21,6 +21,8 @@ class Constants: NSObject {
         static let MESSAGE = "Message"
         static let MQTT = "MQTT"
         static let DEVICECONTACT = "DeviceContact"
+        static let PHONENUMBER = "PhoneNumber"
+        static let EMAILADDRESS = "EmailAddress"
     }
     
     //Segue ID's
@@ -75,6 +77,7 @@ class Constants: NSObject {
         static let READ_MESSAGES = "read_msgs"
         static let APP_STATUS = "app_status"
         static let STATE_LIST = "list_states"
+        static let ENQUIRE_IV_USERS = "enquire_iv_users"
     }
 
     //Server
@@ -110,5 +113,6 @@ extension DefaultsKeys {
     static let IsPersonalisation = DefaultsKey<Bool>("IsPersonalisation")
     static let isRingtoneSet = DefaultsKey<Bool>("ringtoneSet")
     static let needSetDeviceInfo = DefaultsKey<Bool>("setDeviceInfo")
+    static let isContactSynced = DefaultsKey<Bool>("isContactSynced")
 
 }

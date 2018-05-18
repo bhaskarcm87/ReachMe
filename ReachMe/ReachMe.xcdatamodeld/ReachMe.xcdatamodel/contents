@@ -30,13 +30,18 @@
     </entity>
     <entity name="DeviceContact" representedClassName="DeviceContact" syncable="YES" codeGenerationType="class">
         <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contactName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactPicData" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="emails" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isEmailType" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isIV" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="phones" optional="YES" attributeType="Transformable" customClassName="[ContactPhone]" syncable="YES"/>
+        <attribute name="isIV" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivPicData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="ivPicURL" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EmailAddress" inverseName="parent" inverseEntity="EmailAddress" syncable="YES"/>
+        <relationship name="phones" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PhoneNumber" inverseName="parent" inverseEntity="PhoneNumber" syncable="YES"/>
+    </entity>
+    <entity name="EmailAddress" representedClassName="EmailAddress" syncable="YES" codeGenerationType="class">
+        <attribute name="emailID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="labelType" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeviceContact" inverseName="emails" inverseEntity="DeviceContact" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES" codeGenerationType="class">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
@@ -71,6 +76,14 @@
         <attribute name="mqttPassword" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mqttPortSSL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mqttUser" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PhoneNumber" representedClassName="PhoneNumber" syncable="YES" codeGenerationType="class">
+        <attribute name="displayFormatNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ivUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="labelType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="syncFormatNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeviceContact" inverseName="phones" inverseEntity="DeviceContact" syncable="YES"/>
     </entity>
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -186,8 +199,10 @@
     <elements>
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
         <element name="DeviceContact" positionX="-216" positionY="84" width="128" height="165"/>
-        <element name="Message" positionX="-387" positionY="6" width="128" height="345"/>
+        <element name="EmailAddress" positionX="-405" positionY="-109" width="128" height="88"/>
+        <element name="Message" positionX="-459" positionY="15" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
+        <element name="PhoneNumber" positionX="-225" positionY="-151" width="128" height="133"/>
         <element name="Profile" positionX="-54" positionY="243" width="128" height="763"/>
         <element name="SupportContact" positionX="-396" positionY="441" width="128" height="193"/>
         <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>

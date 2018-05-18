@@ -202,7 +202,7 @@ open class CoreDataStack {
                 contextBlock(context, saveBlock)
             }
             
-            let _ = saveBlock(false)
+            _ = saveBlock(false)
             
             if let mainThreadBlock = mainThreadBlock {
                 DispatchQueue.main.async(execute: mainThreadBlock)
@@ -235,7 +235,7 @@ open class CoreDataStack {
         // Perform the block with the context.
         let blockToPerform = {
             contextBlock(context, saveBlock)
-            let _ = saveBlock()
+            _ = saveBlock()
             
             if let mainThreadBlock = mainThreadBlock {
                 DispatchQueue.main.async(execute: mainThreadBlock)

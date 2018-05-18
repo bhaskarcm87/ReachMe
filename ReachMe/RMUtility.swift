@@ -26,12 +26,7 @@ class RMUtility: NSObject {
         case international
         case voicemail
     }
-    
-    enum ContactListType {
-        case phone
-        case email
-    }
-    
+        
     class func showAlert(withMessage message: String, title: String? = nil) {
         let alert = UIAlertController(style: .alert, title: title, message: message)
         alert.addAction(title: "OK")

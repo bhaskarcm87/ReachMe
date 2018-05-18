@@ -155,7 +155,7 @@ extension CoreDataModel {
     }
     
     open func updateRecords(entity: CoreDataModelEntity<String>, properties: [AnyHashable: Any]) {
-        
+    
         let batchUpdateRequest = NSBatchUpdateRequest(entityName: entity._entity)
         batchUpdateRequest.propertiesToUpdate = properties
         batchUpdateRequest.resultType = .updatedObjectIDsResultType

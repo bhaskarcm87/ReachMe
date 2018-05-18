@@ -1093,7 +1093,7 @@ extension ServiceRequest {
 // MARK: - STATES_LIST API
 extension ServiceRequest {
     
-    func startRequestForStatesList(forCountryCode countryCode: String, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
+    func startRequestForStatesList(forCountryCode countryCode: String, completionHandler:@escaping ([String: Any]?, Bool) -> Swift.Void) {
         
         var params: [String: Any] = ["cmd": Constants.ApiCommands.STATE_LIST,
                                      "country_code": countryCode]
@@ -1152,6 +1152,31 @@ extension ServiceRequest {
     }
 }
 
+// MARK: - ENQUIRE_IV_USERS API
+extension ServiceRequest {
+    
+    func startRequestForEnquireIVUsers(contactList: [String], completionHandler:@escaping ([String: Any]?, Bool) -> Swift.Void) {
+        
+        var params: [String: Any] = ["cmd": Constants.ApiCommands.ENQUIRE_IV_USERS,
+                                     "contact_ids": contactList,
+                                     "fetch_pic_uri_type": 1]
+        params = RMUtility.serverRequestAddCommonData(params: &params)
+        let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
+        
+        Alamofire.request(Constants.URL_SERVER,
+                          method: .post,
+                          encoding: payload).validate().responseJSON(queue: DispatchQueue(label: "Enquire IV Users", qos: .background)) { (response) in
+                            
+                            //Handle Error
+                            guard let responseDics = ServiceRequest.shared.handleserviceError(response: response) else {
+                                completionHandler(nil, false)
+                                return
+                            }
+
+                            completionHandler(responseDics, true)
+        }
+    }
+}
 // MARK: - FETCH_USER_CONTACTS API
 extension ServiceRequest { //NOTE: As i observs, all the response parameters of this API are present in "Get Proafile Info" API, since we are saving profile info response so this is no need
     

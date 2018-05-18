@@ -12,22 +12,32 @@ import CoreData
 class ContactListViewController: UITableViewController {
     
     private let coreDataStack = Constants.appDelegate.coreDataStack
-    var contactListType: RMUtility.ContactListType!
+    var isEmailType: Bool!
 
-    lazy var fetchedResultsController: NSFetchedResultsController<DeviceContact> = {
-        let frc: NSFetchedResultsController<DeviceContact>
-        let fetchRequest: NSFetchRequest<DeviceContact> = DeviceContact.fetchRequest()
-        if contactListType == .email {
-            fetchRequest.predicate = NSPredicate(format: "isEmailType == %@", NSNumber(value: true))
-        }
-        let sort = NSSortDescriptor(key: "firstName", ascending: true)
+    lazy var phoneFetchedResults: NSFetchedResultsController<PhoneNumber> = {
+        let frc: NSFetchedResultsController<PhoneNumber>
+        let fetchRequest: NSFetchRequest<PhoneNumber> = PhoneNumber.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "parent.isIV == %@", NSNumber(value: false))
+        let sort = NSSortDescriptor(key: "parent.contactName", ascending: true)
         fetchRequest.sortDescriptors = [sort]
         frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
         do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
-        
         return frc
     }()
+    
+    lazy var emailFetchedResults: NSFetchedResultsController<EmailAddress> = {
+        let frc: NSFetchedResultsController<EmailAddress>
+        let fetchRequest: NSFetchRequest<EmailAddress> = EmailAddress.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "parent.isIV == %@", NSNumber(value: false))
+        let sort = NSSortDescriptor(key: "parent.contactName", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
+        return frc
+    }()
+
     lazy var searchController: UISearchController = {
         $0.searchResultsUpdater = self
         $0.obscuresBackgroundDuringPresentation = false
@@ -49,7 +59,7 @@ class ContactListViewController: UITableViewController {
         } else {
             tableView.tableHeaderView = searchController.searchBar
         }
-
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,7 +72,7 @@ class ContactListViewController: UITableViewController {
 extension ContactListViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
+        if let sections = isEmailType ? emailFetchedResults.sections : phoneFetchedResults.sections {
             let currentSection = sections[section]
             return currentSection.numberOfObjects
         }
@@ -71,27 +81,34 @@ extension ContactListViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactListTableCell.identifier, for: indexPath) as! ContactListTableCell
-        let contact = fetchedResultsController.object(at: indexPath)
         
-        if let contactPicData = contact.contactPicData,
+        let deviceContact: DeviceContact!
+        if isEmailType {
+            let email = emailFetchedResults.object(at: indexPath)
+            cell.titleLabel.text = email.emailID
+            cell.detailLabel.text = email.labelType!.isEmpty ? "Phone" : email.labelType
+            deviceContact = email.parent!
+        } else {
+            let phone = phoneFetchedResults.object(at: indexPath)
+            cell.titleLabel.text = phone.displayFormatNumber
+            cell.detailLabel.text = phone.labelType!.isEmpty ? "Phone" : phone.labelType
+            deviceContact = phone.parent!
+        }
+        
+        //ContactPIC
+        if let icPicData = deviceContact.ivPicData,
+            let ivImage = UIImage(data: icPicData) {
+            cell.contactImageView.image = ivImage
+        } else if let contactPicData = deviceContact.contactPicData,
             let contactImage = UIImage(data: contactPicData) {
             cell.contactImageView.image = contactImage
         } else {
             cell.contactImageView.image = #imageLiteral(resourceName: "default_profile_img_user")
         }
-        cell.nameLabel.text = contact.firstName! + " " + contact.lastName!
-        if contactListType == .phone {
-            cell.titleLabel.text = contact.phones?.first?.formatedNumber
-            if let type = contact.phones?.first?.type, !type.isEmpty {
-                cell.detailLabel.text = type
-            } else {
-                cell.detailLabel.text = "Phone"
-            }
-        } else {
-            cell.titleLabel.text = contact.emails?.first
-            cell.detailLabel.text = ""
-        }
         
+        //name
+        cell.nameLabel.text = deviceContact.contactName
+    
         return cell
     }
     
@@ -140,16 +157,30 @@ extension ContactListViewController: UISearchResultsUpdating, UISearchController
             return
         }
         
-        if searchController.searchBar.text!.isEmpty {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(type == %@)", "vsms")
+        if isEmailType {
+            if searchController.searchBar.text!.isEmpty {
+                emailFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.isIV == %@", NSNumber(value: false))
+            } else {
+                emailFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.contactName contains [cd] %@", searchController.searchBar.text!.lowercased())
+            }
+            
+            do {
+                try emailFetchedResults.performFetch()
+                tableView.reloadData()
+            } catch { fatalError("Error in fetching records") }
         } else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(type == %@) && (senderName contains [cd] %@)", "vsms", searchController.searchBar.text!.lowercased())
+            if searchController.searchBar.text!.isEmpty {
+                phoneFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.isIV == %@", NSNumber(value: false))
+            } else {
+                phoneFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.contactName contains [cd] %@", searchController.searchBar.text!.lowercased())
+            }
+            
+            do {
+                try phoneFetchedResults.performFetch()
+                tableView.reloadData()
+            } catch { fatalError("Error in fetching records") }
+
         }
-        
-        do {
-            try self.fetchedResultsController.performFetch()
-            tableView.reloadData()
-        } catch { fatalError("Error in fetching records") }
     }
 }
 

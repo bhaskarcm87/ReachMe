@@ -15,7 +15,7 @@ import PhoneNumberKit
 public class ContactsManager {
     
     public static var contactStore  = CNContactStore()
-
+    
     class func requestForAccess(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -47,55 +47,58 @@ public class ContactsManager {
         }
     }
 
-    public class func fetchContacts( completionHandler: @escaping (_ success: Bool) -> Swift.Void) {
+    public class func fetchContacts(completionHandler: @escaping (_ success: Bool) -> Swift.Void) {
         DispatchQueue.global(qos: .userInitiated).async(execute: {
             let contactFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactViewController.descriptorForRequiredKeys()])
+            var contactList = [CNContact]()
+            do {
+                try self.contactStore.enumerateContacts(with: contactFetchRequest, usingBlock: { (contact, stop) -> Void in
+                    if contact.phoneNumbers.count > 0 || contact.emailAddresses.count > 0 {
+                        contactList.append(contact)
+                    }
+                })
+            } catch let error as NSError {
+                print("Error in Fetch Contacts: \(error.localizedDescription)")
+                completionHandler(false)
+            }
             
-            Constants.appDelegate.coreDataStack.performBatchTask(inContext: { (context, saveBlock) in
+            Constants.appDelegate.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                 let userProfile = RMUtility.getProfileforConext(context: context)!
-                do {
-                    try self.contactStore.enumerateContacts(with: contactFetchRequest, usingBlock: { (contact, stop) -> Void in
-                        var phoneNumbers = [ContactPhone]()
-                        var emailAddresses = [String]()
-                        if contact.phoneNumbers.count > 0 || contact.emailAddresses.count > 0 {
-                            
-                            let deviceContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.DEVICECONTACT, into: context) as! DeviceContact
-                            deviceContact.firstName = contact.givenName
-                            deviceContact.lastName = contact.familyName
-                            deviceContact.contactId = contact.identifier
-                            if contact.imageDataAvailable {
-                                deviceContact.contactPicData = contact.imageData
-                            }
-                            
-                            for phoneLabel: CNLabeledValue in contact.phoneNumbers {
-                                let CNNumber  = phoneLabel.value
-                                //let countryCode = CNNumber.value(forKey: "countryCode") as! String
-                                let mobileNumber = CNNumber.value(forKey: "digits") as! String
-                                let number = try! PhoneNumberKit().parse(mobileNumber)
-                                let formatedNumber = PhoneNumberKit().format(number, toType: .international)
-                                let contactPhone = ContactPhone.init(phoneNumber: mobileNumber, formatedNumber: formatedNumber, type: phoneLabel.label?.trim())
-
-                                phoneNumbers.append(contactPhone)
-                            }
-                            deviceContact.phones = phoneNumbers
-                            
-                            for emailLabel: CNLabeledValue in contact.emailAddresses {
-                                emailAddresses.append(String(emailLabel.value))
-                                deviceContact.isEmailType = true
-                            }
-                            deviceContact.emails = emailAddresses
-                            
-                            userProfile.addToDeviceContacts(deviceContact)
-                        }
-                    })
+                
+                for contact in contactList {
+                    let deviceContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.DEVICECONTACT, into: context) as! DeviceContact
+                    deviceContact.contactName = contact.givenName + " \(contact.familyName)"
+                    deviceContact.contactId = contact.identifier
+                    if contact.imageDataAvailable {
+                        deviceContact.contactPicData = contact.imageData
+                    }
                     
-                } catch let error as NSError {
-                    print("Error in Fetch Contacts: \(error.localizedDescription)")
-                    completionHandler(false)
-                }
+                    for phoneLabel: CNLabeledValue in contact.phoneNumbers {
+                        let CNNumber  = phoneLabel.value
+                        //let countryCode = CNNumber.value(forKey: "countryCode") as! String
+                        let phoneNumber = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.PHONENUMBER, into: context) as! PhoneNumber
 
-                if let error = saveBlock() {
-                    print("Contact Sync: - Coredata merge failed from writer context to default context. \(error.localizedDescription)")
+                        let mobileNumber = CNNumber.value(forKey: "digits") as! String
+                        let number = try! PhoneNumberKit().parse(mobileNumber)
+                        phoneNumber.number = mobileNumber
+                        phoneNumber.displayFormatNumber = CNNumber.value(forKey: "stringValue") as? String
+                        phoneNumber.syncFormatNumber = "\((PhoneNumberKit().format(number, toType: .e164)).dropFirst())"
+                        phoneNumber.labelType = phoneLabel.label?.trim()
+                        deviceContact.addToPhones(phoneNumber)
+                    }
+                    
+                    for emailLabel: CNLabeledValue in contact.emailAddresses {
+                        let emailaddress = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.EMAILADDRESS, into: context) as! EmailAddress
+                        emailaddress.emailID = String(emailLabel.value)
+                        emailaddress.labelType = emailLabel.label?.trim()
+                        deviceContact.addToEmails(emailaddress)
+                    }
+                    
+                    userProfile.addToDeviceContacts(deviceContact)
+                    
+                    if let error = saveBlock(true) {
+                        print("Contact Sync: - Coredata merge failed from writer context to default context. \(error.localizedDescription)")
+                    }
                 }
                 
             }, andInMainThread: {
@@ -103,33 +106,58 @@ public class ContactsManager {
             })
         })
     }
-}
+    
+    class func syncAllContactsWithServer(completionHandler: @escaping (_ success: Bool) -> Swift.Void) {
+        Constants.appDelegate.coreDataStack.perform(inContext: { (context) in
+            let fetchRequest: NSFetchRequest<PhoneNumber> = PhoneNumber.fetchRequest()
+            let phoneNumbers = try! context.fetch(fetchRequest)
+            var startIndex = 0, endIndex = 500
+            if endIndex > phoneNumbers.count {
+                endIndex = phoneNumbers.count
+            }
+            var isLastLoop = false
+            while (phoneNumbers.count >= endIndex) {
+                var contactList = [String]()
+                for i in startIndex..<endIndex {
+                    contactList.append(phoneNumbers[i].syncFormatNumber!)
+                }
+                
+                ServiceRequest.shared.startRequestForEnquireIVUsers(contactList: contactList, completionHandler: { (responseDics, success) in
+                    guard success else { return }
+                    
+                    if let contactIDs = responseDics!["iv_contact_ids"] as? [[String: Any]] {
+                        for contactID in contactIDs {
+                            let filteredNumber = phoneNumbers.filter({ (phoneNumber: PhoneNumber) -> Bool in
+                                return phoneNumber.syncFormatNumber! == contactID["contact_id"] as! String
+                            }).first!
+                            filteredNumber.ivUserId = contactID["iv_user_id"] as! Int64
+                            filteredNumber.parent?.isIV = true
+                            filteredNumber.parent?.ivPicURL = contactID["pic_uri"] as? String
+                            if let displayName = contactID["display_name"] as? String {
+                                let numbersRange = displayName.rangeOfCharacter(from: .decimalDigits)
+                                if numbersRange == nil {
+                                    filteredNumber.parent?.contactName = displayName
+                                }
+                            }
+                        }
+                    }
+                    
+                    _ = context.saveToParentsAndWait()
+                })
 
-public class ContactPhone: NSObject, NSCoding {
-    
-    var phoneNumber: String?
-    var formatedNumber: String?
-    var type: String?
-    
-    enum Key: String {
-        case phoneNumber
-        case formatedNumber
-        case type
-    }
-    init(phoneNumber: String?, formatedNumber: String?, type: String?) {
-        self.phoneNumber = phoneNumber
-        self.formatedNumber = formatedNumber
-        self.type = type
-    }
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(phoneNumber, forKey: Key.phoneNumber.rawValue)
-        aCoder.encode(formatedNumber, forKey: Key.formatedNumber.rawValue)
-        aCoder.encode(type, forKey: Key.type.rawValue)
-    }
-    convenience required public init?(coder aDecoder: NSCoder) {
-        let phoneNumber = aDecoder.decodeObject(forKey: Key.phoneNumber.rawValue) as? String
-        let formatedNumber = aDecoder.decodeObject(forKey: Key.formatedNumber.rawValue) as? String
-        let type = aDecoder.decodeObject(forKey: Key.type.rawValue) as? String
-        self.init(phoneNumber: phoneNumber, formatedNumber: formatedNumber, type: type)
+                if isLastLoop {
+                    break
+                }
+                startIndex = endIndex
+                endIndex += 500
+                if endIndex > phoneNumbers.count {
+                    endIndex = phoneNumbers.count
+                    isLastLoop = true
+                }
+            }
+
+        }, andInMainThread: {
+            completionHandler(true)
+        })
     }
 }

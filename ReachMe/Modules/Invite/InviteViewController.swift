@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class InviteViewController: UIViewController {
 
     private let coreDataStack = Constants.appDelegate.coreDataStack
-    var selectedContactListType: RMUtility.ContactListType!
+    var selectedContactListType: Bool!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +20,20 @@ class InviteViewController: UIViewController {
         ContactsManager.requestForAccess { (accessGranted) in
             if accessGranted {
                 NotificationCenter.default.addObserver(self, selector: #selector(self.contactStoreDidChange), name: .CNContactStoreDidChange, object: nil)
-                guard Constants.appDelegate.userProfile?.deviceContacts?.count == 0 else { return }
+                guard Constants.appDelegate.userProfile?.deviceContacts?.count == 0 || Defaults[.isContactSynced] == false else { return }
                 
+                self.coreDataStack.deleteAllRecordsForEntity(entity: Constants.EntityName.DEVICECONTACT)
                 ContactsManager.fetchContacts(completionHandler: { (success) in
                     guard success else { return }
 
+                    guard RMUtility.isNetwork() else {
+                        RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                        Defaults[.isContactSynced] = false
+                        return
+                    }
+                    ContactsManager.syncAllContactsWithServer(completionHandler: { (success) in
+                        Defaults[.isContactSynced] = true
+                    })
                 })
             }
         }
@@ -37,11 +47,11 @@ class InviteViewController: UIViewController {
     @IBAction func inviteBtnClicked(_ sender: UIButton) {
         let alert = UIAlertController(style: .actionSheet, title: "Invite Friends")
         alert.addAction(title: "Invite Friends via SMS", handler: { _ in
-            self.selectedContactListType = .phone
+            self.selectedContactListType = false
             self.performSegue(withIdentifier: Constants.Segues.CONTACT_LIST, sender: nil)
         })
         alert.addAction(title: "Invite Friends via Email", handler: { _ in
-            self.selectedContactListType = .email
+            self.selectedContactListType = true
             self.performSegue(withIdentifier: Constants.Segues.CONTACT_LIST, sender: nil)
         })
         alert.addAction(title: "Cancel", style: .cancel)
@@ -54,16 +64,25 @@ class InviteViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destVC = segue.destination as! ContactListViewController
-        destVC.contactListType = selectedContactListType
+        destVC.isEmailType = selectedContactListType
     }
 }
 
 extension InviteViewController {
     @objc func contactStoreDidChange(notification: NSNotification) {
         coreDataStack.deleteAllRecordsForEntity(entity: Constants.EntityName.DEVICECONTACT)
+        Defaults[.isContactSynced] = false
         ContactsManager.fetchContacts { (success) in
             guard success else { return }
 
+            guard RMUtility.isNetwork() else {
+                RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                Defaults[.isContactSynced] = false
+                return
+            }
+            ContactsManager.syncAllContactsWithServer(completionHandler: { (success) in
+                Defaults[.isContactSynced] = true
+            })
         }
     }
 }
