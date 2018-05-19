@@ -29,6 +29,8 @@
         <attribute name="vsmsNodeID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="DeviceContact" representedClassName="DeviceContact" syncable="YES" codeGenerationType="class">
+        <attribute name="avatarColor" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="avatarText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactPicData" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -198,7 +200,7 @@
     <fetchRequest name="DeviceContactFetch" entity="DeviceContact" predicateString="isEmailType == 0"/>
     <elements>
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
-        <element name="DeviceContact" positionX="-216" positionY="84" width="128" height="165"/>
+        <element name="DeviceContact" positionX="-216" positionY="84" width="128" height="195"/>
         <element name="EmailAddress" positionX="-405" positionY="-109" width="128" height="88"/>
         <element name="Message" positionX="-459" positionY="15" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>

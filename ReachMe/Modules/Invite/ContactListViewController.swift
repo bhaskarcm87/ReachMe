@@ -81,6 +81,8 @@ extension ContactListViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactListTableCell.identifier, for: indexPath) as! ContactListTableCell
+        cell.contactImageView.isHidden = true
+        cell.defaultAvatar.isHidden = true
         
         let deviceContact: DeviceContact!
         if isEmailType {
@@ -95,20 +97,25 @@ extension ContactListViewController {
             deviceContact = phone.parent!
         }
         
+        cell.nameLabel.text = deviceContact.contactName
+
         //ContactPIC
         if let icPicData = deviceContact.ivPicData,
             let ivImage = UIImage(data: icPicData) {
+            cell.contactImageView.isHidden = false
             cell.contactImageView.image = ivImage
+            
         } else if let contactPicData = deviceContact.contactPicData,
             let contactImage = UIImage(data: contactPicData) {
+            cell.contactImageView.isHidden = false
             cell.contactImageView.image = contactImage
+            
         } else {
-            cell.contactImageView.image = #imageLiteral(resourceName: "default_profile_img_user")
+            cell.defaultAvatar.isHidden = false
+            cell.defaultAvatar.text = deviceContact.avatarText
+            cell.defaultAvatar.backgroundColor = UIColor.decode(withData: deviceContact.avatarColor!)
         }
         
-        //name
-        cell.nameLabel.text = deviceContact.contactName
-    
         return cell
     }
     
@@ -191,6 +198,8 @@ class ContactListTableCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
     @IBOutlet weak var contactImageView: UIImageView!
+    @IBOutlet weak var defaultAvatar: UILabel!
+    var defaultAvatarColor: UIColor?
     
     override func awakeFromNib() {
         super.awakeFromNib()

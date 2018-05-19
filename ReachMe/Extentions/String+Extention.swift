@@ -46,6 +46,15 @@ extension String {
         return self.trimmingCharacters(in: characterSet)
     }
 
+    func getContactAvtarText() -> String {
+        let tit = (self as NSString)
+        var initials = String()
+        if self != "" && tit.length >= 2 {
+            initials.append(tit.substring(to: 2))
+        }
+        return initials.uppercased()
+    }
+
 }
 
 extension String: ParameterEncoding {

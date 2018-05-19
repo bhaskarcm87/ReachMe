@@ -38,4 +38,8 @@ extension UIColor {
     class func introPage3Color() -> UIColor { return #colorLiteral(red: 0.8980392157, green: 0.7882352941, blue: 0.168627451, alpha: 1) }
     
     class func introPage4Color() -> UIColor { return #colorLiteral(red: 0, green: 0.5529411765, blue: 0.9098039216, alpha: 1) }
+    
+    class func decode(withData data: Data) -> UIColor {
+        return NSKeyedUnarchiver.unarchiveObject(with: data) as! UIColor
+    }
 }

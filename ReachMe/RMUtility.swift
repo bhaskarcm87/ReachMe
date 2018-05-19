@@ -326,6 +326,15 @@ class RMUtility: NSObject {
         }
         return nil
     }
+    
+    class func getAvatarColorForIndex(_ index: Int) -> UIColor {
+        let randomValue = index % Constants.Config.colorArray.count
+        return Constants.Config.colorArray[randomValue]
+    }
+
+    class func encodeColor(_ color: UIColor) -> Data {
+        return NSKeyedArchiver.archivedData(withRootObject: color)
+    }
 }
 
 extension Reactive where Base: UIButton {

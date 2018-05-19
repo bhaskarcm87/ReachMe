@@ -95,6 +95,90 @@ class Constants: NSObject {
     static let CLIENT_APP_VER = "iv.05.01.001"
     static let DEVICE_UUID = String(describing: "rm" + (UIDevice.current.identifierForVendor?.uuidString)!)
 
+    public struct Config {
+        
+        /// Background of main view
+        public static var mainBackground        :   UIColor    = UIColor.white
+        /// View's title
+        public static var viewTitle             :   String     = "Swift Multiple Select"
+        /// Title for done button
+        public static var doneString            :   String     = "Done"
+        //Placeholder image during lazy load
+        public static var placeholder_image     :   UIImage     = UIImage(named: "user_blank")!
+        /// Array of colors to use in initials
+        public static var colorArray        :   [UIColor]  = [
+            ThemeColors.amethystColor,
+            ThemeColors.asbestosColor,
+            ThemeColors.emeraldColor,
+            ThemeColors.peterRiverColor,
+            ThemeColors.pomegranateColor,
+            ThemeColors.pumpkinColor,
+            ThemeColors.sunflowerColor
+        ]
+        
+        /// Define the style of tableview
+        public struct tableStyle{
+            
+            //Background color of tableview
+            public static var backgroundColor       :   UIColor = .white
+            //Height of single row
+            public static var tableRowHeight        :   Double  = 70.0
+            //Margin between imageavatar and cell borders
+            public static var avatarMargin          :   Double  = 7.0
+            //Color for title label, first line
+            public static var title_color           :   UIColor = .black
+            //Font for title label
+            public static var title_font            :   UIFont  = UIFont.boldSystemFont(ofSize: 16.0)
+            //Color for description label, first line
+            public static var description_color     :   UIColor = .gray
+            //Font for description label
+            public static var description_font      :   UIFont  = UIFont.systemFont(ofSize: 13.0)
+            //Color for initials label
+            public static var initials_color        :   UIColor = .white
+            //Font for initials label
+            public static var initials_font         :   UIFont  = UIFont.systemFont(ofSize: 18.0)
+            
+        }
+        
+        /// Define the style of scrollview
+        public struct selectorStyle{
+            
+            //Image asset for remove button
+            public static var removeButtonImage     :   UIImage = UIImage(named: "remove")!
+            //The height of selectorview, all subviews will be resized
+            public static var selectionHeight       :   Double  = 90.0
+            //Scale factor for size of imageavatar based on cell size
+            public static var avatarScale           :   Double  = 1.7
+            //Color for separator line between scrollview and tableview
+            public static var separatorColor        :   UIColor = UIColor.lightGray
+            //Height for separator line between scrollview and tableview
+            public static var separatorHeight       :   Double  = 0.7
+            //Background color of uiscrollview
+            public static var backgroundColor       :   UIColor = .white
+            //Color for title label
+            public static var title_color           :   UIColor = .black
+            //Font for title label
+            public static var title_font            :   UIFont  = UIFont.systemFont(ofSize: 11.0)
+            //Color for initials label
+            public static var initials_color        :   UIColor = .white
+            //Font for initials label
+            public static var initials_font         :   UIFont  = UIFont.systemFont(ofSize: 18.0)
+            //Background color of collectionviewcell
+            public static var backgroundCellColor   :   UIColor = .clear
+        }
+    }
+    
+    public struct ThemeColors{
+        static let emeraldColor         = UIColor(red: (46/255), green: (204/255), blue: (113/255), alpha: 1.0)
+        static let sunflowerColor       = UIColor(red: (241/255), green: (196/255), blue: (15/255), alpha: 1.0)
+        static let pumpkinColor         = UIColor(red: (211/255), green: (84/255), blue: (0/255), alpha: 1.0)
+        static let asbestosColor        = UIColor(red: (127/255), green: (140/255), blue: (141/255), alpha: 1.0)
+        static let amethystColor        = UIColor(red: (155/255), green: (89/255), blue: (182/255), alpha: 1.0)
+        static let peterRiverColor      = UIColor(red: (52/255), green: (152/255), blue: (219/255), alpha: 1.0)
+        static let pomegranateColor     = UIColor(red: (192/255), green: (57/255), blue: (43/255), alpha: 1.0)
+        static let lightGrayColor       = UIColor(red:0.79, green:0.78, blue:0.78, alpha:1)
+    }
+
 }
 
 extension DefaultsKeys {

@@ -119,7 +119,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="63.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile_img_user" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ex-Ps-NkX">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ex-Ps-NkX">
                                             <rect key="frame" x="16" y="6.5" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="3Yb-3W-PDT"/>
@@ -132,6 +132,19 @@
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AB" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="3x2-Ic-nUM" customClass="DesignableLabel" customModule="ReachMe" customModuleProvider="target">
+                                            <rect key="frame" x="16" y="6" width="50" height="50"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="25"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="maskToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Do-En-ZUH">
                                             <rect key="frame" x="76" y="12" width="283" height="20.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -160,16 +173,21 @@
                                         <constraint firstItem="Hjk-mK-i9a" firstAttribute="leading" secondItem="2ex-Ps-NkX" secondAttribute="trailing" constant="10" id="50v-Va-EBp"/>
                                         <constraint firstAttribute="trailing" secondItem="5Do-En-ZUH" secondAttribute="trailing" constant="16" id="B1j-51-6jm"/>
                                         <constraint firstItem="5Do-En-ZUH" firstAttribute="leading" secondItem="2ex-Ps-NkX" secondAttribute="trailing" constant="10" id="BXY-Yr-IPg"/>
+                                        <constraint firstItem="3x2-Ic-nUM" firstAttribute="centerX" secondItem="2ex-Ps-NkX" secondAttribute="centerX" id="HNi-Hs-bdb"/>
+                                        <constraint firstItem="3x2-Ic-nUM" firstAttribute="width" secondItem="2ex-Ps-NkX" secondAttribute="width" id="K2F-AW-mVh"/>
                                         <constraint firstItem="2ex-Ps-NkX" firstAttribute="centerY" secondItem="Sim-R5-U1I" secondAttribute="centerY" id="cdu-16-inv"/>
                                         <constraint firstItem="2ex-Ps-NkX" firstAttribute="leading" secondItem="Sim-R5-U1I" secondAttribute="leading" constant="16" id="fbx-oN-rqG"/>
                                         <constraint firstItem="5Do-En-ZUH" firstAttribute="top" secondItem="Sim-R5-U1I" secondAttribute="top" constant="12" id="gPl-tj-rO1"/>
+                                        <constraint firstItem="3x2-Ic-nUM" firstAttribute="centerY" secondItem="2ex-Ps-NkX" secondAttribute="centerY" id="m88-PQ-QJX"/>
                                         <constraint firstAttribute="bottom" secondItem="Hjk-mK-i9a" secondAttribute="bottom" constant="3.5" id="mJd-kh-qcN"/>
+                                        <constraint firstItem="3x2-Ic-nUM" firstAttribute="height" secondItem="2ex-Ps-NkX" secondAttribute="height" id="tOu-Fs-DBP"/>
                                         <constraint firstItem="Hjk-mK-i9a" firstAttribute="top" secondItem="5Do-En-ZUH" secondAttribute="bottom" constant="7" id="vjp-b9-ymW"/>
                                         <constraint firstAttribute="trailing" secondItem="Hjk-mK-i9a" secondAttribute="trailing" constant="16" id="z4F-B2-qLr"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="contactImageView" destination="2ex-Ps-NkX" id="2sA-Io-M30"/>
+                                    <outlet property="defaultAvatar" destination="3x2-Ic-nUM" id="Yax-U3-hVL"/>
                                     <outlet property="detailLabel" destination="VFd-Zf-RA9" id="nGI-DS-8nY"/>
                                     <outlet property="nameLabel" destination="5Do-En-ZUH" id="Lbl-Me-Wyi"/>
                                     <outlet property="titleLabel" destination="EXv-cs-iY7" id="R7b-cC-885"/>
@@ -189,7 +207,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="default_profile_img_user" width="60" height="60"/>
         <image name="invite" width="160" height="95"/>
     </resources>
 </document>

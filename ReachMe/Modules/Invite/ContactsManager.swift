@@ -65,13 +65,15 @@ public class ContactsManager {
             Constants.appDelegate.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                 let userProfile = RMUtility.getProfileforConext(context: context)!
                 
-                for contact in contactList {
+                for (index, contact) in contactList.enumerated() {
                     let deviceContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.DEVICECONTACT, into: context) as! DeviceContact
                     deviceContact.contactName = contact.givenName + " \(contact.familyName)"
                     deviceContact.contactId = contact.identifier
                     if contact.imageDataAvailable {
                         deviceContact.contactPicData = contact.imageData
                     }
+                    deviceContact.avatarColor = RMUtility.encodeColor(RMUtility.getAvatarColorForIndex(index))
+                    deviceContact.avatarText = deviceContact.contactName?.getContactAvtarText()
                     
                     for phoneLabel: CNLabeledValue in contact.phoneNumbers {
                         let CNNumber  = phoneLabel.value
