@@ -51,10 +51,10 @@ class CallsGeneralCell: UITableViewCell {
             msgDateLabel.font = UIFont.boldSystemFont(ofSize: 13)
         }
         
-        msgUsernameLabel.customFontTextStyle = "Body"
-        msgContentLabel.customFontTextStyle = "Body"
-        msgDateLabel.customFontTextStyle = "Body"
-        msgFromLabel.customFontTextStyle = "Body"
+        msgUsernameLabel.customFontTextStyle = "Callout"
+        msgContentLabel.customFontTextStyle = "Callout"
+        msgDateLabel.customFontTextStyle = "Callout"
+        msgFromLabel.customFontTextStyle = "Callout"
 
         if message.type == "mc" {
             msgContentLabel.text = "Missed call"
@@ -127,8 +127,8 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
                     }
                 }
                 
-                self.msgUsernameLabel.customFontTextStyle = "Body"
-                self.msgDateLabel.customFontTextStyle = "Body"
+                self.msgUsernameLabel.customFontTextStyle = "Callout"
+                self.msgDateLabel.customFontTextStyle = "Callout"
             }
         }
     }
