@@ -83,7 +83,7 @@ public class ContactsManager {
                         let mobileNumber = CNNumber.value(forKey: "digits") as! String
                         let number = try! PhoneNumberKit().parse(mobileNumber)
                         phoneNumber.number = mobileNumber
-                        phoneNumber.displayFormatNumber = CNNumber.value(forKey: "stringValue") as? String
+                        phoneNumber.displayFormatNumber = (PhoneNumberKit().format(number, toType: .international))
                         phoneNumber.syncFormatNumber = "\((PhoneNumberKit().format(number, toType: .e164)).dropFirst())"
                         phoneNumber.labelType = phoneLabel.label?.trim()
                         deviceContact.addToPhones(phoneNumber)
