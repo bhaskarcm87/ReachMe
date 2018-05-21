@@ -358,6 +358,8 @@
 "SELECT_IV_ID"              = "Select InstaVoice ID to send voice message to";
 
 "SMS_NOT_SUPPORTED"         = "Your device doesn't support SMS!" ;
+"CALL_NOT_SUPPORTED"         = "Your device doesn't support phone Call" ;
+
 "OK"                        = "OK";
 "HELLO"                     = "Hello";
 "ERROR"                     = "SMS_Error";
@@ -380,7 +382,6 @@
 "JUST_JOINED"               = "Recently joined";
 //"CONTACT_NOT_SYNCED"        = "Contacts could not be synced, please try later";
 
-"SIM_NOT_AVAILABLE"         = "SIM not available";
 "SELECT_CONTACT"            = "Please select Contact";
 
 

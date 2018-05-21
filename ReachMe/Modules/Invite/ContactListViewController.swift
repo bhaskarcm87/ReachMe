@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MessageUI
 
 class ContactListViewController: UITableViewController {
     
@@ -22,7 +23,9 @@ class ContactListViewController: UITableViewController {
         fetchRequest.sortDescriptors = [sort]
         frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
-        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
+        do { try frc.performFetch()
+            frc.fetchedObjects?.forEach({$0.isCellSlected = false})
+        } catch { fatalError("Error in fetching records") }
         return frc
     }()
     
@@ -34,7 +37,9 @@ class ContactListViewController: UITableViewController {
         fetchRequest.sortDescriptors = [sort]
         frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
-        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
+        do { try frc.performFetch()
+            frc.fetchedObjects?.forEach({$0.isCellSlected = false})
+        } catch { fatalError("Error in fetching records") }
         return frc
     }()
 
@@ -48,7 +53,15 @@ class ContactListViewController: UITableViewController {
     }(UISearchController(searchResultsController: nil))
 
     var isPresentingSearchBar: Bool = false
-
+    @IBOutlet var sendButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let barButton = UIBarButtonItem()
+        barButton.customView = sendButton
+        navigationItem.rightBarButtonItem = barButton
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +79,78 @@ class ContactListViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
+    func updateSelectedCount() {
+        if isEmailType {
+            let selectedContacts = emailFetchedResults.fetchedObjects?.filter({$0.isCellSlected == true})
+            if (selectedContacts?.count)! > 0 {
+                sendButton.isSelected = true
+            } else {
+                sendButton.isSelected = false
+            }
+            title = RMUtility.translatePrural(forKey: "n.friends", (selectedContacts?.count)!)
+            
+        } else {
+            let selectedContacts = phoneFetchedResults.fetchedObjects?.filter({$0.isCellSlected == true})
+            if (selectedContacts?.count)! > 0 {
+                sendButton.isSelected = true
+            } else {
+                sendButton.isSelected = false
+            }
+            title = RMUtility.translatePrural(forKey: "n.friends", (selectedContacts?.count)!)
+        }
+    }
+    
+    // MARK: - Button Actions
+    @IBAction func onSendBtnClicked(_ sender: UIButton) {
+        guard sender.isSelected else { return }
+        
+        if isEmailType {
+            guard RMUtility.isNetwork() else {
+                RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                return
+            }
+
+            if let selectedContacts = emailFetchedResults.fetchedObjects?.filter({$0.isCellSlected == true}) {
+                title = "Sending..."
+                var payloadList = [[String: String]]()
+                selectedContacts.forEach({
+                    payloadList.append(["type": "e", "contact": $0.emailID!])
+                })
+                
+                ServiceRequest.shared.startRequestForInviteFriend(inviteList: payloadList, completionHandler: { (success) in
+                    if success {
+                        RMUtility.showAlert(withMessage: "INVITATION_SENT".localized)
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        RMUtility.showAlert(withMessage: "INVITATION_FAIL".localized)
+                        self.title = RMUtility.translatePrural(forKey: "n.friends", selectedContacts.count)
+                    }
+                })
+            }
+
+        } else {
+            RMUtility.isCapableToSMS(completionHandler: { (success, errorText) in
+                guard success else {
+                    RMUtility.showAlert(withMessage: errorText!)
+                    return
+                }
+            })
+            let messageVC = MFMessageComposeViewController()
+            messageVC.messageComposeDelegate = self
+
+            if let inviteText = Constants.appDelegate.userProfile?.inviteSMSText {
+                messageVC.body = inviteText
+            } else {
+                messageVC.body = "SMS_MESSAGE_PHONE".localized
+            }
+            if let selectedContacts = phoneFetchedResults.fetchedObjects?.filter({$0.isCellSlected == true}) {
+                let sendList =  selectedContacts.map({"+\($0.syncFormatNumber!)"})
+                messageVC.recipients = sendList
+            }
+            
+            present(messageVC, animated: false, completion: nil)
+        }
+    }
 }
 
 // MARK: - TableView Delegate & Datasource
@@ -89,11 +174,13 @@ extension ContactListViewController {
             let email = emailFetchedResults.object(at: indexPath)
             cell.titleLabel.text = email.emailID
             cell.detailLabel.text = email.labelType!.isEmpty ? "Phone" : email.labelType
+            cell.accessoryType = email.isCellSlected ? .checkmark : .none
             deviceContact = email.parent!
         } else {
             let phone = phoneFetchedResults.object(at: indexPath)
             cell.titleLabel.text = phone.displayFormatNumber
             cell.detailLabel.text = phone.labelType!.isEmpty ? "Phone" : phone.labelType
+            cell.accessoryType = phone.isCellSlected ? .checkmark : .none
             deviceContact = phone.parent!
         }
         
@@ -117,6 +204,23 @@ extension ContactListViewController {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+
+        if isEmailType {
+            let email = emailFetchedResults.object(at: indexPath)
+            email.isCellSlected = !email.isCellSlected
+            cell?.accessoryType = email.isCellSlected ? .checkmark : .none
+            
+        } else {
+            let phone = phoneFetchedResults.object(at: indexPath)
+            phone.isCellSlected = !phone.isCellSlected
+            cell?.accessoryType = phone.isCellSlected ? .checkmark : .none
+        }
+        coreDataStack.saveContexts()
+        updateSelectedCount()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -143,7 +247,7 @@ extension ContactListViewController: NSFetchedResultsControllerDelegate {
         case .move:
             print("Move")
         case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
+            tableView.reloadRows(at: [indexPath!], with: .none)
         }
     }
     
@@ -170,23 +274,21 @@ extension ContactListViewController: UISearchResultsUpdating, UISearchController
             } else {
                 emailFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.contactName contains [cd] %@", searchController.searchBar.text!.lowercased())
             }
-            
             do {
                 try emailFetchedResults.performFetch()
                 tableView.reloadData()
             } catch { fatalError("Error in fetching records") }
+            
         } else {
             if searchController.searchBar.text!.isEmpty {
                 phoneFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.isIV == %@", NSNumber(value: false))
             } else {
                 phoneFetchedResults.fetchRequest.predicate = NSPredicate(format: "parent.contactName contains [cd] %@", searchController.searchBar.text!.lowercased())
             }
-            
             do {
                 try phoneFetchedResults.performFetch()
                 tableView.reloadData()
             } catch { fatalError("Error in fetching records") }
-
         }
     }
 }
@@ -203,23 +305,25 @@ class ContactListTableCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        updateCell()
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
-        updateCell()
-    }
-    
-    func updateCell() {
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        accessoryType = selected ? .checkmark : .none
+}
+
+// MARK: - MessageComposeDelegate
+extension ContactListViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        
+        switch result {
+        case .cancelled:
+            print("User Canceled")
+        case .failed:
+            RMUtility.showAlert(withMessage: "INVITATION_FAIL".localized)
+        case .sent:
+            RMUtility.showAlert(withMessage: "INVITATION_SENT".localized)
+        }
+        controller.dismiss(animated: true) {
+            if result == .sent {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
 }

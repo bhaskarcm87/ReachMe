@@ -16,6 +16,7 @@ import MobileCoreServices
 import UserNotifications
 import Photos
 import CoreData
+import CoreTelephony
 
 class RMUtility: NSObject {
     
@@ -328,12 +329,36 @@ class RMUtility: NSObject {
     }
     
     class func getAvatarColorForIndex(_ index: Int) -> UIColor {
-        let randomValue = index % Constants.Config.colorArray.count
-        return Constants.Config.colorArray[randomValue]
+        let randomValue = index % Constants.colorArray.count
+        return Constants.colorArray[randomValue]
     }
 
     class func encodeColor(_ color: UIColor) -> Data {
         return NSKeyedArchiver.archivedData(withRootObject: color)
+    }
+    
+    class func isCapableToSMS(completionHandler: @escaping (_ result: Bool, _ errorText: String?) -> Swift.Void) {
+        if UIApplication.shared.canOpenURL(NSURL(string: "sms:")! as URL) {
+            if let mnc: String = CTTelephonyNetworkInfo().subscriberCellularProvider?.mobileNetworkCode, !mnc.isEmpty {
+                completionHandler(true, nil)
+            } else {
+                completionHandler(false, "SIM_NOT_AVAILABLE".localized)
+            }
+        } else {
+            completionHandler(false, "SMS_NOT_SUPPORTED".localized)
+        }
+    }
+
+    class func isCapableToCall(completionHandler: @escaping (_ result: Bool, _ errorText: String?) -> Swift.Void) {
+        if UIApplication.shared.canOpenURL(NSURL(string: "tel://")! as URL) {
+            if let mnc: String = CTTelephonyNetworkInfo().subscriberCellularProvider?.mobileNetworkCode, !mnc.isEmpty {
+                completionHandler(true, nil)
+            } else {
+                completionHandler(false, "SIM_NOT_AVAILABLE".localized)
+            }
+        } else {
+            completionHandler(false, "CALL_NOT_SUPPORTED".localized)
+        }
     }
 }
 

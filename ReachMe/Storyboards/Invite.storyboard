@@ -103,7 +103,7 @@
             </objects>
             <point key="canvasLocation" x="32.799999999999997" y="33.733133433283363"/>
         </scene>
-        <!--Contacts-->
+        <!--Select Friends-->
         <scene sceneID="NSU-Iv-nAl">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="Hun-Ob-Cyw" customClass="ContactListViewController" customModule="ReachMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -199,14 +199,28 @@
                             <outlet property="delegate" destination="Hun-Ob-Cyw" id="0De-19-2dC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Contacts" id="qdP-Xp-aHJ"/>
+                    <navigationItem key="navigationItem" title="Select Friends" largeTitleDisplayMode="never" id="qdP-Xp-aHJ"/>
+                    <connections>
+                        <outlet property="sendButton" destination="9j4-XP-mX3" id="edr-N4-5ua"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ack-XB-ny3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9j4-XP-mX3">
+                    <rect key="frame" x="0.0" y="0.0" width="43" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="invite_send_unselect"/>
+                    <state key="selected" image="invite_send_select"/>
+                    <connections>
+                        <action selector="onSendBtnClicked:" destination="Hun-Ob-Cyw" eventType="touchUpInside" id="eIO-y7-8ZL"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="821.60000000000002" y="33.733133433283363"/>
         </scene>
     </scenes>
     <resources>
         <image name="invite" width="160" height="95"/>
+        <image name="invite_send_select" width="43" height="19"/>
+        <image name="invite_send_unselect" width="43" height="19"/>
     </resources>
 </document>

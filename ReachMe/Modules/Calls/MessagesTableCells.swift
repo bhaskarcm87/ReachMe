@@ -257,6 +257,12 @@ class VoicemailsGeneralCell: UITableViewCell, JukeboxDelegate {
     }
     
     @IBAction func onCallButtonClicked(_ sender: UIButton) {
+        RMUtility.isCapableToCall { (success, errorText) in
+            guard success else {
+                RMUtility.showAlert(withMessage: errorText!)
+                return
+            }
+        }
         UIApplication.shared.open(NSURL(string: "telprompt://\(message.fromPhoneNumber!)")! as URL, options: [:], completionHandler: nil)
     }
 }

@@ -42,6 +42,7 @@
     </entity>
     <entity name="EmailAddress" representedClassName="EmailAddress" syncable="YES" codeGenerationType="class">
         <attribute name="emailID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCellSlected" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="labelType" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeviceContact" inverseName="emails" inverseEntity="DeviceContact" syncable="YES"/>
     </entity>
@@ -81,6 +82,7 @@
     </entity>
     <entity name="PhoneNumber" representedClassName="PhoneNumber" syncable="YES" codeGenerationType="class">
         <attribute name="displayFormatNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCellSlected" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ivUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="labelType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="String" syncable="YES"/>
@@ -97,12 +99,13 @@
         <attribute name="countryPhoneCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="emailID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fbConnectURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fbPostEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fbPostEnabled" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="greetingNameDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="greetingNameUri" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="greetingWelcomeDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="greetingWelcomeUri" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inviteSMSText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isFBConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isTWConnected" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="mcEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -124,7 +127,7 @@
         <attribute name="thumbnailPicURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeZone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twConnectURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="twPostEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="twPostEnabled" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vEmail" optional="YES" attributeType="String" syncable="YES"/>
@@ -201,11 +204,11 @@
     <elements>
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
         <element name="DeviceContact" positionX="-216" positionY="84" width="128" height="195"/>
-        <element name="EmailAddress" positionX="-405" positionY="-109" width="128" height="88"/>
+        <element name="EmailAddress" positionX="-405" positionY="-109" width="128" height="105"/>
         <element name="Message" positionX="-459" positionY="15" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
-        <element name="PhoneNumber" positionX="-225" positionY="-151" width="128" height="133"/>
-        <element name="Profile" positionX="-54" positionY="243" width="128" height="763"/>
+        <element name="PhoneNumber" positionX="-225" positionY="-151" width="128" height="150"/>
+        <element name="Profile" positionX="-54" positionY="243" width="128" height="780"/>
         <element name="SupportContact" positionX="-396" positionY="441" width="128" height="193"/>
         <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>
         <element name="VoiceMail" positionX="241" positionY="263" width="128" height="450"/>

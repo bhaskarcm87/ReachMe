@@ -311,6 +311,8 @@ extension ServiceRequest {
                     userProfile.state = responseDics["state"] as? String
                     userProfile.twPostEnabled = responseDics["tw_post_enabled"] as! Bool
                     userProfile.fbPostEnabled = responseDics["fb_post_enabled"] as! Bool
+                    userProfile.inviteSMSText = responseDics["invite_sms_text"] as? String
+                    
                     if let dateOfBirth = responseDics["date_of_birth"] as? [String: Int] {
                         if let year = dateOfBirth["year"], let month = dateOfBirth["month"], let dayOfMonth = dateOfBirth["dayOfMonth"] {
                             if let date = RMUtility.getDateFromYearMonthDay(year: year, month: month+1, day: dayOfMonth) {
@@ -1174,6 +1176,36 @@ extension ServiceRequest {
                             }
 
                             completionHandler(responseDics, true)
+        }
+    }
+}
+
+// MARK: - FRIEND INVITE API
+extension ServiceRequest {
+    
+    func startRequestForInviteFriend(inviteList: [[String: String]], completionHandler:@escaping (Bool) -> Swift.Void) {
+        
+        var params: [String: Any] = ["cmd": Constants.ApiCommands.SEND_TEXT,
+                                     "contact_ids": inviteList,
+                                     "msg_type": "t",
+                                     "type": "inv",
+                                     "fetch_msgs": false,
+                                     "msg_text": "Hello",
+                                     "guid": "\(UUID().uuidString)-\(Constants.DEVICE_UUID)"]
+        params = RMUtility.serverRequestAddCommonData(params: &params)
+        let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
+        
+        Alamofire.request(Constants.URL_SERVER,
+                          method: .post,
+                          encoding: payload).validate().responseJSON { (response) in
+                            
+                            //Handle Error
+                            if ServiceRequest.shared.handleserviceError(response: response) == nil {
+                                completionHandler(false)
+                                return
+                            }
+                            
+                            completionHandler(true)
         }
     }
 }
