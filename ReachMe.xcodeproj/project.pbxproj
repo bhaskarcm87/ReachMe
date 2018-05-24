@@ -129,6 +129,12 @@
 		8CCE67D220849CC400002E69 /* NSObject+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D120849CC400002E69 /* NSObject+Extention.swift */; };
 		8CCE67D420849D8B00002E69 /* UIStoryboard+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D320849D8B00002E69 /* UIStoryboard+Extention.swift */; };
 		8CCE67D620849DDF00002E69 /* UIViewController+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE67D520849DDF00002E69 /* UIViewController+Extention.swift */; };
+		8CD2859720B43B2A0013220E /* DialPadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2859620B43B2A0013220E /* DialPadViewController.swift */; };
+		8CD285A420B576260013220E /* ReachMeDefaultRingTone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CD285A320B576250013220E /* ReachMeDefaultRingTone.mp3 */; };
+		8CD285BA20B68E880013220E /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD285B620B68E880013220E /* CallManager.swift */; };
+		8CD285BB20B68E880013220E /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD285B720B68E880013220E /* Audio.swift */; };
+		8CD285BC20B68E880013220E /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD285B820B68E880013220E /* Call.swift */; };
+		8CD285BD20B68E880013220E /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD285B920B68E880013220E /* ProviderDelegate.swift */; };
 		8CD2A9DE209069DB00CF4E0A /* EmailNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2A9DD209069DB00CF4E0A /* EmailNotificationsViewController.swift */; };
 		8CD354A1206513ED009BCF14 /* MessagesTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */; };
 		8CD354A72066D8F1009BCF14 /* RedeemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */; };
@@ -288,6 +294,12 @@
 		8CCE67D120849CC400002E69 /* NSObject+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extention.swift"; sourceTree = "<group>"; };
 		8CCE67D320849D8B00002E69 /* UIStoryboard+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extention.swift"; sourceTree = "<group>"; };
 		8CCE67D520849DDF00002E69 /* UIViewController+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extention.swift"; sourceTree = "<group>"; };
+		8CD2859620B43B2A0013220E /* DialPadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialPadViewController.swift; sourceTree = "<group>"; };
+		8CD285A320B576250013220E /* ReachMeDefaultRingTone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ReachMeDefaultRingTone.mp3; sourceTree = "<group>"; };
+		8CD285B620B68E880013220E /* CallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		8CD285B720B68E880013220E /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		8CD285B820B68E880013220E /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		8CD285B920B68E880013220E /* ProviderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		8CD2A9DD209069DB00CF4E0A /* EmailNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailNotificationsViewController.swift; sourceTree = "<group>"; };
 		8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableCells.swift; sourceTree = "<group>"; };
 		8CD354A62066D8F1009BCF14 /* RedeemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemViewController.swift; sourceTree = "<group>"; };
@@ -341,6 +353,7 @@
 		8C2892582039FA5C0026537B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				8CD2859520B43AF10013220E /* Keypad */,
 				8CB230202064D20400760CD3 /* Calls */,
 				8C1B105C207C919D00A172B3 /* Chats */,
 				8C7CCE0B20AB1B78004B6863 /* Invite */,
@@ -424,6 +437,7 @@
 				8CB426C120A071FF00D666E2 /* ThirdParty */,
 				8C1B1139207CEC3100A172B3 /* ReachMe-Bridging-Header.h */,
 				8CB2301E2063B7E900760CD3 /* InstavoiceNotificationTone.caf */,
+				8CD285A320B576250013220E /* ReachMeDefaultRingTone.mp3 */,
 				8C637CCC2035C77500A38663 /* ReachMe */,
 				8C637CCB2035C77500A38663 /* Products */,
 				CFEBBF23B47B8723FAFE8E6B /* Pods */,
@@ -835,6 +849,18 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		8CD2859520B43AF10013220E /* Keypad */ = {
+			isa = PBXGroup;
+			children = (
+				8CD285B720B68E880013220E /* Audio.swift */,
+				8CD285B820B68E880013220E /* Call.swift */,
+				8CD285B620B68E880013220E /* CallManager.swift */,
+				8CD285B920B68E880013220E /* ProviderDelegate.swift */,
+				8CD2859620B43B2A0013220E /* DialPadViewController.swift */,
+			);
+			path = Keypad;
+			sourceTree = "<group>";
+		};
 		8CD2A9DC209069AA00CF4E0A /* Email Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +978,7 @@
 				8CB4274620A071FF00D666E2 /* rcmessage_outgoing.aiff in Resources */,
 				8C2BD8912042B88800E24209 /* ActivateReachMe.storyboard in Resources */,
 				8CB4274220A071FF00D666E2 /* RCMessagesView.xib in Resources */,
+				8CD285A420B576260013220E /* ReachMeDefaultRingTone.mp3 in Resources */,
 				8CB4274920A071FF00D666E2 /* rcmessages_audioplay@2x.png in Resources */,
 				8C637CD32035C77500A38663 /* Main.storyboard in Resources */,
 				8C7D7ACD206264440002DF2D /* Localizable.stringsdict in Resources */,
@@ -1089,7 +1116,9 @@
 				8CA1E2842048849E004E7D6B /* CoreDataContextObserver.swift in Sources */,
 				8CA328562095B9FD00004521 /* UIView+Extensions.swift in Sources */,
 				8C1B105E207C91C700A172B3 /* ChatsViewController.swift in Sources */,
+				8CD285BD20B68E880013220E /* ProviderDelegate.swift in Sources */,
 				8CB4275720A071FF00D666E2 /* MQTTSubPacket.swift in Sources */,
+				8CD285BB20B68E880013220E /* Audio.swift in Sources */,
 				8CB4272820A071FF00D666E2 /* LocalePickerViewController.swift in Sources */,
 				8C2892622039FA5C0026537B /* VPMOTPTextField.swift in Sources */,
 				8CA328542095B97C00004521 /* UISearchBar+Extensions.swift in Sources */,
@@ -1099,6 +1128,7 @@
 				8C1B1060207CA81200A172B3 /* ChatTableCells.swift in Sources */,
 				8C02DCDA203C407300CB8A46 /* ANLoader.swift in Sources */,
 				8CF7B1CD205BC52C00F87FFB /* SettingsTableCells.swift in Sources */,
+				8CD285BA20B68E880013220E /* CallManager.swift in Sources */,
 				8C934CEF2050281C00AAAC73 /* SingleSelectionTableViewController.swift in Sources */,
 				8CB4275120A071FF00D666E2 /* MQTTPingPacket.swift in Sources */,
 				8C28926E203ABE600026537B /* PasswordViewController.swift in Sources */,
@@ -1107,6 +1137,7 @@
 				8C7D7ACB206247990002DF2D /* SettingsGeneralViewController.swift in Sources */,
 				8C2892522039883E0026537B /* UITapGestureRecognizer+Extention.swift in Sources */,
 				8C2892652039FAD50026537B /* OTPViewController.swift in Sources */,
+				8CD285BC20B68E880013220E /* Call.swift in Sources */,
 				8CB4272920A071FF00D666E2 /* LocaleStore.swift in Sources */,
 				8C934CEB20501B4000AAAC73 /* PersonalisationViewController.swift in Sources */,
 				8C972EC22057E152008C9FEA /* ActivationReachMeTableCells.swift in Sources */,
@@ -1122,6 +1153,7 @@
 				8CA328722095E9ED00004521 /* Array+Extensions.swift in Sources */,
 				8C7D7AC7206246DE0002DF2D /* Date+Extention.swift in Sources */,
 				8C7CCE0D20AB1C17004B6863 /* InviteViewController.swift in Sources */,
+				8CD2859720B43B2A0013220E /* DialPadViewController.swift in Sources */,
 				8C972EC02056CAA9008C9FEA /* ActivationReachMeViewController.swift in Sources */,
 				8CB4275B20A071FF00D666E2 /* MQTTSession.swift in Sources */,
 				8C02DCDE203C518B00CB8A46 /* RMUtility.swift in Sources */,
@@ -1336,7 +1368,7 @@
 				INFOPLIST_FILE = ReachMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kirusa.ReachM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirusa.ReachMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ReachMe/ReachMe-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -1357,7 +1389,7 @@
 				INFOPLIST_FILE = ReachMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kirusa.ReachM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirusa.ReachMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ReachMe/ReachMe-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

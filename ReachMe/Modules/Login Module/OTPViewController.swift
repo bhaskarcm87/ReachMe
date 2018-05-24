@@ -105,6 +105,9 @@ class OTPViewController: UIViewController {
                 guard success else { return }
                 ANLoader.hide()
                 
+                RMUtility.registerForPushNotifications()
+                AppDelegate.shared.registerVOIPPush()
+                
                 if Defaults[.APIIsRMNewUser] {
                     Defaults[.IsCarrierSelection] = true
                     self.performSegue(withIdentifier: Constants.Segues.CARRIERLIST, sender: self)

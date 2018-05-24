@@ -10,9 +10,19 @@ import UIKit
 import CoreData
 import SwiftyUserDefaults
 import UserNotifications
+import CallKit
+import PushKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    class var shared: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+
+    let pushRegistry = PKPushRegistry(queue: DispatchQueue.main)
+    weak var providerDelegate: ProviderDelegate!
+    let callManager = CallManager()
 
     var window: UIWindow?
     var bgService: ServiceRequestBackground!
@@ -80,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //ServiceRequest.shared.connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
+            registerVOIPPush()
             RMUtility.showdDashboard()            
         }
 
@@ -113,10 +124,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let token = tokenParts.joined()
-        if Defaults[.APICloudeSecureKey] != token || Defaults[.needSetDeviceInfo] {
-            ServiceRequest.shared.startRequestForSetDeviceInfo(forDeviceToken: token, completionHandler: {
-                Defaults[.needSetDeviceInfo] = false
-            })
+        if Defaults[.APICloudeSecureKey] != token {
+            ServiceRequest.shared.startRequestForSetDeviceInfo(deviceToken: token, voipToken: nil)
         } else {
             print("New and Cached device tokens are same.")
         }
@@ -155,6 +164,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         }
 
+    }
+    
+    func registerVOIPPush() {
+        providerDelegate = ProviderDelegate(callManager: callManager)
+        pushRegistry.delegate = self
+        pushRegistry.desiredPushTypes = [.voIP]
+    }
+}
+
+// MARK: - PKPushRegistryDelegate
+extension AppDelegate: PKPushRegistryDelegate {
+    
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+        let voipToken = pushCredentials.token.reduce("", {$0 + String(format: "%02X", $1) })
+        print("\(#function) token is: \(voipToken)")
+        if Defaults[.APIVoipSecureKey] != voipToken {
+            ServiceRequest.shared.startRequestForSetDeviceInfo(deviceToken: nil, voipToken: voipToken)
+        } else {
+            print("New and Cached voip tokens are same.")
+        }
+    }
+    
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+        print("\(#function) incoming voip notfication: \(payload.dictionaryPayload)")
+        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
+            let handle = payload.dictionaryPayload["handle"] as? String,
+            let uuid = UUID(uuidString: uuidString) {
+                        
+            // display incoming call UI when receiving incoming voip notification
+            let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+            self.displayIncomingCall(uuid: uuid, handle: handle, hasVideo: false) { _ in
+                UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+            }
+        }
+    }
+    
+    func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
+        print("\(#function) token invalidated")
+    }
+    
+    /// Display the incoming call to the user
+    func displayIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)? = nil) {
+        providerDelegate?.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: completion)
     }
 }
 

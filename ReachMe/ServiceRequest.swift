@@ -994,11 +994,15 @@ extension ServiceRequest {
 // MARK: - SET_DEVICEINFO API
 extension ServiceRequest {
     
-    func startRequestForSetDeviceInfo(forDeviceToken token: String, completionHandler: (() -> Swift.Void)? = nil) {
+    func startRequestForSetDeviceInfo(deviceToken: String?, voipToken: String?, completionHandler: (() -> Swift.Void)? = nil) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.SET_DEVICEINFO,
-                                     "cloud_secure_key": token]
-        //TODO: Pass VOIP push token in param-- voip_cloud_secure_key
+        var params: [String: Any] = ["cmd": Constants.ApiCommands.SET_DEVICEINFO]
+        if let dvToken = deviceToken {
+            params["cloud_secure_key"] = dvToken
+        }
+        if let vpToken = voipToken {
+            params["voip_cloud_secure_key"] = vpToken
+        }
         params = RMUtility.serverRequestAddCommonData(params: &params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
@@ -1010,8 +1014,14 @@ extension ServiceRequest {
                                 return
                             }
                 
-                Defaults[.APICloudeSecureKey] = token
-                completionHandler!()
+                            if let dvToken = deviceToken {
+                                Defaults[.APICloudeSecureKey] = dvToken
+                            }
+                            if let vpToken = voipToken {
+                                Defaults[.APIVoipSecureKey] = vpToken
+                            }
+
+                completionHandler?()
         }
     }
 }

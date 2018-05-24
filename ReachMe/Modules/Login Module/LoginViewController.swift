@@ -170,7 +170,7 @@ class LoginViewController: UIViewController {
                 }
             }.disposed(by: disposeBag)
         
-        let numberText =  numberTextField.rx.text.skip(11)
+        let numberText = numberTextField.rx.text.skip(11)
             .map {
                 self.validateNumberField(text: $0!)
         }

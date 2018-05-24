@@ -84,8 +84,8 @@ class PasswordViewController: UIViewController {
             ANLoader.hide()
             guard success else { return }
             
-            Defaults[.needSetDeviceInfo] = true
             RMUtility.registerForPushNotifications()
+            AppDelegate.shared.registerVOIPPush()
 
             DispatchQueue.main.async(execute: {
                 if Defaults[.APIIsRMNewUser] {

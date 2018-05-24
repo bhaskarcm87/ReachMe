@@ -127,6 +127,7 @@ extension DefaultsKeys {
     static let APIIVUserIDKey = DefaultsKey<Int>("iv_user_id")
     static let APIIsRMNewUser = DefaultsKey<Bool>("new_rm_user")
     static let APIFetchAfterMsgID = DefaultsKey<Any?>("fetch_after_msgs_id")
+    static let APIVoipSecureKey = DefaultsKey<String?>("voip_cloud_secure_key")
     
     static let IsLoggedIn = DefaultsKey<Bool>("isLoggedIn")
     static let IsOnBoarding = DefaultsKey<Bool>("isOnboarding")

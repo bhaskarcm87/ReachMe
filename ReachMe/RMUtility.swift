@@ -369,4 +369,16 @@ extension Reactive where Base: UIButton {
             button.isEnabled = enabled ? true : false
         }
     }
+    
+    var RxHidden: Binder<Bool> {
+        return Binder(base) { button, hidden in
+            button.isHidden = hidden ? true : false
+        }
+    }
+    
+    var RxHiddenToggle: Binder<Bool> {
+        return Binder(base) { button, hidden in
+            button.isHidden = hidden ? false : true
+        }
+    }
 }
