@@ -360,6 +360,21 @@ class RMUtility: NSObject {
             completionHandler(false, "CALL_NOT_SUPPORTED".localized)
         }
     }
+    
+    class func isIVUser(for number: String) -> Bool {
+        let fetchRequest: NSFetchRequest<PhoneNumber> = PhoneNumber.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "syncFormatNumber == %@", number)
+        do {
+            let fetchedResults = try AppDelegate.shared.coreDataStack.newContext().fetch(fetchRequest)
+            if let aContact = fetchedResults.first {
+                return (aContact.parent?.isIV)!
+            }
+        } catch {
+            print ("fetch phoneNumber failed", error)
+        }
+        return false
+    }
+    
 }
 
 extension Reactive where Base: UIButton {

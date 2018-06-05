@@ -47,7 +47,7 @@ class ProviderDelegate: NSObject {
     return providerConfiguration
   }
   
-  func reportIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)?) {
+  func reportIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((Error?) -> Void)?) {
     let update = CXCallUpdate()
     update.remoteHandle = CXHandle(type: .phoneNumber, value: handle)
     update.hasVideo = hasVideo
@@ -57,8 +57,7 @@ class ProviderDelegate: NSObject {
         let call = Call(uuid: uuid, handle: handle)
         self.callManager.add(call: call)
       }
-      
-      completion?(error as? NSError)
+      completion?(error)
     }
   }
 }

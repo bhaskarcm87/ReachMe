@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import PhoneNumberKit
 
 class DialPadViewController: UIViewController {
 
@@ -58,8 +59,27 @@ class DialPadViewController: UIViewController {
     }
     
     @IBAction func onCallButtonClicked(_ sender: UIButton) {
-        AppDelegate.shared.callManager.startCall(handle: "9742675676", videoEnabled: false)
+        //AppDelegate.shared.callManager.startCall(handle: "9742675676", videoEnabled: false)
         
+        guard let enteredNumber = dialTextField.text, !enteredNumber.isEmpty else { return }
+
+        var isIVUser = false
+        do {
+            let phoneKitManager = try PhoneNumberKit().parse(enteredNumber)
+            let formatedNumber = (PhoneNumberKit().format(phoneKitManager, toType: .e164))
+            isIVUser = RMUtility.isIVUser(for: formatedNumber)
+        } catch {
+            print("Error: in formatting entered number")
+        }
+        
+        let alert = UIAlertController(style: .actionSheet, title: "DIAL \(enteredNumber) AS")
+        alert.addAction(title: "Cancel", style: .cancel)
+        alert.addAction(title: "App to App call", style: .default, isEnabled: isIVUser) { _ in
+        }
+        alert.addAction(title: "App to GSM call", style: .default) { _ in
+            LinphoneManager.shared.makeCall(for: enteredNumber)
+        }
+        alert.show()
     }
 
 }

@@ -57,6 +57,12 @@ extension String {
 
 }
 
+//extension String {
+//    var UTF8CString: UnsafePointer<Int8> {
+//        return UnsafePointer(((self as NSString).utf8String)!)
+//    }
+//}
+
 extension String: ParameterEncoding {
     
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {

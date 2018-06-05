@@ -707,6 +707,19 @@ extension ServiceRequest {
                     userProfile.mqttSettings?.mqttPortSSL = responseDics["mqtt_port_ssl"] as? String
                     userProfile.mqttSettings?.mqttDeviceID = responseDics["iv_user_device_id"] as! Int32
                     
+                    //VOIP Info
+                    if let voipInfo = responseDics["voip_info"] as? [String: Any] {
+                        if userProfile.voipSettings == nil {
+                            userProfile.voipSettings = (NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.VOIP, into: context) as! VOIP)
+                        }
+                        userProfile.voipSettings?.login = voipInfo["login"] as? String
+                        userProfile.voipSettings?.password = voipInfo["pwd"] as? String
+                        userProfile.voipSettings?.ipAddress = voipInfo["ip"] as? String
+                        if let port = voipInfo["port"] as? Int16 {
+                            userProfile.voipSettings?.port = port
+                        }
+                    }
+                    
                 }, andInMainThread: {
                     completionHandler(true)
                 })
@@ -1140,26 +1153,29 @@ extension ServiceRequest {
 
         let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
         Alamofire.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(picData, withName: (Constants.appDelegate.userProfile?.userID)!, fileName: (Constants.appDelegate.userProfile?.userID)!, mimeType: "")},
-                         usingThreshold: UInt64.init(),
-                         to: Constants.URL_SERVER,
-                         method: .post,
-                         headers: ["data": requestJSON],
-                         encodingCompletion: { encodingResult in
-                            switch encodingResult {
-                            case .success(let upload, _, _):
-                                upload.responseJSON { response in
-                                    if response.result.isSuccess {
-                                        completionHandler(true)
-                                    } else {
-                                        completionHandler(false)
-                                    }
-                                    //debugPrint(response)
-                                }
-                            case .failure(let encodingError):
-                                print(encodingError)
-                                completionHandler(false)
-                            }
+            multipartFormData.append(picData,
+                                     withName: (Constants.appDelegate.userProfile?.userID)!,
+                                     fileName: (Constants.appDelegate.userProfile?.userID)!,
+                                     mimeType: "")
+        }, usingThreshold: UInt64.init(),
+          to: Constants.URL_SERVER,
+          method: .post,
+          headers: ["data": requestJSON],
+          encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON { response in
+                    if response.result.isSuccess {
+                        completionHandler(true)
+                    } else {
+                        completionHandler(false)
+                    }
+                    //debugPrint(response)
+                }
+            case .failure(let encodingError):
+                print(encodingError)
+                completionHandler(false)
+            }
         })
     }
 }

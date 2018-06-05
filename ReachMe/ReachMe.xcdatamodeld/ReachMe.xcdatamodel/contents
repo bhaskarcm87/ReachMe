@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Carrier" representedClassName="Carrier" syncable="YES" codeGenerationType="class">
         <attribute name="actiAll" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="actiCNF" optional="YES" attributeType="String" syncable="YES"/>
@@ -139,6 +139,7 @@
         <relationship name="primaryContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserContact" syncable="YES"/>
         <relationship name="supportContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SupportContact" syncable="YES"/>
         <relationship name="userContacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserContact" inverseName="userContacts" inverseEntity="UserContact" syncable="YES"/>
+        <relationship name="voipSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="VOIP" syncable="YES"/>
     </entity>
     <entity name="SupportContact" representedClassName="SupportContact" syncable="YES" codeGenerationType="class">
         <attribute name="isSendEmail" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -200,6 +201,12 @@
         <attribute name="rmVM" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="vSMSNodeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="VOIP" representedClassName="VOIP" syncable="YES" codeGenerationType="class">
+        <attribute name="ipAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="port" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <fetchRequest name="DeviceContactFetch" entity="DeviceContact" predicateString="isEmailType == 0"/>
     <elements>
         <element name="Carrier" positionX="421" positionY="-72" width="128" height="435"/>
@@ -208,9 +215,10 @@
         <element name="Message" positionX="-459" positionY="15" width="128" height="345"/>
         <element name="MQTT" positionX="-54" positionY="-9" width="128" height="193"/>
         <element name="PhoneNumber" positionX="-225" positionY="-151" width="128" height="150"/>
-        <element name="Profile" positionX="-54" positionY="243" width="128" height="780"/>
+        <element name="Profile" positionX="9" positionY="234" width="128" height="793"/>
         <element name="SupportContact" positionX="-396" positionY="441" width="128" height="193"/>
         <element name="UserContact" positionX="171" positionY="-70" width="128" height="300"/>
         <element name="VoiceMail" positionX="241" positionY="263" width="128" height="450"/>
+        <element name="VOIP" positionX="81" positionY="-150" width="128" height="103"/>
     </elements>
 </model>
