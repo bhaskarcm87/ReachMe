@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
             
             ANLoader.showLoading("", disableUI: true)
             self.coreDataStack.performAndWait(inContext: { (context) in
-                let userProfile = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.PROFILE, into: context) as! Profile
+                let userProfile = Profile(context: context)
                 userProfile.countryName = self.countryPicker.selectedCountry.name
                 userProfile.countryCode = self.countryPicker.selectedCountry.code
                 if let stateSearchCode = self.countryPicker.selectedCountry.stateSearchCode {

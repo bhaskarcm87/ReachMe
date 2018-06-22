@@ -101,7 +101,7 @@ open class ServiceRequest: NSObject {
                 }
                 
                 //New Message
-                let message = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.MESSAGE, into: context) as! Message
+                let message = Message(context: context)
                 message.content = fetchedMessage["msg_content"] as? String
                 message.contentType = fetchedMessage["msg_content_type"] as? String
                 message.flow = fetchedMessage["msg_flow"] as? String
@@ -370,7 +370,7 @@ extension ServiceRequest {
                         if let foundUserContact = userProfile.userContacts?.filtered(using: predicate).first as? UserContact {
                             updatedUserContact = foundUserContact
                         } else {
-                            updatedUserContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.USERCONTACT, into: context) as! UserContact
+                            updatedUserContact = UserContact(context: context)
                             userProfile.addToUserContacts(updatedUserContact)
                         }
                         
@@ -454,7 +454,7 @@ extension ServiceRequest {
                     //Update New Carriers
                     for remoteCarrier in (responseDics["country_list"] as! [[String: Any]]) {
                         
-                        let updatedCarrier = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.CARRIER, into: context) as! Carrier
+                        let updatedCarrier = Carrier(context: context)
                         updatedCarrier.carrierName = remoteCarrier["carrier_name"] as? String
                         updatedCarrier.vsmsNodeID = remoteCarrier["vsms_node_id"] as! Int16
                         updatedCarrier.countryCode = remoteCarrier["country_code"] as? String
@@ -554,8 +554,8 @@ extension ServiceRequest {
                     let supportContactJsonString = responseDics["iv_support_contact_ids"] as? String
                     let contactIDs = RMUtility.parseJSONToArrayOfDictionary(inputString: supportContactJsonString!)
                     for (index, contactID) in (contactIDs?.enumerated())! {
-                        let supportContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.SUPPORT_CONTACT, into: context) as! SupportContact
-
+                        
+                        let supportContact = SupportContact(context: context)
                         supportContact.userID = contactID["iv_user_id"] as? String
                         supportContact.phone = contactID["phone"] as? String
                         supportContact.profilePicURL = contactID["profile_pic_uri"] as? String
@@ -618,7 +618,7 @@ extension ServiceRequest {
                                         userContact.selectedCarrier = carrierFound.first
                                     } else {
                                         if userContact.selectedCarrier == nil {
-                                            userContact.selectedCarrier = (NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.CARRIER, into: context) as! Carrier)
+                                            userContact.selectedCarrier = Carrier(context: context)
                                         }
                                         if let vsms = carrierInfo["vsms_id"] as? Int16 {
                                             userContact.selectedCarrier?.vsmsNodeID = vsms
@@ -639,7 +639,7 @@ extension ServiceRequest {
                             let userContact = userProfile.userContacts?.filtered(using: predicate).first as! UserContact
                             
                             if userContact.voiceMailInfo == nil {
-                                userContact.voiceMailInfo = (NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.VOICEMAIL, into: context) as! VoiceMail)
+                                userContact.voiceMailInfo = VoiceMail(context: context)
                             }
                             
                             userContact.voiceMailInfo?.phoneNumber = voiceMail["phone"] as? String
@@ -694,7 +694,7 @@ extension ServiceRequest {
                     
                     //MQTTSettings
                     if userProfile.mqttSettings == nil {
-                        userProfile.mqttSettings = (NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.MQTT, into: context) as! MQTT)
+                        userProfile.mqttSettings = MQTT(context: context)
                     }
                     userProfile.mqttSettings?.chatTopic = responseDics["chat_topic"] as? String
                     userProfile.mqttSettings?.chatUser = responseDics["chat_user"] as? String
@@ -710,7 +710,7 @@ extension ServiceRequest {
                     //VOIP Info
                     if let voipInfo = responseDics["voip_info"] as? [String: Any] {
                         if userProfile.voipSettings == nil {
-                            userProfile.voipSettings = (NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.VOIP, into: context) as! VOIP)
+                            userProfile.voipSettings = VOIP(context: context)
                         }
                         userProfile.voipSettings?.login = voipInfo["login"] as? String
                         userProfile.voipSettings?.password = voipInfo["pwd"] as? String

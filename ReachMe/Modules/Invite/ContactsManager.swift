@@ -66,7 +66,7 @@ public class ContactsManager {
                 let userProfile = RMUtility.getProfileforConext(context: context)!
                 
                 for (index, contact) in contactList.enumerated() {
-                    let deviceContact = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.DEVICECONTACT, into: context) as! DeviceContact
+                    let deviceContact = DeviceContact(context: context)
                     deviceContact.contactName = contact.givenName + " \(contact.familyName)"
                     deviceContact.contactId = contact.identifier
                     if contact.imageDataAvailable {
@@ -78,7 +78,7 @@ public class ContactsManager {
                     for phoneLabel: CNLabeledValue in contact.phoneNumbers {
                         let CNNumber  = phoneLabel.value
                         //let countryCode = CNNumber.value(forKey: "countryCode") as! String
-                        let phoneNumber = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.PHONENUMBER, into: context) as! PhoneNumber
+                        let phoneNumber = PhoneNumber(context: context)
 
                         let mobileNumber = CNNumber.value(forKey: "digits") as! String
                         let number = try! PhoneNumberKit().parse(mobileNumber)
@@ -90,7 +90,7 @@ public class ContactsManager {
                     }
                     
                     for emailLabel: CNLabeledValue in contact.emailAddresses {
-                        let emailaddress = NSEntityDescription.insertNewObject(forEntityName: Constants.EntityName.EMAILADDRESS, into: context) as! EmailAddress
+                        let emailaddress = EmailAddress(context: context)
                         emailaddress.emailID = String(emailLabel.value)
                         emailaddress.labelType = emailLabel.label?.trim()
                         deviceContact.addToEmails(emailaddress)
