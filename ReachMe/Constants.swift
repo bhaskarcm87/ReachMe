@@ -83,13 +83,13 @@ class Constants: NSObject {
     }
 
     //Server
-//    #if DEBUG
-//        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
-//        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
-//    #else
+    #if DEBUG
+        static let URL_SERVER = "https://stagingchannels.instavoice.com/iv"
+        static let URL_MQTT_SERVER = "pn-staging14.instavoice.com"
+    #else
         static let URL_SERVER = "https://blogs.instavoice.com/iv"
         static let URL_MQTT_SERVER = "pn.instavoice.com"
-   // #endif
+    #endif
     
     //Others
     static let PASSWORD_MIN_LENGTH = 6
