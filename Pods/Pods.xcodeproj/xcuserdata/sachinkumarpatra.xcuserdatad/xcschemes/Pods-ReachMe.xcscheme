@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18D60027615C70FBB38AEA756C6432ED"
+               BlueprintIdentifier = "5A062CFC5FD7FDB1E1CE18CD5D3A3C8E"
                BuildableName = "Pods_ReachMe.framework"
                BlueprintName = "Pods-ReachMe"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,7 +26,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -37,7 +36,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -47,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18D60027615C70FBB38AEA756C6432ED"
+            BlueprintIdentifier = "5A062CFC5FD7FDB1E1CE18CD5D3A3C8E"
             BuildableName = "Pods_ReachMe.framework"
             BlueprintName = "Pods-ReachMe"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -54,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
        // UISearchBar.appearance().tintColor = UIColor.ReachMeColor()
         window?.tintColor = UIColor.ReachMeColor()
-
         //UINavigationBar.appearance().tintColor = UIColor.ReachMeColor()
         
 //        let reachMeNavVC = UIStoryboard(name: "NavController", bundle: nil).instantiateViewController(withIdentifier: "ReachMeNavControllerID") as! UINavigationController
@@ -87,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = reachMeNavVC
             
         } else if Defaults[.IsLoggedIn] {
-            //ServiceRequest.shared.connectMQTT()
+            ServiceRequest.shared.connectMQTT()
             UNUserNotificationCenter.current().delegate = self
             RMUtility.registerForPushNotifications()
             registerVOIPPush()
@@ -102,12 +101,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
-        //ServiceRequest.shared.disConnectMQTT()
+        ServiceRequest.shared.disConnectMQTT()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if Defaults[.IsLoggedIn] {
-            //ServiceRequest.shared.connectMQTT()
+            ServiceRequest.shared.connectMQTT()
             ServiceRequest.shared.startRequestForFetchMessages(completionHandler: nil)
         }
     }

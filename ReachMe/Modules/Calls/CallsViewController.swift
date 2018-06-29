@@ -7,26 +7,18 @@
 //
 
 import UIKit
-import CoreData
 import SwiftyUserDefaults
+import RxSwift
+import RxCocoa
+import RxDataSources
 
-class CallsViewController: UITableViewController {
+class CallsViewController: UIViewController {
    
-    private let coreDataStack = Constants.appDelegate.coreDataStack
+    @IBOutlet weak var tableView: UITableView!
+    var viewModel = CallsViewModel()
+    var dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, Message>>!
+    private let disposeBag = DisposeBag()
 
-    lazy var fetchedResultsController: NSFetchedResultsController<Message> = {
-        let frc: NSFetchedResultsController<Message>
-        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "type == %@", "mc") // only missed calls
-        let sort = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sort]
-        //fetchRequest.returnsObjectsAsFaults
-        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.defaultContext, sectionNameKeyPath: nil, cacheName: nil)
-        frc.delegate = self
-        do { try frc.performFetch() } catch { fatalError("Error in fetching records") }
-        
-        return frc
-    }()
     lazy var searchController: UISearchController = {
         $0.searchResultsUpdater = self
         $0.obscuresBackgroundDuringPresentation = false
@@ -36,22 +28,26 @@ class CallsViewController: UITableViewController {
         return $0
     }(UISearchController(searchResultsController: nil))
 
-    //var observer: CoreDataContextObserver?
     var isPresentingSearchBar: Bool = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
         tabBarController?.customizableViewControllers = []
         tabBarController?.delegate = self
-        tableView.tableFooterView = UIView()
-
-        handleBadgeCount()
-        ServiceRequest.shared.startRequestForFetchMessages(completionHandler: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+        bindViewModel()
         
+    }
+    
+    @IBAction func testButtonAction(_ sender: Any) {
+    }
+    
+    // MARK: - Custom Methods
+    func configureView() {
         //Searchbar
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
@@ -60,135 +56,89 @@ class CallsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
-//        observer = CoreDataContextObserver(context: Constants.appDelegate.coreDataStack.defaultContext)
-//        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
-//            // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
-//            do {
-//                try self.fetchedResultsController.performFetch()
-//                self.handleBadgeCount()
-//            } catch { fatalError("Error in fetching records") }
-//        })
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+        //TableView
+        tableView.tableFooterView = UIView()
+        dataSource = RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, Message>>(configureCell: { dateSource, tableView, indexPath, message in
+            let cell = tableView.dequeueReusableCell(withIdentifier: CallsGeneralCell.identifier, for: indexPath) as! CallsGeneralCell
+            cell.confiureCellForMessage(message: message)
+            return cell
+        })
         
-    // MARK: - Custom Methods
-    func handleBadgeCount() {
-        var unreadMessageCount: String? = nil
+        dataSource.canEditRowAtIndexPath = { _, _  in
+            return true
+        }
+    }
+    
+    func bindViewModel() {
         
-        if let messageCount  = self.fetchedResultsController.fetchedObjects?.filter({$0.readCount == 0}).count,
-            messageCount > 0 {
-            unreadMessageCount = "\(messageCount)"
-        }
-        DispatchQueue.main.async {
-            self.tabBarController?.tabBar.items?.first?.badgeValue = unreadMessageCount
-        }
+        let observableMessagess = viewModel.getMissedCalls().asObservable()
+        observableMessagess
+            .map { messages in
+                [AnimatableSectionModel(model: "Section 1", items: messages)]
+            }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+        .disposed(by: disposeBag)
+
+        //Badge Update
+        observableMessagess.subscribe(onNext: { _ in
+            self.viewModel.handleBadgeCount()
+        }).disposed(by: disposeBag)
+        
+        //Badge Update
+        viewModel.unreadMessageCount.bind { (count) in
+            self.tabBarController?.tabBar.items?.first?.badgeValue = count
+        }.disposed(by: disposeBag)
+        
+        //Delete Action
+        tableView.rx.itemDeleted
+            .subscribe(onNext: { indexPath in
+                
+            let alert = UIAlertController(style: .alert, title: "Delete missed call?", message: "This missed call will be deleted from your account.")
+            alert.addAction(title: "Cancel")
+            alert.addAction(title: "Delete", handler: { _ in
+                guard RMUtility.isNetwork() else {
+                    RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
+                    return
+                }
+    
+                let cellToDelete = self.tableView.cellForRow(at: indexPath) as! CallsGeneralCell
+                cellToDelete.spinner.startAnimating()
+                cellToDelete.alpha = 0.6
+                cellToDelete.isUserInteractionEnabled = false
+    
+                self.viewModel.deleteMessage(withIndex: indexPath.row, completionHandler: { (success) in
+                    DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
+                    guard success else {
+                        cellToDelete.alpha = 1
+                        cellToDelete.isUserInteractionEnabled = true
+                        return
+                    }
+                })
+            })
+            alert.show()
+
+        }).disposed(by: disposeBag)
+        
+        //Select Action
+        tableView.rx.itemSelected
+            .map { [unowned self] indexPath -> Message in
+                return try self.tableView.rx.model(at: indexPath)
+            }
+            .subscribe(viewModel.selectAction.inputs)
+        .disposed(by: disposeBag)
+        
+        //Search Action
+        searchController.searchBar.rx.text
+            .throttle(0.3, scheduler: MainScheduler.instance)
+            .map { return $0! }
+            .subscribe(viewModel.searchAction.inputs)
+        .disposed(by: disposeBag)
+
     }
     
     // MARK: - Segue Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let selectedMessage = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!)
-        guard selectedMessage.readCount == 0 else { return }
-        
-        ServiceRequest.shared.startRequestForReadMessages(messages: [selectedMessage]) { (success) in
-            guard success else { return }
-            
-            selectedMessage.readCount = 1
-            self.coreDataStack.saveContexts(withCompletion: { (error) in
-                self.handleBadgeCount()
-            })
-        }
-    }
-}
-
-// MARK: - TableView Delegate & Datasource
-extension CallsViewController {
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        guard editingStyle == .delete else { return }
-        
-        let alert = UIAlertController(style: .alert, title: "Delete missed call?", message: "This missed call will be deleted from your account.")
-        alert.addAction(title: "Cancel")
-        alert.addAction(title: "Delete", handler: { _ in
-            guard RMUtility.isNetwork() else {
-                RMUtility.showAlert(withMessage: "NET_NOT_AVAILABLE".localized)
-                return
-            }
-            
-            let cellToDelete = tableView.cellForRow(at: indexPath) as! CallsGeneralCell
-            cellToDelete.spinner.startAnimating()
-            cellToDelete.alpha = 0.6
-            cellToDelete.isUserInteractionEnabled = false
-            
-            let messageToDelete = self.fetchedResultsController.object(at: indexPath)
-            ServiceRequest.shared.startRequestForDeleteMessage(message: messageToDelete, completionHandler: { (success) in
-                DispatchQueue.main.async { cellToDelete.spinner.stopAnimating() }
-                guard success else {
-                    cellToDelete.alpha = 1
-                    cellToDelete.isUserInteractionEnabled = true
-                    return
-                }
-                self.coreDataStack.defaultContext.delete(messageToDelete)
-                self.coreDataStack.saveContexts(withCompletion: { (error) in
-                    self.handleBadgeCount()
-                })
-            })
-        })
-        alert.show()            
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
-            let currentSection = sections[section]
-            return currentSection.numberOfObjects
-        }
-        return 0
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CallsGeneralCell.identifier, for: indexPath) as! CallsGeneralCell
-        
-        let message = fetchedResultsController.object(at: indexPath)
-        cell.confiureCellForMessage(message: message)
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-extension CallsViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
-        switch type {
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .left)
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .top)
-        case .move:
-            print("Move")
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-        handleBadgeCount()
+        self.tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
     }
 }
 
@@ -203,17 +153,6 @@ extension CallsViewController: UISearchResultsUpdating, UISearchControllerDelega
             isPresentingSearchBar = false
             return
         }
-        
-        if searchController.searchBar.text!.isEmpty {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(type == %@)", "mc")
-        } else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(type == %@) && (senderName contains [cd] %@)", "mc", searchController.searchBar.text!.lowercased())
-        }
-
-        do {
-            try self.fetchedResultsController.performFetch()
-            tableView.reloadData()
-        } catch { fatalError("Error in fetching records") }
     }
 }
 
@@ -224,21 +163,8 @@ extension CallsViewController: UITabBarControllerDelegate {
         if !((viewController as! UINavigationController).topViewController?.isKind(of: CallsViewController.self))!,
             tabBarController.selectedIndex == 0 {
             
-            if let unreadMessages  = self.fetchedResultsController.fetchedObjects?.filter({$0.readCount == 0}),
-                unreadMessages.count > 0 {
-                ServiceRequest.shared.startRequestForReadMessages(messages: unreadMessages) { (success) in
-                    guard success else { return }
-                    
-                    //CoreDataModel.sharedInstance().updateRecords(entity: .MessageEntity, properties: ["readCount" : 1])
-
-                    unreadMessages.forEach { $0.readCount = 1}
-                    self.coreDataStack.saveContexts(withCompletion: { (error) in
-                        self.handleBadgeCount()
-                    })
-                }
-            }
+            viewModel.unReadCallToReadStateAction.execute(nil)
         }
-        
         return true
     }
 }

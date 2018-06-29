@@ -87,7 +87,7 @@
 		8C972EC620594B07008C9FEA /* ActivatedReachMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC520594B07008C9FEA /* ActivatedReachMeViewController.swift */; };
 		8C972EC820596470008C9FEA /* ActivatedReachMeTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC720596470008C9FEA /* ActivatedReachMeTableCells.swift */; };
 		8C972ECB205A8812008C9FEA /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C972ECA205A8812008C9FEA /* Dashboard.storyboard */; };
-		8C97917E206A2BCF004BFA3B /* VoicemailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97917D206A2BCF004BFA3B /* VoicemailsViewController.swift */; };
+		8C97917E206A2BCF004BFA3B /* OldVoicemailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97917D206A2BCF004BFA3B /* OldVoicemailsController.swift */; };
 		8C9791C8206AE04A004BFA3B /* JukeboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9791C6206AE04A004BFA3B /* JukeboxItem.swift */; };
 		8C9791C9206AE04A004BFA3B /* Jukebox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9791C7206AE04A004BFA3B /* Jukebox.swift */; };
 		8C9920352046A0ED00C5ED14 /* SelectCarrierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9920342046A0ED00C5ED14 /* SelectCarrierViewController.swift */; };
@@ -172,6 +172,11 @@
 		8CD354AC2066E19E009BCF14 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD354AB2066E19E009BCF14 /* WebViewController.swift */; };
 		8CDA60BF20A6320600A00873 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA60BE20A6320600A00873 /* CoreDataStack.swift */; };
 		8CDA60C120A6326C00A00873 /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */; };
+		8CE6916E20E35E960094C2DC /* MessagessDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6916D20E35E960094C2DC /* MessagessDataProvider.swift */; };
+		8CE6917020E365AE0094C2DC /* CallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6916F20E365AE0094C2DC /* CallsViewModel.swift */; };
+		8CE6917220E41F9B0094C2DC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917120E41F9B0094C2DC /* Message.swift */; };
+		8CE6917420E519930094C2DC /* VoicemailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917320E519930094C2DC /* VoicemailViewController.swift */; };
+		8CE6917620E51F0D0094C2DC /* VoicemailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917520E51F0D0094C2DC /* VoicemailViewModel.swift */; };
 		8CF7B1C1205BAE0100F87FFB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */; };
 		8CF7B1C3205BAF4500F87FFB /* AboutReachMe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */; };
 		8CF7B1C5205BAFCD00F87FFB /* Calls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */; };
@@ -280,7 +285,7 @@
 		8C972EC520594B07008C9FEA /* ActivatedReachMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatedReachMeViewController.swift; sourceTree = "<group>"; };
 		8C972EC720596470008C9FEA /* ActivatedReachMeTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatedReachMeTableCells.swift; sourceTree = "<group>"; };
 		8C972ECA205A8812008C9FEA /* Dashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
-		8C97917D206A2BCF004BFA3B /* VoicemailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemailsViewController.swift; sourceTree = "<group>"; };
+		8C97917D206A2BCF004BFA3B /* OldVoicemailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVoicemailsController.swift; sourceTree = "<group>"; };
 		8C9791C6206AE04A004BFA3B /* JukeboxItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JukeboxItem.swift; sourceTree = "<group>"; };
 		8C9791C7206AE04A004BFA3B /* Jukebox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jukebox.swift; sourceTree = "<group>"; };
 		8C9920342046A0ED00C5ED14 /* SelectCarrierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCarrierViewController.swift; sourceTree = "<group>"; };
@@ -381,6 +386,11 @@
 		8CD354AB2066E19E009BCF14 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		8CDA60BE20A6320600A00873 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
+		8CE6916D20E35E960094C2DC /* MessagessDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagessDataProvider.swift; sourceTree = "<group>"; };
+		8CE6916F20E365AE0094C2DC /* CallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsViewModel.swift; sourceTree = "<group>"; };
+		8CE6917120E41F9B0094C2DC /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		8CE6917320E519930094C2DC /* VoicemailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemailViewController.swift; sourceTree = "<group>"; };
+		8CE6917520E51F0D0094C2DC /* VoicemailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemailViewModel.swift; sourceTree = "<group>"; };
 		8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutReachMe.storyboard; sourceTree = "<group>"; };
 		8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calls.storyboard; sourceTree = "<group>"; };
@@ -671,6 +681,7 @@
 				8CA1E2832048849E004E7D6B /* Profile.swift */,
 				8CDA60BE20A6320600A00873 /* CoreDataStack.swift */,
 				8CDA60C020A6326C00A00873 /* NSManagedObjectContext+Extension.swift */,
+				8CE6917120E41F9B0094C2DC /* Message.swift */,
 			);
 			name = CoreData;
 			path = ReachMe/CoreData;
@@ -689,7 +700,11 @@
 			isa = PBXGroup;
 			children = (
 				8CB230212064D22100760CD3 /* CallsViewController.swift */,
-				8C97917D206A2BCF004BFA3B /* VoicemailsViewController.swift */,
+				8CE6916F20E365AE0094C2DC /* CallsViewModel.swift */,
+				8CE6916D20E35E960094C2DC /* MessagessDataProvider.swift */,
+				8CE6917320E519930094C2DC /* VoicemailViewController.swift */,
+				8CE6917520E51F0D0094C2DC /* VoicemailViewModel.swift */,
+				8C97917D206A2BCF004BFA3B /* OldVoicemailsController.swift */,
 				8CD354A0206513ED009BCF14 /* MessagesTableCells.swift */,
 			);
 			path = Calls;
@@ -1152,30 +1167,38 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ReachMe/Pods-ReachMe-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Former/Former.framework",
 				"${BUILT_PRODUCTS_DIR}/MTCoordinatorView/MTCoordinatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RSSelectionMenu/RSSelectionMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCoreData/RxCoreData.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountdownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Former.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MTCoordinatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSSelectionMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCoreData.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
@@ -1248,10 +1271,13 @@
 				8CD285BB20B68E880013220E /* Audio.swift in Sources */,
 				8CB4272820A071FF00D666E2 /* LocalePickerViewController.swift in Sources */,
 				8C2892622039FA5C0026537B /* VPMOTPTextField.swift in Sources */,
+				8CE6917020E365AE0094C2DC /* CallsViewModel.swift in Sources */,
 				8CA328542095B97C00004521 /* UISearchBar+Extensions.swift in Sources */,
 				8CB4273E20A071FF00D666E2 /* RCMessage.m in Sources */,
 				8C637CCE2035C77500A38663 /* AppDelegate.swift in Sources */,
 				8CB4274020A071FF00D666E2 /* RCMessages.m in Sources */,
+				8CE6917220E41F9B0094C2DC /* Message.swift in Sources */,
+				8CE6916E20E35E960094C2DC /* MessagessDataProvider.swift in Sources */,
 				8C1B1060207CA81200A172B3 /* ChatTableCells.swift in Sources */,
 				8C02DCDA203C407300CB8A46 /* ANLoader.swift in Sources */,
 				8CF7B1CD205BC52C00F87FFB /* SettingsTableCells.swift in Sources */,
@@ -1280,6 +1306,7 @@
 				8CA328722095E9ED00004521 /* Array+Extensions.swift in Sources */,
 				8C7D7AC7206246DE0002DF2D /* Date+Extention.swift in Sources */,
 				8C7CCE0D20AB1C17004B6863 /* InviteViewController.swift in Sources */,
+				8CE6917420E519930094C2DC /* VoicemailViewController.swift in Sources */,
 				8CD2859720B43B2A0013220E /* DialPadViewController.swift in Sources */,
 				8C972EC02056CAA9008C9FEA /* ActivationReachMeViewController.swift in Sources */,
 				8CB4275B20A071FF00D666E2 /* MQTTSession.swift in Sources */,
@@ -1318,6 +1345,7 @@
 				8CB4273720A071FF00D666E2 /* RCEmojiMessageCell.m in Sources */,
 				8CB4275020A071FF00D666E2 /* MQTTPacketFixedHeader.swift in Sources */,
 				8CB4273220A071FF00D666E2 /* RCBubbleFooterCell.m in Sources */,
+				8CE6917620E51F0D0094C2DC /* VoicemailViewModel.swift in Sources */,
 				8CB4273F20A071FF00D666E2 /* RCMenuItem.m in Sources */,
 				8CB4275C20A071FF00D666E2 /* MQTTSessionStreamDelegate.swift in Sources */,
 				8CB230222064D22100760CD3 /* CallsViewController.swift in Sources */,
@@ -1331,7 +1359,7 @@
 				8CB4273A20A071FF00D666E2 /* RCAudioMessageCell.m in Sources */,
 				8C9791C8206AE04A004BFA3B /* JukeboxItem.swift in Sources */,
 				8CB4273620A071FF00D666E2 /* RCTextMessageCell.m in Sources */,
-				8C97917E206A2BCF004BFA3B /* VoicemailsViewController.swift in Sources */,
+				8C97917E206A2BCF004BFA3B /* OldVoicemailsController.swift in Sources */,
 				8C972EB420551A63008C9FEA /* HowToActivateReachMeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1331,7 +1331,7 @@ extension ServiceRequest: MQTTSessionDelegate {
             // content.subtitle = subtitle
             content.body = subtitle
             content.sound = UNNotificationSound(named: "InstavoiceNotificationTone")
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.01, repeats: false)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
             let request = UNNotificationRequest(identifier: "MQTTLocalNotificationIdentifier", content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request)
         }

@@ -1,5 +1,5 @@
 //
-//  VoicemailsViewController.swift
+//  OldVoicemailsController.swift
 //  ReachMe
 //
 //  Created by Sachin Kumar Patra on 3/27/18.
@@ -8,10 +8,8 @@
 
 import UIKit
 import CoreData
-import RxSwift
-import RxCocoa
 
-class VoicemailsViewController: UITableViewController {
+class OldVoicemailsController: UITableViewController {
 
     private let coreDataStack = Constants.appDelegate.coreDataStack
 
@@ -38,7 +36,8 @@ class VoicemailsViewController: UITableViewController {
     
     var isPresentingSearchBar: Bool = false
     var playingJukebox: Jukebox?
-    
+    //var observer: CoreDataContextObserver?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         handleBadgeCount()
@@ -56,6 +55,15 @@ class VoicemailsViewController: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
         
+        //        observer = CoreDataContextObserver(context: Constants.appDelegate.coreDataStack.defaultContext)
+        //        observer?.observeObject(object: Constants.appDelegate.userProfile!, state: .Updated, completionBlock: { object, state in
+        //            // print("CHANGED VALUES: \(object.changedValuesForCurrentEvent())")
+        //            do {
+        //                try self.fetchedResultsController.performFetch()
+        //                self.handleBadgeCount()
+        //            } catch { fatalError("Error in fetching records") }
+        //        })
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,7 +98,7 @@ class VoicemailsViewController: UITableViewController {
 }
 
 // MARK: - TableView Delegate & Datasource
-extension VoicemailsViewController {
+extension OldVoicemailsController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
@@ -179,7 +187,7 @@ extension VoicemailsViewController {
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
-extension VoicemailsViewController: NSFetchedResultsControllerDelegate {
+extension OldVoicemailsController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -204,7 +212,7 @@ extension VoicemailsViewController: NSFetchedResultsControllerDelegate {
 }
 
 // MARK: - Search Delegates
-extension VoicemailsViewController: UISearchResultsUpdating, UISearchControllerDelegate {
+extension OldVoicemailsController: UISearchResultsUpdating, UISearchControllerDelegate {
     func presentSearchController(_ searchController: UISearchController) {
         isPresentingSearchBar = true
     }
