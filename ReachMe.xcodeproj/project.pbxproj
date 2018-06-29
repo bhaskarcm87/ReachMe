@@ -14,7 +14,6 @@
 		8C02DCE2203D97BD00CB8A46 /* String+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C02DCE1203D97BD00CB8A46 /* String+Extention.swift */; };
 		8C02DCE6203EBA1300CB8A46 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C02DCE5203EBA1300CB8A46 /* Localizable.strings */; };
 		8C17CF242038052900CCADC1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C17CF232038052900CCADC1 /* Constants.swift */; };
-		8C1B105B207C916F00A172B3 /* Chats.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C1B105A207C916F00A172B3 /* Chats.storyboard */; };
 		8C1B105E207C91C700A172B3 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B105D207C91C700A172B3 /* ChatsViewController.swift */; };
 		8C1B1060207CA81200A172B3 /* ChatTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B105F207CA81200A172B3 /* ChatTableCells.swift */; };
 		8C1B1063207CD10900A172B3 /* ChatUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B1062207CD10900A172B3 /* ChatUserViewController.swift */; };
@@ -79,14 +78,12 @@
 		8C934CF120502D6B00AAAC73 /* AudioResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C934CF020502D6A00AAAC73 /* AudioResource.bundle */; };
 		8C972EB220543CEB008C9FEA /* EditNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EB120543CEB008C9FEA /* EditNumberViewController.swift */; };
 		8C972EB420551A63008C9FEA /* HowToActivateReachMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EB320551A63008C9FEA /* HowToActivateReachMeViewController.swift */; };
-		8C972EBA2056B018008C9FEA /* NavController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C972EB92056B018008C9FEA /* NavController.storyboard */; };
 		8C972EBE2056B3CB008C9FEA /* ActivateReachMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EBD2056B3CB008C9FEA /* ActivateReachMeViewController.swift */; };
 		8C972EC02056CAA9008C9FEA /* ActivationReachMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EBF2056CAA9008C9FEA /* ActivationReachMeViewController.swift */; };
 		8C972EC22057E152008C9FEA /* ActivationReachMeTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC12057E152008C9FEA /* ActivationReachMeTableCells.swift */; };
 		8C972EC4205915D1008C9FEA /* UIAlertController+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC3205915D1008C9FEA /* UIAlertController+Extention.swift */; };
 		8C972EC620594B07008C9FEA /* ActivatedReachMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC520594B07008C9FEA /* ActivatedReachMeViewController.swift */; };
 		8C972EC820596470008C9FEA /* ActivatedReachMeTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C972EC720596470008C9FEA /* ActivatedReachMeTableCells.swift */; };
-		8C972ECB205A8812008C9FEA /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C972ECA205A8812008C9FEA /* Dashboard.storyboard */; };
 		8C97917E206A2BCF004BFA3B /* OldVoicemailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97917D206A2BCF004BFA3B /* OldVoicemailsController.swift */; };
 		8C9791C8206AE04A004BFA3B /* JukeboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9791C6206AE04A004BFA3B /* JukeboxItem.swift */; };
 		8C9791C9206AE04A004BFA3B /* Jukebox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9791C7206AE04A004BFA3B /* Jukebox.swift */; };
@@ -177,11 +174,14 @@
 		8CE6917220E41F9B0094C2DC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917120E41F9B0094C2DC /* Message.swift */; };
 		8CE6917420E519930094C2DC /* VoicemailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917320E519930094C2DC /* VoicemailViewController.swift */; };
 		8CE6917620E51F0D0094C2DC /* VoicemailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6917520E51F0D0094C2DC /* VoicemailViewModel.swift */; };
-		8CF7B1C1205BAE0100F87FFB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */; };
-		8CF7B1C3205BAF4500F87FFB /* AboutReachMe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */; };
-		8CF7B1C5205BAFCD00F87FFB /* Calls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */; };
-		8CF7B1C7205BAFEB00F87FFB /* Voicemails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C6205BAFEB00F87FFB /* Voicemails.storyboard */; };
-		8CF7B1C9205BB00D00F87FFB /* Invite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF7B1C8205BB00D00F87FFB /* Invite.storyboard */; };
+		8CE6918B20E67ACA0094C2DC /* Voicemails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6917B20E67AC80094C2DC /* Voicemails.storyboard */; };
+		8CE6918C20E67ACA0094C2DC /* NavController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6917D20E67AC80094C2DC /* NavController.storyboard */; };
+		8CE6918D20E67ACA0094C2DC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6917F20E67AC90094C2DC /* Settings.storyboard */; };
+		8CE6918E20E67ACA0094C2DC /* Chats.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6918120E67AC90094C2DC /* Chats.storyboard */; };
+		8CE6918F20E67ACA0094C2DC /* Invite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6918320E67AC90094C2DC /* Invite.storyboard */; };
+		8CE6919020E67ACA0094C2DC /* Calls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6918520E67AC90094C2DC /* Calls.storyboard */; };
+		8CE6919120E67ACA0094C2DC /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6918720E67ACA0094C2DC /* Dashboard.storyboard */; };
+		8CE6919220E67ACA0094C2DC /* AboutReachMe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6918920E67ACA0094C2DC /* AboutReachMe.storyboard */; };
 		8CF7B1CB205BC10500F87FFB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7B1CA205BC10500F87FFB /* SettingsViewController.swift */; };
 		8CF7B1CD205BC52C00F87FFB /* SettingsTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7B1CC205BC52C00F87FFB /* SettingsTableCells.swift */; };
 /* End PBXBuildFile section */
@@ -219,7 +219,6 @@
 		8C02DCE1203D97BD00CB8A46 /* String+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extention.swift"; sourceTree = "<group>"; };
 		8C02DCE5203EBA1300CB8A46 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		8C17CF232038052900CCADC1 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8C1B105A207C916F00A172B3 /* Chats.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chats.storyboard; sourceTree = "<group>"; };
 		8C1B105D207C91C700A172B3 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		8C1B105F207CA81200A172B3 /* ChatTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableCells.swift; sourceTree = "<group>"; };
 		8C1B1062207CD10900A172B3 /* ChatUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserViewController.swift; sourceTree = "<group>"; };
@@ -277,14 +276,12 @@
 		8C934CF020502D6A00AAAC73 /* AudioResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AudioResource.bundle; sourceTree = "<group>"; };
 		8C972EB120543CEB008C9FEA /* EditNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNumberViewController.swift; sourceTree = "<group>"; };
 		8C972EB320551A63008C9FEA /* HowToActivateReachMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToActivateReachMeViewController.swift; sourceTree = "<group>"; };
-		8C972EB92056B018008C9FEA /* NavController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NavController.storyboard; sourceTree = "<group>"; };
 		8C972EBD2056B3CB008C9FEA /* ActivateReachMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateReachMeViewController.swift; sourceTree = "<group>"; };
 		8C972EBF2056CAA9008C9FEA /* ActivationReachMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivationReachMeViewController.swift; sourceTree = "<group>"; };
 		8C972EC12057E152008C9FEA /* ActivationReachMeTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivationReachMeTableCells.swift; sourceTree = "<group>"; };
 		8C972EC3205915D1008C9FEA /* UIAlertController+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extention.swift"; sourceTree = "<group>"; };
 		8C972EC520594B07008C9FEA /* ActivatedReachMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatedReachMeViewController.swift; sourceTree = "<group>"; };
 		8C972EC720596470008C9FEA /* ActivatedReachMeTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatedReachMeTableCells.swift; sourceTree = "<group>"; };
-		8C972ECA205A8812008C9FEA /* Dashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
 		8C97917D206A2BCF004BFA3B /* OldVoicemailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVoicemailsController.swift; sourceTree = "<group>"; };
 		8C9791C6206AE04A004BFA3B /* JukeboxItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JukeboxItem.swift; sourceTree = "<group>"; };
 		8C9791C7206AE04A004BFA3B /* Jukebox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jukebox.swift; sourceTree = "<group>"; };
@@ -391,11 +388,14 @@
 		8CE6917120E41F9B0094C2DC /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8CE6917320E519930094C2DC /* VoicemailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemailViewController.swift; sourceTree = "<group>"; };
 		8CE6917520E51F0D0094C2DC /* VoicemailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemailViewModel.swift; sourceTree = "<group>"; };
-		8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
-		8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutReachMe.storyboard; sourceTree = "<group>"; };
-		8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Calls.storyboard; sourceTree = "<group>"; };
-		8CF7B1C6205BAFEB00F87FFB /* Voicemails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Voicemails.storyboard; sourceTree = "<group>"; };
-		8CF7B1C8205BB00D00F87FFB /* Invite.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Invite.storyboard; sourceTree = "<group>"; };
+		8CE6917C20E67AC80094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Voicemails.storyboard; sourceTree = "<group>"; };
+		8CE6917E20E67AC80094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/NavController.storyboard; sourceTree = "<group>"; };
+		8CE6918020E67AC90094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
+		8CE6918220E67AC90094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Chats.storyboard; sourceTree = "<group>"; };
+		8CE6918420E67AC90094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Invite.storyboard; sourceTree = "<group>"; };
+		8CE6918620E67AC90094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Calls.storyboard; sourceTree = "<group>"; };
+		8CE6918820E67ACA0094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Dashboard.storyboard; sourceTree = "<group>"; };
+		8CE6918A20E67ACA0094C2DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AboutReachMe.storyboard; sourceTree = "<group>"; };
 		8CF7B1CA205BC10500F87FFB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8CF7B1CC205BC52C00F87FFB /* SettingsTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCells.swift; sourceTree = "<group>"; };
 		93D72E3FECA0546467F12C5A /* Pods_ReachMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReachMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -506,18 +506,18 @@
 		8C2892692039FE3C0026537B /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				8CE6918920E67ACA0094C2DC /* AboutReachMe.storyboard */,
+				8CE6918520E67AC90094C2DC /* Calls.storyboard */,
+				8CE6918120E67AC90094C2DC /* Chats.storyboard */,
+				8CE6918720E67ACA0094C2DC /* Dashboard.storyboard */,
+				8CE6918320E67AC90094C2DC /* Invite.storyboard */,
+				8CE6917D20E67AC80094C2DC /* NavController.storyboard */,
+				8CE6917F20E67AC90094C2DC /* Settings.storyboard */,
+				8CE6917B20E67AC80094C2DC /* Voicemails.storyboard */,
 				8C2BD88F2042B88800E24209 /* ActivateReachMe.storyboard */,
 				8C28926A2039FEC10026537B /* Login.storyboard */,
 				8C637CD12035C77500A38663 /* Main.storyboard */,
 				8C637CD92035C77500A38663 /* LaunchScreen.storyboard */,
-				8C972EB92056B018008C9FEA /* NavController.storyboard */,
-				8C972ECA205A8812008C9FEA /* Dashboard.storyboard */,
-				8C1B105A207C916F00A172B3 /* Chats.storyboard */,
-				8CF7B1C8205BB00D00F87FFB /* Invite.storyboard */,
-				8CF7B1C6205BAFEB00F87FFB /* Voicemails.storyboard */,
-				8CF7B1C4205BAFCD00F87FFB /* Calls.storyboard */,
-				8CF7B1C2205BAF4500F87FFB /* AboutReachMe.storyboard */,
-				8CF7B1C0205BAE0100F87FFB /* Settings.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -1105,15 +1105,16 @@
 			files = (
 				8CB4274420A071FF00D666E2 /* rcmessage_audio@2x.png in Resources */,
 				8CB4274720A071FF00D666E2 /* rcmessage_send@2x.png in Resources */,
+				8CE6918E20E67ACA0094C2DC /* Chats.storyboard in Resources */,
 				8CB4274320A071FF00D666E2 /* rcmessage_attach@2x.png in Resources */,
 				8C5F6DE220C13DDA00F3F634 /* linphonerc-factory in Resources */,
-				8C972EBA2056B018008C9FEA /* NavController.storyboard in Resources */,
 				8CB4274520A071FF00D666E2 /* rcmessage_incoming.aiff in Resources */,
 				8C28926C2039FEC10026537B /* Login.storyboard in Resources */,
-				8CF7B1C5205BAFCD00F87FFB /* Calls.storyboard in Resources */,
+				8CE6919220E67ACA0094C2DC /* AboutReachMe.storyboard in Resources */,
 				8C637CDB2035C77500A38663 /* LaunchScreen.storyboard in Resources */,
 				8C5F6DE420C13DDA00F3F634 /* ringback.wav in Resources */,
 				8C637CD82035C77500A38663 /* Assets.xcassets in Resources */,
+				8CE6919020E67ACA0094C2DC /* Calls.storyboard in Resources */,
 				8C5F6DE320C13DDA00F3F634 /* linphonerc in Resources */,
 				8CB4274620A071FF00D666E2 /* rcmessage_outgoing.aiff in Resources */,
 				8C2BD8912042B88800E24209 /* ActivateReachMe.storyboard in Resources */,
@@ -1122,20 +1123,19 @@
 				8CB4274920A071FF00D666E2 /* rcmessages_audioplay@2x.png in Resources */,
 				8C5F6DE120C13DDA00F3F634 /* Secret.plist in Resources */,
 				8C637CD32035C77500A38663 /* Main.storyboard in Resources */,
+				8CE6919120E67ACA0094C2DC /* Dashboard.storyboard in Resources */,
 				8C7D7ACD206264440002DF2D /* Localizable.stringsdict in Resources */,
 				8CB2301F2063B7EA00760CD3 /* InstavoiceNotificationTone.caf in Resources */,
-				8CF7B1C7205BAFEB00F87FFB /* Voicemails.storyboard in Resources */,
 				8C934CF120502D6B00AAAC73 /* AudioResource.bundle in Resources */,
-				8C1B105B207C916F00A172B3 /* Chats.storyboard in Resources */,
-				8CF7B1C3205BAF4500F87FFB /* AboutReachMe.storyboard in Resources */,
-				8C972ECB205A8812008C9FEA /* Dashboard.storyboard in Resources */,
+				8CE6918B20E67ACA0094C2DC /* Voicemails.storyboard in Resources */,
 				8CB4274820A071FF00D666E2 /* rcmessages_audiopause@2x.png in Resources */,
 				8C5F6DE520C13DDA00F3F634 /* linphonerc~ipad in Resources */,
+				8CE6918C20E67ACA0094C2DC /* NavController.storyboard in Resources */,
+				8CE6918F20E67ACA0094C2DC /* Invite.storyboard in Resources */,
 				8C02DCE6203EBA1300CB8A46 /* Localizable.strings in Resources */,
-				8CF7B1C1205BAE0100F87FFB /* Settings.storyboard in Resources */,
-				8CF7B1C9205BB00D00F87FFB /* Invite.storyboard in Resources */,
 				8CB4274B20A071FF00D666E2 /* rcmessages_videoplay@2x.png in Resources */,
 				8CB4274A20A071FF00D666E2 /* rcmessages_manual@2x.png in Resources */,
+				8CE6918D20E67ACA0094C2DC /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,6 +1397,70 @@
 				8C637CDA2035C77500A38663 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6917B20E67AC80094C2DC /* Voicemails.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6917C20E67AC80094C2DC /* Base */,
+			);
+			name = Voicemails.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6917D20E67AC80094C2DC /* NavController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6917E20E67AC80094C2DC /* Base */,
+			);
+			name = NavController.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6917F20E67AC90094C2DC /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918020E67AC90094C2DC /* Base */,
+			);
+			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6918120E67AC90094C2DC /* Chats.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918220E67AC90094C2DC /* Base */,
+			);
+			name = Chats.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6918320E67AC90094C2DC /* Invite.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918420E67AC90094C2DC /* Base */,
+			);
+			name = Invite.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6918520E67AC90094C2DC /* Calls.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918620E67AC90094C2DC /* Base */,
+			);
+			name = Calls.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6918720E67ACA0094C2DC /* Dashboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918820E67ACA0094C2DC /* Base */,
+			);
+			name = Dashboard.storyboard;
+			sourceTree = "<group>";
+		};
+		8CE6918920E67ACA0094C2DC /* AboutReachMe.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CE6918A20E67ACA0094C2DC /* Base */,
+			);
+			name = AboutReachMe.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
