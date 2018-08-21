@@ -8,6 +8,7 @@
 
 import UIKit
 import CountdownLabel
+import SwiftyJSON
 
 class HowToActivateReachMeViewController: UITableViewController {
 
@@ -85,11 +86,11 @@ class HowToActivateReachMeViewController: UITableViewController {
             }
             
             ANLoader.showLoading("", disableUI: true)
-            var params: [String: Any] = ["cmd": Constants.ApiCommands.VOICEMAIL_SETTING,
+            let params = JSON(["cmd": Constants.ApiCommands.VOICEMAIL_SETTING,
                                          "phone_num": userContact.contactID!,
-                                         "action": "enable"]
+                                         "action": "enable"])
             startCounter()
-            ServiceRequest.shared.startRequestForVoicemailSetting(withVoicemailInfo: &params, completionHandler: { (success) in
+            ServiceRequest.shared.startRequestForVoicemailSetting(withVoicemailInfo: params, completionHandler: { (success) in
                 ANLoader.hide()
                 guard success else { return }
                 

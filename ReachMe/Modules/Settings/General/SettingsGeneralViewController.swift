@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyUserDefaults
+import SwiftyJSON
 
 class SettingsGeneralViewController: UITableViewController {
 
@@ -84,9 +85,9 @@ extension SettingsGeneralViewController {
                 }
                 
                 ANLoader.showLoading("", disableUI: true)
-                var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
-                                             "pwd": newPassTextField.text!]
-                ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+                let params = JSON(["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
+                                             "pwd": newPassTextField.text!])
+                ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: params) { (success) in
                     ANLoader.hide()
                     guard success else {
                         //Not sure to show again chage password alert on failure

@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import Alamofire
 import SwiftyUserDefaults
+import SwiftyJSON
 
 enum ValidationResult {
     case passLenthMismathc
@@ -126,9 +127,9 @@ class ResetPasswordViewController: UIViewController {
     @IBAction func onContinueClicked(_ sender: UIButton) {
         
         ANLoader.showLoading("", disableUI: true)
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
-                                     "pwd": confirmPasswordTextField.text!]
-        ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+        let params = JSON(["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
+                                     "pwd": confirmPasswordTextField.text!])
+        ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: params) { (success) in
             guard success else { return }
 
             ServiceRequest.shared.startRequestForSignIn(passWord: self.confirmPasswordTextField.text!) { (success) in

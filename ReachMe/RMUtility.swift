@@ -17,6 +17,7 @@ import UserNotifications
 import Photos
 import CoreData
 import CoreTelephony
+import SwiftyJSON
 
 class RMUtility: NSObject {
     
@@ -50,61 +51,33 @@ class RMUtility: NSObject {
         return resultString
     }
     
-    class func serverRequestConstructPayloadFor(params: [String: Any]) -> String {
-        
-        var payload: String
-        var jsonData = Data()
-        do {
-            jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-        } catch {
-            print("Error: Not able to convert from server params data to JSON")
-        }
-        let resultString = String(data: jsonData, encoding: String.Encoding.utf8)!
-        
+    class func serverRequestConstructPayloadFor(params: JSON) -> String {
+            
         let characterset = CharacterSet(charactersIn: "!*'\"();:@&=+$,/?%#[]{}% ").inverted
-        payload = resultString.addingPercentEncoding(withAllowedCharacters: characterset)!
+        var payload = (params.rawString()?.addingPercentEncoding(withAllowedCharacters: characterset))!
         payload = "data=".appending(payload)
         
         return payload
     }
-    
-    class func parseJSONToArrayOfDictionary(inputString: String) -> [[String: Any]]? {
-        if let data = inputString.data(using: String.Encoding.utf8) {
-            do {
-                let result = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [[String: Any]]
-                return result
-            } catch {
-                print("Error in JSON Parsing")
-            }
-        }
-        return nil
-    }
-    
-    class func parseJSONToDictionary(inputString: String) -> [String: Any]? {
-        if let data = inputString.data(using: String.Encoding.utf8) {
-            do {
-                let result = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
-                return result
-            } catch {
-                print("Error in JSON Parsing")
-            }
-        }
-        return nil
-    }
-    
-    class func serverRequestAddCommonData(params: inout [String: Any]) -> [String: Any] {
         
-        params["app_secure_key"] = "b2ff398f8db492c19ef89b548b04889c"
-        params["client_app_ver"] = Constants.CLIENT_APP_VER
-        params["client_os"] = "i"
-        params["client_os_ver"] = UIDevice.current.systemVersion
-        params["app_type"] = "rm"
-        params["api_ver"] = "2"
-        params["user_secure_key"] = Defaults[.APIUserSecureKey]
+    class func serverRequestAddCommonData(params: JSON) -> JSON {
+        
         let ivUserID = Defaults[.APIIVUserIDKey]
-        params["iv_user_id"] = (ivUserID == 0) ? nil : ivUserID
+        var commonParams = JSON(["app_secure_key": "b2ff398f8db492c19ef89b548b04889c",
+                                 "client_app_ver": Constants.CLIENT_APP_VER,
+                                 "client_os": "i",
+                                 "client_os_ver": UIDevice.current.systemVersion,
+                                 "app_type": "rm",
+                                 "api_ver": "2"])
+        if Defaults[.APIUserSecureKey] != nil {
+            commonParams["user_secure_key"].string = Defaults[.APIUserSecureKey]
+        }
+        if ivUserID != 0 {
+            commonParams["iv_user_id"].int = Defaults[.APIIVUserIDKey]
+        }
         
-        return params
+        let updatedParams = try! commonParams.merged(with: params)
+        return updatedParams
     }
 
     class func deleteUserProfile() {
@@ -133,11 +106,11 @@ class RMUtility: NSObject {
     class func unlinkForNumber(number: String, completionHandler:@escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "contactID == %@", number)
         let userContact = Constants.appDelegate.userProfile?.userContacts?.filtered(using: predicate).first as! UserContact
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
+        let params = JSON(["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
                                      "contact": number,
                                      "contact_type": "p",
                                      "operation": "d",
-                                     "set_as_primary": false]
+                                     "set_as_primary": false])
 
         if userContact.isReachMeHomeActive ||
             userContact.isReachMeIntlActive ||
@@ -151,7 +124,7 @@ class RMUtility: NSObject {
                 }
                 
                 ANLoader.showLoading("", disableUI: true)
-                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: params) { (responseDics, success) in
                     guard success else { return }
                     completionHandler(success)
                     RMUtility.showAlert(withMessage: "Number has been deleted successfully")
@@ -178,7 +151,7 @@ class RMUtility: NSObject {
                 }
                 
                 ANLoader.showLoading("", disableUI: true)
-                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: params) { (responseDics, success) in
                     guard success else { return }
                     completionHandler(success)
                     RMUtility.showAlert(withMessage: "Number has been deleted successfully")
@@ -271,14 +244,14 @@ class RMUtility: NSObject {
     }
     
     class func getPayloadForMQTT() -> Data {
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.APP_STATUS,
+        var params = JSON(["cmd": Constants.ApiCommands.APP_STATUS,
                                      "status": (UIApplication.shared.applicationState == .background) ? "bg" : "fg",
-                                     "last_msg_id": Defaults[.APIFetchAfterMsgID] as Any]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "last_msg_id": Defaults[.APIFetchAfterMsgID] as Any])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         
         var jsonData = Data()
         do {
-            jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            jsonData = try params.rawData(options: .prettyPrinted)
         } catch {
             print("Error: Not able to convert Dictionary to Data for MQTT Payload")
         }

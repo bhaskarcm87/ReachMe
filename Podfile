@@ -21,4 +21,5 @@ target 'ReachMe' do
 	pod 'Former'
 	pod 'SwiftLint'
 	pod 'MTCoordinatorView'
+	pod 'SwiftyJSON'
 end

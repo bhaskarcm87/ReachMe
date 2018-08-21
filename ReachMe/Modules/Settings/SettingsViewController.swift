@@ -8,6 +8,7 @@
 
 import UIKit
 import StoreKit
+import SwiftyJSON
 
 class SettingsViewController: UITableViewController {
 
@@ -245,14 +246,14 @@ extension SettingsViewController {
                             return
                         }
                         
-                        var params: [String: Any] = ["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
+                        let params = JSON(["cmd": Constants.ApiCommands.MANAGE_USER_CONTACT,
                                                      "contact": userContact.contactID!,
                                                      "contact_type": "p",
                                                      "operation": "u",
-                                                     "set_as_primary": true]
+                                                     "set_as_primary": true])
                         
                         ANLoader.showLoading("", disableUI: true)
-                        ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: &params) { (responseDics, success) in
+                        ServiceRequest.shared.startRequestForManageUserContact(withManagedInfo: params) { (responseDics, success) in
                             ANLoader.hide()
                             guard success else { return }
                             

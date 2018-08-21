@@ -10,6 +10,7 @@ import UIKit
 import MTCoordinatorView
 import Former
 import RSSelectionMenu
+import SwiftyJSON
 
 class ProfileViewController: FormViewController {
 
@@ -326,31 +327,31 @@ class ProfileViewController: FormViewController {
         }
         if !editing {
             ANLoader.showLoading("", disableUI: true)
-            var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
+            var params = JSON(["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                          "dob_format": "MM-dd-yyyy",
-                                         "country_code": (Constants.appDelegate.userProfile?.countryPhoneCode)! as Any]
+                                         "country_code": (Constants.appDelegate.userProfile?.countryPhoneCode)! as Any])
             if let username = Constants.appDelegate.userProfile?.userName {
-                params["screen_name"] = username
+                params["screen_name"].string = username
             }
             if let email = Constants.appDelegate.userProfile?.emailID {
-                params["email"] = email
+                params["email"].string = email
             }
             if let gender = Constants.appDelegate.userProfile?.gender {
-                params["gender"] = gender
+                params["gender"].string = gender
             } else {
-                params["gender"] = ""
+                params["gender"].string = ""
             }
             if let birthday = Constants.appDelegate.userProfile?.birthday {
-                params["date_of_birth"] = RMUtility.getDOBStringFromDate(date: birthday)
+                params["date_of_birth"].string = RMUtility.getDOBStringFromDate(date: birthday)
             }
             if let state = Constants.appDelegate.userProfile?.state {
-                params["state"] = state
+                params["state"].string = state
             }
             if let city = Constants.appDelegate.userProfile?.city {
-                params["city"] = city
+                params["city"].string = city
             }
             
-            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: params) { (success) in
                 guard success else { return }
                 
                 if let data = self.changedPicData {

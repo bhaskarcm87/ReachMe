@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyUserDefaults
 import Alamofire
+import SwiftyJSON
 
 class PersonalisationViewController: UITableViewController {
 
@@ -94,10 +95,10 @@ class PersonalisationViewController: UITableViewController {
 
             //Update server
             ANLoader.showLoading("", disableUI: true)
-            var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
+            let params = JSON(["cmd": Constants.ApiCommands.UPDATE_PROFILE_INFO,
                                          "screen_name": Constants.appDelegate.userProfile?.userName as Any,
-                                         "email": Constants.appDelegate.userProfile?.emailID as Any]
-            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: &params) { (success) in
+                                         "email": Constants.appDelegate.userProfile?.emailID as Any])
+            ServiceRequest.shared.startRequestForUpdateProfileInfo(withProfileInfo: params) { (success) in
                 guard success else { return }
                 
                 if let data = UIImagePNGRepresentation(self.profileImageView.image!) {

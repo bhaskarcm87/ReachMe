@@ -13,6 +13,7 @@ import PhoneNumberKit
 import CountryPickerView
 import UserNotifications
 import CoreData
+import SwiftyJSON
 
 open class ServiceRequest: NSObject {
     
@@ -54,78 +55,78 @@ open class ServiceRequest: NSObject {
         })
     }
 
-    func parseCommonResponseforLoginProcess(responseDics: [String: Any]) {
-        Defaults[.APIUserSecureKey] = responseDics[DefaultsKeys.APIUserSecureKey._key] as? String
-        Defaults[.APIIVUserIDKey] = responseDics[DefaultsKeys.APIIVUserIDKey._key] as! Int
+    func parseCommonResponseforLoginProcess(responseDics: [String: JSON]) {
+        Defaults[.APIUserSecureKey] = responseDics[DefaultsKeys.APIUserSecureKey._key]?.stringValue
+        Defaults[.APIIVUserIDKey] = (responseDics[DefaultsKeys.APIIVUserIDKey._key]?.intValue)!
 
         coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
             let userProfile = RMUtility.getProfileforConext(context: context)
             userProfile?.volumeMode = .Speaker
-            userProfile?.fbConnectURL = responseDics["fb_connect_url"] as? String
-            userProfile?.isFBConnected = responseDics["fb_connected"] as! Bool
-            userProfile?.twConnectURL = responseDics["tw_connect_url"] as? String
-            userProfile?.isTWConnected = responseDics["tw_connected"] as! Bool
+            userProfile?.fbConnectURL = responseDics["fb_connect_url"]?.stringValue
+            userProfile?.isFBConnected = (responseDics["fb_connected"]?.boolValue)!
+            userProfile?.twConnectURL = responseDics["tw_connect_url"]?.stringValue
+            userProfile?.isTWConnected = (responseDics["tw_connected"]?.boolValue)!
             // The context is saved at the end of this block, no need to call the `saveContext` method.
         })
     }
     
-    func handleserviceError(response: DataResponse<Any>) -> [String: Any]? {
+    func handleserviceError(response: DataResponse<Any>) -> [String: JSON]? {
         guard response.result.isSuccess else {
             ANLoader.hide()
             RMUtility.showAlert(withMessage: (response.result.error?.localizedDescription)!)
             return nil
         }
         
-        guard let responseDics = response.result.value as? [String: Any] else { return nil }
-        guard (responseDics["status"] as! String) != "error" else {
+        guard let responseDics = JSON(response.result.value!).dictionary else { return nil }
+        guard responseDics["status"]?.stringValue != "error" else {
             ANLoader.hide()
-            RMUtility.showAlert(withMessage: responseDics["error_reason"] as! String, title: "Error")
+            RMUtility.showAlert(withMessage: (responseDics["error_reason"]?.stringValue)!, title: "Error")
             return nil
         }
         
         return responseDics
     }
     
-    func handleFetchMessagesResponse(responseDics: [String: Any]) {
-        Defaults[.APIFetchAfterMsgID] = responseDics["last_fetched_msg_id"]
+    func handleFetchMessagesResponse(responseDics: [String: JSON]) {
+        Defaults[.APIFetchAfterMsgID] = responseDics["last_fetched_msg_id"]?.int32Value
         
         self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
             let userProfile = RMUtility.getProfileforConext(context: context)!
             
-            for fetchedMessage in (responseDics["msgs"] as! [[String: Any]]) {
+            for fetchedMessage in (responseDics["msgs"]?.arrayValue)! {
                 
                 //If message exists with same ID, skip it
-                let predicate = NSPredicate(format: "messageID == %ld", fetchedMessage["msg_id"] as! Int64)
+                let predicate = NSPredicate(format: "messageID == %ld", fetchedMessage["msg_id"].int64Value)
                 if userProfile.messages?.filtered(using: predicate).first as? Message != nil {
                     continue
                 }
                 
                 //New Message
                 let message = Message(context: context)
-                message.content = fetchedMessage["msg_content"] as? String
-                message.contentType = fetchedMessage["msg_content_type"] as? String
-                message.flow = fetchedMessage["msg_flow"] as? String
-                message.fromPhoneNumber = fetchedMessage["from_phone_num"] as? String
-                message.guide = fetchedMessage["guid"] as? String
-                message.misscallReason = fetchedMessage["misscall_reason"] as? String
-                message.senderName = fetchedMessage["sender_id"] as? String
-                message.sourceAppType = fetchedMessage["source_app_type"] as? String
-                message.subtype = fetchedMessage["msg_subtype"] as? String
-                message.type = fetchedMessage["type"] as? String
-                message.mediaFormat = fetchedMessage["media_format"] as? String
-                message.date = fetchedMessage["msg_dt"] as! Int64
-                message.fromIVUserID = fetchedMessage["from_iv_user_id"] as! Int64
-                message.linkedMsgID = fetchedMessage["linked_msg_id"] as! Int64
-                message.messageID = fetchedMessage["msg_id"] as! Int64
-                message.readCount = fetchedMessage["msg_read_cnt"] as! Int16
-                message.downloadCount = fetchedMessage["msg_download_cnt"] as! Int16
-                message.isBase64 = fetchedMessage["is_msg_base64"] as! Bool
+                message.content = fetchedMessage["msg_content"].stringValue
+                message.contentType = fetchedMessage["msg_content_type"].stringValue
+                message.flow = fetchedMessage["msg_flow"].stringValue
+                message.fromPhoneNumber = fetchedMessage["from_phone_num"].stringValue
+                message.guide = fetchedMessage["guid"].stringValue
+                message.misscallReason = fetchedMessage["misscall_reason"].stringValue
+                message.senderName = fetchedMessage["sender_id"].stringValue
+                message.sourceAppType = fetchedMessage["source_app_type"].stringValue
+                message.subtype = fetchedMessage["msg_subtype"].stringValue
+                message.type = fetchedMessage["type"].stringValue
+                message.mediaFormat = fetchedMessage["media_format"].stringValue
+                message.date = fetchedMessage["msg_dt"].int64Value
+                message.fromIVUserID = fetchedMessage["from_iv_user_id"].int64Value
+                message.linkedMsgID = fetchedMessage["linked_msg_id"].int64Value
+                message.messageID = fetchedMessage["msg_id"].int64Value
+                message.readCount = fetchedMessage["msg_read_cnt"].int16Value
+                message.downloadCount = fetchedMessage["msg_download_cnt"].int16Value
+                message.isBase64 = fetchedMessage["is_msg_base64"].boolValue
                 
-                for messageContact in (fetchedMessage["contact_ids"] as! [[String: Any]]) {
-                    if messageContact["contact_id"] as? String == message.fromPhoneNumber {
-                        message.fromUserType = messageContact["type"] as? String
+                for messageContact in fetchedMessage["contact_ids"].arrayValue {
+                    if messageContact["contact_id"].stringValue == message.fromPhoneNumber {
+                        message.fromUserType = messageContact["type"].stringValue
                     } else {
-                        message.receivePhoneNumber = messageContact["contact_id"] as? String
+                        message.receivePhoneNumber = messageContact["contact_id"].stringValue
                     }
                 }
                 
@@ -143,15 +144,15 @@ extension ServiceRequest {
     
     func startRequestForJoinUser(completionHandler:@escaping (AutheticationType, String?) -> Void) {
         
-        var params: [String: Any] = ["phone_num": (Constants.appDelegate.userProfile?.userID)!,
+        var params = JSON(["phone_num": (Constants.appDelegate.userProfile?.userID)!,
                                      "phone_num_edited": true,
                                      "opr_info_edited": true,
                                      "device_id": Constants.DEVICE_UUID,
                                      "sim_country_iso": (Constants.appDelegate.userProfile?.countryISOCode)!,
                                      "sim_opr_mcc_mnc": Constants.appDelegate.userProfile?.simMCCMNCNumber ?? "na", //If not available pass "na" as per API Doc
                                      "cmd": Constants.ApiCommands.JOIN_USER,
-                                     "sim_serial_num": ""]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "sim_serial_num": ""])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -164,23 +165,23 @@ extension ServiceRequest {
                     return
                 }
                 
-                guard let responseDics = response.result.value as? [String: Any] else { return }
-                guard (responseDics["status"] as! String) != "error" else {
+                guard let responseDics = JSON(response.result.value!).dictionary else { return }
+                guard responseDics["status"]?.stringValue != "error" else {
                     RMUtility.deleteUserProfile()
-                    completionHandler(.error, responseDics["error_reason"] as? String)
+                    completionHandler(.error, responseDics["error_reason"]?.stringValue)
                     return
                 }
                 
-                Defaults[.APIIsRMNewUser] = responseDics[DefaultsKeys.APIIsRMNewUser._key] as! Bool
+                Defaults[.APIIsRMNewUser] = (responseDics[DefaultsKeys.APIIsRMNewUser._key]?.bool)!
 
-                switch responseDics["action"] as! String {
+                switch responseDics["action"]?.stringValue {
                 case "pwd_set":
                     completionHandler(.authTypePassword, nil)
                     
                 case "otp_sent":
-                    Defaults[.APIRegSecureKey] = responseDics[DefaultsKeys.APIRegSecureKey._key] as? String
-                    Defaults[.APIPnsAppIdKey] = responseDics[DefaultsKeys.APIPnsAppIdKey._key] as? String
-                    Defaults[.APIDocURLKey] = responseDics[DefaultsKeys.APIDocURLKey._key] as? String
+                    Defaults[.APIRegSecureKey] = responseDics[DefaultsKeys.APIRegSecureKey._key]?.stringValue
+                    Defaults[.APIPnsAppIdKey] = responseDics[DefaultsKeys.APIPnsAppIdKey._key]?.stringValue
+                    Defaults[.APIDocURLKey] = responseDics[DefaultsKeys.APIDocURLKey._key]?.stringValue
                     
                     completionHandler(.authTypeOTP, nil)
                     
@@ -208,11 +209,11 @@ extension ServiceRequest {
     
     func startRequestForVerifyUser(otpString: String, completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = [DefaultsKey<Any>.APIRegSecureKey._key: Defaults[.APIRegSecureKey]!,
+        var params = JSON([DefaultsKey<Any>.APIRegSecureKey._key: Defaults[.APIRegSecureKey]!,
                                     "pin": otpString,
                                     "cmd": Constants.ApiCommands.VERIFY_USER,
-                                    DefaultsKey<Any>.APICloudeSecureKey._key: Defaults[.APICloudeSecureKey] as Any]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                    DefaultsKey<Any>.APICloudeSecureKey._key: Defaults[.APICloudeSecureKey] as Any])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -242,13 +243,13 @@ extension ServiceRequest {
     
     func startRequestForSignIn(passWord: String, completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["login_id": (Constants.appDelegate.userProfile?.userID)!,
+        var params = JSON(["login_id": (Constants.appDelegate.userProfile?.userID)!,
                                     "pwd": passWord,
                                     "cmd": Constants.ApiCommands.SIGNIN,
                                     "device_id": Constants.DEVICE_UUID,
                                     "sim_country_iso": (Constants.appDelegate.userProfile?.simISOCode)!,
-                                    "sim_opr_mcc_mnc": (Constants.appDelegate.userProfile?.simMCCMNCNumber)!]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                    "sim_opr_mcc_mnc": (Constants.appDelegate.userProfile?.simMCCMNCNumber)!])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -261,12 +262,12 @@ extension ServiceRequest {
                 //Handle response Data
                 ServiceRequest.shared.parseCommonResponseforLoginProcess(responseDics: responseDics)
 
-                Defaults[.APIPnsAppIdKey] = responseDics[DefaultsKeys.APIPnsAppIdKey._key] as? String
-                Defaults[.APIDocURLKey] = responseDics[DefaultsKeys.APIDocURLKey._key] as? String
+                Defaults[.APIPnsAppIdKey] = responseDics[DefaultsKeys.APIPnsAppIdKey._key]?.stringValue
+                Defaults[.APIDocURLKey] = responseDics[DefaultsKeys.APIDocURLKey._key]?.stringValue
 
                 self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                     let userProfile = RMUtility.getProfileforConext(context: context)
-                    userProfile?.userName = responseDics["screen_name"] as? String
+                    userProfile?.userName = responseDics["screen_name"]?.stringValue
                     userProfile?.password = passWord
                 })
                             
@@ -287,8 +288,8 @@ extension ServiceRequest {
     
     func startRequestForGetProfileInfo(completionHandler:@escaping (Bool) -> Void) {
             
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.GET_PROFILE_INFO]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.GET_PROFILE_INFO])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -302,19 +303,19 @@ extension ServiceRequest {
                     let userProfile = RMUtility.getProfileforConext(context: context)!
                     
                     //Handle response Data
-                    userProfile.thumbnailPicURL = responseDics["thumbnail_profile_pic_uri"] as? String
-                    userProfile.city = responseDics["city"] as? String
-                    userProfile.emailID = responseDics["email"] as? String
-                    userProfile.gender = responseDics["gender"] as? String
-                    userProfile.profilePicURL = responseDics["profile_pic_path"] as? String
-                    userProfile.userName = responseDics["screen_name"] as? String
-                    userProfile.state = responseDics["state"] as? String
-                    userProfile.twPostEnabled = responseDics["tw_post_enabled"] as! Bool
-                    userProfile.fbPostEnabled = responseDics["fb_post_enabled"] as! Bool
-                    userProfile.inviteSMSText = responseDics["invite_sms_text"] as? String
+                    userProfile.thumbnailPicURL = responseDics["thumbnail_profile_pic_uri"]?.stringValue
+                    userProfile.city = responseDics["city"]?.stringValue
+                    userProfile.emailID = responseDics["email"]?.stringValue
+                    userProfile.gender = responseDics["gender"]?.stringValue
+                    userProfile.profilePicURL = responseDics["profile_pic_path"]?.stringValue
+                    userProfile.userName = responseDics["screen_name"]?.stringValue
+                    userProfile.state = responseDics["state"]?.stringValue
+                    userProfile.twPostEnabled = (responseDics["tw_post_enabled"]?.boolValue)!
+                    userProfile.fbPostEnabled = (responseDics["fb_post_enabled"]?.boolValue)!
+                    userProfile.inviteSMSText = responseDics["invite_sms_text"]?.stringValue
                     
-                    if let dateOfBirth = responseDics["date_of_birth"] as? [String: Int] {
-                        if let year = dateOfBirth["year"], let month = dateOfBirth["month"], let dayOfMonth = dateOfBirth["dayOfMonth"] {
+                    if let dateOfBirth = responseDics["date_of_birth"]?.dictionaryValue {
+                        if let year = dateOfBirth["year"]?.intValue, let month = dateOfBirth["month"]?.intValue, let dayOfMonth = dateOfBirth["dayOfMonth"]?.intValue {
                             if let date = RMUtility.getDateFromYearMonthDay(year: year, month: month+1, day: dayOfMonth) {
                                 userProfile.birthday = date
                             }
@@ -322,51 +323,52 @@ extension ServiceRequest {
                     }
                     
                     //greeting_name
-                    if let greetingNameJsonString = responseDics["greeting_name"] as? String, !greetingNameJsonString.isEmpty {
-                        let greetingNameDic = RMUtility.parseJSONToDictionary(inputString: greetingNameJsonString)
-                        userProfile.greetingNameUri = greetingNameDic!["uri"] as? String
-                        userProfile.greetingNameDuration = greetingNameDic!["duration"] as! Int32
+                    if let greetingNameJsonString = responseDics["greeting_name"]?.stringValue, !greetingNameJsonString.isEmpty {
+                        let greetingNameDic = JSON(parseJSON: greetingNameJsonString)
+                        userProfile.greetingNameUri = greetingNameDic["uri"].stringValue
+                        userProfile.greetingNameDuration = greetingNameDic["duration"].int32Value
                     }
                     
                     //greeting_welcome
-                    if let greetinWelcomeJsonString = responseDics["greeting_welcome"] as? String, !greetinWelcomeJsonString.isEmpty {
-                        let greetingWelcomeDic = RMUtility.parseJSONToDictionary(inputString: greetinWelcomeJsonString)
-                        userProfile.greetingWelcomeUri = greetingWelcomeDic!["uri"] as? String
-                        userProfile.greetingWelcomeDuration = greetingWelcomeDic!["duration"] as! Int32
+                    if let greetinWelcomeJsonString = responseDics["greeting_welcome"]?.stringValue, !greetinWelcomeJsonString.isEmpty {
+                        let greetingWelcomeDic = JSON(parseJSON: greetinWelcomeJsonString)
+                        userProfile.greetingWelcomeUri = greetingWelcomeDic["uri"].stringValue
+                        userProfile.greetingWelcomeDuration = greetingWelcomeDic["duration"].int32Value
                     }
                     
                     //Email Notifications voicemail email time_zone vsms_enabled mc_enabled
-                    if let emailNotificationsString = responseDics["voicemail"] as? String, !emailNotificationsString.isEmpty {
-                        let emailNotificationDic = RMUtility.parseJSONToDictionary(inputString: emailNotificationsString)
-                        userProfile.vEmail = emailNotificationDic!["email"] as? String
-                        userProfile.timeZone = emailNotificationDic!["time_zone"] as? String
-                        userProfile.vsmsEnabled = emailNotificationDic!["vsms_enabled"] as! Bool
-                        userProfile.mcEnabled = emailNotificationDic!["mc_enabled"] as! Bool
+                    if let emailNotificationsString = responseDics["voicemail"]?.stringValue, !emailNotificationsString.isEmpty {
+                        let emailNotificationDic = JSON(parseJSON: emailNotificationsString)
+                        userProfile.vEmail = emailNotificationDic["email"].stringValue
+                        userProfile.timeZone = emailNotificationDic["time_zone"].stringValue
+                        userProfile.vsmsEnabled = emailNotificationDic["vsms_enabled"].boolValue
+                        userProfile.mcEnabled = emailNotificationDic["mc_enabled"].boolValue
                     }
 
                     //Custom Settings
-                    var phoneDetailsDic: [String: Any]?
-                    if let customSettingsJsonString = responseDics["custom_settings"] as? String, !customSettingsJsonString.isEmpty {
-                        let customSettings = RMUtility.parseJSONToArrayOfDictionary(inputString: customSettingsJsonString)
+                    var phoneDetailsDic: [String: JSON]?
+                    if let customSettingsJsonString = responseDics["custom_settings"]?.stringValue, !customSettingsJsonString.isEmpty {
                         
-                        for customSetting in customSettings! {
-                            if let recordingTime = customSetting["recording_time"] as? String {
-                                userProfile.recordingTime = recordingTime
-                            } else if let storageLocation = customSetting["storage_location"] as? String {
-                                userProfile.storageLocation = storageLocation
-                            } else if let recordMode = customSetting["default_record_mode"] as? String {
-                                userProfile.recordMode = recordMode
-                            } else if let phoneDetailsJson = customSetting["ph_dtls"] as? String {
-                                phoneDetailsDic = RMUtility.parseJSONToDictionary(inputString: phoneDetailsJson)
+                        let customSettings = JSON(parseJSON: customSettingsJsonString)
+                        
+                        for customSetting in customSettings.arrayValue {
+                            if customSetting["recording_time"].exists() {
+                                userProfile.recordingTime = customSetting["recording_time"].stringValue
+                            } else if customSetting["storage_location"].exists() {
+                                userProfile.storageLocation = customSetting["storage_location"].stringValue
+                            } else if customSetting["default_record_mode"].exists() {
+                                userProfile.recordMode = customSetting["default_record_mode"].stringValue
+                            } else if customSetting["ph_dtls"].exists() {
+                                phoneDetailsDic = JSON(parseJSON: customSetting["ph_dtls"].stringValue).dictionaryValue
                             }
                         }
                     }
 
                     //Update UserContacts
-                    for userContact in (responseDics["user_contacts"] as! [[String: Any]]) {
+                    for userContact in (responseDics["user_contacts"]?.arrayValue)! {
                         //Check for existing Contact, if not present, then create new one
                         var updatedUserContact: UserContact
-                        let predicate = NSPredicate(format: "contactID == %@", userContact["contact_id"] as! String)
+                        let predicate = NSPredicate(format: "contactID == %@", userContact["contact_id"].stringValue)
                         if let foundUserContact = userProfile.userContacts?.filtered(using: predicate).first as? UserContact {
                             updatedUserContact = foundUserContact
                         } else {
@@ -374,16 +376,16 @@ extension ServiceRequest {
                             userProfile.addToUserContacts(updatedUserContact)
                         }
                         
-                        updatedUserContact.contactType = userContact["contact_type"] as? String
-                        updatedUserContact.contactID = userContact["contact_id"] as? String
-                        updatedUserContact.countryCode = userContact["country_code"] as? String
-                        updatedUserContact.isPrimary = userContact["is_primary"] as! Bool
-                        updatedUserContact.bloggerID = userContact["blogger_id"] as! Int64
+                        updatedUserContact.contactType = userContact["contact_type"].stringValue
+                        updatedUserContact.contactID = userContact["contact_id"].stringValue
+                        updatedUserContact.countryCode = userContact["country_code"].stringValue
+                        updatedUserContact.isPrimary = userContact["is_primary"].boolValue
+                        updatedUserContact.bloggerID = userContact["blogger_id"].int64Value
                         
                         //Phone Details
-                        if let phoneDetail = phoneDetailsDic?[updatedUserContact.contactID!] as? [String: Any] {
-                            updatedUserContact.titleName = phoneDetail["title_nm"] as? String
-                            updatedUserContact.imageName = phoneDetail["img_nm"] as? String
+                        if let phoneDetail = phoneDetailsDic?[updatedUserContact.contactID!]?.dictionaryValue {
+                            updatedUserContact.titleName = phoneDetail["title_nm"]?.stringValue
+                            updatedUserContact.imageName = phoneDetail["img_nm"]?.stringValue
                         }
                         
                         //Format Number
@@ -430,10 +432,10 @@ extension ServiceRequest {
     
     func startRequestForListOfCarriers(forUserContact contact: UserContact, completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.LIST_CARRIERS,
+        var params = JSON(["cmd": Constants.ApiCommands.LIST_CARRIERS,
                                      "country_code": contact.countryCode!,
-                                     "fetch_voicemails_info": true]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "fetch_voicemails_info": true])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -452,40 +454,30 @@ extension ServiceRequest {
                     let userContact = userProfile.userContacts?.filtered(using: predicate).first as! UserContact
                     
                     //Update New Carriers
-                    for remoteCarrier in (responseDics["country_list"] as! [[String: Any]]) {
+                    for remoteCarrier in (responseDics["country_list"]?.arrayValue)! {
                         
                         let updatedCarrier = Carrier(context: context)
-                        updatedCarrier.carrierName = remoteCarrier["carrier_name"] as? String
-                        updatedCarrier.vsmsNodeID = remoteCarrier["vsms_node_id"] as! Int16
-                        updatedCarrier.countryCode = remoteCarrier["country_code"] as? String
-                        updatedCarrier.networkID = remoteCarrier["network_id"] as? String
-                        updatedCarrier.networkName = remoteCarrier["network_name"] as? String
-                        updatedCarrier.ussdString = remoteCarrier["ussd_string"] as? String
+                        updatedCarrier.carrierName = remoteCarrier["carrier_name"].stringValue
+                        updatedCarrier.vsmsNodeID = remoteCarrier["vsms_node_id"].int16Value
+                        updatedCarrier.countryCode = remoteCarrier["country_code"].stringValue
+                        updatedCarrier.networkID = remoteCarrier["network_id"].stringValue
+                        updatedCarrier.networkName = remoteCarrier["network_name"].stringValue
+                        updatedCarrier.ussdString = remoteCarrier["ussd_string"].stringValue
                         
-                        if let jsonString = remoteCarrier["ussd_string"] as? String, !jsonString.isEmpty {
-                            let ussdValues = RMUtility.parseJSONToDictionary(inputString: jsonString)
-                            if let international = ussdValues!["rm_intl"] as? Bool {
-                                updatedCarrier.reachMeIntl = international
-                            }
-                            if let home = ussdValues!["rm_home"] as? Bool {
-                                updatedCarrier.reachMeHome = home
-                            }
-                            if let voiceMail = ussdValues!["rm_vm"] as? Bool {
-                                updatedCarrier.reachMeVoiceMail = voiceMail
-                            }
-                            updatedCarrier.actiUNCF = ussdValues!["acti_uncf"] as? String
-                            updatedCarrier.deactiUNCF = ussdValues!["deacti_uncf"] as? String
-                            updatedCarrier.actiAll = ussdValues!["acti_all"] as? String
-                            updatedCarrier.deactiBoth = ussdValues!["deacti_both"] as? String
-                            updatedCarrier.actiCNF = ussdValues!["acti_cnf"] as? String
-                            updatedCarrier.deactiCNF = ussdValues!["acti_uncf"] as? String
-                            updatedCarrier.additionalActiInfo = ussdValues!["add_acti_info"] as? String
-                            if let hlrStatus = ussdValues!["is_hlr_callfwd_enabled"] as? Bool {
-                                updatedCarrier.isHLREnabled = hlrStatus
-                            }
-                            if let voipStatus = ussdValues!["voip_enabled"] as? Bool {
-                                updatedCarrier.isVOIPEnabled = voipStatus
-                            }
+                        if remoteCarrier["ussd_string"].exists() {
+                            let ussdValues = JSON(parseJSON: remoteCarrier["ussd_string"].stringValue)
+                            updatedCarrier.reachMeIntl = ussdValues["rm_intl"].boolValue
+                            updatedCarrier.reachMeHome = ussdValues["rm_home"].boolValue
+                            updatedCarrier.reachMeVoiceMail = ussdValues["rm_vm"].boolValue
+                            updatedCarrier.actiUNCF = ussdValues["acti_uncf"].stringValue
+                            updatedCarrier.deactiUNCF = ussdValues["deacti_uncf"].stringValue
+                            updatedCarrier.actiAll = ussdValues["acti_all"].stringValue
+                            updatedCarrier.deactiBoth = ussdValues["deacti_both"].stringValue
+                            updatedCarrier.actiCNF = ussdValues["acti_cnf"].stringValue
+                            updatedCarrier.deactiCNF = ussdValues["acti_uncf"].stringValue
+                            updatedCarrier.additionalActiInfo = ussdValues["add_acti_info"].stringValue
+                            updatedCarrier.isHLREnabled = ussdValues["is_hlr_callfwd_enabled"].boolValue
+                            updatedCarrier.isVOIPEnabled = ussdValues["voip_enabled"].boolValue
                             
                             if updatedCarrier.reachMeIntl || updatedCarrier.reachMeHome || updatedCarrier.reachMeVoiceMail {
                                 updatedCarrier.isReachMeSupport = true
@@ -495,28 +487,24 @@ extension ServiceRequest {
                             }
                         }
                         
-                        if let carrierInfoList = remoteCarrier["carrier_info"] {
-                            for (key, value) in carrierInfoList as! [String: Any] {
-                                switch key {
-                                case "logo_home_url":
-                                    updatedCarrier.logoHomeURL = value as? String
-                                case "logo_support_url":
-                                    updatedCarrier.logoSupportURL = value as? String
-                                case "logo_theme_color":
-                                    updatedCarrier.logoThemeColor = value as? String
-                                case "logo":
-                                    updatedCarrier.logoURL = value as? String
-                                case "in_app_promo":
-                                    if let inAppPromo = value as? [[String: Any]] {
-                                        inAppPromo.forEach({ (inAppPromoDisc) in
-                                            // inAppPromoDisc["show_image"] as! Bool
-                                            updatedCarrier.inAppPromoImageURL = inAppPromoDisc["image_url"] as? String
-                                        })
-                                    }
-                                    
-                                default:
-                                    break
-                                }
+                        for (key, value) in remoteCarrier["carrier_info"].dictionaryValue {
+                            switch key {
+                            case "logo_home_url":
+                                updatedCarrier.logoHomeURL = value.stringValue
+                            case "logo_support_url":
+                                updatedCarrier.logoSupportURL = value.stringValue
+                            case "logo_theme_color":
+                                updatedCarrier.logoThemeColor = value.stringValue
+                            case "logo":
+                                updatedCarrier.logoURL = value.stringValue
+                            case "in_app_promo":
+                                value.arrayValue.forEach({ (inAppPromoDisc) in
+                                    // inAppPromoDisc["show_image"] as! Bool
+                                    updatedCarrier.inAppPromoImageURL = inAppPromoDisc["image_url"].stringValue
+                                })
+                                
+                            default:
+                                break
                             }
                         }
                         
@@ -534,9 +522,9 @@ extension ServiceRequest {
     
     func startRequestForFetchSettings(completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_SETTINGS,
-                                     "fetch_voicemails_info": true]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.FETCH_SETTINGS,
+                                     "fetch_voicemails_info": true])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -551,30 +539,30 @@ extension ServiceRequest {
                 self.coreDataStack.performBackgroundTask(inContext: { (context, saveBlock) in
                     let userProfile = RMUtility.getProfileforConext(context: context)!
                     
-                    let supportContactJsonString = responseDics["iv_support_contact_ids"] as? String
-                    let contactIDs = RMUtility.parseJSONToArrayOfDictionary(inputString: supportContactJsonString!)
-                    for (index, contactID) in (contactIDs?.enumerated())! {
+                    let supportContactJsonString = responseDics["iv_support_contact_ids"]?.stringValue
+                    let contactIDs = JSON(parseJSON: supportContactJsonString!)
+                    for (index, contactID) in contactIDs.arrayValue.enumerated() {
                         
                         let supportContact = SupportContact(context: context)
-                        supportContact.userID = contactID["iv_user_id"] as? String
-                        supportContact.phone = contactID["phone"] as? String
-                        supportContact.profilePicURL = contactID["profile_pic_uri"] as? String
-                        supportContact.thumbnailPicURL = contactID["thumbnail_profile_pic_uri"] as? String
-                        supportContact.isShowIVUser = contactID["show_as_iv_user"] as! Bool
+                        supportContact.userID = contactID["iv_user_id"].stringValue
+                        supportContact.phone = contactID["phone"].stringValue
+                        supportContact.profilePicURL = contactID["profile_pic_uri"].stringValue
+                        supportContact.thumbnailPicURL = contactID["thumbnail_profile_pic_uri"].stringValue
+                        supportContact.isShowIVUser = contactID["show_as_iv_user"].boolValue
                         
                         switch index {
                         case 0:
-                            supportContact.supportType = contactID["support_catg"] as? String
-                            supportContact.supportID = contactID["support_catg_id"] as? String
-                            supportContact.isSendEmail = contactID["support_send_email"] as! Bool
-                            supportContact.isSendIV = contactID["support_send_iv"] as! Bool
-                            supportContact.isSendSMS = contactID["support_send_sms"] as! Bool
+                            supportContact.supportType = contactID["support_catg"].stringValue
+                            supportContact.supportID = contactID["support_catg_id"].stringValue
+                            supportContact.isSendEmail = contactID["support_send_email"].boolValue
+                            supportContact.isSendIV = contactID["support_send_iv"].boolValue
+                            supportContact.isSendSMS = contactID["support_send_sms"].boolValue
                         case 1:
-                            supportContact.supportType = contactID["feedback_catg"] as? String
-                            supportContact.supportID = contactID["feedback_catg_id"] as? String
-                            supportContact.isSendEmail = contactID["feedback_send_email"] as! Bool
-                            supportContact.isSendIV = contactID["feedback_send_iv"] as! Bool
-                            supportContact.isSendSMS = contactID["feedback_send_sms"] as! Bool
+                            supportContact.supportType = contactID["feedback_catg"].stringValue
+                            supportContact.supportID = contactID["feedback_catg_id"].stringValue
+                            supportContact.isSendEmail = contactID["feedback_send_email"].boolValue
+                            supportContact.isSendIV = contactID["feedback_send_iv"].boolValue
+                            supportContact.isSendSMS = contactID["feedback_send_sms"].boolValue
                         default:
                             break
                         }
@@ -583,107 +571,95 @@ extension ServiceRequest {
                     }
                     
                     //Custom Settings
-                    let customSettingsJsonString = responseDics["custom_settings"] as! String
-                    let customSettings = RMUtility.parseJSONToArrayOfDictionary(inputString: customSettingsJsonString)
-                    for customSetting in customSettings! {
+                    let customSettingsJsonString = responseDics["custom_settings"]?.stringValue
+                    let customSettings = JSON(parseJSON: customSettingsJsonString!)
+                    for customSetting in customSettings.arrayValue {
                         
-                        if let carrierJsonString = customSetting["carrier"] as? String {
-                            let carrier = RMUtility.parseJSONToDictionary(inputString: carrierJsonString)
+                        let carrier = JSON(parseJSON: customSetting["carrier"].stringValue)
+                        
+                        (userProfile.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
                             
-                            (userProfile.userContacts?.allObjects as? [UserContact])?.forEach({ userContact in
-                                
-                                if let carrierInfo = carrier![userContact.contactID!] as? [String: Any] {
-                                    
-                                    if let international = carrierInfo["rm_intl_acti"] as? Bool {
-                                        userContact.isReachMeIntlActive = international
-                                    }
-                                    if let home = carrierInfo["rm_home_acti"] as? Bool {
-                                        userContact.isReachMeHomeActive = home
-                                    }
-                                    if let voiceMail = carrierInfo["vm_acti"] as? Bool {
-                                        userContact.isReachMeVoiceMailActive = voiceMail
-                                    }
-                                    
-                                    //Search carrier from carrier list with math of carrier info
-                                    if let carrierFound = (userProfile.primaryContact?.carriers?.allObjects as? [Carrier])?.filter({
-                                        if let vsmsID = carrierInfo["vsms_id"] as? Int16 {
-                                            if $0.networkID == carrierInfo["network_id"] as? String &&
-                                                $0.countryCode == carrierInfo["country_cd"] as? String &&
-                                                $0.vsmsNodeID == vsmsID {
-                                                return true
-                                            }
-                                        }
-                                        return false
-                                    }), carrierFound.count > 0 {
-                                        userContact.selectedCarrier = carrierFound.first
-                                    } else {
-                                        if userContact.selectedCarrier == nil {
-                                            userContact.selectedCarrier = Carrier(context: context)
-                                        }
-                                        if let vsms = carrierInfo["vsms_id"] as? Int16 {
-                                            userContact.selectedCarrier?.vsmsNodeID = vsms
-                                        }
-                                        userContact.selectedCarrier?.countryCode = carrierInfo["country_cd"] as? String
-                                        userContact.selectedCarrier?.networkID = carrierInfo["network_id"] as? String
-                                        userContact.selectedCarrier?.networkName = "Select Your Carrier"
-                                    }
+                            if carrier[userContact.contactID!].exists() {
+                                let carrierInfo = carrier[userContact.contactID!].dictionaryValue
+                                if let international = carrierInfo["rm_intl_acti"]?.boolValue {
+                                    userContact.isReachMeIntlActive = international
                                 }
-                            })
-                        }
+                                if let home = carrierInfo["rm_home_acti"]?.boolValue {
+                                    userContact.isReachMeHomeActive = home
+                                }
+                                if let voiceMail = carrierInfo["vm_acti"]?.boolValue {
+                                    userContact.isReachMeVoiceMailActive = voiceMail
+                                }
+                                
+                                //Search carrier from carrier list with math of carrier info
+                                if let carrierFound = (userProfile.primaryContact?.carriers?.allObjects as? [Carrier])?.filter({
+                                    if let vsmsID = carrierInfo["vsms_id"]?.int16Value {
+                                        if $0.networkID == carrierInfo["network_id"]?.stringValue &&
+                                            $0.countryCode == carrierInfo["country_cd"]?.stringValue &&
+                                            $0.vsmsNodeID == vsmsID {
+                                            return true
+                                        }
+                                    }
+                                    return false
+                                }), carrierFound.count > 0 {
+                                    userContact.selectedCarrier = carrierFound.first
+                                } else {
+                                    if userContact.selectedCarrier == nil {
+                                        userContact.selectedCarrier = Carrier(context: context)
+                                    }
+                                    if let vsms = carrierInfo["vsms_id"]?.int16Value {
+                                        userContact.selectedCarrier?.vsmsNodeID = vsms
+                                    }
+                                    userContact.selectedCarrier?.countryCode = carrierInfo["country_cd"]?.stringValue
+                                    userContact.selectedCarrier?.networkID = carrierInfo["network_id"]?.stringValue
+                                    userContact.selectedCarrier?.networkName = "Select Your Carrier"
+                                }
+                            }
+                        })
                     }
 
                     //Voicemail Info
-                    if let voiceMailInfo = responseDics["voicemails_info"] as? [[String: Any]] {
+                    if let voiceMailInfo = responseDics["voicemails_info"]?.arrayValue {
                         for voiceMail in voiceMailInfo {
-                            let predicate = NSPredicate(format: "contactID contains[c] %@", voiceMail["phone"] as! String)
+                            let predicate = NSPredicate(format: "contactID contains[c] %@", voiceMail["phone"].stringValue)
                             let userContact = userProfile.userContacts?.filtered(using: predicate).first as! UserContact
                             
                             if userContact.voiceMailInfo == nil {
                                 userContact.voiceMailInfo = VoiceMail(context: context)
                             }
                             
-                            userContact.voiceMailInfo?.phoneNumber = voiceMail["phone"] as? String
-                            userContact.voiceMailInfo?.carrierCountryCode = voiceMail["carrier_country_code"] as? String
-                            userContact.voiceMailInfo?.kvSMSKey = voiceMail["kvsms_key"] as? String
-                            userContact.voiceMailInfo?.networkId = voiceMail["network_id"] as? String
-                            userContact.voiceMailInfo?.countryVoicemailSupport = voiceMail["country_voicemail_support"] as! Bool
-                            if let isEnabled = voiceMail["enabled"] as? Int16 {
-                                userContact.voiceMailInfo?.isVoiceMailEnabled = Bool(truncating: isEnabled as NSNumber)
+                            userContact.voiceMailInfo?.phoneNumber = voiceMail["phone"].stringValue
+                            userContact.voiceMailInfo?.carrierCountryCode = voiceMail["carrier_country_code"].stringValue
+                            userContact.voiceMailInfo?.kvSMSKey = voiceMail["kvsms_key"].stringValue
+                            userContact.voiceMailInfo?.networkId = voiceMail["network_id"].stringValue
+                            userContact.voiceMailInfo?.countryVoicemailSupport = voiceMail["country_voicemail_support"].boolValue
+                            if voiceMail["enabled"].exists() {
+                                userContact.voiceMailInfo?.isVoiceMailEnabled = Bool(truncating: voiceMail["enabled"].int16Value as NSNumber)
                             }
-                            userContact.voiceMailInfo?.availableVocieMailCount = voiceMail["avs_cnt"] as! Int16
-                            userContact.voiceMailInfo?.missedCallCount = voiceMail["mca_cnt"] as! Int16
-                            userContact.voiceMailInfo?.realVocieMailCount = voiceMail["real_avs_cnt"] as! Int16
-                            userContact.voiceMailInfo?.realMissedCallCount = voiceMail["real_mca_cnt"] as! Int16
-                            userContact.voiceMailInfo?.latestMessageCount = voiceMail["new_msg_cnt"] as! Int16
-                            userContact.voiceMailInfo?.oldMessageCount = voiceMail["old_msg_cnt"] as! Int16
-                            userContact.voiceMailInfo?.lastVoiceMailCountTimeStamp = voiceMail["avs_timestamp"] as! Int64
-                            userContact.voiceMailInfo?.lastMissedCallTimeStamp = voiceMail["mca_timestamp"] as! Int64
-                            userContact.voiceMailInfo?.vSMSNodeId = voiceMail["vsms_node_id"] as! Int16
+                            userContact.voiceMailInfo?.availableVocieMailCount = voiceMail["avs_cnt"].int16Value
+                            userContact.voiceMailInfo?.missedCallCount = voiceMail["mca_cnt"].int16Value
+                            userContact.voiceMailInfo?.realVocieMailCount = voiceMail["real_avs_cnt"].int16Value
+                            userContact.voiceMailInfo?.realMissedCallCount = voiceMail["real_mca_cnt"].int16Value
+                            userContact.voiceMailInfo?.latestMessageCount = voiceMail["new_msg_cnt"].int16Value
+                            userContact.voiceMailInfo?.oldMessageCount = voiceMail["old_msg_cnt"].int16Value
+                            userContact.voiceMailInfo?.lastVoiceMailCountTimeStamp = voiceMail["avs_timestamp"].int64Value
+                            userContact.voiceMailInfo?.lastMissedCallTimeStamp = voiceMail["mca_timestamp"].int64Value
+                            userContact.voiceMailInfo?.vSMSNodeId = voiceMail["vsms_node_id"].int16Value
                             
-                            if let jsonString = voiceMail["ussd_string"] as? String, !jsonString.isEmpty {
-                                let ussdValues = RMUtility.parseJSONToDictionary(inputString: jsonString)
-                                userContact.voiceMailInfo?.actiUNCF = ussdValues!["acti_uncf"] as? String
-                                userContact.voiceMailInfo?.deactiUNCF = ussdValues!["deacti_uncf"] as? String
-                                userContact.voiceMailInfo?.actiAll = ussdValues!["acti_all"] as? String
-                                userContact.voiceMailInfo?.deactiBoth = ussdValues!["deacti_both"] as? String
-                                userContact.voiceMailInfo?.actiCNF = ussdValues!["acti_cnf"] as? String
-                                userContact.voiceMailInfo?.deactiCNF = ussdValues!["acti_uncf"] as? String
-                                userContact.voiceMailInfo?.additionalActiInfo = ussdValues!["add_acti_info"] as? String
-                                if let hlrStatus = ussdValues!["is_hlr_callfwd_enabled"] as? Bool {
-                                    userContact.voiceMailInfo?.isHLREnabled = hlrStatus
-                                }
-                                if let voipStatus = ussdValues!["voip_enabled"] as? Bool {
-                                    userContact.voiceMailInfo?.isVOIPEnabled = voipStatus
-                                }
-                                if let rmHome = ussdValues!["rm_home"] as? Bool {
-                                    userContact.voiceMailInfo?.rmHome = rmHome
-                                }
-                                if let rmIntl = ussdValues!["rm_intl"] as? Bool {
-                                    userContact.voiceMailInfo?.rmIntl = rmIntl
-                                }
-                                if let rmVM = ussdValues!["rm_vm"] as? Bool {
-                                    userContact.voiceMailInfo?.rmVM = rmVM
-                                }
+                            if voiceMail["ussd_string"].exists() {
+                                let ussdValues = JSON(parseJSON: voiceMail["ussd_string"].stringValue)
+                                userContact.voiceMailInfo?.actiUNCF = ussdValues["acti_uncf"].stringValue
+                                userContact.voiceMailInfo?.deactiUNCF = ussdValues["deacti_uncf"].stringValue
+                                userContact.voiceMailInfo?.actiAll = ussdValues["acti_all"].stringValue
+                                userContact.voiceMailInfo?.deactiBoth = ussdValues["deacti_both"].stringValue
+                                userContact.voiceMailInfo?.actiCNF = ussdValues["acti_cnf"].stringValue
+                                userContact.voiceMailInfo?.deactiCNF = ussdValues["acti_uncf"].stringValue
+                                userContact.voiceMailInfo?.additionalActiInfo = ussdValues["add_acti_info"].stringValue
+                                userContact.voiceMailInfo?.isHLREnabled = ussdValues["is_hlr_callfwd_enabled"].boolValue
+                                userContact.voiceMailInfo?.isVOIPEnabled = ussdValues["voip_enabled"].boolValue
+                                userContact.voiceMailInfo?.rmHome = ussdValues["rm_home"].boolValue
+                                userContact.voiceMailInfo?.rmIntl = ussdValues["rm_intl"].boolValue
+                                userContact.voiceMailInfo?.rmVM = ussdValues["rm_vm"].boolValue
                             }
                             
                             if !(userContact.voiceMailInfo?.countryVoicemailSupport)! {
@@ -696,26 +672,26 @@ extension ServiceRequest {
                     if userProfile.mqttSettings == nil {
                         userProfile.mqttSettings = MQTT(context: context)
                     }
-                    userProfile.mqttSettings?.chatTopic = responseDics["chat_topic"] as? String
-                    userProfile.mqttSettings?.chatUser = responseDics["chat_user"] as? String
-                    userProfile.mqttSettings?.chatPassword = responseDics["chat_password"] as? String
-                    userProfile.mqttSettings?.chatHostname = responseDics["chat_hostname"] as? String
-                    userProfile.mqttSettings?.chatPortSSL = responseDics["chat_port_ssl"] as? String
-                    userProfile.mqttSettings?.mqttHostname = responseDics["mqtt_hostname"] as? String
-                    userProfile.mqttSettings?.mqttPassword = responseDics["mqtt_password"] as? String
-                    userProfile.mqttSettings?.mqttUser = responseDics["mqtt_user"] as? String
-                    userProfile.mqttSettings?.mqttPortSSL = responseDics["mqtt_port_ssl"] as? String
-                    userProfile.mqttSettings?.mqttDeviceID = responseDics["iv_user_device_id"] as! Int32
+                    userProfile.mqttSettings?.chatTopic = responseDics["chat_topic"]?.stringValue
+                    userProfile.mqttSettings?.chatUser = responseDics["chat_user"]?.stringValue
+                    userProfile.mqttSettings?.chatPassword = responseDics["chat_password"]?.stringValue
+                    userProfile.mqttSettings?.chatHostname = responseDics["chat_hostname"]?.stringValue
+                    userProfile.mqttSettings?.chatPortSSL = responseDics["chat_port_ssl"]?.stringValue
+                    userProfile.mqttSettings?.mqttHostname = responseDics["mqtt_hostname"]?.stringValue
+                    userProfile.mqttSettings?.mqttPassword = responseDics["mqtt_password"]?.stringValue
+                    userProfile.mqttSettings?.mqttUser = responseDics["mqtt_user"]?.stringValue
+                    userProfile.mqttSettings?.mqttPortSSL = responseDics["mqtt_port_ssl"]?.stringValue
+                    userProfile.mqttSettings?.mqttDeviceID = (responseDics["iv_user_device_id"]?.int32Value)!
                     
                     //VOIP Info
-                    if let voipInfo = responseDics["voip_info"] as? [String: Any] {
+                    if let voipInfo = responseDics["voip_info"]?.dictionaryValue {
                         if userProfile.voipSettings == nil {
                             userProfile.voipSettings = VOIP(context: context)
                         }
-                        userProfile.voipSettings?.login = voipInfo["login"] as? String
-                        userProfile.voipSettings?.password = voipInfo["pwd"] as? String
-                        userProfile.voipSettings?.ipAddress = voipInfo["ip"] as? String
-                        if let port = voipInfo["port"] as? Int16 {
+                        userProfile.voipSettings?.login = voipInfo["login"]?.stringValue
+                        userProfile.voipSettings?.password = voipInfo["pwd"]?.stringValue
+                        userProfile.voipSettings?.ipAddress = voipInfo["ip"]?.stringValue
+                        if let port = voipInfo["port"]?.int16Value {
                             userProfile.voipSettings?.port = port
                         }
                     }
@@ -732,11 +708,11 @@ extension ServiceRequest {
     
     func startRequestForGenerateVerificationCode(completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.GENERATE_VERIFICATION_CODE,
+        var params = JSON(["cmd": Constants.ApiCommands.GENERATE_VERIFICATION_CODE,
                                      "sim_opr_mcc_mnc": (Constants.appDelegate.userProfile?.simMCCMNCNumber)!,
                                      "reg_secure_key": Defaults[.APIRegSecureKey] as Any,
-                                     "send_pin_by": "obd"]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "send_pin_by": "obd"])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -786,11 +762,11 @@ extension ServiceRequest {
                  ["recording_time": Constants.appDelegate.userProfile?.recordingTime as Any],
                  ["carrier": carrierDetailsJsonString],
                  ["ph_dtls": phoneDetailsJsonString]]
-            var params: [String: Any] = ["cmd": Constants.ApiCommands.UPDATE_SETTINGS,
+            var params = JSON(["cmd": Constants.ApiCommands.UPDATE_SETTINGS,
                                          "custom_settings": updatedSettingsInfo,
                                          "fb_post_enabled": (Constants.appDelegate.userProfile?.fbPostEnabled)!,
-                                         "tw_post_enabled": (Constants.appDelegate.userProfile?.twPostEnabled)!]
-            params = RMUtility.serverRequestAddCommonData(params: &params)
+                                         "tw_post_enabled": (Constants.appDelegate.userProfile?.twPostEnabled)!])
+            params = RMUtility.serverRequestAddCommonData(params: params)
             let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
             Alamofire.request(Constants.URL_SERVER,
@@ -814,9 +790,9 @@ extension ServiceRequest {
     
     func startRequestForGeneratePassword(completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.GENERATE_PASSWORD,
-                                     "login_id": (Constants.appDelegate.userProfile?.userID)!]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.GENERATE_PASSWORD,
+                                     "login_id": (Constants.appDelegate.userProfile?.userID)!])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -839,11 +815,11 @@ extension ServiceRequest {
     
     func startRequestForVerifyPassword(otpString: String, completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.VERIFY_PASSWORD,
+        var params = JSON(["cmd": Constants.ApiCommands.VERIFY_PASSWORD,
                                      "pwd": otpString,
                                      "login_id": (Constants.appDelegate.userProfile?.userID)!,
-                                     "device_id": Constants.DEVICE_UUID]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "device_id": Constants.DEVICE_UUID])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -866,9 +842,9 @@ extension ServiceRequest {
 // MARK: - UPDATE_PROFILE_INFO API
 extension ServiceRequest {
     
-    func startRequestForUpdateProfileInfo(withProfileInfo profileInfo: inout [String: Any], completionHandler:@escaping (Bool) -> Void) {
+    func startRequestForUpdateProfileInfo(withProfileInfo profileInfo: JSON, completionHandler:@escaping (Bool) -> Void) {
         
-        let params = RMUtility.serverRequestAddCommonData(params: &profileInfo)
+        let params = RMUtility.serverRequestAddCommonData(params: profileInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -889,9 +865,9 @@ extension ServiceRequest {
 // MARK: - MANAGE_USER_CONTACT API
 extension ServiceRequest {
     
-    func startRequestForManageUserContact(withManagedInfo managedInfo: inout [String: Any], completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
+    func startRequestForManageUserContact(withManagedInfo managedInfo: JSON, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
         
-        let params = RMUtility.serverRequestAddCommonData(params: &managedInfo)
+        let params = RMUtility.serverRequestAddCommonData(params: managedInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -910,9 +886,9 @@ extension ServiceRequest {
 // MARK: - VOICEMAIL_SETTING API
 extension ServiceRequest {
     
-    func startRequestForVoicemailSetting(withVoicemailInfo voicemailInfo: inout [String: Any], completionHandler:@escaping (Bool) -> Void) {
+    func startRequestForVoicemailSetting(withVoicemailInfo voicemailInfo: JSON, completionHandler:@escaping (Bool) -> Void) {
         
-        let params = RMUtility.serverRequestAddCommonData(params: &voicemailInfo)
+        let params = RMUtility.serverRequestAddCommonData(params: voicemailInfo)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -959,9 +935,9 @@ extension ServiceRequest {
     
     func startRequestForUsageSummary(forPhoneNumber number: String, completionHandler:@escaping ([String: Any]?, Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.USAGE_SUMMARY,
-                                     "phone": number]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.USAGE_SUMMARY,
+                                     "phone": number])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -985,8 +961,8 @@ extension ServiceRequest {
     
     func startRequestForSignOut(completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.SIGN_OUT]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.SIGN_OUT])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1009,14 +985,14 @@ extension ServiceRequest {
     
     func startRequestForSetDeviceInfo(deviceToken: String?, voipToken: String?, completionHandler: (() -> Swift.Void)? = nil) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.SET_DEVICEINFO]
+        var params = JSON(["cmd": Constants.ApiCommands.SET_DEVICEINFO])
         if let dvToken = deviceToken {
-            params["cloud_secure_key"] = dvToken
+            params["cloud_secure_key"].string = dvToken
         }
         if let vpToken = voipToken {
-            params["voip_cloud_secure_key"] = vpToken
+            params["voip_cloud_secure_key"].string = vpToken
         }
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1044,11 +1020,11 @@ extension ServiceRequest {
     func startRequestForFetchMessages(completionHandler: ((Bool) -> Swift.Void)?) {
         
             let afterMsgID = (Defaults[.APIFetchAfterMsgID] == nil) ? 0 : Defaults[.APIFetchAfterMsgID] as! Int64
-            var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_MESSAGES,
+            var params = JSON(["cmd": Constants.ApiCommands.FETCH_MESSAGES,
                                          DefaultsKey<Any>.APIFetchAfterMsgID._key: afterMsgID,
                                          "fetch_max_rows": 1000,
-                                         "fetch_opponent_contactids": true]
-            params = RMUtility.serverRequestAddCommonData(params: &params)
+                                         "fetch_opponent_contactids": true])
+            params = RMUtility.serverRequestAddCommonData(params: params)
             let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
             
             Alamofire.request(Constants.URL_SERVER,
@@ -1071,10 +1047,10 @@ extension ServiceRequest {
 extension ServiceRequest {
     func startRequestForDeleteMessage(message: Message, completionHandler: ((Bool) -> Swift.Void)?) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.DELETE_MESSAGE,
+        var params = JSON(["cmd": Constants.ApiCommands.DELETE_MESSAGE,
                                      "msg_id": message.messageID,
-                                     "type": message.type!]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "type": message.type!])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1095,10 +1071,10 @@ extension ServiceRequest {
 extension ServiceRequest {
     func startRequestForReadMessages(messages: [Message], completionHandler: ((Bool) -> Swift.Void)?) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.READ_MESSAGES,
+        var params = JSON(["cmd": Constants.ApiCommands.READ_MESSAGES,
                                      "msg_ids": messages.map {$0.messageID},
-                                     "msg_ids_type": (messages.first?.fromUserType)!]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "msg_ids_type": (messages.first?.fromUserType)!])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -1120,9 +1096,9 @@ extension ServiceRequest {
     
     func startRequestForStatesList(forCountryCode countryCode: String, completionHandler:@escaping ([String: Any]?, Bool) -> Swift.Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.STATE_LIST,
-                                     "country_code": countryCode]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+        var params = JSON(["cmd": Constants.ApiCommands.STATE_LIST,
+                                     "country_code": countryCode])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
 
         Alamofire.request(Constants.URL_SERVER,
@@ -1146,12 +1122,12 @@ extension ServiceRequest {
     
     func startRequestForUploadProfilePic(picData: Data, completionHandler:@escaping (Bool) -> Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.UPLOAD_PIC,
+        var params = JSON(["cmd": Constants.ApiCommands.UPLOAD_PIC,
                                      "file_name": (Constants.appDelegate.userProfile?.userID)!,
-                                     "file_type": "png"]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
-
-        let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
+                                     "file_type": "png"])
+        params = RMUtility.serverRequestAddCommonData(params: params)
+        //let requestJSON = RMUtility.convertDictionaryToJSONString(dictionary: params)
+        
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(picData,
                                      withName: (Constants.appDelegate.userProfile?.userID)!,
@@ -1160,7 +1136,7 @@ extension ServiceRequest {
         }, usingThreshold: UInt64.init(),
           to: Constants.URL_SERVER,
           method: .post,
-          headers: ["data": requestJSON],
+          headers: ["data": params.rawString()!],
           encodingCompletion: { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
@@ -1185,10 +1161,10 @@ extension ServiceRequest {
     
     func startRequestForEnquireIVUsers(contactList: [String], completionHandler:@escaping ([String: Any]?, Bool) -> Swift.Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.ENQUIRE_IV_USERS,
+        var params = JSON(["cmd": Constants.ApiCommands.ENQUIRE_IV_USERS,
                                      "contact_ids": contactList,
-                                     "fetch_pic_uri_type": 1]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "fetch_pic_uri_type": 1])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1211,14 +1187,14 @@ extension ServiceRequest {
     
     func startRequestForInviteFriend(inviteList: [[String: String]], completionHandler:@escaping (Bool) -> Swift.Void) {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.SEND_TEXT,
+        var params = JSON(["cmd": Constants.ApiCommands.SEND_TEXT,
                                      "contact_ids": inviteList,
                                      "msg_type": "t",
                                      "type": "inv",
                                      "fetch_msgs": false,
                                      "msg_text": "Hello",
-                                     "guid": "\(UUID().uuidString)-\(Constants.DEVICE_UUID)"]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "guid": "\(UUID().uuidString)-\(Constants.DEVICE_UUID)"])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1240,11 +1216,11 @@ extension ServiceRequest { //NOTE: As i observs, all the response parameters of 
     
     func startRequestForFetchUserContacts() {
         
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_USER_CONTACTS,
+        var params = JSON(["cmd": Constants.ApiCommands.FETCH_USER_CONTACTS,
                                     "IV_USER_ID": Defaults[.APIIVUserIDKey],
                                     "device_id": Constants.DEVICE_UUID,
-                                    "user_secure_key": Defaults[.APIUserSecureKey] as Any]
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                    "user_secure_key": Defaults[.APIUserSecureKey] as Any])
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1265,11 +1241,11 @@ open class ServiceRequestBackground: NSObject {
     func startRequestForFetchMessages(completionHandler:@escaping (Bool) -> Void) {
         
         let afterMsgID = (Defaults[.APIFetchAfterMsgID] == nil) ? 0 : Defaults[.APIFetchAfterMsgID] as! Int64
-        var params: [String: Any] = ["cmd": Constants.ApiCommands.FETCH_MESSAGES,
+        var params = JSON(["cmd": Constants.ApiCommands.FETCH_MESSAGES,
                                      DefaultsKey<Any>.APIFetchAfterMsgID._key: afterMsgID,
                                      "status": "bg",
-                                     "fetch_max_rows": 500]  //Check latter for param "fetch_opponent_contactids"
-        params = RMUtility.serverRequestAddCommonData(params: &params)
+                                     "fetch_max_rows": 500])  //Check latter for param "fetch_opponent_contactids"
+        params = RMUtility.serverRequestAddCommonData(params: params)
         let payload = RMUtility.serverRequestConstructPayloadFor(params: params)
         
         Alamofire.request(Constants.URL_SERVER,
@@ -1278,8 +1254,8 @@ open class ServiceRequestBackground: NSObject {
                 
                 guard response.result.isSuccess else {completionHandler(false); return }
                 
-                guard let responseDics = response.result.value as? [String: Any] else {completionHandler(false); return }
-                guard (responseDics["status"] as! String) != "error" else {completionHandler(false); return }
+                guard let responseDics = JSON(response.result.value!).dictionary else {completionHandler(false); return }
+                guard responseDics["status"]?.stringValue != "error" else {completionHandler(false); return }
                 
                 ServiceRequest.shared.handleFetchMessagesResponse(responseDics: responseDics)
                 completionHandler(true)

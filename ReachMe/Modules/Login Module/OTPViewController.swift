@@ -37,7 +37,7 @@ class OTPViewController: UIViewController {
     }
     
     func setupCounter() {
-        timerLabel.setCountDownTime(minutes: 10)
+        timerLabel.setCountDownTime(minutes: 50)
         timerLabel.timeFormat = "mm:ss"
         timerLabel.animationType = .Evaporate
         timerLabel.countdownDelegate = self
