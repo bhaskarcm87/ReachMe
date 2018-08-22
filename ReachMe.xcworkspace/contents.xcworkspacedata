@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ReachMePlayground.playground">
+   </FileRef>
+   <FileRef
       location = "group:ReachMe.xcodeproj">
    </FileRef>
    <FileRef
